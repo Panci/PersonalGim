@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Image, ImageSourcePropType, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import Svg, {
   Path,
   Rect,
@@ -82,6 +82,116 @@ const HANDLED_SCENES = new Set([
   'shrugs',
   'wrist_curl',
 ]);
+
+type PdfReferenceCrop = {
+  sheet: 1 | 2;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+// Original training illustrations supplied with the project. Each crop is a
+// drawing from the PDF, matched to the closest exercise movement.
+const PDF_REFERENCE_SHEETS = {
+  1: require('../../../assets/exercise-references/exercise-sheet-1.png'),
+  2: require('../../../assets/exercise-references/exercise-sheet-2.png'),
+} as const;
+
+const PDF_SHEET_WIDTH = 1200;
+const PDF_SHEET_HEIGHT = 874;
+
+const PDF_REFERENCE_CROPS: Record<string, PdfReferenceCrop> = {
+  flat_bench_barbell: { sheet: 2, x: 62, y: 26, width: 95, height: 94 },
+  pec_deck: { sheet: 2, x: 350, y: 26, width: 100, height: 94 },
+  incline_bench_dumbbell: { sheet: 2, x: 155, y: 26, width: 100, height: 94 },
+  flat_bench_dumbbell: { sheet: 2, x: 62, y: 26, width: 95, height: 94 },
+  incline_bench_barbell: { sheet: 2, x: 155, y: 26, width: 100, height: 94 },
+  cable_crossover: { sheet: 2, x: 1080, y: 26, width: 100, height: 94 },
+  chest_dips: { sheet: 2, x: 930, y: 26, width: 105, height: 94 },
+  pushups: { sheet: 2, x: 62, y: 26, width: 95, height: 94 },
+
+  lat_pulldown: { sheet: 2, x: 245, y: 162, width: 102, height: 95 },
+  pullups: { sheet: 2, x: 520, y: 162, width: 105, height: 95 },
+  barbell_row: { sheet: 2, x: 365, y: 162, width: 100, height: 95 },
+  seated_cable_row: { sheet: 2, x: 735, y: 162, width: 102, height: 95 },
+  dumbbell_row: { sheet: 2, x: 840, y: 162, width: 102, height: 95 },
+
+  military_press_barbell: { sheet: 2, x: 64, y: 297, width: 102, height: 95 },
+  dumbbell_shoulder_press: { sheet: 2, x: 170, y: 297, width: 102, height: 95 },
+  lateral_raise: { sheet: 2, x: 700, y: 297, width: 102, height: 95 },
+  face_pull: { sheet: 2, x: 1080, y: 297, width: 102, height: 95 },
+
+  bicep_curl_barbell: { sheet: 2, x: 66, y: 570, width: 105, height: 95 },
+  bicep_curl_dumbbell: { sheet: 2, x: 178, y: 570, width: 105, height: 95 },
+  preacher_curl: { sheet: 2, x: 930, y: 570, width: 105, height: 95 },
+  incline_bicep_curl: { sheet: 2, x: 292, y: 570, width: 105, height: 95 },
+  concentration_curl: { sheet: 2, x: 1072, y: 570, width: 105, height: 95 },
+
+  tricep_pushdown: { sheet: 2, x: 1065, y: 434, width: 110, height: 95 },
+  tricep_skullcrusher: { sheet: 2, x: 275, y: 434, width: 110, height: 95 },
+  tricep_overhead: { sheet: 2, x: 920, y: 434, width: 110, height: 95 },
+
+  squat_barbell: { sheet: 2, x: 690, y: 705, width: 105, height: 98 },
+  leg_press_machine: { sheet: 2, x: 175, y: 705, width: 105, height: 98 },
+  leg_extension_machine: { sheet: 2, x: 285, y: 705, width: 105, height: 98 },
+  bulgarian_split_squat: { sheet: 2, x: 575, y: 705, width: 105, height: 98 },
+  leg_curl_machine: { sheet: 2, x: 460, y: 705, width: 105, height: 98 },
+  romanian_deadlift: { sheet: 1, x: 235, y: 300, width: 115, height: 100 },
+  deadlift_barbell: { sheet: 1, x: 235, y: 300, width: 115, height: 100 },
+  hip_thrust_barbell: { sheet: 1, x: 325, y: 690, width: 120, height: 102 },
+  calf_raise_standing: { sheet: 1, x: 65, y: 560, width: 112, height: 100 },
+
+  hanging_leg_raise: { sheet: 1, x: 330, y: 30, width: 110, height: 102 },
+  ab_crunch: { sheet: 1, x: 75, y: 30, width: 110, height: 102 },
+  plank: { sheet: 1, x: 430, y: 30, width: 110, height: 102 },
+  hyperextensions: { sheet: 1, x: 435, y: 300, width: 115, height: 100 },
+  shrugs: { sheet: 2, x: 65, y: 297, width: 102, height: 95 },
+  wrist_curl: { sheet: 1, x: 70, y: 430, width: 115, height: 100 },
+};
+
+const PdfExerciseReference: React.FC<{ crop: PdfReferenceCrop; height: number }> = ({ crop, height }) => {
+  const [frame, setFrame] = useState({ width: 0, height: 0 });
+
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const { width, height: frameHeight } = event.nativeEvent.layout;
+    if (width !== frame.width || frameHeight !== frame.height) {
+      setFrame({ width, height: frameHeight });
+    }
+  };
+
+  // The exercise cards are intentionally wide. Keep the technical drawing at
+  // its natural crop ratio in the centre instead of stretching it edge to edge.
+  const viewportWidth = frame.height > 0 ? Math.min(frame.width, frame.height * (crop.width / crop.height)) : 0;
+  const scale = viewportWidth > 0 ? Math.max(viewportWidth / crop.width, frame.height / crop.height) : 0;
+  const cropWidth = crop.width * scale;
+  const cropHeight = crop.height * scale;
+
+  return (
+    <View style={[styles.pdfReferenceContainer, { height }]} onLayout={handleLayout}>
+      {scale > 0 && (
+        <View
+          style={[
+            styles.pdfReferenceViewport,
+            { width: viewportWidth, height: frame.height, left: (frame.width - viewportWidth) / 2 },
+          ]}
+        >
+          <Image
+            source={PDF_REFERENCE_SHEETS[crop.sheet] as ImageSourcePropType}
+            resizeMode="stretch"
+            style={{
+              position: 'absolute',
+              width: PDF_SHEET_WIDTH * scale,
+              height: PDF_SHEET_HEIGHT * scale,
+              left: -crop.x * scale + (viewportWidth - cropWidth) / 2,
+              top: -crop.y * scale + (frame.height - cropHeight) / 2,
+            }}
+          />
+        </View>
+      )}
+    </View>
+  );
+};
 
 export const ExerciseIllustration: React.FC<ExerciseIllustrationProps> = ({
   exercise,
@@ -288,6 +398,11 @@ export const ExerciseIllustration: React.FC<ExerciseIllustrationProps> = ({
 
   const scene = getSceneType();
   const isCustomScene = HANDLED_SCENES.has(scene);
+  const pdfReference = PDF_REFERENCE_CROPS[scene];
+
+  if (pdfReference) {
+    return <PdfExerciseReference crop={pdfReference} height={height} />;
+  }
 
   return (
     <View style={[styles.container, { height }]}>
@@ -1324,6 +1439,15 @@ export const ExerciseIllustration: React.FC<ExerciseIllustrationProps> = ({
 };
 
 const styles = StyleSheet.create({
+  pdfReferenceContainer: {
+    width: '100%',
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
+  },
+  pdfReferenceViewport: {
+    position: 'absolute',
+    overflow: 'hidden',
+  },
   container: {
     width: '100%',
     alignItems: 'center',
