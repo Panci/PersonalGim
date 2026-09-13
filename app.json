@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "PersonalGim",
+    "slug": "PersonalGim",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.panci.personalgim",
+      "buildNumber": "1"
+    },
+    "android": {
+      "package": "com.panci.personalgim",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "output": "single",
+      "themeColor": "#000000"
+    },
+    "plugins": [
+      "expo-sqlite",
+      "expo-font",
+      "expo-secure-store",
+      "expo-sharing"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "405484ef-ea3a-4936-b397-48b3707bf80b"
+      }
+    },
+    "owner": "panci"
+  }
+}
