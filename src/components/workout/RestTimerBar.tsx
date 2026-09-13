@@ -1,28 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
 import { useWorkoutStore } from '../../store/workoutStore';
 
-const playBeep = (freq = 880, duration = 0.12) => {
+let webAudioContext: AudioContext | null = null;
+
+const playBeep = (freq = 880, duration = 0.12, delay = 0) => {
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
     try {
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       if (AudioContextClass) {
-        const ctx = new AudioContextClass();
+        webAudioContext = webAudioContext || new AudioContextClass();
+        const ctx = webAudioContext;
+        if (ctx.state === 'suspended') void ctx.resume();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
-        gain.gain.setValueAtTime(0.15, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        const startAt = ctx.currentTime + delay;
+        osc.frequency.setValueAtTime(freq, startAt);
+        gain.gain.setValueAtTime(0.2, startAt);
+        gain.gain.exponentialRampToValueAtTime(0.001, startAt + duration);
         osc.connect(gain);
         gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + duration);
+        osc.start(startAt);
+        osc.stop(startAt + duration);
       }
     } catch {}
   }
+};
+
+const playFinishAlert = () => {
+  [0, 0.24, 0.48].forEach((delay) => playBeep(980, 0.16, delay));
 };
 
 export const RestTimerBar: React.FC = () => {
@@ -38,6 +47,8 @@ export const RestTimerBar: React.FC = () => {
   } = useWorkoutStore();
 
   const [finishedBanner, setFinishedBanner] = useState(false);
+  const previousSecondsRef = useRef(restSecondsLeft);
+  const skippedTimerRef = useRef(false);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
@@ -51,20 +62,26 @@ export const RestTimerBar: React.FC = () => {
     };
   }, [isRestTimerRunning, restSecondsLeft, tickRestTimer]);
 
-  // Audio cue when countdown approaches 0
+  // Sound every second in the final ten seconds, followed by a distinct
+  // three-tone alert only when the countdown naturally reaches zero.
   useEffect(() => {
-    if (isRestTimerRunning) {
-      if (restSecondsLeft === 3 || restSecondsLeft === 2 || restSecondsLeft === 1) {
-        playBeep(520, 0.08);
-      } else if (restSecondsLeft === 0 && totalRestSeconds > 0) {
-        playBeep(880, 0.4);
-        setFinishedBanner(true);
-        const timer = setTimeout(() => {
-          setFinishedBanner(false);
-        }, 3200);
-        return () => clearTimeout(timer);
-      }
+    const previousSeconds = previousSecondsRef.current;
+    previousSecondsRef.current = restSecondsLeft;
+
+    if (isRestTimerRunning && restSecondsLeft > 0 && restSecondsLeft <= 10) {
+      playBeep(restSecondsLeft <= 3 ? 720 : 520, 0.09);
     }
+
+    if (previousSeconds === 1 && restSecondsLeft === 0 && !skippedTimerRef.current) {
+      playFinishAlert();
+      setFinishedBanner(true);
+      const timer = setTimeout(() => {
+        setFinishedBanner(false);
+      }, 3200);
+      return () => clearTimeout(timer);
+    }
+
+    if (restSecondsLeft > 0) skippedTimerRef.current = false;
   }, [restSecondsLeft, isRestTimerRunning, totalRestSeconds]);
 
   if (finishedBanner) {
@@ -114,12 +131,15 @@ export const RestTimerBar: React.FC = () => {
         <View style={styles.timerBadge}>
           <Ionicons
             name="timer-outline"
-            size={20}
+            size={30}
             color={isUrgent ? '#FF453A' : COLORS.primary}
           />
-          <Text style={[styles.timerText, isUrgent && styles.timerTextUrgent]}>
-            {formattedTime}
-          </Text>
+          <View>
+            <Text style={styles.timerLabel}>DESCANSO</Text>
+            <Text style={[styles.timerText, isUrgent && styles.timerTextUrgent]}>
+              {formattedTime}
+            </Text>
+          </View>
         </View>
 
         <View style={styles.actionsRow}>
@@ -145,7 +165,10 @@ export const RestTimerBar: React.FC = () => {
 
           <TouchableOpacity
             style={[styles.controlBtn, styles.skipBtn]}
-            onPress={stopRestTimer}
+            onPress={() => {
+              skippedTimerRef.current = true;
+              stopRestTimer();
+            }}
             activeOpacity={0.7}
           >
             <Ionicons name="close" size={18} color="#A1A1A6" />
@@ -204,7 +227,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.15)',
   },
   progressBarBackground: {
-    height: 3,
+    height: 5,
     backgroundColor: '#2C2C32',
     width: '100%',
   },
@@ -216,7 +239,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 14,
   },
   timerBadge: {
     flexDirection: 'row',
@@ -224,10 +247,18 @@ const styles = StyleSheet.create({
   },
   timerText: {
     color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '800',
+    fontSize: 34,
+    fontWeight: '900',
     marginLeft: 8,
-    letterSpacing: 0.5,
+    letterSpacing: 1,
+  },
+  timerLabel: {
+    color: '#8E8E93',
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 1.1,
+    marginLeft: 8,
+    marginBottom: -3,
   },
   timerTextUrgent: {
     color: '#FF453A',
@@ -239,7 +270,7 @@ const styles = StyleSheet.create({
   adjustPill: {
     backgroundColor: '#2A2A30',
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 9,
     borderRadius: 8,
     marginRight: 8,
     borderWidth: 1,
@@ -251,9 +282,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   controlBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: '#323238',
     alignItems: 'center',
     justifyContent: 'center',
