@@ -8,6 +8,7 @@ import {
   ScrollView,
   Alert,
   Platform,
+  TextInput,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
@@ -21,7 +22,11 @@ export const ActiveWorkoutModal: React.FC = () => {
     activeWorkout,
     toggleCompleteSet,
     updateSetValues,
+    exercises,
+    addExerciseToActiveWorkout,
+    removeExerciseFromActiveWorkout,
     addSetToExercise,
+    removeSetFromExercise,
     finishActiveWorkout,
     cancelActiveWorkout,
   } = useWorkoutStore();
@@ -29,6 +34,8 @@ export const ActiveWorkoutModal: React.FC = () => {
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showPlateCalc, setShowPlateCalc] = useState(false);
   const [calcWeight, setCalcWeight] = useState(60);
+  const [showExercisePicker, setShowExercisePicker] = useState(false);
+  const [exerciseQuery, setExerciseQuery] = useState('');
 
   // Live timer
   useEffect(() => {
@@ -63,11 +70,22 @@ export const ActiveWorkoutModal: React.FC = () => {
     cancelActiveWorkout();
   };
 
+  const handleAddExercise = (exerciseId: string) => {
+    addExerciseToActiveWorkout(exerciseId);
+    setExerciseQuery('');
+    setShowExercisePicker(false);
+  };
+
   // Epley 1RM estimation
   const calculate1RM = (weight: number, reps: number) => {
     if (reps === 1) return weight;
     return Math.round(weight * (1 + reps / 30));
   };
+
+  const selectableExercises = exercises.filter((exercise) => {
+    const query = exerciseQuery.trim().toLowerCase();
+    return !query || exercise.name.toLowerCase().includes(query) || exercise.primaryMuscle.includes(query);
+  });
 
   return (
     <Modal visible={isWorkoutActive} animationType="slide" onRequestClose={handleCancel}>
@@ -123,6 +141,23 @@ export const ActiveWorkoutModal: React.FC = () => {
 
         {/* Exercises & Sets Scroll */}
         <ScrollView style={styles.scrollArea} contentContainerStyle={styles.scrollContent}>
+          {activeWorkout.exercises.length === 0 && (
+            <View style={styles.emptyExercises}>
+              <MaterialCommunityIcons name="dumbbell" size={40} color="#636366" />
+              <Text style={styles.emptyExercisesTitle}>Añade el primer ejercicio</Text>
+              <Text style={styles.emptyExercisesText}>Después podrás indicar sus series, peso y repeticiones.</Text>
+            </View>
+          )}
+
+          <TouchableOpacity
+            style={styles.addExerciseBtn}
+            onPress={() => setShowExercisePicker(true)}
+            activeOpacity={0.8}
+          >
+            <Ionicons name="add-circle" size={20} color="#FFFFFF" />
+            <Text style={styles.addExerciseBtnText}>Añadir ejercicio</Text>
+          </TouchableOpacity>
+
           {activeWorkout.exercises.map((ex, exIndex) => (
             <View key={ex.id} style={styles.exerciseCard}>
               {/* Exercise Header */}
@@ -134,17 +169,26 @@ export const ActiveWorkoutModal: React.FC = () => {
                   <Text style={styles.exerciseName}>{ex.exerciseName}</Text>
                 </View>
 
-                <TouchableOpacity
-                  style={styles.plateMiniBtn}
-                  onPress={() => {
-                    const firstSetWeight = ex.sets[0]?.weightKg || 60;
-                    setCalcWeight(firstSetWeight);
-                    setShowPlateCalc(true);
-                  }}
-                >
-                  <MaterialCommunityIcons name="weight-kilogram" size={16} color="#A1A1A6" />
-                  <Text style={styles.plateMiniBtnText}>Discos</Text>
-                </TouchableOpacity>
+                <View style={styles.exerciseActions}>
+                  <TouchableOpacity
+                    style={styles.plateMiniBtn}
+                    onPress={() => {
+                      const firstSetWeight = ex.sets[0]?.weightKg || 60;
+                      setCalcWeight(firstSetWeight);
+                      setShowPlateCalc(true);
+                    }}
+                  >
+                    <MaterialCommunityIcons name="weight-kilogram" size={16} color="#A1A1A6" />
+                    <Text style={styles.plateMiniBtnText}>Discos</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.deleteExerciseBtn}
+                    onPress={() => removeExerciseFromActiveWorkout(exIndex)}
+                    accessibilityLabel={`Eliminar ${ex.exerciseName}`}
+                  >
+                    <Ionicons name="trash-outline" size={18} color="#FF6961" />
+                  </TouchableOpacity>
+                </View>
               </View>
 
               {/* Table Column Labels */}
@@ -154,6 +198,7 @@ export const ActiveWorkoutModal: React.FC = () => {
                 <Text style={[styles.colLabel, { flex: 1, textAlign: 'center' }]}>REPETICIONES</Text>
                 <Text style={[styles.colLabel, { width: 44, textAlign: 'center' }]}>EST. 1RM</Text>
                 <Text style={[styles.colLabel, { width: 48, textAlign: 'center' }]}>LISTO</Text>
+                <View style={{ width: 28 }} />
               </View>
 
               {/* Sets Rows */}
@@ -217,6 +262,14 @@ export const ActiveWorkoutModal: React.FC = () => {
                     >
                       {s.isCompleted && <Ionicons name="checkmark" size={18} color="#FFFFFF" />}
                     </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={styles.deleteSetBtn}
+                      onPress={() => removeSetFromExercise(exIndex, sIndex)}
+                      accessibilityLabel={`Eliminar serie ${s.setNumber} de ${ex.exerciseName}`}
+                    >
+                      <Ionicons name="remove-circle-outline" size={18} color="#FF6961" />
+                    </TouchableOpacity>
                   </View>
                 );
               })}
@@ -247,6 +300,61 @@ export const ActiveWorkoutModal: React.FC = () => {
             <Text style={styles.finishBtnText}>Finalizar Entrenamiento</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Exercise picker */}
+        <Modal
+          visible={showExercisePicker}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowExercisePicker(false)}
+        >
+          <View style={styles.pickerOverlay}>
+            <View style={styles.pickerSheet}>
+              <View style={styles.pickerHeader}>
+                <View>
+                  <Text style={styles.pickerTitle}>Añadir ejercicio</Text>
+                  <Text style={styles.pickerSubtitle}>Elige un ejercicio para esta sesión</Text>
+                </View>
+                <TouchableOpacity onPress={() => setShowExercisePicker(false)} accessibilityLabel="Cerrar selector">
+                  <Ionicons name="close-circle" size={28} color="#8E8E93" />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.pickerSearch}>
+                <Ionicons name="search" size={18} color="#8E8E93" />
+                <TextInput
+                  style={styles.pickerSearchInput}
+                  value={exerciseQuery}
+                  onChangeText={setExerciseQuery}
+                  placeholder="Buscar ejercicio"
+                  placeholderTextColor="#636366"
+                  autoFocus
+                />
+              </View>
+              <ScrollView style={styles.pickerList} keyboardShouldPersistTaps="handled">
+                {selectableExercises.map((exercise) => (
+                  <TouchableOpacity
+                    key={exercise.id}
+                    style={styles.pickerOption}
+                    onPress={() => handleAddExercise(exercise.id)}
+                    activeOpacity={0.75}
+                  >
+                    <View style={styles.pickerOptionIcon}>
+                      <MaterialCommunityIcons name="dumbbell" size={18} color={COLORS.primary} />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.pickerOptionName}>{exercise.name}</Text>
+                      <Text style={styles.pickerOptionDetail}>{exercise.primaryMuscle.toUpperCase()} · {exercise.equipment}</Text>
+                    </View>
+                    <Ionicons name="add-circle" size={22} color={COLORS.primary} />
+                  </TouchableOpacity>
+                ))}
+                {selectableExercises.length === 0 && (
+                  <Text style={styles.noExerciseText}>No se encontraron ejercicios.</Text>
+                )}
+              </ScrollView>
+            </View>
+          </View>
+        </Modal>
 
         {/* Plate Calculator Modal */}
         <PlateCalculatorModal
@@ -347,7 +455,40 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-    paddingBottom: 40,
+    paddingBottom: 112,
+  },
+  emptyExercises: {
+    alignItems: 'center',
+    paddingVertical: 42,
+    paddingHorizontal: 24,
+  },
+  emptyExercisesTitle: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '800',
+    marginTop: 12,
+  },
+  emptyExercisesText: {
+    color: '#8E8E93',
+    fontSize: 13,
+    lineHeight: 19,
+    textAlign: 'center',
+    marginTop: 6,
+  },
+  addExerciseBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: COLORS.primary,
+    borderRadius: 14,
+    paddingVertical: 13,
+    marginBottom: 16,
+  },
+  addExerciseBtnText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '800',
   },
   exerciseCard: {
     backgroundColor: '#1C1C1E',
@@ -375,6 +516,11 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     marginTop: 2,
   },
+  exerciseActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   plateMiniBtn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -388,6 +534,11 @@ const styles = StyleSheet.create({
     color: '#A1A1A6',
     fontSize: 11,
     fontWeight: '600',
+  },
+  deleteExerciseBtn: {
+    padding: 7,
+    backgroundColor: 'rgba(255, 69, 58, 0.12)',
+    borderRadius: 8,
   },
   tableHeaderRow: {
     flexDirection: 'row',
@@ -462,6 +613,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.success,
     borderColor: COLORS.success,
   },
+  deleteSetBtn: {
+    width: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+  },
   addSetRowBtn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -508,5 +665,85 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '800',
+  },
+  pickerOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.62)',
+  },
+  pickerSheet: {
+    maxHeight: '82%',
+    backgroundColor: '#1C1C1E',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 18,
+    paddingTop: 18,
+    paddingBottom: Platform.OS === 'ios' ? 32 : 22,
+  },
+  pickerHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  pickerTitle: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '800',
+  },
+  pickerSubtitle: {
+    color: '#8E8E93',
+    fontSize: 13,
+    marginTop: 3,
+  },
+  pickerSearch: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#2C2C2E',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    marginBottom: 10,
+  },
+  pickerSearchInput: {
+    flex: 1,
+    color: '#FFFFFF',
+    fontSize: 15,
+    paddingVertical: 12,
+  },
+  pickerList: {
+    flexGrow: 0,
+  },
+  pickerOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#2A2A2E',
+  },
+  pickerOptionIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 107, 0, 0.15)',
+  },
+  pickerOptionName: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  pickerOptionDetail: {
+    color: '#8E8E93',
+    fontSize: 10,
+    fontWeight: '700',
+    marginTop: 3,
+  },
+  noExerciseText: {
+    color: '#8E8E93',
+    textAlign: 'center',
+    paddingVertical: 28,
   },
 });

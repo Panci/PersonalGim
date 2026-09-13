@@ -154,7 +154,10 @@ interface WorkoutStoreState {
   startQuickWorkout: () => void;
   toggleCompleteSet: (exerciseIndex: number, setIndex: number) => void;
   updateSetValues: (exerciseIndex: number, setIndex: number, reps: number, weightKg: number) => void;
+  addExerciseToActiveWorkout: (exerciseId: string) => void;
+  removeExerciseFromActiveWorkout: (exerciseIndex: number) => void;
   addSetToExercise: (exerciseIndex: number) => void;
+  removeSetFromExercise: (exerciseIndex: number, setIndex: number) => void;
   finishActiveWorkout: () => void;
   cancelActiveWorkout: () => void;
 
@@ -546,6 +549,54 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       },
     });
   },
+  addExerciseToActiveWorkout: (exerciseId) => {
+    const active = get().activeWorkout;
+    const exercise = get().exercises.find((item) => item.id === exerciseId);
+    if (!active || !exercise) return;
+
+    const newExercise: WorkoutExerciseLog = {
+      id: createId('w-log'),
+      workoutId: active.id,
+      exerciseId: exercise.id,
+      exerciseName: exercise.name,
+      primaryMuscle: exercise.primaryMuscle,
+      orderIndex: active.exercises.length + 1,
+      sets: [
+        {
+          id: createId('set'),
+          setNumber: 1,
+          type: 'normal',
+          reps: 10,
+          weightKg: 0,
+          isCompleted: false,
+          restSeconds: 60,
+        },
+      ],
+    };
+
+    set({
+      activeWorkout: {
+        ...active,
+        exercises: [...active.exercises, newExercise],
+      },
+    });
+  },
+  removeExerciseFromActiveWorkout: (exerciseIndex) => {
+    const active = get().activeWorkout;
+    if (!active || !active.exercises[exerciseIndex]) return;
+
+    const updatedExercises = active.exercises
+      .filter((_, index) => index !== exerciseIndex)
+      .map((exercise, index) => ({ ...exercise, orderIndex: index + 1 }));
+
+    set({
+      activeWorkout: {
+        ...active,
+        exercises: updatedExercises,
+        totalVolumeKg: calculateCompletedVolume(updatedExercises),
+      },
+    });
+  },
   addSetToExercise: (exerciseIndex) => {
     const active = get().activeWorkout;
     if (!active) return;
@@ -574,6 +625,27 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
         },
       });
     }
+  },
+  removeSetFromExercise: (exerciseIndex, setIndex) => {
+    const active = get().activeWorkout;
+    const targetExercise = active?.exercises[exerciseIndex];
+    if (!active || !targetExercise?.sets[setIndex]) return;
+
+    const updatedExercises = active.exercises.map((exercise, index) => {
+      if (index !== exerciseIndex) return exercise;
+      const sets = exercise.sets
+        .filter((_, currentSetIndex) => currentSetIndex !== setIndex)
+        .map((set, currentSetIndex) => ({ ...set, setNumber: currentSetIndex + 1 }));
+      return { ...exercise, sets };
+    });
+
+    set({
+      activeWorkout: {
+        ...active,
+        exercises: updatedExercises,
+        totalVolumeKg: calculateCompletedVolume(updatedExercises),
+      },
+    });
   },
   finishActiveWorkout: () => {
     const active = get().activeWorkout;
