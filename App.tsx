@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StatusBar,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import { COLORS } from './src/theme/colors';
 import { useWorkoutStore } from './src/store/workoutStore';
@@ -126,34 +127,30 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {currentRole === 'admin' ? (
-        <AdminDashboard />
-      ) : (
-        <>
-          {/* Active Tab Screen */}
-          <View style={styles.content}>{renderCurrentTab()}</View>
+      {/* Active screen. Reserve space so it is never hidden by the fixed tabs. */}
+      <View style={styles.content}>
+        {currentRole === 'admin' ? <AdminDashboard /> : renderCurrentTab()}
+      </View>
 
-          {/* Global Bottom Navigation */}
-          <BottomTabBar />
+      {/* Persistent global navigation */}
+      <BottomTabBar />
 
-          {/* Active Live Workout Tracker Overlay */}
-          <ActiveWorkoutModal />
+      {/* Active Live Workout Tracker Overlay */}
+      {currentRole !== 'admin' && <ActiveWorkoutModal />}
 
-          {/* Exercise Configuration Stepper Modal */}
-          {configModal.visible && targetRoutineEx && targetExerciseObj && (
-            <ExerciseConfigModal
-              visible={configModal.visible}
-              dayId={configModal.dayId}
-              routineExerciseId={configModal.routineExerciseId}
-              exercise={targetExerciseObj}
-              initialSets={targetRoutineEx.defaultSets}
-              initialRestSeconds={targetRoutineEx.targetRestSeconds}
-              onClose={() =>
-                setConfigModal({ visible: false, dayId: '', routineExerciseId: '' })
-              }
-            />
-          )}
-        </>
+      {/* Exercise Configuration Stepper Modal */}
+      {currentRole !== 'admin' && configModal.visible && targetRoutineEx && targetExerciseObj && (
+        <ExerciseConfigModal
+          visible={configModal.visible}
+          dayId={configModal.dayId}
+          routineExerciseId={configModal.routineExerciseId}
+          exercise={targetExerciseObj}
+          initialSets={targetRoutineEx.defaultSets}
+          initialRestSeconds={targetRoutineEx.targetRestSeconds}
+          onClose={() =>
+            setConfigModal({ visible: false, dayId: '', routineExerciseId: '' })
+          }
+        />
       )}
 
       {/* Global Modals */}
@@ -167,9 +164,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+    ...Platform.select({
+      web: {
+        minHeight: '100vh' as any,
+      },
+    }),
   },
   content: {
     flex: 1,
+    paddingBottom: 76,
   },
   loadingContainer: {
     flex: 1,

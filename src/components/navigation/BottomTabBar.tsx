@@ -5,7 +5,7 @@ import { COLORS } from '../../theme/colors';
 import { useWorkoutStore, MainTab } from '../../store/workoutStore';
 
 export const BottomTabBar: React.FC = () => {
-  const { activeTab, setActiveTab } = useWorkoutStore();
+  const { activeTab, setActiveTab, setCurrentRole } = useWorkoutStore();
 
   const tabs: {
     id: MainTab;
@@ -54,7 +54,10 @@ export const BottomTabBar: React.FC = () => {
           <TouchableOpacity
             key={tab.id}
             style={styles.tabButton}
-            onPress={() => setActiveTab(tab.id)}
+            onPress={() => {
+              setCurrentRole('member');
+              setActiveTab(tab.id);
+            }}
             activeOpacity={0.7}
             accessibilityRole="tab"
             accessibilityState={{ selected: isActive }}
@@ -86,6 +89,12 @@ export const BottomTabBar: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 20,
+    elevation: 20,
     flexDirection: 'row',
     backgroundColor: '#000000',
     borderTopWidth: 1,
