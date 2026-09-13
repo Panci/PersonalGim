@@ -31,6 +31,8 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
     exercises,
     updateRoutineCollectionDetails,
     updateRoutineDayName,
+    addExerciseToRoutineDay,
+    removeExerciseFromRoutineDay,
   } = useWorkoutStore();
 
   const collection = selectedCollection;
@@ -39,6 +41,8 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
   const [routineSubtitle, setRoutineSubtitle] = useState('');
   const [isEditingDay, setIsEditingDay] = useState(false);
   const [dayName, setDayName] = useState('');
+  const [showExercisePicker, setShowExercisePicker] = useState(false);
+  const [exerciseQuery, setExerciseQuery] = useState('');
 
   const openRoutineEditor = () => {
     setRoutineTitle(collection?.title || '');
@@ -62,6 +66,11 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
     updateRoutineDayName(selectedDay.id, dayName);
     setIsEditingDay(false);
   };
+
+  const selectableExercises = exercises.filter((exercise) => {
+    const query = exerciseQuery.trim().toLowerCase();
+    return !query || exercise.name.toLowerCase().includes(query) || exercise.primaryMuscle.includes(query);
+  });
 
   // If a day is selected, show Day Workout Detail (IMG_1173.PNG)
   if (selectedDay) {
@@ -126,6 +135,14 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
             <Text style={styles.sectionTitle}>
               Ejercicios ({selectedDay.exercises.length})
             </Text>
+            <TouchableOpacity
+              style={styles.addExerciseButton}
+              onPress={() => setShowExercisePicker(true)}
+              activeOpacity={0.8}
+            >
+              <Ionicons name="add" size={18} color="#FFFFFF" />
+              <Text style={styles.addExerciseText}>Añadir</Text>
+            </TouchableOpacity>
           </View>
 
           {/* Exercises List matching IMG_1173.PNG */}
@@ -134,24 +151,26 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
             const setsCount = re.defaultSets.length || re.targetSets || 4;
 
             return (
-              <TouchableOpacity
+              <View
                 key={re.id}
                 style={styles.exerciseRowCard}
-                onPress={() => onOpenConfigExercise(selectedDay.id, re.id)}
-                activeOpacity={0.75}
               >
                 <View style={styles.exerciseIndexBox}>
                   <Text style={styles.exerciseIndexText}>{index + 1}</Text>
                 </View>
 
-                <View style={styles.exerciseInfoColumn}>
+                <TouchableOpacity
+                  style={styles.exerciseInfoColumn}
+                  onPress={() => onOpenConfigExercise(selectedDay.id, re.id)}
+                  activeOpacity={0.75}
+                >
                   <Text style={styles.exerciseRowName}>
                     {exInfo?.name || 'Ejercicio'}
                   </Text>
                   <Text style={styles.exerciseRowMeta}>
                     {setsCount} series • {re.targetRepRange} reps • {re.targetWeightRange} kg
                   </Text>
-                </View>
+                </TouchableOpacity>
 
                 {/* Edit / Config Action button */}
                 <TouchableOpacity
@@ -160,7 +179,14 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
                 >
                   <Ionicons name="settings-outline" size={18} color="#8E8E93" />
                 </TouchableOpacity>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.removeExerciseButton}
+                  onPress={() => removeExerciseFromRoutineDay(selectedDay.id, re.id)}
+                  accessibilityLabel={`Eliminar ${exInfo?.name || 'ejercicio'}`}
+                >
+                  <Ionicons name="trash-outline" size={18} color="#FF6961" />
+                </TouchableOpacity>
+              </View>
             );
           })}
 
@@ -210,6 +236,63 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
                   <Text style={styles.saveEditText}>Guardar</Text>
                 </TouchableOpacity>
               </View>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal
+          visible={showExercisePicker}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowExercisePicker(false)}
+        >
+          <View style={styles.pickerOverlay}>
+            <View style={styles.pickerSheet}>
+              <View style={styles.editHeader}>
+                <View>
+                  <Text style={styles.editTitle}>Añadir ejercicio</Text>
+                  <Text style={styles.pickerHint}>Se añadirá con una serie editable.</Text>
+                </View>
+                <TouchableOpacity onPress={() => setShowExercisePicker(false)} accessibilityLabel="Cerrar selector">
+                  <Ionicons name="close-circle" size={28} color="#8E8E93" />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.pickerSearch}>
+                <Ionicons name="search" size={18} color="#8E8E93" />
+                <TextInput
+                  style={styles.pickerSearchInput}
+                  value={exerciseQuery}
+                  onChangeText={setExerciseQuery}
+                  placeholder="Buscar ejercicio"
+                  placeholderTextColor="#636366"
+                  autoFocus
+                />
+              </View>
+              <ScrollView style={styles.pickerList} keyboardShouldPersistTaps="handled">
+                {selectableExercises.map((exercise) => (
+                  <TouchableOpacity
+                    key={exercise.id}
+                    style={styles.pickerOption}
+                    onPress={() => {
+                      addExerciseToRoutineDay(selectedDay.id, exercise.id);
+                      setExerciseQuery('');
+                      setShowExercisePicker(false);
+                    }}
+                  >
+                    <View style={styles.pickerIcon}>
+                      <MaterialCommunityIcons name="dumbbell" size={18} color={COLORS.primary} />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.pickerOptionName}>{exercise.name}</Text>
+                      <Text style={styles.pickerOptionMeta}>{exercise.primaryMuscle.toUpperCase()} · {exercise.equipment}</Text>
+                    </View>
+                    <Ionicons name="add-circle" size={22} color={COLORS.primary} />
+                  </TouchableOpacity>
+                ))}
+                {selectableExercises.length === 0 && (
+                  <Text style={styles.noResultsText}>No se encontraron ejercicios.</Text>
+                )}
+              </ScrollView>
             </View>
           </View>
         </Modal>
@@ -539,11 +622,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#2C2C32',
   },
   sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 12,
   },
   sectionTitle: {
     color: '#FFFFFF',
     fontSize: 17,
+    fontWeight: '800',
+  },
+  addExerciseButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 10,
+  },
+  addExerciseText: {
+    color: '#FFFFFF',
+    fontSize: 13,
     fontWeight: '800',
   },
   exerciseRowCard: {
@@ -586,6 +686,10 @@ const styles = StyleSheet.create({
   configExerciseBtn: {
     padding: 6,
   },
+  removeExerciseButton: {
+    padding: 6,
+    marginLeft: 4,
+  },
   bottomCtaContainer: {
     position: 'absolute',
     bottom: 0,
@@ -616,5 +720,74 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '800',
     letterSpacing: 0.3,
+  },
+  pickerOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+  },
+  pickerSheet: {
+    maxHeight: '82%',
+    backgroundColor: '#1C1C1E',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: Platform.OS === 'ios' ? 34 : 20,
+  },
+  pickerHint: {
+    color: '#8E8E93',
+    fontSize: 13,
+    marginTop: 3,
+  },
+  pickerSearch: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#26262A',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    marginBottom: 10,
+  },
+  pickerSearchInput: {
+    flex: 1,
+    color: '#FFFFFF',
+    fontSize: 15,
+    paddingVertical: 12,
+  },
+  pickerList: {
+    flexGrow: 0,
+  },
+  pickerOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#2A2A2E',
+  },
+  pickerIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 107, 0, 0.15)',
+  },
+  pickerOptionName: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  pickerOptionMeta: {
+    color: '#8E8E93',
+    fontSize: 10,
+    fontWeight: '700',
+    marginTop: 3,
+  },
+  noResultsText: {
+    color: '#8E8E93',
+    textAlign: 'center',
+    paddingVertical: 28,
   },
 });

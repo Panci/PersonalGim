@@ -5,6 +5,7 @@ import {
   EquipmentType,
   RoutineCollection,
   RoutineDay,
+  RoutineExercise,
   ExerciseSet,
   WorkoutSession,
   WorkoutExerciseLog,
@@ -102,6 +103,8 @@ interface WorkoutStoreState {
   setEditingExercise: (item: { dayId: string; routineExerciseId: string; exercise: Exercise; sets: ExerciseSet[]; restSeconds: number } | null) => void;
   updateRoutineDayName: (dayId: string, name: string) => void;
   updateExerciseSets: (dayId: string, routineExerciseId: string, sets: ExerciseSet[], restSeconds: number) => void;
+  addExerciseToRoutineDay: (dayId: string, exerciseId: string) => void;
+  removeExerciseFromRoutineDay: (dayId: string, routineExerciseId: string) => void;
   showCreateRoutineModal: boolean;
   setShowCreateRoutineModal: (show: boolean) => void;
   saveNewCustomRoutine: (routine: RoutineCollection) => void;
@@ -265,6 +268,78 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       selectedDay: updatedDay,
       selectedCollection: updatedCollection ?? get().selectedCollection,
       editingExercise: null,
+    });
+  },
+  addExerciseToRoutineDay: (dayId, exerciseId) => {
+    const collection = get().collections.find((item) => item.days.some((day) => day.id === dayId));
+    const exercise = get().exercises.find((item) => item.id === exerciseId);
+    if (!collection || !exercise) return;
+
+    const newRoutineExercise: RoutineExercise = {
+      id: createId('routine-ex'),
+      routineId: dayId,
+      exerciseId: exercise.id,
+      orderIndex: 0,
+      targetSets: 1,
+      targetRepRange: '10',
+      targetWeightRange: '0',
+      targetRestSeconds: 60,
+      defaultSets: [
+        {
+          id: createId('set'),
+          setNumber: 1,
+          type: 'normal',
+          reps: 10,
+          weightKg: 0,
+          isCompleted: false,
+          restSeconds: 60,
+        },
+      ],
+    };
+
+    const updatedCollection: RoutineCollection = {
+      ...collection,
+      days: collection.days.map((day) => {
+        if (day.id !== dayId) return day;
+        const updatedExercises = [
+          ...day.exercises,
+          { ...newRoutineExercise, orderIndex: day.exercises.length + 1 },
+        ];
+        return { ...day, exercises: updatedExercises, exercisesCount: updatedExercises.length };
+      }),
+    };
+
+    saveCustomRoutineToDb(updatedCollection);
+    const updatedCollections = getCollectionsFromDb();
+    const persistedCollection = updatedCollections.find((item) => item.id === collection.id);
+    set({
+      collections: [...updatedCollections],
+      selectedCollection: persistedCollection ?? get().selectedCollection,
+      selectedDay: persistedCollection?.days.find((day) => day.id === dayId) ?? get().selectedDay,
+    });
+  },
+  removeExerciseFromRoutineDay: (dayId, routineExerciseId) => {
+    const collection = get().collections.find((item) => item.days.some((day) => day.id === dayId));
+    if (!collection) return;
+
+    const updatedCollection: RoutineCollection = {
+      ...collection,
+      days: collection.days.map((day) => {
+        if (day.id !== dayId) return day;
+        const updatedExercises = day.exercises
+          .filter((exercise) => exercise.id !== routineExerciseId)
+          .map((exercise, index) => ({ ...exercise, orderIndex: index + 1 }));
+        return { ...day, exercises: updatedExercises, exercisesCount: updatedExercises.length };
+      }),
+    };
+
+    saveCustomRoutineToDb(updatedCollection);
+    const updatedCollections = getCollectionsFromDb();
+    const persistedCollection = updatedCollections.find((item) => item.id === collection.id);
+    set({
+      collections: [...updatedCollections],
+      selectedCollection: persistedCollection ?? get().selectedCollection,
+      selectedDay: persistedCollection?.days.find((day) => day.id === dayId) ?? get().selectedDay,
     });
   },
   showCreateRoutineModal: false,
