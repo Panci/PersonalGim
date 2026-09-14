@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { currentUserRequest, loginRequest } from './api';
+import { currentUserRequest, loginRequest, updateAccountRequest } from './api';
 import { clearAuthToken, getAuthToken, setAuthToken } from './authStorage';
 import { AuthSession } from './types';
 
@@ -7,6 +7,7 @@ interface AuthContextValue {
   session: AuthSession | null;
   isRestoring: boolean;
   signIn: (email: string, password: string) => Promise<void>;
+  updateAccount: (payload: { currentPassword: string; email: string; newPassword?: string }) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -41,6 +42,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     isRestoring,
     signIn: async (email, password) => {
       const nextSession = await loginRequest(email, password);
+      await setAuthToken(nextSession.token);
+      setSession(nextSession);
+    },
+    updateAccount: async (payload) => {
+      if (!session) throw new Error('Inicia sesión para actualizar tu cuenta.');
+      const nextSession = await updateAccountRequest(session.token, payload);
       await setAuthToken(nextSession.token);
       setSession(nextSession);
     },

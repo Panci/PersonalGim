@@ -6,7 +6,9 @@ import {
   StatusBar,
   ActivityIndicator,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from './src/theme/colors';
 import { useWorkoutStore } from './src/store/workoutStore';
 import { BottomTabBar } from './src/components/navigation/BottomTabBar';
@@ -23,6 +25,7 @@ import { OneRepMaxModal } from './src/components/calculator/OneRepMaxModal';
 import { AuthProvider, useAuth } from './src/auth/AuthProvider';
 import { LoginScreen } from './src/screens/LoginScreen';
 import { MonitorDashboard } from './src/components/monitor/MonitorDashboard';
+import { AccountSettingsModal } from './src/components/account/AccountSettingsModal';
 
 export default function App() {
   return (
@@ -51,6 +54,7 @@ function AppShell() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [showRoutineDetail, setShowRoutineDetail] = useState(false);
+  const [showAccountSettings, setShowAccountSettings] = useState(false);
 
   // Config modal state
   const [configModal, setConfigModal] = useState<{
@@ -150,6 +154,16 @@ function AppShell() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
+      {session && !isWorkoutActive && (
+        <TouchableOpacity
+          style={styles.accountButton}
+          onPress={() => setShowAccountSettings(true)}
+          accessibilityLabel="Mi cuenta"
+        >
+          <Ionicons name="person-circle-outline" size={25} color="#FF6A00" />
+        </TouchableOpacity>
+      )}
+
       {/* Active screen. Reserve space so it is never hidden by the fixed tabs. */}
       <View style={styles.content}>
         {currentRole === 'admin' ? <AdminDashboard /> : currentRole === 'monitor' ? <MonitorDashboard /> : renderCurrentTab()}
@@ -179,6 +193,10 @@ function AppShell() {
       {/* Global Modals */}
       {currentRole === 'member' && <DigitalPassModal />}
       {currentRole === 'member' && <OneRepMaxModal />}
+      <AccountSettingsModal
+        visible={showAccountSettings}
+        onClose={() => setShowAccountSettings(false)}
+      />
     </SafeAreaView>
   );
 }
@@ -202,6 +220,20 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingBottom: 76,
+  },
+  accountButton: {
+    position: 'absolute',
+    top: 10,
+    right: 12,
+    zIndex: 20,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(28,28,30,0.92)',
+    borderWidth: 1,
+    borderColor: '#3A3A40',
   },
   loadingContainer: {
     flex: 1,

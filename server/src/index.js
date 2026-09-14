@@ -71,7 +71,7 @@ const authenticate = async (req, res, next) => {
   try {
     const payload = jwt.verify(token, jwtSecret, { issuer: 'personalgim-api', audience: 'personalgim-app' });
     const { rows } = await pool.query(
-      'SELECT id, email, full_name, role, is_active FROM users WHERE id = $1',
+      'SELECT id, email, full_name, password_hash, role, is_active FROM users WHERE id = $1',
       [payload.sub],
     );
     const user = rows[0];
@@ -140,6 +140,45 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
 
 app.get('/api/auth/me', authenticate, (req, res) => {
   res.json({ user: publicUser(req.user) });
+});
+
+app.patch('/api/auth/account', authenticate, async (req, res) => {
+  const currentPassword = String(req.body?.currentPassword || '');
+  const nextEmail = String(req.body?.email || '').trim().toLowerCase();
+  const nextPassword = String(req.body?.newPassword || '');
+
+  if (!currentPassword) return res.status(400).json({ error: 'Introduce tu contraseña actual.' });
+  if (!nextEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nextEmail)) {
+    return res.status(400).json({ error: 'Introduce un correo electrónico válido.' });
+  }
+  if (nextPassword && nextPassword.length < 12) {
+    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 12 caracteres.' });
+  }
+
+  const passwordMatches = await bcrypt.compare(currentPassword, req.user.password_hash);
+  if (!passwordMatches) return res.status(401).json({ error: 'La contraseña actual no es correcta.' });
+
+  try {
+    const passwordHash = nextPassword ? await bcrypt.hash(nextPassword, 12) : null;
+    const { rows } = await pool.query(
+      `UPDATE users
+          SET email = $1,
+              password_hash = COALESCE($2, password_hash),
+              updated_at = NOW()
+        WHERE id = $3
+        RETURNING id, email, full_name, role, is_active`,
+      [nextEmail, passwordHash, req.user.id],
+    );
+    const updatedUser = rows[0];
+    await writeAuditLog(req.user.id, 'update_account', 'user', req.user.id, {
+      emailChanged: nextEmail !== req.user.email,
+      passwordChanged: Boolean(nextPassword),
+    });
+    res.json({ token: createToken(updatedUser), user: publicUser(updatedUser) });
+  } catch (error) {
+    if (error.code === '23505') return res.status(409).json({ error: 'Ya existe una cuenta con ese correo.' });
+    throw error;
+  }
 });
 
 app.get('/api/users', authenticate, authorize('admin'), async (_req, res) => {

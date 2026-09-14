@@ -52,6 +52,21 @@ export const currentUserRequest = async (token: string): Promise<AuthUser> => {
   }
 };
 
+export const updateAccountRequest = async (
+  token: string,
+  payload: { currentPassword: string; email: string; newPassword?: string },
+): Promise<AuthSession> => {
+  const response = await fetch(endpoint('/auth/account'), {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+  return readResponse<AuthSession>(response);
+};
+
 export const saveWorkoutRequest = async (token: string, workout: WorkoutSession): Promise<void> => {
   const response = await fetch(endpoint('/workouts'), {
     method: 'POST',
