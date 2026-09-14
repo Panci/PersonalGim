@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   Animated,
+  Image,
 } from 'react-native';
 import Svg, {
   Path,
@@ -24,6 +25,19 @@ import { useWorkoutStore } from '../../store/workoutStore';
 const { width } = Dimensions.get('window');
 const SVG_WIDTH = Math.min(width - 32, 380);
 const SVG_HEIGHT = 490;
+// Keep the proportions of the original figures while making them large enough
+// to remain legible beside the callout labels on a phone-sized canvas.
+const REFERENCE_IMAGE_WIDTH = Math.min(SVG_WIDTH * 0.5, 180);
+const REFERENCE_IMAGE_HEIGHT = SVG_HEIGHT - 8;
+const USE_REFERENCE_ANATOMY = true;
+
+// The source contains front, side and back figures. They are cropped into
+// separate transparent assets so the anatomy view can switch between the two
+// without changing the existing muscle callouts and navigation.
+const ANATOMY_REFERENCE_IMAGES = {
+  front: require('../../../assets/anatomy-front.png'),
+  back: require('../../../assets/anatomy-back.png'),
+};
 
 interface CalloutItem {
   muscleId: MuscleId;
@@ -39,20 +53,20 @@ export const AnatomyModel: React.FC = () => {
 
   const isFront = bodySide === 'frente';
 
-  // Front Callouts matching IMG_1168.PNG
+  // Front callouts aligned with the supplied frontal reference.
   const frontCallouts: CalloutItem[] = [
-    { muscleId: 'pectoral', label: 'Pectorales', side: 'left', targetX: 165, targetY: 145, labelY: 125 },
+    { muscleId: 'pectoral', label: 'Pectorales', side: 'left', targetX: 165, targetY: 112, labelY: 105 },
     { muscleId: 'biceps', label: 'Bíceps', side: 'left', targetX: 130, targetY: 175, labelY: 175 },
     { muscleId: 'cuadriceps', label: 'Cuádriceps', side: 'left', targetX: 160, targetY: 300, labelY: 285 },
     { muscleId: 'abductores', label: 'Abductores', side: 'left', targetX: 145, targetY: 340, labelY: 345 },
-    { muscleId: 'hombros', label: 'Hombros', side: 'right', targetX: 250, targetY: 135, labelY: 125 },
+    { muscleId: 'hombros', label: 'Hombros', side: 'right', targetX: 265, targetY: 105, labelY: 105 },
     { muscleId: 'antebrazo', label: 'Antebrazo', side: 'right', targetX: 275, targetY: 220, labelY: 175 },
     { muscleId: 'abdomen', label: 'Abdomen', side: 'right', targetX: 200, targetY: 200, labelY: 215 },
     { muscleId: 'oblicuos', label: 'Oblicuos', side: 'right', targetX: 225, targetY: 225, labelY: 255 },
     { muscleId: 'adductores', label: 'Adductores', side: 'right', targetX: 205, targetY: 310, labelY: 315 },
   ];
 
-  // Back Callouts matching IMG_1169.PNG
+  // Back callouts aligned with the supplied posterior reference.
   const backCallouts: CalloutItem[] = [
     { muscleId: 'trapecio', label: 'Trapecio', side: 'left', targetX: 175, targetY: 120, labelY: 110 },
     { muscleId: 'triceps', label: 'Tríceps', side: 'left', targetX: 130, targetY: 165, labelY: 165 },
@@ -81,9 +95,23 @@ export const AnatomyModel: React.FC = () => {
         </View>
       </View>
 
-      {/* SVG Canvas with Anatomy Silhouette and Leader Lines */}
+      {/* Anatomy reference image with the existing interactive callouts on top */}
       <View style={styles.canvasContainer}>
-        <Svg width={SVG_WIDTH} height={SVG_HEIGHT} viewBox="0 0 380 490">
+        <View pointerEvents="none" style={styles.referenceImageLayer}>
+          <Image
+            source={isFront ? ANATOMY_REFERENCE_IMAGES.front : ANATOMY_REFERENCE_IMAGES.back}
+            style={styles.referenceImage}
+            resizeMode="stretch"
+            accessibilityLabel={isFront ? 'Anatomía frontal' : 'Anatomía posterior'}
+          />
+        </View>
+
+        <Svg
+          width={SVG_WIDTH}
+          height={SVG_HEIGHT}
+          viewBox="0 0 380 490"
+          style={styles.overlaySvg}
+        >
           <Defs>
             <LinearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
               <Stop offset="0%" stopColor="#303035" />
@@ -95,8 +123,8 @@ export const AnatomyModel: React.FC = () => {
             </LinearGradient>
           </Defs>
 
-          {/* Base Anatomical Silhouette */}
-          <G id="baseBody">
+          {/* Keep the vector anatomy available as a fallback if the reference is disabled. */}
+          {!USE_REFERENCE_ANATOMY && <G id="baseBody">
             {/* Head & Neck */}
             <Circle cx="190" cy="55" r="24" fill="url(#bodyGrad)" stroke="#44444C" strokeWidth="1.5" />
             <Path d="M 180 77 L 180 95 L 200 95 L 200 77 Z" fill="url(#bodyGrad)" />
@@ -140,10 +168,10 @@ export const AnatomyModel: React.FC = () => {
               stroke="#3A3A40"
               strokeWidth="1.5"
             />
-          </G>
+          </G>}
 
           {/* Front Specific Muscle Regions */}
-          {isFront && (
+          {!USE_REFERENCE_ANATOMY && isFront && (
             <G id="frontMuscles">
               {/* Pectorals */}
               <Path
@@ -198,7 +226,7 @@ export const AnatomyModel: React.FC = () => {
           )}
 
           {/* Back Specific Muscle Regions */}
-          {!isFront && (
+          {!USE_REFERENCE_ANATOMY && !isFront && (
             <G id="backMuscles">
               {/* Trapezius */}
               <Path
@@ -383,6 +411,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 4,
+  },
+  referenceImageLayer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  referenceImage: {
+    width: REFERENCE_IMAGE_WIDTH,
+    height: REFERENCE_IMAGE_HEIGHT,
+  },
+  overlaySvg: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
   },
   calloutBadge: {
     position: 'absolute',

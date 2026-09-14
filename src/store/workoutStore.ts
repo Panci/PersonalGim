@@ -200,6 +200,9 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
   selectMuscle: (muscle) => {
     set({
       selectedMuscleFilter: muscle,
+      searchQuery: '',
+      selectedEquipmentFilter: 'todos',
+      showFavoritesOnly: false,
       activeTab: 'ejercicios',
     });
   },

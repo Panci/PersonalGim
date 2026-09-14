@@ -41,17 +41,23 @@ export const EjerciciosScreen: React.FC = () => {
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showMuscleModal, setShowMuscleModal] = useState(false);
-  const [showCategoryOverview, setShowCategoryOverview] = useState(true);
+  const [showCategoryOverview, setShowCategoryOverview] = useState(() => selectedMuscleFilter === null);
   const [selectedCategory, setSelectedCategory] = useState<ExerciseCategory | null>(null);
 
-  // A muscle selected from the anatomy view can survive while this screen is
-  // mounted. Keep the category context and the muscle filter in sync so that
-  // combinations such as "Pecho" + "Hombros" never produce an empty list.
+  // A muscle selected from the anatomy view should open the exercise list
+  // directly, with the matching category context already applied.
   useEffect(() => {
-    if (!selectedCategory || !selectedMuscleFilter || selectedCategory.muscleIds.includes(selectedMuscleFilter)) return;
-    const matchingCategory = EXERCISE_CATEGORIES.find((category) => category.muscleIds.includes(selectedMuscleFilter));
-    setSelectedCategory(matchingCategory || null);
-  }, [selectedCategory, selectedMuscleFilter]);
+    if (!selectedMuscleFilter) return;
+
+    const matchingCategory = EXERCISE_CATEGORIES.find((category) =>
+      category.muscleIds.includes(selectedMuscleFilter),
+    );
+
+    setShowCategoryOverview(false);
+    setSelectedCategory((currentCategory) =>
+      currentCategory?.id === matchingCategory?.id ? currentCategory : matchingCategory || null,
+    );
+  }, [selectedMuscleFilter]);
 
   // New exercise form state
   const [newName, setNewName] = useState('');
