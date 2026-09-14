@@ -9,7 +9,6 @@ import {
   Modal,
   Platform,
   ScrollView,
-  Linking,
   useWindowDimensions,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -39,6 +38,7 @@ export const EjerciciosScreen: React.FC = () => {
   } = useWorkoutStore();
 
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
+  const [showVideo, setShowVideo] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showMuscleModal, setShowMuscleModal] = useState(false);
   const [showCategoryOverview, setShowCategoryOverview] = useState(() => selectedMuscleFilter === null);
@@ -142,6 +142,12 @@ export const EjerciciosScreen: React.FC = () => {
       setSelectedCategory(matchingCategory || null);
     }
   };
+
+  const selectedVideoUri = selectedExercise
+    ? (Platform.OS === 'web' && selectedExercise.localVideoPath
+      ? selectedExercise.localVideoPath
+      : selectedExercise.videoUrl)
+    : undefined;
 
   const showAllCategories = () => {
     setSelectedCategory(null);
@@ -525,9 +531,7 @@ export const EjerciciosScreen: React.FC = () => {
               {selectedExercise.videoUrl && (
                 <TouchableOpacity
                   style={styles.detailVideoBtn}
-                  onPress={() => Linking.openURL((Platform.OS === 'web' && selectedExercise.localVideoPath
-                    ? selectedExercise.localVideoPath
-                    : selectedExercise.videoUrl) as string)}
+                  onPress={() => setShowVideo(true)}
                   activeOpacity={0.8}
                 >
                   <Ionicons name="play-circle-outline" size={20} color={COLORS.primary} />
@@ -558,6 +562,61 @@ export const EjerciciosScreen: React.FC = () => {
                 <Text style={styles.detailActionBtnText}>Entendido</Text>
               </TouchableOpacity>
               </ScrollView>
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Movement video modal: keep the user inside the app instead of opening a raw media tab. */}
+      {showVideo && selectedExercise && selectedVideoUri && (
+        <Modal
+          visible={true}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setShowVideo(false)}
+        >
+          <View style={styles.videoOverlay}>
+            <View style={styles.videoSheet}>
+              <View style={styles.videoHeader}>
+                <View style={{ flex: 1, paddingRight: 12 }}>
+                  <Text style={styles.videoEyebrow}>MOVIMIENTO DEL EJERCICIO</Text>
+                  <Text style={styles.videoTitle} numberOfLines={2}>{selectedExercise.name}</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.videoCloseIcon}
+                  onPress={() => setShowVideo(false)}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  accessibilityLabel="Cerrar vídeo"
+                >
+                  <Ionicons name="close" size={24} color="#FFFFFF" />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.videoFrame}>
+                {Platform.OS === 'web' ? (
+                  React.createElement('video', {
+                    src: selectedVideoUri,
+                    controls: true,
+                    autoPlay: true,
+                    playsInline: true,
+                    poster: selectedExercise.localImagePath || selectedExercise.imageUrl,
+                    style: styles.videoPlayer,
+                    'aria-label': `Vídeo de ${selectedExercise.name}`,
+                  } as any)
+                ) : (
+                  <Text style={styles.videoNativeFallback}>
+                    El vídeo está disponible en la versión web de la biblioteca.
+                  </Text>
+                )}
+              </View>
+
+              <TouchableOpacity
+                style={styles.videoCloseButton}
+                onPress={() => setShowVideo(false)}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.videoCloseButtonText}>Volver al ejercicio</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -1156,6 +1215,82 @@ const styles = StyleSheet.create({
   },
   detailVideoBtnText: {
     color: '#34C759',
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  videoOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.86)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 14,
+  },
+  videoSheet: {
+    width: '100%',
+    maxWidth: 640,
+    backgroundColor: '#1C1C1E',
+    borderRadius: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#34343A',
+  },
+  videoHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 14,
+  },
+  videoEyebrow: {
+    color: COLORS.primary,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.7,
+  },
+  videoTitle: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '800',
+    marginTop: 4,
+  },
+  videoCloseIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2C2C30',
+  },
+  videoFrame: {
+    width: '100%',
+    aspectRatio: 16 / 9,
+    borderRadius: 14,
+    overflow: 'hidden',
+    backgroundColor: '#000000',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  videoPlayer: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',
+    display: 'block',
+    backgroundColor: '#000000',
+  } as any,
+  videoNativeFallback: {
+    color: '#D1D1D6',
+    fontSize: 14,
+    textAlign: 'center',
+    paddingHorizontal: 20,
+  },
+  videoCloseButton: {
+    marginTop: 14,
+    backgroundColor: COLORS.primary,
+    borderRadius: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+  },
+  videoCloseButtonText: {
+    color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '800',
   },
