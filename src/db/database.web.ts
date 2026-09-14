@@ -3,13 +3,12 @@ import {
   StatsTimeRange, BodyMeasurementRecord, GymMember, MemberStatus, AttendanceRecord,
 } from '../types';
 import {
-  INITIAL_EXERCISES, INITIAL_COLLECTION, INITIAL_WORKOUT_HISTORY,
-  INITIAL_BODY_MEASUREMENTS, INITIAL_GYM_MEMBERS, INITIAL_ATTENDANCE_LOGS,
+  INITIAL_EXERCISES,
 } from './initialData';
 import { withExerciseGuidance } from '../data/exerciseGuidance';
 
 type LocalState = {
-  version: 1;
+  version: 2;
   exercises: Exercise[];
   collections: RoutineCollection[];
   workouts: WorkoutSession[];
@@ -18,16 +17,19 @@ type LocalState = {
   attendance: AttendanceRecord[];
 };
 
-const STORAGE_KEY = 'personalgim.local-data.v1';
+// Version 2 intentionally starts with an empty operational workspace. The
+// exercise catalog remains available, while demo members, attendance,
+// workouts, measurements and routines are not seeded into new web sessions.
+const STORAGE_KEY = 'personalgim.local-data.v2';
 const clone = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 const defaults = (): LocalState => ({
-  version: 1,
+  version: 2,
   exercises: clone(INITIAL_EXERCISES),
-  collections: [clone(INITIAL_COLLECTION)],
-  workouts: clone(INITIAL_WORKOUT_HISTORY),
-  measurements: clone(INITIAL_BODY_MEASUREMENTS),
-  members: clone(INITIAL_GYM_MEMBERS),
-  attendance: clone(INITIAL_ATTENDANCE_LOGS),
+  collections: [],
+  workouts: [],
+  measurements: [],
+  members: [],
+  attendance: [],
 });
 
 let state: LocalState = defaults();
@@ -35,7 +37,7 @@ let loaded = false;
 const storageAvailable = (): boolean => typeof localStorage !== 'undefined';
 const validState = (value: unknown): value is LocalState => {
   const candidate = value as Partial<LocalState> | null;
-  return Boolean(candidate && candidate.version === 1 && Array.isArray(candidate.exercises) &&
+  return Boolean(candidate && candidate.version === 2 && Array.isArray(candidate.exercises) &&
     Array.isArray(candidate.collections) && Array.isArray(candidate.workouts) &&
     Array.isArray(candidate.measurements) && Array.isArray(candidate.members) &&
     Array.isArray(candidate.attendance));
