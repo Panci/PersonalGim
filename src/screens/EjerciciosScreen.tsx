@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -39,6 +39,15 @@ export const EjerciciosScreen: React.FC = () => {
   const [showMuscleModal, setShowMuscleModal] = useState(false);
   const [showCategoryOverview, setShowCategoryOverview] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<ExerciseCategory | null>(null);
+
+  // A muscle selected from the anatomy view can survive while this screen is
+  // mounted. Keep the category context and the muscle filter in sync so that
+  // combinations such as "Pecho" + "Hombros" never produce an empty list.
+  useEffect(() => {
+    if (!selectedCategory || !selectedMuscleFilter || selectedCategory.muscleIds.includes(selectedMuscleFilter)) return;
+    const matchingCategory = EXERCISE_CATEGORIES.find((category) => category.muscleIds.includes(selectedMuscleFilter));
+    setSelectedCategory(matchingCategory || null);
+  }, [selectedCategory, selectedMuscleFilter]);
 
   // New exercise form state
   const [newName, setNewName] = useState('');
@@ -114,6 +123,14 @@ export const EjerciciosScreen: React.FC = () => {
     if (showFavoritesOnly) toggleFavoritesFilter();
     setSearchQuery('');
     setShowCategoryOverview(false);
+  };
+
+  const selectMuscleFilter = (muscle: MuscleId | null) => {
+    setSelectedMuscleFilter(muscle);
+    if (muscle && selectedCategory && !selectedCategory.muscleIds.includes(muscle)) {
+      const matchingCategory = EXERCISE_CATEGORIES.find((category) => category.muscleIds.includes(muscle));
+      setSelectedCategory(matchingCategory || null);
+    }
   };
 
   const showAllCategories = () => {
@@ -211,7 +228,7 @@ export const EjerciciosScreen: React.FC = () => {
               !selectedMuscleFilter && selectedEquipmentFilter === 'todos' && !showFavoritesOnly && styles.chipActive,
             ]}
             onPress={() => {
-              setSelectedMuscleFilter(null);
+              selectMuscleFilter(null);
               setSelectedEquipmentFilter('todos');
               if (showFavoritesOnly) toggleFavoritesFilter();
             }}
@@ -289,7 +306,7 @@ export const EjerciciosScreen: React.FC = () => {
               <TouchableOpacity
                 key={m.id}
                 style={[styles.chip, isSelected && styles.chipActive]}
-                onPress={() => setSelectedMuscleFilter(isSelected ? null : m.id)}
+                onPress={() => selectMuscleFilter(isSelected ? null : m.id)}
               >
                 <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
                   {m.label}
@@ -564,7 +581,7 @@ export const EjerciciosScreen: React.FC = () => {
             <TouchableOpacity
               style={[styles.muscleSelectRow, selectedMuscleFilter === null && styles.muscleSelectRowActive]}
               onPress={() => {
-                setSelectedMuscleFilter(null);
+                selectMuscleFilter(null);
                 setShowMuscleModal(false);
               }}
               activeOpacity={0.7}
@@ -594,7 +611,7 @@ export const EjerciciosScreen: React.FC = () => {
                     key={m.id}
                     style={[styles.muscleSelectRow, isSelected && styles.muscleSelectRowActive]}
                     onPress={() => {
-                      setSelectedMuscleFilter(m.id);
+                      selectMuscleFilter(m.id);
                       setShowMuscleModal(false);
                     }}
                     activeOpacity={0.7}
