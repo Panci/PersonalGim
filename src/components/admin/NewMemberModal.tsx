@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {
+  Alert,
+  ActivityIndicator,
   View,
   Text,
   TextInput,
@@ -8,11 +10,14 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
+  Linking,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
 import { MemberObjective, MemberLevel } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
+import { useAuth } from '../../auth/AuthProvider';
+import { createUserRequest } from '../../auth/api';
 
 interface NewMemberModalProps {
   visible: boolean;
@@ -28,11 +33,36 @@ const parseWeight = (value: string): number | undefined => {
   return Number.isFinite(parsed) ? parsed : undefined;
 };
 
+const generateTemporaryPassword = (): string => {
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!';
+  let password = '';
+  for (let index = 0; index < 16; index += 1) {
+    password += alphabet[Math.floor(Math.random() * alphabet.length)];
+  }
+  return password;
+};
+
+const normalizeWhatsappPhone = (value: string): string => {
+  const digits = value.replace(/\D/g, '');
+  if (!digits) return '';
+  if (value.trim().startsWith('+')) return digits;
+  if (digits.length === 9) return `34${digits}`;
+  return digits;
+};
+
+const getAppUrl = (): string => {
+  const configuredUrl = process.env.EXPO_PUBLIC_APP_URL?.trim();
+  if (configuredUrl) return configuredUrl;
+  if (Platform.OS === 'web' && typeof window !== 'undefined') return window.location.origin;
+  return 'la aplicación PersonalGim';
+};
+
 export const NewMemberModal: React.FC<NewMemberModalProps> = ({
   visible,
   onClose,
 }) => {
   const { addGymMember, collections, gymMembers } = useWorkoutStore();
+  const { session } = useAuth();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -40,6 +70,8 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
   const [objective, setObjective] = useState<MemberObjective>('hipertrofia');
   const [level, setLevel] = useState<MemberLevel>('principiante');
   const [weightKg, setWeightKg] = useState('75.0');
+  const [inviteViaWhatsApp, setInviteViaWhatsApp] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [selectedRoutineId, setSelectedRoutineId] = useState<string>(
     collections[0]?.id || ''
   );
@@ -57,52 +89,95 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
     { id: 'avanzado', label: 'Avanzado' },
   ];
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (saving) return;
     if (!fullName.trim()) {
-      alert('Por favor introduce el nombre y apellidos del socio.');
+      Alert.alert('Datos incompletos', 'Por favor introduce el nombre y apellidos del socio.');
       return;
     }
     const normalizedEmail = email.trim().toLowerCase();
     if (!EMAIL_PATTERN.test(normalizedEmail)) {
-      alert('Introduce un correo electrónico válido.');
+      Alert.alert('Datos incompletos', 'Introduce un correo electrónico válido.');
       return;
     }
     if (gymMembers.some((member) => member.email.trim().toLowerCase() === normalizedEmail)) {
-      alert('Ya existe un socio con ese correo electrónico.');
+      Alert.alert('Correo duplicado', 'Ya existe un socio con ese correo electrónico.');
       return;
     }
 
     const normalizedPhone = phone.trim();
     const phoneDigits = normalizedPhone.replace(/\D/g, '');
     if (normalizedPhone && (phoneDigits.length < 6 || phoneDigits.length > 15)) {
-      alert('Introduce un teléfono válido o déjalo vacío.');
+      Alert.alert('Teléfono no válido', 'Introduce un teléfono válido o déjalo vacío.');
+      return;
+    }
+    if (inviteViaWhatsApp && !normalizeWhatsappPhone(normalizedPhone)) {
+      Alert.alert('Falta el teléfono', 'Para enviar la invitación por WhatsApp necesitas indicar el teléfono del socio.');
       return;
     }
 
     const parsedWeight = parseWeight(weightKg);
     if (weightKg.trim() && (parsedWeight === undefined || parsedWeight < 20 || parsedWeight > 500)) {
-      alert('El peso inicial debe estar entre 20 y 500 kg.');
+      Alert.alert('Peso no válido', 'El peso inicial debe estar entre 20 y 500 kg.');
       return;
     }
 
     const assignedCol = collections.find((c) => c.id === selectedRoutineId);
 
-    addGymMember({
-      fullName: fullName.trim(),
-      email: normalizedEmail,
-      phone: normalizedPhone || undefined,
-      objective,
-      level,
-      assignedRoutineId: assignedCol?.id,
-      assignedRoutineTitle: assignedCol?.title,
-      currentWeightKg: parsedWeight,
-    });
+    setSaving(true);
+    try {
+      const temporaryPassword = generateTemporaryPassword();
+      if (!session) throw new Error('La sesión de administrador ha caducado. Vuelve a iniciar sesión.');
+      const createdUser = await createUserRequest(session.token, {
+        fullName: fullName.trim(),
+        email: normalizedEmail,
+        password: temporaryPassword,
+        role: 'user',
+      });
 
-    // Reset fields
-    setFullName('');
-    setEmail('');
-    setPhone('');
-    onClose();
+      addGymMember({
+        userId: createdUser.id,
+        fullName: fullName.trim(),
+        email: normalizedEmail,
+        phone: normalizedPhone || undefined,
+        objective,
+        level,
+        assignedRoutineId: assignedCol?.id,
+        assignedRoutineTitle: assignedCol?.title,
+        currentWeightKg: parsedWeight,
+      });
+
+      setFullName('');
+      setEmail('');
+      setPhone('');
+      setInviteViaWhatsApp(true);
+      onClose();
+
+      if (inviteViaWhatsApp) {
+        const appUrl = getAppUrl();
+        const message = [
+          `Hola ${fullName.trim()}, ya tienes acceso a PersonalGim.`,
+          '',
+          `Accede desde: ${appUrl}`,
+          `Email: ${normalizedEmail}`,
+          `Contraseña temporal: ${temporaryPassword}`,
+          '',
+          'Cuando entres, cambia la contraseña y podrás crear tus rutinas.',
+        ].join('\n');
+        const whatsappUrl = `https://wa.me/${normalizeWhatsappPhone(normalizedPhone)}?text=${encodeURIComponent(message)}`;
+        try {
+          await Linking.openURL(whatsappUrl);
+        } catch {
+          Alert.alert('Cuenta creada', `No se pudo abrir WhatsApp. Comparte manualmente la invitación con ${normalizedEmail}.`);
+        }
+      } else {
+        Alert.alert('Socio creado', 'Se ha creado también su acceso como Usuario.');
+      }
+    } catch (error) {
+      Alert.alert('No se pudo dar de alta', error instanceof Error ? error.message : 'Inténtalo de nuevo.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -153,6 +228,21 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
               value={phone}
               onChangeText={setPhone}
             />
+
+            <TouchableOpacity
+              style={styles.inviteRow}
+              onPress={() => setInviteViaWhatsApp((current) => !current)}
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: inviteViaWhatsApp }}
+            >
+              <View style={[styles.checkbox, inviteViaWhatsApp && styles.checkboxActive]}>
+                {inviteViaWhatsApp && <Ionicons name="checkmark" size={15} color="#FFFFFF" />}
+              </View>
+              <View style={styles.inviteCopy}>
+                <Text style={styles.inviteTitle}>Crear acceso e invitar por WhatsApp</Text>
+                <Text style={styles.inviteDetail}>Se generará una contraseña temporal para el rol Usuario.</Text>
+              </View>
+            </TouchableOpacity>
 
             {/* Objective */}
             <Text style={styles.sectionHeading}>OBJETIVO PRINCIPAL</Text>
@@ -232,8 +322,8 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
           </ScrollView>
 
           {/* Save Button */}
-          <TouchableOpacity style={styles.saveBtn} onPress={handleSave} activeOpacity={0.85}>
-            <Text style={styles.saveBtnText}>Registrar y Dar de Alta Socio</Text>
+          <TouchableOpacity style={[styles.saveBtn, saving && styles.saveBtnDisabled]} onPress={handleSave} activeOpacity={0.85} disabled={saving}>
+            {saving ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.saveBtnText}>Registrar y Dar de Alta Socio</Text>}
           </TouchableOpacity>
         </View>
       </View>
@@ -307,6 +397,43 @@ const styles = StyleSheet.create({
     borderColor: '#34343A',
     marginBottom: 10,
   },
+  inviteRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#26262A',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#34343A',
+    padding: 12,
+    marginTop: 2,
+  },
+  checkbox: {
+    width: 22,
+    height: 22,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#636366',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkboxActive: {
+    backgroundColor: '#25D366',
+    borderColor: '#25D366',
+  },
+  inviteCopy: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  inviteTitle: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  inviteDetail: {
+    color: '#8E8E93',
+    fontSize: 11,
+    marginTop: 3,
+  },
   chipsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -376,5 +503,8 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '800',
+  },
+  saveBtnDisabled: {
+    opacity: 0.7,
   },
 });

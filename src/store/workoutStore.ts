@@ -129,6 +129,7 @@ interface WorkoutStoreState {
   selectedMemberForDetail: GymMember | null;
   setSelectedMemberForDetail: (member: GymMember | null) => void;
   addGymMember: (data: {
+    userId?: string;
     fullName: string;
     email: string;
     phone?: string;
@@ -436,6 +437,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     }, 0);
     const newMem: GymMember = {
       id: createId('mem'),
+      userId: data.userId,
       membershipNumber: `SOC-${String(highestMemberNumber + 1).padStart(3, '0')}`,
       fullName: data.fullName,
       email,

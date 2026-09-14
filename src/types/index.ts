@@ -168,6 +168,7 @@ export type MemberLevel = 'principiante' | 'intermedio' | 'avanzado';
 
 export interface GymMember {
   id: string;
+  userId?: string;
   fullName: string;
   email: string;
   phone?: string;
