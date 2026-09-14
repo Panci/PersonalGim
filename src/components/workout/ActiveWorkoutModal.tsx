@@ -11,10 +11,13 @@ import {
   TextInput,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { COLORS } from '../../theme/colors';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { RestTimerBar } from './RestTimerBar';
 import { PlateCalculatorModal } from './PlateCalculatorModal';
+
+const KEEP_AWAKE_TAG = 'personal-gym-active-workout';
 
 export const ActiveWorkoutModal: React.FC = () => {
   const {
@@ -36,6 +39,12 @@ export const ActiveWorkoutModal: React.FC = () => {
   const [calcWeight, setCalcWeight] = useState(60);
   const [showExercisePicker, setShowExercisePicker] = useState(false);
   const [exerciseQuery, setExerciseQuery] = useState('');
+  const [editingCell, setEditingCell] = useState<{
+    exerciseIndex: number;
+    setIndex: number;
+    field: 'reps' | 'weight';
+  } | null>(null);
+  const [draftCellValue, setDraftCellValue] = useState('');
 
   // Live timer
   useEffect(() => {
@@ -49,6 +58,29 @@ export const ActiveWorkoutModal: React.FC = () => {
     }
     return () => {
       if (timer) clearInterval(timer);
+    };
+  }, [isWorkoutActive]);
+
+  // Keep the phone awake for the whole workout, and release the lock as soon
+  // as the session is finished or discarded.
+  useEffect(() => {
+    if (!isWorkoutActive) return;
+
+    let disposed = false;
+    const enableKeepAwake = async () => {
+      try {
+        await activateKeepAwakeAsync(KEEP_AWAKE_TAG);
+        if (disposed) await deactivateKeepAwake(KEEP_AWAKE_TAG);
+      } catch {
+        // Some browsers do not expose Screen Wake Lock; the workout still works.
+      }
+    };
+
+    void enableKeepAwake();
+
+    return () => {
+      disposed = true;
+      void deactivateKeepAwake(KEEP_AWAKE_TAG).catch(() => undefined);
     };
   }, [isWorkoutActive]);
 
@@ -74,6 +106,45 @@ export const ActiveWorkoutModal: React.FC = () => {
     addExerciseToActiveWorkout(exerciseId);
     setExerciseQuery('');
     setShowExercisePicker(false);
+  };
+
+  const beginCellEdit = (
+    exerciseIndex: number,
+    setIndex: number,
+    field: 'reps' | 'weight',
+    value: number,
+  ) => {
+    setEditingCell({ exerciseIndex, setIndex, field });
+    setDraftCellValue(String(value));
+  };
+
+  const commitCellEdit = () => {
+    if (!editingCell) return;
+
+    const normalized = draftCellValue.replace(',', '.').replace(/[^0-9.]/g, '');
+    const parsed = Number.parseFloat(normalized);
+    const current = activeWorkout?.exercises[editingCell.exerciseIndex]?.sets[editingCell.setIndex];
+
+    if (current && Number.isFinite(parsed)) {
+      if (editingCell.field === 'reps') {
+        updateSetValues(
+          editingCell.exerciseIndex,
+          editingCell.setIndex,
+          Math.max(1, Math.min(1000, Math.round(parsed))),
+          current.weightKg,
+        );
+      } else {
+        updateSetValues(
+          editingCell.exerciseIndex,
+          editingCell.setIndex,
+          current.reps,
+          Math.max(0, Math.min(2000, parsed)),
+        );
+      }
+    }
+
+    setEditingCell(null);
+    setDraftCellValue('');
   };
 
   // Epley 1RM estimation
@@ -223,7 +294,24 @@ export const ActiveWorkoutModal: React.FC = () => {
                       >
                         <Ionicons name="remove" size={14} color="#8E8E93" />
                       </TouchableOpacity>
-                      <Text style={styles.miniValueText}>{s.weightKg}</Text>
+                      <TextInput
+                        style={styles.miniValueInput}
+                        value={
+                          editingCell?.exerciseIndex === exIndex &&
+                          editingCell.setIndex === sIndex &&
+                          editingCell.field === 'weight'
+                            ? draftCellValue
+                            : String(s.weightKg)
+                        }
+                        onFocus={() => beginCellEdit(exIndex, sIndex, 'weight', s.weightKg)}
+                        onChangeText={setDraftCellValue}
+                        onBlur={commitCellEdit}
+                        onSubmitEditing={commitCellEdit}
+                        keyboardType="decimal-pad"
+                        returnKeyType="done"
+                        selectTextOnFocus
+                        accessibilityLabel={`Peso de la serie ${s.setNumber}`}
+                      />
                       <TouchableOpacity
                         style={styles.miniStepBtn}
                         onPress={() => updateSetValues(exIndex, sIndex, s.reps, s.weightKg + 2.5)}
@@ -240,7 +328,24 @@ export const ActiveWorkoutModal: React.FC = () => {
                       >
                         <Ionicons name="remove" size={14} color="#8E8E93" />
                       </TouchableOpacity>
-                      <Text style={styles.miniValueText}>{s.reps}</Text>
+                      <TextInput
+                        style={styles.miniValueInput}
+                        value={
+                          editingCell?.exerciseIndex === exIndex &&
+                          editingCell.setIndex === sIndex &&
+                          editingCell.field === 'reps'
+                            ? draftCellValue
+                            : String(s.reps)
+                        }
+                        onFocus={() => beginCellEdit(exIndex, sIndex, 'reps', s.reps)}
+                        onChangeText={setDraftCellValue}
+                        onBlur={commitCellEdit}
+                        onSubmitEditing={commitCellEdit}
+                        keyboardType="numeric"
+                        returnKeyType="done"
+                        selectTextOnFocus
+                        accessibilityLabel={`Repeticiones de la serie ${s.setNumber}`}
+                      />
                       <TouchableOpacity
                         style={styles.miniStepBtn}
                         onPress={() => updateSetValues(exIndex, sIndex, s.reps + 1, s.weightKg)}
@@ -259,8 +364,16 @@ export const ActiveWorkoutModal: React.FC = () => {
                       style={[styles.checkbox, s.isCompleted && styles.checkboxCompleted]}
                       onPress={() => toggleCompleteSet(exIndex, sIndex)}
                       activeOpacity={0.7}
+                      accessibilityLabel={s.isCompleted ? `Serie ${s.setNumber} realizada` : `Marcar serie ${s.setNumber} como realizada`}
                     >
-                      {s.isCompleted && <Ionicons name="checkmark" size={18} color="#FFFFFF" />}
+                      <Ionicons
+                        name={s.isCompleted ? 'checkmark' : 'checkmark-circle-outline'}
+                        size={17}
+                        color={s.isCompleted ? '#FFFFFF' : '#A1A1A6'}
+                      />
+                      <Text style={[styles.checkboxLabel, s.isCompleted && styles.checkboxLabelCompleted]}>
+                        {s.isCompleted ? 'Realizada' : 'Realizar'}
+                      </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -370,7 +483,11 @@ export const ActiveWorkoutModal: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
+    maxWidth: 390,
+    alignSelf: 'center',
     backgroundColor: '#000000',
+    overflow: 'hidden',
   },
   header: {
     flexDirection: 'row',
@@ -582,16 +699,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#242428',
     borderRadius: 8,
     marginHorizontal: 4,
-    paddingVertical: 4,
+    paddingVertical: 6,
   },
   miniStepBtn: {
     padding: 4,
   },
-  miniValueText: {
+  miniValueInput: {
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: '700',
-    minWidth: 32,
+    minWidth: 42,
+    paddingVertical: 0,
+    paddingHorizontal: 0,
     textAlign: 'center',
   },
   est1RMText: {
@@ -600,18 +719,28 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   checkbox: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 82,
+    height: 40,
+    borderRadius: 12,
     borderWidth: 2,
     borderColor: '#3E3E44',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 6,
+    gap: 4,
+    marginHorizontal: 4,
   },
   checkboxCompleted: {
     backgroundColor: COLORS.success,
     borderColor: COLORS.success,
+  },
+  checkboxLabel: {
+    color: '#A1A1A6',
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  checkboxLabelCompleted: {
+    color: '#FFFFFF',
   },
   deleteSetBtn: {
     width: 28,

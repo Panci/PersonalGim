@@ -36,6 +36,10 @@ export const WorkoutSessionDetailModal: React.FC<WorkoutSessionDetailModalProps>
     month: 'long',
     day: 'numeric',
   });
+  const completedSets = session.exercises.reduce(
+    (total, exercise) => total + exercise.sets.filter((set) => set.isCompleted).length,
+    0
+  );
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
@@ -79,7 +83,7 @@ export const WorkoutSessionDetailModal: React.FC<WorkoutSessionDetailModalProps>
 
             {/* Exercises List */}
             <Text style={styles.sectionHeading}>
-              EJERCICIOS COMPLETADOS ({session.exercises.length})
+              EJERCICIOS DE LA SESIÓN ({session.exercises.length}) · {completedSets} SERIES COMPLETADAS
             </Text>
 
             {session.exercises.length === 0 ? (
@@ -115,7 +119,7 @@ export const WorkoutSessionDetailModal: React.FC<WorkoutSessionDetailModalProps>
                       </View>
 
                       {ex.sets.map((set, sIdx) => (
-                        <View key={set.id || sIdx} style={styles.setRow}>
+                        <View key={set.id || sIdx} style={[styles.setRow, !set.isCompleted && styles.setRowPending]}>
                           <View style={styles.setNumPill}>
                             <Text style={styles.setNumText}>{set.setNumber}</Text>
                           </View>
@@ -125,9 +129,9 @@ export const WorkoutSessionDetailModal: React.FC<WorkoutSessionDetailModalProps>
                           <Text style={styles.setKgText}>{set.weightKg}</Text>
                           <Text style={styles.setRepsText}>{set.reps}</Text>
                           <Ionicons
-                            name="checkmark-circle"
+                            name={set.isCompleted ? 'checkmark-circle' : 'ellipse-outline'}
                             size={20}
-                            color="#34C759"
+                            color={set.isCompleted ? '#34C759' : '#636366'}
                             style={{ alignSelf: 'center' }}
                           />
                         </View>
@@ -299,6 +303,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     borderTopWidth: 1,
     borderTopColor: '#1E1E22',
+  },
+  setRowPending: {
+    opacity: 0.62,
   },
   setNumPill: {
     width: 24,

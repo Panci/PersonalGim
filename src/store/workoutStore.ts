@@ -42,11 +42,14 @@ import {
   registerAttendanceToDb,
 } from '../db/database';
 import { createId } from '../utils/ids';
+import { withExerciseGuidance } from '../data/exerciseGuidance';
+import { getAuthToken } from '../auth/authStorage';
+import { saveWorkoutRequest } from '../auth/api';
 
 export type MainTab = 'entreno' | 'actividades' | 'ejercicios' | 'cuerpo';
 export type EntrenoSegment = 'plan' | 'entreno' | 'rapido';
 export type BodyViewMode = 'muscles' | 'metrics';
-export type AppRole = 'member' | 'admin';
+export type AppRole = 'member' | 'monitor' | 'admin';
 
 const calculateCompletedVolume = (exercises: WorkoutExerciseLog[]): number =>
   exercises.reduce(
@@ -217,11 +220,11 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     }));
   },
   addCustomExercise: (exData) => {
-    const newEx: Exercise = {
+    const newEx: Exercise = withExerciseGuidance({
       ...exData,
       id: createId('custom'),
       isCustom: true,
-    };
+    });
     addCustomExerciseToDb(newEx);
     set((s) => ({ exercises: [newEx, ...s.exercises] }));
   },
@@ -737,6 +740,16 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     };
 
     saveWorkoutLogToDb(completedSession);
+    // Local persistence keeps the app usable offline; when signed in, the same
+    // completed session is also sent to PostgreSQL for the user's history.
+    void (async () => {
+      try {
+        const token = await getAuthToken();
+        if (token) await saveWorkoutRequest(token, completedSession);
+      } catch (error) {
+        console.warn('No se pudo sincronizar el entrenamiento con el servidor.', error);
+      }
+    })();
     const updatedStats = getWorkoutStatsFromDb(get().statsRange);
     const updatedHistory = getWorkoutHistoryFromDb();
 

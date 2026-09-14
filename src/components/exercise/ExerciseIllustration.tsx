@@ -11,7 +11,7 @@ import Svg, {
   Line,
   Ellipse,
 } from 'react-native-svg';
-import { Exercise } from '../../types';
+import { EquipmentType, Exercise } from '../../types';
 
 interface ExerciseIllustrationProps {
   exercise: Exercise;
@@ -82,6 +82,51 @@ const HANDLED_SCENES = new Set([
   'shrugs',
   'wrist_curl',
 ]);
+
+// A scene is only shown when its drawing represents the equipment assigned to
+// the exercise. Otherwise the component falls back to the generic silhouette,
+// which renders the actual equipment explicitly and avoids misleading cards.
+const SCENE_EQUIPMENT: Record<string, EquipmentType[]> = {
+  flat_bench_barbell: ['barra'],
+  incline_bench_barbell: ['barra'],
+  flat_bench_dumbbell: ['mancuerna'],
+  incline_bench_dumbbell: ['mancuerna'],
+  pec_deck: ['maquina'],
+  cable_crossover: ['polea'],
+  lat_pulldown: ['polea', 'maquina'],
+  pullups: ['peso_corporal'],
+  chest_dips: ['peso_corporal'],
+  pushups: ['peso_corporal'],
+  plank: ['peso_corporal'],
+  hanging_leg_raise: ['peso_corporal'],
+  ab_crunch: ['peso_corporal'],
+  hyperextensions: ['peso_corporal'],
+  barbell_row: ['barra'],
+  seated_cable_row: ['polea'],
+  dumbbell_row: ['mancuerna'],
+  military_press_barbell: ['barra'],
+  dumbbell_shoulder_press: ['mancuerna'],
+  lateral_raise: ['mancuerna'],
+  face_pull: ['polea'],
+  bicep_curl_barbell: ['barra'],
+  bicep_curl_dumbbell: ['mancuerna'],
+  preacher_curl: ['barra', 'maquina'],
+  incline_bicep_curl: ['mancuerna'],
+  concentration_curl: ['mancuerna'],
+  tricep_pushdown: ['polea'],
+  tricep_skullcrusher: ['barra'],
+  tricep_overhead: ['mancuerna'],
+  leg_press_machine: ['maquina'],
+  leg_extension_machine: ['maquina'],
+  leg_curl_machine: ['maquina'],
+  bulgarian_split_squat: ['mancuerna'],
+  deadlift_barbell: ['barra'],
+  romanian_deadlift: ['barra'],
+  hip_thrust_barbell: ['barra'],
+  calf_raise_standing: ['peso_corporal'],
+  shrugs: ['mancuerna'],
+  wrist_curl: ['barra'],
+};
 
 type PdfReferenceCrop = {
   sheet: 1 | 2;
@@ -396,13 +441,10 @@ export const ExerciseIllustration: React.FC<ExerciseIllustrationProps> = ({
     return 'default_figure';
   };
 
-  const scene = getSceneType();
+  const detectedScene = getSceneType();
+  const compatibleEquipment = SCENE_EQUIPMENT[detectedScene];
+  const scene = compatibleEquipment && !compatibleEquipment.includes(equipment) ? 'default_figure' : detectedScene;
   const isCustomScene = HANDLED_SCENES.has(scene);
-  const pdfReference = PDF_REFERENCE_CROPS[scene];
-
-  if (pdfReference) {
-    return <PdfExerciseReference crop={pdfReference} height={height} />;
-  }
 
   return (
     <View style={[styles.container, { height }]}>
@@ -1420,16 +1462,37 @@ export const ExerciseIllustration: React.FC<ExerciseIllustrationProps> = ({
             <Path d="M 106 88 L 108 110 L 108 128" stroke={BODY_SKIN_SHADOW} strokeWidth="6" fill="none" strokeLinecap="round" />
 
             {equipment === 'barra' && (
-              <Line x1="56" y1="86" x2="144" y2="86" stroke="url(#steelBar)" strokeWidth="3.5" strokeLinecap="round" />
+              <G>
+                <Line x1="56" y1="86" x2="144" y2="86" stroke="url(#steelBar)" strokeWidth="3.5" strokeLinecap="round" />
+                <Rect x="58" y="78" width="5" height="16" rx="1.5" fill="url(#castIronPlate)" />
+                <Rect x="137" y="78" width="5" height="16" rx="1.5" fill="url(#castIronPlate)" />
+              </G>
             )}
             {equipment === 'mancuerna' && (
               <G>
-                <Rect x="75" y="84" width="13" height="4" rx="1" fill="url(#steelBar)" />
-                <Rect x="112" y="84" width="13" height="4" rx="1" fill="url(#steelBar)" />
+                <Rect x="74" y="84" width="15" height="4" rx="1" fill="url(#steelBar)" />
+                <Rect x="75" y="78" width="4" height="16" rx="1.5" fill="url(#castIronPlate)" />
+                <Rect x="84" y="78" width="4" height="16" rx="1.5" fill="url(#castIronPlate)" />
+                <Rect x="111" y="84" width="15" height="4" rx="1" fill="url(#steelBar)" />
+                <Rect x="112" y="78" width="4" height="16" rx="1.5" fill="url(#castIronPlate)" />
+                <Rect x="121" y="78" width="4" height="16" rx="1.5" fill="url(#castIronPlate)" />
+              </G>
+            )}
+            {equipment === 'maquina' && (
+              <G>
+                <Rect x="52" y="48" width="6" height="48" rx="2" fill={STEEL_FRAME} />
+                <Rect x="140" y="48" width="6" height="48" rx="2" fill={STEEL_FRAME} />
+                <Line x1="55" y1="50" x2="143" y2="50" stroke={STEEL_FRAME} strokeWidth="3" />
+                <Rect x="62" y="88" width="74" height="5" rx="2" fill={BENCH_PAD} />
               </G>
             )}
             {equipment === 'polea' && (
-              <Line x1="81" y1="86" x2="100" y2="20" stroke="#606070" strokeWidth="1.5" />
+              <G>
+                <Line x1="35" y1="24" x2="35" y2="112" stroke={CABLE_TOWER} strokeWidth="5" strokeLinecap="round" />
+                <Circle cx="35" cy="30" r="5" fill={STEEL_DARK} />
+                <Line x1="35" y1="30" x2="81" y2="86" stroke="#606070" strokeWidth="1.5" />
+                <Line x1="78" y1="86" x2="88" y2="86" stroke={STEEL_FRAME} strokeWidth="3" strokeLinecap="round" />
+              </G>
             )}
           </G>
         )}

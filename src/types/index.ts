@@ -45,6 +45,9 @@ export interface Exercise {
   secondaryMuscles: MuscleId[];
   equipment: EquipmentType;
   instructions?: string;
+  executionSteps?: string[];
+  indications?: string[];
+  movementPattern?: 'empuje' | 'traccion' | 'bisagra' | 'sentadilla' | 'aislamiento' | 'estabilidad';
   imageUrl?: string;
   isFavorite: boolean;
   isCustom: boolean;

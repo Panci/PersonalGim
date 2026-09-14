@@ -155,6 +155,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   sheetContainer: {
+    width: '100%',
+    maxWidth: 390,
+    alignSelf: 'center',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,

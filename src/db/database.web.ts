@@ -6,6 +6,7 @@ import {
   INITIAL_EXERCISES, INITIAL_COLLECTION, INITIAL_WORKOUT_HISTORY,
   INITIAL_BODY_MEASUREMENTS, INITIAL_GYM_MEMBERS, INITIAL_ATTENDANCE_LOGS,
 } from './initialData';
+import { withExerciseGuidance } from '../data/exerciseGuidance';
 
 type LocalState = {
   version: 1;
@@ -47,7 +48,15 @@ const load = (): void => {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
     const parsed: unknown = JSON.parse(raw);
-    if (validState(parsed)) state = parsed;
+    if (validState(parsed)) {
+      const existingIds = new Set(parsed.exercises.map((exercise) => exercise.id));
+      const missingExercises = INITIAL_EXERCISES.filter((exercise) => !existingIds.has(exercise.id));
+      state = {
+        ...parsed,
+        exercises: [...parsed.exercises.map(withExerciseGuidance), ...missingExercises],
+      };
+      if (missingExercises.length > 0) persist();
+    }
     else console.warn('Ignoring invalid saved PersonalGim data');
   } catch (error) { console.warn('Unable to load local PersonalGim data', error); }
 };
@@ -59,7 +68,7 @@ const persist = (): void => {
 const replaceById = <T extends { id: string }>(items: T[], value: T): T[] => [clone(value), ...items.filter(item => item.id !== value.id)];
 
 export const initDatabase = async (): Promise<void> => { load(); persist(); };
-export const getExercisesFromDb = (): Exercise[] => { load(); return clone(state.exercises); };
+export const getExercisesFromDb = (): Exercise[] => { load(); return clone(state.exercises.map(withExerciseGuidance)); };
 export const toggleFavoriteInDb = (exerciseId: string): boolean => {
   load(); const exercise = state.exercises.find(item => item.id === exerciseId);
   if (!exercise) return false;

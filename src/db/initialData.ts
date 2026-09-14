@@ -1,4 +1,6 @@
 import { Exercise, RoutineCollection, WorkoutSession, GymMember, AttendanceRecord } from '../types';
+import { withExerciseGuidance } from '../data/exerciseGuidance';
+import { EXPANDED_EXERCISES } from '../data/expandedExercises';
 
 export const INITIAL_EXERCISES: Exercise[] = [
   // ==========================================
@@ -1192,7 +1194,8 @@ export const INITIAL_EXERCISES: Exercise[] = [
     isFavorite: false,
     isCustom: false,
   },
-];
+  ...EXPANDED_EXERCISES,
+].map((exercise) => withExerciseGuidance(exercise as Exercise));
 
 export const INITIAL_COLLECTION: RoutineCollection = {
   id: 'col-brazos-fuertes',
@@ -1878,5 +1881,3 @@ export const INITIAL_ATTENDANCE_LOGS: AttendanceRecord[] = [
     type: 'salida',
   },
 ];
-
-

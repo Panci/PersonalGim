@@ -13,25 +13,33 @@ const playBeep = (freq = 880, duration = 0.12, delay = 0) => {
       if (AudioContextClass) {
         webAudioContext = webAudioContext || new AudioContextClass();
         const ctx = webAudioContext;
-        if (ctx.state === 'suspended') void ctx.resume();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        const startAt = ctx.currentTime + delay;
-        osc.frequency.setValueAtTime(freq, startAt);
-        gain.gain.setValueAtTime(0.2, startAt);
-        gain.gain.exponentialRampToValueAtTime(0.001, startAt + duration);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(startAt);
-        osc.stop(startAt + duration);
+        const scheduleTone = () => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          const startAt = ctx.currentTime + delay;
+          osc.frequency.setValueAtTime(freq, startAt);
+          gain.gain.setValueAtTime(0.2, startAt);
+          gain.gain.exponentialRampToValueAtTime(0.001, startAt + duration);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(startAt);
+          osc.stop(startAt + duration);
+        };
+
+        if (ctx.state === 'suspended') {
+          void ctx.resume().then(scheduleTone).catch(() => undefined);
+        } else {
+          scheduleTone();
+        }
       }
     } catch {}
   }
 };
 
 const playFinishAlert = () => {
-  [0, 0.24, 0.48].forEach((delay) => playBeep(980, 0.16, delay));
+  // A single long tone marks the exact moment the next series can begin.
+  playBeep(880, 0.85);
 };
 
 export const RestTimerBar: React.FC = () => {
@@ -49,6 +57,7 @@ export const RestTimerBar: React.FC = () => {
   const [finishedBanner, setFinishedBanner] = useState(false);
   const previousSecondsRef = useRef(restSecondsLeft);
   const skippedTimerRef = useRef(false);
+  const lastBeepedSecondRef = useRef<number | null>(null);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
@@ -62,14 +71,30 @@ export const RestTimerBar: React.FC = () => {
     };
   }, [isRestTimerRunning, restSecondsLeft, tickRestTimer]);
 
-  // Sound every second in the final ten seconds, followed by a distinct
-  // three-tone alert only when the countdown naturally reaches zero.
+  // Sound every second in the final five seconds, followed by one long tone
+  // only when the countdown naturally reaches zero.
   useEffect(() => {
     const previousSeconds = previousSecondsRef.current;
     previousSecondsRef.current = restSecondsLeft;
 
-    if (isRestTimerRunning && restSecondsLeft > 0 && restSecondsLeft <= 10) {
-      playBeep(restSecondsLeft <= 3 ? 720 : 520, 0.09);
+    // Starting/restarting a timer creates a new countdown cycle. This also
+    // prevents a pause/resume from replaying the same second repeatedly.
+    if (previousSeconds === 0 && restSecondsLeft > 0) {
+      lastBeepedSecondRef.current = null;
+    }
+
+    if (restSecondsLeft > 5) {
+      lastBeepedSecondRef.current = null;
+    }
+
+    if (
+      isRestTimerRunning &&
+      restSecondsLeft > 0 &&
+      restSecondsLeft <= 5 &&
+      lastBeepedSecondRef.current !== restSecondsLeft
+    ) {
+      lastBeepedSecondRef.current = restSecondsLeft;
+      playBeep(restSecondsLeft === 1 ? 760 : 560, 0.12);
     }
 
     if (previousSeconds === 1 && restSecondsLeft === 0 && !skippedTimerRef.current) {

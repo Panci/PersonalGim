@@ -40,6 +40,20 @@ export const ActividadesScreen: React.FC = () => {
     { name: 'Cuádriceps', pct: 5, color: '#0A84FF' },
   ];
 
+  const latestSession = history[0] ?? null;
+  const latestCompletedSets = latestSession
+    ? latestSession.exercises.reduce(
+        (total, exercise) => total + exercise.sets.filter((set) => set.isCompleted).length,
+        0
+      )
+    : 0;
+  const formatSessionDuration = (seconds: number) => {
+    const safeSeconds = Math.max(0, seconds || 0);
+    const hours = Math.floor(safeSeconds / 3600);
+    const minutes = Math.floor((safeSeconds % 3600) / 60);
+    return hours > 0 ? `${hours}h ${minutes}m` : `${minutes} min`;
+  };
+
   const personalRecordsList = [
     {
       id: 'pr-1',
@@ -208,6 +222,55 @@ export const ActividadesScreen: React.FC = () => {
             </Text>
           </View>
         </View>
+
+        {/* Resumen de la rutina recién terminada */}
+        {latestSession && (
+          <TouchableOpacity
+            style={styles.latestSessionCard}
+            onPress={() => setSelectedSessionDetail(latestSession)}
+            activeOpacity={0.82}
+          >
+            <View style={styles.latestSessionHeader}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.latestSessionEyebrow}>ÚLTIMO ENTRENAMIENTO</Text>
+                <Text style={styles.latestSessionName} numberOfLines={1}>
+                  {latestSession.name}
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color="#8E8E93" />
+            </View>
+            <Text style={styles.latestSessionDate}>
+              {new Date(latestSession.startTime).toLocaleDateString('es-ES', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short',
+              })}
+            </Text>
+            <View style={styles.latestSessionMetrics}>
+              <View style={styles.latestSessionMetric}>
+                <Ionicons name="time-outline" size={15} color="#34C759" />
+                <Text style={styles.latestSessionMetricValue}>{formatSessionDuration(latestSession.durationSeconds)}</Text>
+                <Text style={styles.latestSessionMetricLabel}>Duración</Text>
+              </View>
+              <View style={styles.latestSessionMetric}>
+                <Ionicons name="flame-outline" size={15} color={COLORS.primary} />
+                <Text style={styles.latestSessionMetricValue}>{latestSession.totalKcal} kcal</Text>
+                <Text style={styles.latestSessionMetricLabel}>Energía</Text>
+              </View>
+              <View style={styles.latestSessionMetric}>
+                <MaterialCommunityIcons name="weight-kilogram" size={16} color="#0A84FF" />
+                <Text style={styles.latestSessionMetricValue}>{latestSession.totalVolumeKg.toLocaleString()} kg</Text>
+                <Text style={styles.latestSessionMetricLabel}>Volumen</Text>
+              </View>
+            </View>
+            <View style={styles.latestSessionFooter}>
+              <Text style={styles.latestSessionFooterText}>
+                {latestSession.exercises.length} ejercicios · {latestCompletedSets} series completadas
+              </Text>
+              <Text style={styles.latestSessionDetailLink}>Ver detalle</Text>
+            </View>
+          </TouchableOpacity>
+        )}
 
         {/* Récords Personales (Hall of Fame) */}
         <View style={styles.sectionHeader}>
@@ -423,6 +486,77 @@ const styles = StyleSheet.create({
     height: '70%',
     backgroundColor: '#2A2A2E',
     alignSelf: 'center',
+  },
+  latestSessionCard: {
+    backgroundColor: '#202024',
+    borderRadius: 18,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 106, 0, 0.42)',
+    marginBottom: 20,
+  },
+  latestSessionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  latestSessionEyebrow: {
+    color: COLORS.primary,
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 0.8,
+    marginBottom: 3,
+  },
+  latestSessionName: {
+    color: '#FFFFFF',
+    fontSize: 17,
+    fontWeight: '900',
+  },
+  latestSessionDate: {
+    color: '#8E8E93',
+    fontSize: 11,
+    marginTop: 4,
+    textTransform: 'capitalize',
+  },
+  latestSessionMetrics: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 16,
+    paddingTop: 13,
+    borderTopWidth: 1,
+    borderTopColor: '#303035',
+  },
+  latestSessionMetric: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 3,
+  },
+  latestSessionMetricValue: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  latestSessionMetricLabel: {
+    color: '#8E8E93',
+    fontSize: 10,
+    textAlign: 'center',
+  },
+  latestSessionFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 14,
+  },
+  latestSessionFooterText: {
+    color: '#D1D1D6',
+    fontSize: 11,
+    flex: 1,
+  },
+  latestSessionDetailLink: {
+    color: COLORS.primary,
+    fontSize: 12,
+    fontWeight: '800',
+    marginLeft: 8,
   },
   sectionHeader: {
     marginBottom: 12,

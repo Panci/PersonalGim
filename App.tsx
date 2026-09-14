@@ -20,8 +20,19 @@ import { ActiveWorkoutModal } from './src/components/workout/ActiveWorkoutModal'
 import { AdminDashboard } from './src/components/admin/AdminDashboard';
 import { DigitalPassModal } from './src/components/member/DigitalPassModal';
 import { OneRepMaxModal } from './src/components/calculator/OneRepMaxModal';
+import { AuthProvider, useAuth } from './src/auth/AuthProvider';
+import { LoginScreen } from './src/screens/LoginScreen';
+import { MonitorDashboard } from './src/components/monitor/MonitorDashboard';
 
 export default function App() {
+  return (
+    <AuthProvider>
+      <AppShell />
+    </AuthProvider>
+  );
+}
+
+function AppShell() {
   const {
     activeTab,
     loadInitialData,
@@ -32,7 +43,10 @@ export default function App() {
     setSelectedDay,
     exercises,
     currentRole,
+    setCurrentRole,
+    isWorkoutActive,
   } = useWorkoutStore();
+  const { session, isRestoring } = useAuth();
 
 
   const [isLoading, setIsLoading] = useState(true);
@@ -62,13 +76,22 @@ export default function App() {
     init();
   }, []);
 
-  if (isLoading) {
+  useEffect(() => {
+    if (!session) return;
+    setCurrentRole(session.user.role === 'user' ? 'member' : session.user.role);
+  }, [session, setCurrentRole]);
+
+  if (isLoading || isRestoring) {
     return (
       <View style={styles.loadingContainer}>
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
         <ActivityIndicator size="large" color={COLORS.primary} />
       </View>
     );
+  }
+
+  if (!session) {
+    return <LoginScreen />;
   }
 
   // Find exercise details for config modal
@@ -129,17 +152,17 @@ export default function App() {
 
       {/* Active screen. Reserve space so it is never hidden by the fixed tabs. */}
       <View style={styles.content}>
-        {currentRole === 'admin' ? <AdminDashboard /> : renderCurrentTab()}
+        {currentRole === 'admin' ? <AdminDashboard /> : currentRole === 'monitor' ? <MonitorDashboard /> : renderCurrentTab()}
       </View>
 
-      {/* Persistent global navigation */}
-      <BottomTabBar />
+      {/* Keep navigation available everywhere except while tracking a live routine. */}
+      {currentRole === 'member' && !isWorkoutActive && <BottomTabBar />}
 
       {/* Active Live Workout Tracker Overlay */}
-      {currentRole !== 'admin' && <ActiveWorkoutModal />}
+      {currentRole === 'member' && <ActiveWorkoutModal />}
 
       {/* Exercise Configuration Stepper Modal */}
-      {currentRole !== 'admin' && configModal.visible && targetRoutineEx && targetExerciseObj && (
+      {currentRole === 'member' && configModal.visible && targetRoutineEx && targetExerciseObj && (
         <ExerciseConfigModal
           visible={configModal.visible}
           dayId={configModal.dayId}
@@ -154,8 +177,8 @@ export default function App() {
       )}
 
       {/* Global Modals */}
-      <DigitalPassModal />
-      <OneRepMaxModal />
+      {currentRole === 'member' && <DigitalPassModal />}
+      {currentRole === 'member' && <OneRepMaxModal />}
     </SafeAreaView>
   );
 }
@@ -167,6 +190,12 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         minHeight: '100vh' as any,
+        // Keep the web preview at a phone-sized layout. Native apps continue
+        // to use the full device width, while the browser stays representative
+        // of the compact experience we design for.
+        width: '100%' as any,
+        maxWidth: 390,
+        marginHorizontal: 'auto' as any,
       },
     }),
   },

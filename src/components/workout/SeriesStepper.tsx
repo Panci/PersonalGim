@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
 import { ExerciseSet } from '../../types';
@@ -19,6 +19,34 @@ export const SeriesStepper: React.FC<SeriesStepperProps> = ({
   onRemoveSet,
   readOnly = false,
 }) => {
+  const [editing, setEditing] = useState<{ index: number; field: 'reps' | 'weight' } | null>(null);
+  const [draftValue, setDraftValue] = useState('');
+
+  const beginEdit = (index: number, field: 'reps' | 'weight', value: number) => {
+    if (readOnly) return;
+    setEditing({ index, field });
+    setDraftValue(String(value));
+  };
+
+  const commitEdit = () => {
+    if (!editing) return;
+
+    const normalized = draftValue.replace(',', '.').replace(/[^0-9.]/g, '');
+    const parsed = Number.parseFloat(normalized);
+    const current = sets[editing.index];
+
+    if (current && Number.isFinite(parsed)) {
+      if (editing.field === 'reps') {
+        onUpdateSet(editing.index, Math.max(1, Math.min(1000, Math.round(parsed))), current.weightKg);
+      } else {
+        onUpdateSet(editing.index, current.reps, Math.max(0, Math.min(2000, parsed)));
+      }
+    }
+
+    setEditing(null);
+    setDraftValue('');
+  };
+
   return (
     <View style={styles.container}>
       {sets.map((set, index) => {
@@ -48,7 +76,19 @@ export const SeriesStepper: React.FC<SeriesStepperProps> = ({
                   </TouchableOpacity>
                 )}
                 <View style={styles.valueWrap}>
-                  <Text style={styles.valueNumber}>{set.reps}</Text>
+                  <TextInput
+                    style={styles.valueInput}
+                    value={editing?.index === index && editing.field === 'reps' ? draftValue : String(set.reps)}
+                    onFocus={() => beginEdit(index, 'reps', set.reps)}
+                    onChangeText={setDraftValue}
+                    onBlur={commitEdit}
+                    onSubmitEditing={commitEdit}
+                    keyboardType="numeric"
+                    returnKeyType="done"
+                    selectTextOnFocus
+                    editable={!readOnly}
+                    accessibilityLabel={`Repeticiones de la serie ${set.setNumber || index + 1}`}
+                  />
                   <Text style={styles.unitLabel}>reps</Text>
                 </View>
                 {!readOnly && (
@@ -76,7 +116,19 @@ export const SeriesStepper: React.FC<SeriesStepperProps> = ({
                   </TouchableOpacity>
                 )}
                 <View style={styles.valueWrap}>
-                  <Text style={styles.valueNumber}>{set.weightKg}</Text>
+                  <TextInput
+                    style={styles.valueInput}
+                    value={editing?.index === index && editing.field === 'weight' ? draftValue : String(set.weightKg)}
+                    onFocus={() => beginEdit(index, 'weight', set.weightKg)}
+                    onChangeText={setDraftValue}
+                    onBlur={commitEdit}
+                    onSubmitEditing={commitEdit}
+                    keyboardType="decimal-pad"
+                    returnKeyType="done"
+                    selectTextOnFocus
+                    editable={!readOnly}
+                    accessibilityLabel={`Peso de la serie ${set.setNumber || index + 1}`}
+                  />
                   <Text style={styles.unitLabel}>kg</Text>
                 </View>
                 {!readOnly && (
@@ -130,7 +182,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
-    minHeight: 52,
+    minHeight: 62,
   },
   timelineColumn: {
     width: 36,
@@ -171,7 +223,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#1C1C1E',
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 14,
     borderWidth: 1,
@@ -183,21 +235,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#262628',
     borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: 7,
+    paddingVertical: 6,
+    flexShrink: 1,
   },
   stepBtn: {
-    padding: 4,
+    minWidth: 32,
+    minHeight: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   valueWrap: {
     flexDirection: 'row',
     alignItems: 'baseline',
     paddingHorizontal: 6,
+    flexShrink: 0,
   },
-  valueNumber: {
+  valueInput: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: '700',
+    minWidth: 46,
+    width: 46,
+    flexGrow: 0,
+    flexShrink: 0,
+    paddingVertical: 0,
+    paddingHorizontal: 0,
+    textAlign: 'center',
   },
   unitLabel: {
     color: '#A1A1A6',

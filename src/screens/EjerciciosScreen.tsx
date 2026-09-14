@@ -15,6 +15,8 @@ import { COLORS } from '../theme/colors';
 import { Exercise, MuscleId, EquipmentType } from '../types';
 import { useWorkoutStore } from '../store/workoutStore';
 import { ExerciseIllustration } from '../components/exercise/ExerciseIllustration';
+import { ExerciseCategoryIllustration } from '../components/exercise/ExerciseCategoryIllustration';
+import { EXERCISE_CATEGORIES, ExerciseCategory } from '../data/exerciseCategories';
 
 export const EjerciciosScreen: React.FC = () => {
   const {
@@ -35,6 +37,8 @@ export const EjerciciosScreen: React.FC = () => {
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showMuscleModal, setShowMuscleModal] = useState(false);
+  const [showCategoryOverview, setShowCategoryOverview] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<ExerciseCategory | null>(null);
 
   // New exercise form state
   const [newName, setNewName] = useState('');
@@ -55,6 +59,7 @@ export const EjerciciosScreen: React.FC = () => {
     if (showFavoritesOnly && !ex.isFavorite) return false;
     // Muscle filter
     if (selectedMuscleFilter && ex.primaryMuscle !== selectedMuscleFilter) return false;
+    if (selectedCategory && !selectedCategory.muscleIds.includes(ex.primaryMuscle)) return false;
     // Equipment filter
     if (selectedEquipmentFilter !== 'todos' && ex.equipment !== selectedEquipmentFilter) return false;
 
@@ -102,11 +107,72 @@ export const EjerciciosScreen: React.FC = () => {
     setShowCreateModal(false);
   };
 
+  const openCategory = (category: ExerciseCategory) => {
+    setSelectedCategory(category);
+    setSelectedMuscleFilter(null);
+    setSelectedEquipmentFilter('todos');
+    if (showFavoritesOnly) toggleFavoritesFilter();
+    setSearchQuery('');
+    setShowCategoryOverview(false);
+  };
+
+  const showAllCategories = () => {
+    setSelectedCategory(null);
+    setSelectedMuscleFilter(null);
+    setSelectedEquipmentFilter('todos');
+    setShowCategoryOverview(true);
+  };
+
   return (
     <View style={styles.container}>
+      {showCategoryOverview ? (
+        <ScrollView style={styles.categoryScroll} contentContainerStyle={styles.categoryContent} showsVerticalScrollIndicator={false}>
+          <View style={styles.categoryHeader}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.categoryTitle}>Biblioteca de Ejercicios</Text>
+              <Text style={styles.categoryDescription}>
+                Explora los grupos musculares y encuentra una guía clara para cada movimiento.
+              </Text>
+            </View>
+            <TouchableOpacity style={styles.oneRmHeaderBtn} onPress={() => openOneRmModal()} activeOpacity={0.7}>
+              <MaterialCommunityIcons name="calculator-variant" size={15} color={COLORS.primary} style={{ marginRight: 4 }} />
+              <Text style={styles.oneRmHeaderBtnText}>1RM</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.categoryGrid}>
+            {EXERCISE_CATEGORIES.map((category) => {
+              const count = exercises.filter((exercise) => category.muscleIds.includes(exercise.primaryMuscle)).length;
+              return (
+                <TouchableOpacity key={category.id} style={styles.categoryCard} onPress={() => openCategory(category)} activeOpacity={0.82}>
+                  <View style={styles.categoryArt}>
+                    <ExerciseCategoryIllustration category={category} />
+                    <View style={[styles.categoryCount, { backgroundColor: `${category.color}22` }]}>
+                      <Text style={[styles.categoryCountText, { color: category.color }]}>{count}</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.categoryLabel}>{category.label}</Text>
+                  <Text style={styles.categoryMeta}>{count} {count === 1 ? 'ejercicio' : 'ejercicios'}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <TouchableOpacity style={styles.categoryCreateButton} onPress={() => setShowCreateModal(true)} activeOpacity={0.8}>
+            <Ionicons name="add" size={19} color={COLORS.primary} />
+            <Text style={styles.categoryCreateText}>Crear ejercicio propio</Text>
+          </TouchableOpacity>
+          <View style={styles.categoryBottomSpacer} />
+        </ScrollView>
+      ) : (
+      <>
       {/* Top Bar matching IMG_1170.PNG */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Ejercicios</Text>
+        {selectedCategory && (
+          <TouchableOpacity style={styles.categoryBackButton} onPress={showAllCategories} accessibilityLabel="Volver a grupos musculares">
+            <Ionicons name="chevron-back" size={22} color="#FFFFFF" />
+          </TouchableOpacity>
+        )}
+        <Text style={styles.headerTitle}>{selectedCategory?.label || 'Ejercicios'}</Text>
         <TouchableOpacity
           style={styles.oneRmHeaderBtn}
           onPress={() => openOneRmModal()}
@@ -304,6 +370,8 @@ export const EjerciciosScreen: React.FC = () => {
           </TouchableOpacity>
         )}
       />
+      </>
+      )}
 
       {/* Exercise Detail Sheet Modal */}
       {selectedExercise && (
@@ -322,6 +390,8 @@ export const EjerciciosScreen: React.FC = () => {
                   <Ionicons name="close" size={24} color="#A1A1A6" />
                 </TouchableOpacity>
               </View>
+
+              <ScrollView style={styles.detailScroll} showsVerticalScrollIndicator={false}>
 
               {/* White Illustration Container in Modal */}
               <View style={styles.detailIllustrationBox}>
@@ -363,6 +433,26 @@ export const EjerciciosScreen: React.FC = () => {
                 {selectedExercise.instructions || 'Sin instrucciones adicionales para este ejercicio.'}
               </Text>
 
+              <Text style={styles.detailSectionTitle}>Pasos de ejecución</Text>
+              <View style={styles.guidanceList}>
+                {(selectedExercise.executionSteps || []).map((step, index) => (
+                  <View key={`${selectedExercise.id}-step-${index}`} style={styles.guidanceRow}>
+                    <View style={styles.guidanceNumber}><Text style={styles.guidanceNumberText}>{index + 1}</Text></View>
+                    <Text style={styles.guidanceText}>{step}</Text>
+                  </View>
+                ))}
+              </View>
+
+              <Text style={styles.detailSectionTitle}>Indicaciones y seguridad</Text>
+              <View style={styles.guidanceList}>
+                {(selectedExercise.indications || []).map((indication, index) => (
+                  <View key={`${selectedExercise.id}-indication-${index}`} style={styles.guidanceRow}>
+                    <Ionicons name="checkmark-circle-outline" size={18} color="#34C759" />
+                    <Text style={styles.guidanceText}>{indication}</Text>
+                  </View>
+                ))}
+              </View>
+
               {/* 1RM Calculator for this exercise */}
               <TouchableOpacity
                 style={styles.detailOneRmBtn}
@@ -385,6 +475,7 @@ export const EjerciciosScreen: React.FC = () => {
               >
                 <Text style={styles.detailActionBtnText}>Entendido</Text>
               </TouchableOpacity>
+              </ScrollView>
             </View>
           </View>
         </Modal>
@@ -537,6 +628,111 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+  },
+  categoryScroll: {
+    flex: 1,
+  },
+  categoryContent: {
+    paddingHorizontal: 16,
+    paddingTop: Platform.OS === 'ios' ? 56 : 26,
+    paddingBottom: 40,
+  },
+  categoryHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 18,
+  },
+  categoryTitle: {
+    color: '#FFFFFF',
+    fontSize: 26,
+    fontWeight: '900',
+    flex: 1,
+  },
+  categoryDescription: {
+    color: '#8E8E93',
+    fontSize: 12,
+    lineHeight: 17,
+    marginTop: 8,
+    maxWidth: 270,
+  },
+  categoryGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  categoryCard: {
+    width: '48.3%',
+    backgroundColor: '#151517',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#29292F',
+    padding: 8,
+    marginBottom: 2,
+  },
+  categoryArt: {
+    height: 118,
+    borderRadius: 11,
+    backgroundColor: '#202126',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  categoryCount: {
+    position: 'absolute',
+    right: 6,
+    top: 6,
+    minWidth: 24,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    borderRadius: 7,
+    alignItems: 'center',
+  },
+  categoryCountText: {
+    fontSize: 10,
+    fontWeight: '800',
+  },
+  categoryLabel: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '800',
+    textAlign: 'center',
+    marginTop: 9,
+  },
+  categoryMeta: {
+    color: '#777780',
+    fontSize: 10,
+    textAlign: 'center',
+    marginTop: 3,
+    marginBottom: 4,
+  },
+  categoryCreateButton: {
+    marginTop: 18,
+    minHeight: 48,
+    borderRadius: 14,
+    backgroundColor: '#1C1C1E',
+    borderWidth: 1,
+    borderColor: '#34343A',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 7,
+  },
+  categoryCreateText: {
+    color: COLORS.primary,
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  categoryBottomSpacer: {
+    height: 100,
+  },
+  categoryBackButton: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: '#26262A',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
   },
   header: {
     flexDirection: 'row',
@@ -774,8 +970,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 24,
+    maxHeight: '92%',
     borderTopWidth: 1,
     borderTopColor: '#2C2C30',
+  },
+  detailScroll: {
+    flexGrow: 0,
   },
   detailHeader: {
     flexDirection: 'row',
@@ -827,6 +1027,34 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 22,
     marginBottom: 20,
+  },
+  guidanceList: {
+    gap: 10,
+    marginBottom: 18,
+  },
+  guidanceRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+  },
+  guidanceNumber: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: 'rgba(255, 106, 0, 0.18)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  guidanceNumberText: {
+    color: COLORS.primary,
+    fontSize: 11,
+    fontWeight: '800',
+  },
+  guidanceText: {
+    flex: 1,
+    color: '#D1D1D6',
+    fontSize: 13,
+    lineHeight: 19,
   },
   detailOneRmBtn: {
     flexDirection: 'row',

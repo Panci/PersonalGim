@@ -8,6 +8,7 @@ import {
   INITIAL_EXERCISES, INITIAL_COLLECTION, INITIAL_WORKOUT_HISTORY,
   INITIAL_BODY_MEASUREMENTS, INITIAL_GYM_MEMBERS, INITIAL_ATTENDANCE_LOGS,
 } from './initialData';
+import { withExerciseGuidance } from '../data/exerciseGuidance';
 
 let db: SQLite.SQLiteDatabase | null = null;
 const clone = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
@@ -119,8 +120,8 @@ export const initDatabase = async (): Promise<void> => {
 };
 
 export const getExercisesFromDb = (): Exercise[] => {
-  const database = getDb(); if (!database) return clone(fallbackExercises);
-  try { return database.getAllSync<any>('SELECT * FROM exercises ORDER BY name COLLATE NOCASE').map(row => ({ id: row.id, name: row.name, primaryMuscle: row.primaryMuscle as MuscleId, secondaryMuscles: JSON.parse(row.secondaryMuscles || '[]') as MuscleId[], equipment: row.equipment as EquipmentType, instructions: row.instructions || undefined, imageUrl: row.imageUrl || undefined, isFavorite: Boolean(row.isFavorite), isCustom: Boolean(row.isCustom) })); } catch (error) { console.warn('Unable to read exercises', error); return []; }
+    const database = getDb(); if (!database) return clone(fallbackExercises).map(withExerciseGuidance);
+    try { return database.getAllSync<any>('SELECT * FROM exercises ORDER BY name COLLATE NOCASE').map(row => withExerciseGuidance({ id: row.id, name: row.name, primaryMuscle: row.primaryMuscle as MuscleId, secondaryMuscles: JSON.parse(row.secondaryMuscles || '[]') as MuscleId[], equipment: row.equipment as EquipmentType, instructions: row.instructions || undefined, imageUrl: row.imageUrl || undefined, isFavorite: Boolean(row.isFavorite), isCustom: Boolean(row.isCustom) })); } catch (error) { console.warn('Unable to read exercises', error); return []; }
 };
 export const toggleFavoriteInDb = (exerciseId: string): boolean => {
   const database = getDb();

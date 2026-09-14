@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -14,26 +14,11 @@ import { GymMember, MemberStatus } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { NewMemberModal } from './NewMemberModal';
 import { MemberDetailModal } from './MemberDetailModal';
-import { getAdminPin, setAdminPin } from './adminPinStorage';
 import { exportCsvFile } from './csvExport';
+import { useAuth } from '../../auth/AuthProvider';
+import { CreateAccessModal } from './CreateAccessModal';
 
 type AdminTab = 'socios' | 'accesos' | 'rutinas' | 'analitica';
-
-type StoredPin = { salt: string; digest: string };
-
-// This is deliberately a local gate, not cryptographic authentication. It prevents
-// casual access on a shared device; real authorization still requires a backend.
-const localPinDigest = (pin: string, salt: string) => {
-  let hash = 2166136261;
-  const value = `${salt}:${pin}`;
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return (hash >>> 0).toString(16);
-};
-
-const createSalt = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 
 const csvCell = (value: unknown) => {
   const text = value === null || value === undefined ? '' : String(value);
@@ -46,6 +31,7 @@ const toCsv = (headers: string[], rows: unknown[][]) =>
   `\uFEFF${[headers, ...rows].map((row) => row.map(csvCell).join(',')).join('\r\n')}`;
 
 export const AdminDashboard: React.FC = () => {
+  const { signOut } = useAuth();
   const {
     gymMembers,
     setCurrentRole,
@@ -64,38 +50,9 @@ export const AdminDashboard: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'todos' | MemberStatus>('todos');
   const [showNewMemberModal, setShowNewMemberModal] = useState(false);
+  const [showCreateAccessModal, setShowCreateAccessModal] = useState(false);
   const [selectedMemberForCheckIn, setSelectedMemberForCheckIn] = useState<string>('');
   const [downloadSuccessMsg, setDownloadSuccessMsg] = useState<string>('');
-  const [storedPin, setStoredPin] = useState<StoredPin | null | undefined>(undefined);
-  const [isAdminUnlocked, setIsAdminUnlocked] = useState(false);
-  const [pinInput, setPinInput] = useState('');
-  const [pinConfirmation, setPinConfirmation] = useState('');
-  const [pinError, setPinError] = useState('');
-
-  useEffect(() => {
-    let mounted = true;
-    getAdminPin()
-      .then((savedPin) => {
-        if (!mounted) return;
-        if (!savedPin) {
-          setStoredPin(null);
-          return;
-        }
-        try {
-          const parsed = JSON.parse(savedPin) as StoredPin;
-          setStoredPin(parsed.salt && parsed.digest ? parsed : null);
-        } catch {
-          setStoredPin(null);
-        }
-      })
-      .catch(() => {
-        if (mounted) setStoredPin(null);
-      });
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
   const activeMembersCount = gymMembers.filter((m) => m.status === 'activo').length;
   const totalWorkoutsMonth = gymMembers.reduce((acc, m) => acc + m.completedWorkoutsCount, 0);
 
@@ -227,93 +184,6 @@ export const AdminDashboard: React.FC = () => {
     setSelectedMemberForCheckIn('');
   };
 
-  const unlockAdmin = async () => {
-    if (storedPin === null) {
-      if (!/^\d{6,}$/.test(pinInput)) {
-        setPinError('El PIN debe tener al menos 6 dígitos.');
-        return;
-      }
-      if (pinInput !== pinConfirmation) {
-        setPinError('Los PIN no coinciden.');
-        return;
-      }
-      const salt = createSalt();
-      const newPin = { salt, digest: localPinDigest(pinInput, salt) };
-      try {
-        await setAdminPin(JSON.stringify(newPin));
-        setStoredPin(newPin);
-        setIsAdminUnlocked(true);
-        setPinInput('');
-        setPinConfirmation('');
-      } catch {
-        setPinError('No se pudo guardar el PIN local.');
-      }
-      return;
-    }
-    if (storedPin && localPinDigest(pinInput, storedPin.salt) === storedPin.digest) {
-      setIsAdminUnlocked(true);
-      setPinInput('');
-      setPinError('');
-      return;
-    }
-    setPinError('PIN incorrecto.');
-  };
-
-  if (!isAdminUnlocked) {
-    const isLoadingPin = storedPin === undefined;
-    const isSetup = storedPin === null;
-    return (
-      <View style={styles.accessGate}>
-        <View style={styles.accessGateCard}>
-          <Ionicons name="lock-closed" size={30} color={COLORS.primary} />
-          <Text style={styles.accessGateTitle}>{isSetup ? 'Configurar acceso local' : 'Panel protegido'}</Text>
-          <Text style={styles.accessGateText}>
-            {isSetup
-              ? 'Crea un PIN para proteger el panel de administración en este dispositivo.'
-              : 'Introduce el PIN local de administración para continuar.'}
-          </Text>
-          {!isLoadingPin && (
-            <>
-              <TextInput
-                style={styles.pinInput}
-                value={pinInput}
-                onChangeText={(value) => { setPinInput(value.replace(/\D/g, '')); setPinError(''); }}
-                keyboardType="number-pad"
-                secureTextEntry
-                maxLength={16}
-                placeholder="PIN de administración"
-                placeholderTextColor="#636366"
-              />
-              {isSetup && (
-                <TextInput
-                  style={styles.pinInput}
-                  value={pinConfirmation}
-                  onChangeText={(value) => { setPinConfirmation(value.replace(/\D/g, '')); setPinError(''); }}
-                  keyboardType="number-pad"
-                  secureTextEntry
-                  maxLength={16}
-                  placeholder="Repite el PIN"
-                  placeholderTextColor="#636366"
-                />
-              )}
-              {pinError !== '' && <Text style={styles.pinError}>{pinError}</Text>}
-              <TouchableOpacity style={styles.unlockBtn} onPress={unlockAdmin}>
-                <Text style={styles.unlockBtnText}>{isSetup ? 'Guardar y abrir panel' : 'Desbloquear panel'}</Text>
-              </TouchableOpacity>
-            </>
-          )}
-          {isLoadingPin && <Text style={styles.accessGateText}>Comprobando la configuración local…</Text>}
-          <Text style={styles.accessGateNotice}>
-            Protección local para dispositivos compartidos. No sustituye cuentas, roles ni validación en servidor.
-          </Text>
-          <TouchableOpacity style={styles.backToTrainingBtn} onPress={() => setCurrentRole('member')}>
-            <Text style={styles.backToTrainingText}>Volver al modo entreno</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       {/* Top Admin Header */}
@@ -328,14 +198,22 @@ export const AdminDashboard: React.FC = () => {
           <Text style={styles.title}>Gestión del Gimnasio</Text>
         </View>
 
-        <TouchableOpacity
-          style={styles.switchRoleBtn}
-          onPress={() => setCurrentRole('member')}
-          activeOpacity={0.8}
-        >
-          <Ionicons name="barbell" size={16} color="#FFFFFF" style={{ marginRight: 6 }} />
-          <Text style={styles.switchRoleText}>Modo Entreno</Text>
-        </TouchableOpacity>
+        <View style={styles.headerActions}>
+          <TouchableOpacity
+            style={styles.switchRoleBtn}
+            onPress={() => setCurrentRole('member')}
+            activeOpacity={0.8}
+          >
+            <Ionicons name="barbell" size={16} color="#FFFFFF" style={{ marginRight: 6 }} />
+            <Text style={styles.switchRoleText}>Modo Entreno</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.logoutBtn} onPress={() => void signOut()} accessibilityLabel="Cerrar sesión">
+            <Ionicons name="log-out-outline" size={19} color="#FFFFFF" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.createAccessBtn} onPress={() => setShowCreateAccessModal(true)} accessibilityLabel="Crear cuenta">
+            <Ionicons name="person-add-outline" size={19} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Success Notification for Downloads */}
@@ -772,6 +650,7 @@ export const AdminDashboard: React.FC = () => {
         member={selectedMemberForDetail}
         onClose={() => setSelectedMemberForDetail(null)}
       />
+      <CreateAccessModal visible={showCreateAccessModal} onClose={() => setShowCreateAccessModal(false)} />
     </View>
   );
 };
@@ -899,6 +778,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '900',
   },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   switchRoleBtn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -913,6 +797,24 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 12,
     fontWeight: '700',
+  },
+  logoutBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    backgroundColor: '#26262A',
+    borderWidth: 1,
+    borderColor: '#383840',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  createAccessBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    backgroundColor: COLORS.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   downloadToast: {
     flexDirection: 'row',

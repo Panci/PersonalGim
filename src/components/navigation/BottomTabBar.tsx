@@ -89,10 +89,20 @@ export const BottomTabBar: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
+    // On web the screen content can make the app document taller than the
+    // viewport. Fixed positioning keeps the tabs attached to the phone
+    // viewport instead of placing them after the last exercise card.
+    position: Platform.OS === 'web' ? ('fixed' as any) : 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
+    ...Platform.select({
+      web: {
+        width: '100%',
+        maxWidth: 390,
+        marginHorizontal: 'auto',
+      },
+    }),
     zIndex: 20,
     elevation: 20,
     flexDirection: 'row',
