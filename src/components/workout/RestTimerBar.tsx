@@ -1,45 +1,82 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Platform, Vibration } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
 import { useWorkoutStore } from '../../store/workoutStore';
 
 let webAudioContext: AudioContext | null = null;
 
-const playBeep = (freq = 880, duration = 0.12, delay = 0) => {
-  if (Platform.OS === 'web' && typeof window !== 'undefined') {
-    try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-      if (AudioContextClass) {
-        webAudioContext = webAudioContext || new AudioContextClass();
-        const ctx = webAudioContext;
-        const scheduleTone = () => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          const startAt = ctx.currentTime + delay;
-          osc.frequency.setValueAtTime(freq, startAt);
-          gain.gain.setValueAtTime(0.2, startAt);
-          gain.gain.exponentialRampToValueAtTime(0.001, startAt + duration);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(startAt);
-          osc.stop(startAt + duration);
-        };
+const getWebAudioContext = (): AudioContext | null => {
+  if (Platform.OS !== 'web' || typeof window === 'undefined') return null;
 
-        if (ctx.state === 'suspended') {
-          void ctx.resume().then(scheduleTone).catch(() => undefined);
-        } else {
-          scheduleTone();
-        }
-      }
-    } catch {}
+  try {
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContextClass) return null;
+    webAudioContext = webAudioContext || new AudioContextClass();
+    return webAudioContext;
+  } catch {
+    return null;
   }
 };
 
+// Mobile browsers only allow audio after a user gesture. Call this from the
+// first workout interaction so the later timer callbacks can play normally.
+export const primeRestTimerAudio = (): void => {
+  const ctx = getWebAudioContext();
+  if (!ctx) return;
+
+  try {
+    const now = ctx.currentTime;
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, now);
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+    oscillator.start(now);
+    oscillator.stop(now + 0.01);
+    if (ctx.state === 'suspended') void ctx.resume().catch(() => undefined);
+  } catch {}
+};
+
+const playBeep = (freq = 880, duration = 0.12, delay = 0) => {
+  const ctx = getWebAudioContext();
+  if (!ctx) return;
+
+  try {
+    const scheduleTone = () => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      const startAt = ctx.currentTime + delay;
+      osc.frequency.setValueAtTime(freq, startAt);
+      gain.gain.setValueAtTime(0.2, startAt);
+      gain.gain.exponentialRampToValueAtTime(0.001, startAt + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(startAt);
+      osc.stop(startAt + duration);
+    };
+
+    if (ctx.state === 'suspended') {
+      void ctx.resume().then(scheduleTone).catch(() => undefined);
+    } else {
+      scheduleTone();
+    }
+  } catch {}
+};
+
 const playFinishAlert = () => {
-  // A single long tone marks the exact moment the next series can begin.
-  playBeep(880, 0.85);
+  // A three-tone signal is easier to hear on a phone than one long beep.
+  playBeep(880, 0.18, 0);
+  playBeep(1_100, 0.18, 0.24);
+  playBeep(880, 0.4, 0.48);
+
+  // Add haptic feedback where the browser or native runtime exposes it.
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    try { window.navigator.vibrate?.([180, 80, 260]); } catch {}
+  } else {
+    try { Vibration.vibrate([0, 180, 80, 260]); } catch {}
+  }
 };
 
 export const RestTimerBar: React.FC = () => {

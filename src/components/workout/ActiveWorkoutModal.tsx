@@ -14,7 +14,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { COLORS } from '../../theme/colors';
 import { useWorkoutStore } from '../../store/workoutStore';
-import { RestTimerBar } from './RestTimerBar';
+import { primeRestTimerAudio, RestTimerBar } from './RestTimerBar';
 import { PlateCalculatorModal } from './PlateCalculatorModal';
 import { ExerciseMovementPreview } from '../exercise/ExerciseMovementPreview';
 
@@ -101,6 +101,13 @@ export const ActiveWorkoutModal: React.FC = () => {
 
   const handleCancel = () => {
     cancelActiveWorkout();
+  };
+
+  const handleToggleCompleteSet = (exerciseIndex: number, setIndex: number) => {
+    // This runs directly inside the phone tap event, unlocking mobile audio
+    // before the rest timer reaches its final seconds.
+    primeRestTimerAudio();
+    toggleCompleteSet(exerciseIndex, setIndex);
   };
 
   const handleAddExercise = (exerciseId: string) => {
@@ -250,17 +257,6 @@ export const ActiveWorkoutModal: React.FC = () => {
 
                 <View style={styles.exerciseActions}>
                   <TouchableOpacity
-                    style={styles.plateMiniBtn}
-                    onPress={() => {
-                      const firstSetWeight = ex.sets[0]?.weightKg || 60;
-                      setCalcWeight(firstSetWeight);
-                      setShowPlateCalc(true);
-                    }}
-                  >
-                    <MaterialCommunityIcons name="weight-kilogram" size={16} color="#A1A1A6" />
-                    <Text style={styles.plateMiniBtnText}>Discos</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
                     style={styles.deleteExerciseBtn}
                     onPress={() => removeExerciseFromActiveWorkout(exIndex)}
                     accessibilityLabel={`Eliminar ${ex.exerciseName}`}
@@ -378,7 +374,7 @@ export const ActiveWorkoutModal: React.FC = () => {
                     {/* Complete Checkbox */}
                     <TouchableOpacity
                       style={[styles.checkbox, s.isCompleted && styles.checkboxCompleted]}
-                      onPress={() => toggleCompleteSet(exIndex, sIndex)}
+                      onPress={() => handleToggleCompleteSet(exIndex, sIndex)}
                       activeOpacity={0.7}
                       accessibilityLabel={s.isCompleted ? `Serie ${s.setNumber} realizada` : `Marcar serie ${s.setNumber} como realizada`}
                     >
@@ -658,20 +654,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-  },
-  plateMiniBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#26262A',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-    gap: 4,
-  },
-  plateMiniBtnText: {
-    color: '#A1A1A6',
-    fontSize: 11,
-    fontWeight: '600',
   },
   deleteExerciseBtn: {
     padding: 7,
