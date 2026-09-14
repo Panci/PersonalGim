@@ -1,8 +1,11 @@
 import { Exercise, RoutineCollection, WorkoutSession, GymMember, AttendanceRecord } from '../types';
 import { withExerciseGuidance } from '../data/exerciseGuidance';
 import { EXPANDED_EXERCISES } from '../data/expandedExercises';
+import { SMARTWORKOUT_EXERCISES } from '../data/smartWorkoutExercises';
 
 export const INITIAL_EXERCISES: Exercise[] = [
+  // Imported research catalogue (authorized SmartWorkout source material).
+  ...SMARTWORKOUT_EXERCISES,
   // ==========================================
   // PECTORAL (Chest)
   // ==========================================
@@ -1195,7 +1198,10 @@ export const INITIAL_EXERCISES: Exercise[] = [
     isCustom: false,
   },
   ...EXPANDED_EXERCISES,
-].map((exercise) => withExerciseGuidance(exercise as Exercise));
+].map((exercise) => withExerciseGuidance(exercise as Exercise))
+  // The SmartWorkout catalogue replaces the former hand-written catalogue.
+  // Keep custom entries, but do not expose legacy seed exercises in the library.
+  .filter((exercise) => exercise.isCustom || exercise.sourceProvider?.toLowerCase() === 'smartworkout');
 
 export const INITIAL_COLLECTION: RoutineCollection = {
   id: 'col-brazos-fuertes',

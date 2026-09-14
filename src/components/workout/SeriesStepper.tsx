@@ -83,11 +83,15 @@ export const SeriesStepper: React.FC<SeriesStepperProps> = ({
                     onChangeText={setDraftValue}
                     onBlur={commitEdit}
                     onSubmitEditing={commitEdit}
-                    keyboardType="numeric"
+                    keyboardType="number-pad"
+                    inputMode="numeric"
                     returnKeyType="done"
                     selectTextOnFocus
+                    showSoftInputOnFocus={!readOnly}
+                    autoCorrect={false}
+                    selectionColor={COLORS.primary}
                     editable={!readOnly}
-                    accessibilityLabel={`Repeticiones de la serie ${set.setNumber || index + 1}`}
+                    accessibilityLabel={`Repeticiones de la serie ${set.setNumber || index + 1}. Toca para abrir el teclado numérico.`}
                   />
                   <Text style={styles.unitLabel}>reps</Text>
                 </View>
@@ -124,10 +128,14 @@ export const SeriesStepper: React.FC<SeriesStepperProps> = ({
                     onBlur={commitEdit}
                     onSubmitEditing={commitEdit}
                     keyboardType="decimal-pad"
+                    inputMode="decimal"
                     returnKeyType="done"
                     selectTextOnFocus
+                    showSoftInputOnFocus={!readOnly}
+                    autoCorrect={false}
+                    selectionColor={COLORS.primary}
                     editable={!readOnly}
-                    accessibilityLabel={`Peso de la serie ${set.setNumber || index + 1}`}
+                    accessibilityLabel={`Peso de la serie ${set.setNumber || index + 1}. Toca para abrir el teclado numérico.`}
                   />
                   <Text style={styles.unitLabel}>kg</Text>
                 </View>

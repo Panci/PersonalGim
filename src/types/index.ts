@@ -45,10 +45,18 @@ export interface Exercise {
   secondaryMuscles: MuscleId[];
   equipment: EquipmentType;
   instructions?: string;
+  description?: string;
   executionSteps?: string[];
   indications?: string[];
+  tips?: string[];
+  commonMistakes?: string[];
   movementPattern?: 'empuje' | 'traccion' | 'bisagra' | 'sentadilla' | 'aislamiento' | 'estabilidad';
   imageUrl?: string;
+  videoUrl?: string;
+  localImagePath?: string;
+  localVideoPath?: string;
+  sourceUrl?: string;
+  sourceProvider?: string;
   isFavorite: boolean;
   isCustom: boolean;
 }

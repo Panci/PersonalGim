@@ -13,6 +13,7 @@ import { COLORS } from '../theme/colors';
 import { ExerciseSet, Exercise } from '../types';
 import { SeriesStepper } from '../components/workout/SeriesStepper';
 import { useWorkoutStore } from '../store/workoutStore';
+import { ExerciseMovementPreview } from '../components/exercise/ExerciseMovementPreview';
 
 interface ExerciseConfigModalProps {
   visible: boolean;
@@ -86,11 +87,14 @@ export const ExerciseConfigModal: React.FC<ExerciseConfigModalProps> = ({
         <View style={styles.sheetContainer}>
           {/* Header matching IMG_1174.PNG */}
           <View style={styles.header}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.muscleSubheader}>
-                {exercise.primaryMuscle.toUpperCase()}
-              </Text>
-              <Text style={styles.title}>{exercise.name}</Text>
+            <View style={styles.exerciseHeading}>
+              <ExerciseMovementPreview exercise={exercise} width={106} height={86} />
+              <View style={styles.exerciseHeadingText}>
+                <Text style={styles.muscleSubheader}>
+                  {exercise.primaryMuscle.toUpperCase()}
+                </Text>
+                <Text style={styles.title}>{exercise.name}</Text>
+              </View>
             </View>
             <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
               <Ionicons name="close" size={24} color="#A1A1A6" />
@@ -173,6 +177,17 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     marginBottom: 16,
+  },
+  exerciseHeading: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    minWidth: 0,
+  },
+  exerciseHeadingText: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 10,
   },
   muscleSubheader: {
     color: COLORS.primary,

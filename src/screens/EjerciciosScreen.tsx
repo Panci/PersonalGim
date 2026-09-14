@@ -9,6 +9,8 @@ import {
   Modal,
   Platform,
   ScrollView,
+  Linking,
+  useWindowDimensions,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
@@ -19,6 +21,8 @@ import { ExerciseCategoryIllustration } from '../components/exercise/ExerciseCat
 import { EXERCISE_CATEGORIES, ExerciseCategory } from '../data/exerciseCategories';
 
 export const EjerciciosScreen: React.FC = () => {
+  const { width: viewportWidth } = useWindowDimensions();
+  const isNarrowViewport = viewportWidth < 520;
   const {
     exercises,
     searchQuery,
@@ -161,7 +165,12 @@ export const EjerciciosScreen: React.FC = () => {
             {EXERCISE_CATEGORIES.map((category) => {
               const count = exercises.filter((exercise) => category.muscleIds.includes(exercise.primaryMuscle)).length;
               return (
-                <TouchableOpacity key={category.id} style={styles.categoryCard} onPress={() => openCategory(category)} activeOpacity={0.82}>
+                <TouchableOpacity
+                  key={category.id}
+                  style={[styles.categoryCard, isNarrowViewport && styles.categoryCardNarrow]}
+                  onPress={() => openCategory(category)}
+                  activeOpacity={0.82}
+                >
                   <View style={styles.categoryArt}>
                     <ExerciseCategoryIllustration category={category} />
                     <View style={[styles.categoryCount, { backgroundColor: `${category.color}22` }]}>
@@ -169,7 +178,9 @@ export const EjerciciosScreen: React.FC = () => {
                     </View>
                   </View>
                   <Text style={styles.categoryLabel}>{category.label}</Text>
-                  <Text style={styles.categoryMeta}>{count} {count === 1 ? 'ejercicio' : 'ejercicios'}</Text>
+                  <Text style={styles.categoryMeta}>
+                    {count} {count === 1 ? 'ejercicio' : 'ejercicios'} para {category.label.toLowerCase()}
+                  </Text>
                 </TouchableOpacity>
               );
             })}
@@ -445,6 +456,13 @@ export const EjerciciosScreen: React.FC = () => {
               </View>
 
               {/* Instructions */}
+              {selectedExercise.description && (
+                <>
+                  <Text style={styles.detailSectionTitle}>Descripción</Text>
+                  <Text style={styles.detailInstructions}>{selectedExercise.description}</Text>
+                </>
+              )}
+
               <Text style={styles.detailSectionTitle}>Instrucciones de Ejecución</Text>
               <Text style={styles.detailInstructions}>
                 {selectedExercise.instructions || 'Sin instrucciones adicionales para este ejercicio.'}
@@ -469,6 +487,47 @@ export const EjerciciosScreen: React.FC = () => {
                   </View>
                 ))}
               </View>
+
+              {selectedExercise.tips && selectedExercise.tips.length > 0 && (
+                <>
+                  <Text style={styles.detailSectionTitle}>Consejos</Text>
+                  <View style={styles.guidanceList}>
+                    {selectedExercise.tips.map((tip, index) => (
+                      <View key={`${selectedExercise.id}-tip-${index}`} style={styles.guidanceRow}>
+                        <Ionicons name="bulb-outline" size={18} color={COLORS.primary} />
+                        <Text style={styles.guidanceText}>{tip}</Text>
+                      </View>
+                    ))}
+                  </View>
+                </>
+              )}
+
+              {selectedExercise.commonMistakes && selectedExercise.commonMistakes.length > 0 && (
+                <>
+                  <Text style={styles.detailSectionTitle}>Errores comunes</Text>
+                  <View style={styles.guidanceList}>
+                    {selectedExercise.commonMistakes.map((mistake, index) => (
+                      <View key={`${selectedExercise.id}-mistake-${index}`} style={styles.guidanceRow}>
+                        <Ionicons name="warning-outline" size={18} color="#FF9500" />
+                        <Text style={styles.guidanceText}>{mistake}</Text>
+                      </View>
+                    ))}
+                  </View>
+                </>
+              )}
+
+              {selectedExercise.videoUrl && (
+                <TouchableOpacity
+                  style={styles.detailVideoBtn}
+                  onPress={() => Linking.openURL((Platform.OS === 'web' && selectedExercise.localVideoPath
+                    ? selectedExercise.localVideoPath
+                    : selectedExercise.videoUrl) as string)}
+                  activeOpacity={0.8}
+                >
+                  <Ionicons name="play-circle-outline" size={20} color={COLORS.primary} />
+                  <Text style={styles.detailVideoBtnText}>Ver movimiento del ejercicio</Text>
+                </TouchableOpacity>
+              )}
 
               {/* 1RM Calculator for this exercise */}
               <TouchableOpacity
@@ -676,51 +735,55 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    gap: 10,
+    rowGap: 10,
   },
   categoryCard: {
-    width: '48.3%',
+    width: '31.7%',
     backgroundColor: '#151517',
-    borderRadius: 16,
+    borderRadius: 14,
     borderWidth: 1,
     borderColor: '#29292F',
-    padding: 8,
+    padding: 6,
     marginBottom: 2,
   },
+  categoryCardNarrow: {
+    width: '48.3%',
+  },
   categoryArt: {
-    height: 118,
-    borderRadius: 11,
+    height: 112,
+    borderRadius: 10,
     backgroundColor: '#202126',
     overflow: 'hidden',
     position: 'relative',
   },
   categoryCount: {
     position: 'absolute',
-    right: 6,
-    top: 6,
-    minWidth: 24,
-    paddingHorizontal: 5,
+    right: 5,
+    top: 5,
+    minWidth: 23,
+    paddingHorizontal: 4,
     paddingVertical: 2,
-    borderRadius: 7,
+    borderRadius: 6,
     alignItems: 'center',
   },
   categoryCountText: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: '800',
   },
   categoryLabel: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '800',
     textAlign: 'center',
-    marginTop: 9,
+    marginTop: 8,
   },
   categoryMeta: {
     color: '#777780',
-    fontSize: 10,
+    fontSize: 9,
+    lineHeight: 12,
     textAlign: 'center',
     marginTop: 3,
-    marginBottom: 4,
+    marginBottom: 5,
   },
   categoryCreateButton: {
     marginTop: 18,
@@ -1072,6 +1135,23 @@ const styles = StyleSheet.create({
     color: '#D1D1D6',
     fontSize: 13,
     lineHeight: 19,
+  },
+  detailVideoBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: 'rgba(52, 199, 89, 0.14)',
+    paddingVertical: 12,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(52, 199, 89, 0.35)',
+    marginBottom: 12,
+  },
+  detailVideoBtnText: {
+    color: '#34C759',
+    fontSize: 14,
+    fontWeight: '800',
   },
   detailOneRmBtn: {
     flexDirection: 'row',

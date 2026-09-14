@@ -16,6 +16,7 @@ import { COLORS } from '../../theme/colors';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { RestTimerBar } from './RestTimerBar';
 import { PlateCalculatorModal } from './PlateCalculatorModal';
+import { ExerciseMovementPreview } from '../exercise/ExerciseMovementPreview';
 
 const KEEP_AWAKE_TAG = 'personal-gym-active-workout';
 
@@ -233,7 +234,14 @@ export const ActiveWorkoutModal: React.FC = () => {
             <View key={ex.id} style={styles.exerciseCard}>
               {/* Exercise Header */}
               <View style={styles.exerciseCardHeader}>
-                <View style={{ flex: 1 }}>
+                {exercises.find((exercise) => exercise.id === ex.exerciseId) && (
+                  <ExerciseMovementPreview
+                    exercise={exercises.find((exercise) => exercise.id === ex.exerciseId)!}
+                    width={92}
+                    height={76}
+                  />
+                )}
+                <View style={styles.exerciseCardTitle}>
                   <Text style={styles.exerciseMuscleBadge}>
                     {ex.primaryMuscle.toUpperCase()}
                   </Text>
@@ -308,8 +316,12 @@ export const ActiveWorkoutModal: React.FC = () => {
                         onBlur={commitCellEdit}
                         onSubmitEditing={commitCellEdit}
                         keyboardType="decimal-pad"
+                        inputMode="decimal"
                         returnKeyType="done"
                         selectTextOnFocus
+                        showSoftInputOnFocus
+                        autoCorrect={false}
+                        selectionColor={COLORS.primary}
                         accessibilityLabel={`Peso de la serie ${s.setNumber}`}
                       />
                       <TouchableOpacity
@@ -341,9 +353,13 @@ export const ActiveWorkoutModal: React.FC = () => {
                         onChangeText={setDraftCellValue}
                         onBlur={commitCellEdit}
                         onSubmitEditing={commitCellEdit}
-                        keyboardType="numeric"
+                        keyboardType="number-pad"
+                        inputMode="numeric"
                         returnKeyType="done"
                         selectTextOnFocus
+                        showSoftInputOnFocus
+                        autoCorrect={false}
+                        selectionColor={COLORS.primary}
                         accessibilityLabel={`Repeticiones de la serie ${s.setNumber}`}
                       />
                       <TouchableOpacity
@@ -617,9 +633,14 @@ const styles = StyleSheet.create({
   },
   exerciseCardHeader: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 12,
+  },
+  exerciseCardTitle: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 10,
   },
   exerciseMuscleBadge: {
     color: COLORS.primary,

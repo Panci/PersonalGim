@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, ImageSourcePropType, LayoutChangeEvent, StyleSheet, View } from 'react-native';
+import { Image, ImageSourcePropType, LayoutChangeEvent, StyleSheet, View, Platform } from 'react-native';
 import Svg, {
   Path,
   Rect,
@@ -243,6 +243,19 @@ export const ExerciseIllustration: React.FC<ExerciseIllustrationProps> = ({
   width = '100%',
   height = 140,
 }) => {
+  if (exercise.imageUrl) {
+    return (
+      <View style={[styles.container, { height }]}>
+        <Image
+          source={{ uri: Platform.OS === 'web' && exercise.localImagePath ? exercise.localImagePath : exercise.imageUrl }}
+          resizeMode="contain"
+          style={{ width: '100%', height: '100%' }}
+          accessibilityLabel={`Imagen de ${exercise.name}`}
+        />
+      </View>
+    );
+  }
+
   const { id, primaryMuscle, equipment, name } = exercise;
   const nameLower = name.toLowerCase();
 

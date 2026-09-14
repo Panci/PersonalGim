@@ -53,11 +53,16 @@ const load = (): void => {
     if (validState(parsed)) {
       const existingIds = new Set(parsed.exercises.map((exercise) => exercise.id));
       const missingExercises = INITIAL_EXERCISES.filter((exercise) => !existingIds.has(exercise.id));
+      // Remove catalogue entries from pre-SmartWorkout builds while preserving
+      // exercises created by the user. This keeps an existing browser session
+      // in sync with the replacement library instead of appending to it.
+      const currentIds = new Set(INITIAL_EXERCISES.map((exercise) => exercise.id));
+      const retainedExercises = parsed.exercises.filter((exercise) => exercise.isCustom || currentIds.has(exercise.id));
       state = {
         ...parsed,
-        exercises: [...parsed.exercises.map(withExerciseGuidance), ...missingExercises],
+        exercises: [...retainedExercises.map(withExerciseGuidance), ...missingExercises],
       };
-      if (missingExercises.length > 0) persist();
+      if (missingExercises.length > 0 || retainedExercises.length !== parsed.exercises.length) persist();
     }
     else console.warn('Ignoring invalid saved PersonalGim data');
   } catch (error) { console.warn('Unable to load local PersonalGim data', error); }

@@ -28,6 +28,11 @@ export const getDb = (): SQLite.SQLiteDatabase | null => {
 
 const setStorageId = (parentId: string, set: ExerciseSet) => `${parentId}:${set.id}`;
 const nullable = <T,>(value: T | undefined): T | null => value === undefined ? null : value;
+const serializeList = (value: string[] | undefined): string | null => value?.length ? JSON.stringify(value) : null;
+const parseList = (value: string | null | undefined): string[] | undefined => {
+  if (!value) return undefined;
+  try { const parsed = JSON.parse(value); return Array.isArray(parsed) ? parsed : undefined; } catch { return undefined; }
+};
 
 const saveRoutine = (database: SQLite.SQLiteDatabase, collection: RoutineCollection) => {
   database.runSync('INSERT INTO routine_collections (id, title, subtitle, imageUrl) VALUES (?, ?, ?, ?)', [collection.id, collection.title, nullable(collection.subtitle), nullable(collection.imageUrl)]);
@@ -107,9 +112,17 @@ export const initDatabase = async (): Promise<void> => {
     `);
     for (const statement of [
       'ALTER TABLE routine_exercise_sets ADD COLUMN sourceSetId TEXT', "ALTER TABLE routine_exercise_sets ADD COLUMN type TEXT NOT NULL DEFAULT 'normal'", 'ALTER TABLE routine_exercise_sets ADD COLUMN rpe REAL', 'ALTER TABLE routine_exercise_sets ADD COLUMN isCompleted INTEGER NOT NULL DEFAULT 0', 'ALTER TABLE routine_exercise_sets ADD COLUMN restSeconds INTEGER', 'ALTER TABLE routine_collections ADD COLUMN imageUrl TEXT',
+      'ALTER TABLE exercises ADD COLUMN description TEXT', 'ALTER TABLE exercises ADD COLUMN executionSteps TEXT', 'ALTER TABLE exercises ADD COLUMN indications TEXT', 'ALTER TABLE exercises ADD COLUMN tips TEXT', 'ALTER TABLE exercises ADD COLUMN commonMistakes TEXT', 'ALTER TABLE exercises ADD COLUMN videoUrl TEXT', 'ALTER TABLE exercises ADD COLUMN localImagePath TEXT', 'ALTER TABLE exercises ADD COLUMN localVideoPath TEXT', 'ALTER TABLE exercises ADD COLUMN sourceUrl TEXT', 'ALTER TABLE exercises ADD COLUMN sourceProvider TEXT',
     ]) { try { database.execSync(statement); } catch { /* already migrated */ } }
     database.withTransactionSync(() => {
-      for (const ex of INITIAL_EXERCISES) database.runSync('INSERT OR IGNORE INTO exercises (id, name, primaryMuscle, secondaryMuscles, equipment, instructions, imageUrl, isFavorite, isCustom) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [ex.id, ex.name, ex.primaryMuscle, JSON.stringify(ex.secondaryMuscles), ex.equipment, nullable(ex.instructions), nullable(ex.imageUrl), ex.isFavorite ? 1 : 0, ex.isCustom ? 1 : 0]);
+      const currentIds = new Set(INITIAL_EXERCISES.map((exercise) => exercise.id));
+      const storedExercises = database.getAllSync<{ id: string; isCustom: number }>('SELECT id, isCustom FROM exercises');
+      for (const storedExercise of storedExercises) {
+        if (!storedExercise.isCustom && !currentIds.has(storedExercise.id)) {
+          database.runSync('DELETE FROM exercises WHERE id = ?', [storedExercise.id]);
+        }
+      }
+      for (const ex of INITIAL_EXERCISES) database.runSync('INSERT OR IGNORE INTO exercises (id, name, primaryMuscle, secondaryMuscles, equipment, instructions, imageUrl, isFavorite, isCustom, description, executionSteps, indications, tips, commonMistakes, videoUrl, localImagePath, localVideoPath, sourceUrl, sourceProvider) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [ex.id, ex.name, ex.primaryMuscle, JSON.stringify(ex.secondaryMuscles), ex.equipment, nullable(ex.instructions), nullable(ex.imageUrl), ex.isFavorite ? 1 : 0, ex.isCustom ? 1 : 0, nullable(ex.description), serializeList(ex.executionSteps), serializeList(ex.indications), serializeList(ex.tips), serializeList(ex.commonMistakes), nullable(ex.videoUrl), nullable(ex.localImagePath), nullable(ex.localVideoPath), nullable(ex.sourceUrl), nullable(ex.sourceProvider)]);
       seedRoutine(database, INITIAL_COLLECTION);
       for (const workout of INITIAL_WORKOUT_HISTORY) seedWorkout(database, workout);
       if ((database.getFirstSync<{ count: number }>('SELECT COUNT(*) AS count FROM body_measurements')?.count ?? 0) === 0) for (const record of INITIAL_BODY_MEASUREMENTS) saveMeasurement(database, record);
@@ -121,7 +134,7 @@ export const initDatabase = async (): Promise<void> => {
 
 export const getExercisesFromDb = (): Exercise[] => {
     const database = getDb(); if (!database) return clone(fallbackExercises).map(withExerciseGuidance);
-    try { return database.getAllSync<any>('SELECT * FROM exercises ORDER BY name COLLATE NOCASE').map(row => withExerciseGuidance({ id: row.id, name: row.name, primaryMuscle: row.primaryMuscle as MuscleId, secondaryMuscles: JSON.parse(row.secondaryMuscles || '[]') as MuscleId[], equipment: row.equipment as EquipmentType, instructions: row.instructions || undefined, imageUrl: row.imageUrl || undefined, isFavorite: Boolean(row.isFavorite), isCustom: Boolean(row.isCustom) })); } catch (error) { console.warn('Unable to read exercises', error); return []; }
+    try { return database.getAllSync<any>('SELECT * FROM exercises ORDER BY name COLLATE NOCASE').map(row => withExerciseGuidance({ id: row.id, name: row.name, primaryMuscle: row.primaryMuscle as MuscleId, secondaryMuscles: JSON.parse(row.secondaryMuscles || '[]') as MuscleId[], equipment: row.equipment as EquipmentType, instructions: row.instructions || undefined, description: row.description || undefined, executionSteps: parseList(row.executionSteps), indications: parseList(row.indications), tips: parseList(row.tips), commonMistakes: parseList(row.commonMistakes), videoUrl: row.videoUrl || undefined, localImagePath: row.localImagePath || undefined, localVideoPath: row.localVideoPath || undefined, sourceUrl: row.sourceUrl || undefined, sourceProvider: row.sourceProvider || undefined, imageUrl: row.imageUrl || undefined, isFavorite: Boolean(row.isFavorite), isCustom: Boolean(row.isCustom) })); } catch (error) { console.warn('Unable to read exercises', error); return []; }
 };
 export const toggleFavoriteInDb = (exerciseId: string): boolean => {
   const database = getDb();
@@ -131,7 +144,7 @@ export const toggleFavoriteInDb = (exerciseId: string): boolean => {
 export const addCustomExerciseToDb = (exercise: Exercise): void => {
   const database = getDb();
   if (!database) { fallbackExercises = [clone(exercise), ...fallbackExercises.filter(item => item.id !== exercise.id)]; return; }
-  try { database.runSync('INSERT OR REPLACE INTO exercises (id, name, primaryMuscle, secondaryMuscles, equipment, instructions, imageUrl, isFavorite, isCustom) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)', [exercise.id, exercise.name, exercise.primaryMuscle, JSON.stringify(exercise.secondaryMuscles), exercise.equipment, nullable(exercise.instructions), nullable(exercise.imageUrl), exercise.isFavorite ? 1 : 0]); } catch (error) { console.warn('Unable to save exercise', error); }
+  try { database.runSync('INSERT OR REPLACE INTO exercises (id, name, primaryMuscle, secondaryMuscles, equipment, instructions, imageUrl, isFavorite, isCustom, description, executionSteps, indications, tips, commonMistakes, videoUrl, localImagePath, localVideoPath, sourceUrl, sourceProvider) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [exercise.id, exercise.name, exercise.primaryMuscle, JSON.stringify(exercise.secondaryMuscles), exercise.equipment, nullable(exercise.instructions), nullable(exercise.imageUrl), exercise.isFavorite ? 1 : 0, nullable(exercise.description), serializeList(exercise.executionSteps), serializeList(exercise.indications), serializeList(exercise.tips), serializeList(exercise.commonMistakes), nullable(exercise.videoUrl), nullable(exercise.localImagePath), nullable(exercise.localVideoPath), nullable(exercise.sourceUrl), nullable(exercise.sourceProvider)]); } catch (error) { console.warn('Unable to save exercise', error); }
 };
 
 const readRoutineDay = (database: SQLite.SQLiteDatabase, row: any): RoutineDay => {
