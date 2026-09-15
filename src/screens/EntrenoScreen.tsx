@@ -151,7 +151,9 @@ export const EntrenoScreen: React.FC<EntrenoScreenProps> = ({ onOpenRoutineDetai
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000000' },
   scrollArea: { flex: 1 },
-  scrollContent: { paddingHorizontal: 20, paddingTop: Platform.OS === 'ios' ? 62 : 32 },
+  // AppShell already handles the iOS safe-area inset. A compact inner gutter
+  // prevents the header from being pushed too far down on an iPhone 15.
+  scrollContent: { paddingHorizontal: 20, paddingTop: Platform.OS === 'ios' ? 18 : 32 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 42 },
   headerTitle: { color: '#FFFFFF', fontSize: 38, fontWeight: '900', letterSpacing: -0.8 },
   profileIcon: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
@@ -167,7 +169,7 @@ const styles = StyleSheet.create({
   createButton: { minHeight: 78, borderRadius: 18, backgroundColor: '#242426', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, gap: 8 },
   createButtonText: { color: '#C7C7CC', fontSize: 16, fontWeight: '600', textAlign: 'center' },
   bottomSpacer: { height: 180 },
-  routinesHeader: { flexDirection: 'row', alignItems: 'center', paddingTop: Platform.OS === 'ios' ? 60 : 28, paddingHorizontal: 20, paddingBottom: 22 },
+  routinesHeader: { flexDirection: 'row', alignItems: 'center', paddingTop: Platform.OS === 'ios' ? 18 : 28, paddingHorizontal: 20, paddingBottom: 22 },
   backButton: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#242426', alignItems: 'center', justifyContent: 'center', marginRight: 12 },
   eyebrow: { color: COLORS.primary, fontSize: 10, fontWeight: '800', letterSpacing: 1.2 },
   routinesTitle: { color: '#FFFFFF', fontSize: 28, fontWeight: '900', marginTop: 2 },

@@ -8,6 +8,7 @@ node_modules/
 .expo-*/
 .expo-web-preview.*
 .local-api-proxy.*
+server/.local-data/
 .claude/
 dist/
 web-build/

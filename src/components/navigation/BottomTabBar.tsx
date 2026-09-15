@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         width: '100%',
-        maxWidth: 390,
+        maxWidth: 430,
         marginHorizontal: 'auto',
       },
     }),

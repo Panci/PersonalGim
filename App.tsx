@@ -212,14 +212,17 @@ const styles = StyleSheet.create({
         // to use the full device width, while the browser stays representative
         // of the compact experience we design for.
         width: '100%' as any,
-        maxWidth: 390,
+        // iPhone 15 is 393pt wide; keep the browser preview phone-sized
+        // without unnecessarily shrinking native layouts.
+        maxWidth: 430,
         marginHorizontal: 'auto' as any,
       },
     }),
   },
   content: {
     flex: 1,
-    paddingBottom: 76,
+    // Keep the last controls clear of the fixed bottom navigation on phones.
+    paddingBottom: Platform.OS === 'ios' ? 94 : 76,
   },
   accountButton: {
     position: 'absolute',

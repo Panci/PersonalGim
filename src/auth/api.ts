@@ -2,8 +2,12 @@ import { Platform } from 'react-native';
 import { WorkoutSession } from '../types';
 import { AuthSession, AuthUser, UserRole } from './types';
 
-const configuredBaseUrl = process.env.EXPO_PUBLIC_API_URL?.trim().replace(/\/$/, '');
-const apiBaseUrl = configuredBaseUrl || (Platform.OS === 'web' ? '/api' : '');
+// Keep this as a direct EXPO_PUBLIC_* member access so Expo can inline the
+// value from .env.local during the web/native build. Optional chaining around
+// process.env prevented the local API URL from being embedded in the bundle.
+const configuredBaseUrl = process.env.EXPO_PUBLIC_API_URL;
+const normalizedBaseUrl = typeof configuredBaseUrl === 'string' ? configuredBaseUrl.trim().replace(/\/$/, '') : '';
+const apiBaseUrl = normalizedBaseUrl || (Platform.OS === 'web' ? '/api' : '');
 
 const endpoint = (path: string) => {
   if (!apiBaseUrl) {

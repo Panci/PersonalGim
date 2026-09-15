@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   Platform,
 } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
@@ -17,7 +16,7 @@ export const CuerpoScreen: React.FC = () => {
   const { bodyViewMode, setBodyViewMode, setShowQrPassModal } = useWorkoutStore();
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.safeArea}>
       <View style={styles.container}>
         {/* Top View Mode Switcher + QR Pass Button */}
         <View style={styles.segmentedContainer}>
@@ -80,7 +79,7 @@ export const CuerpoScreen: React.FC = () => {
           {bodyViewMode === 'muscles' ? <AnatomyModel /> : <BodyMetricsView />}
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

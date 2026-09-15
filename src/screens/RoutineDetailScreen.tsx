@@ -420,7 +420,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: Platform.OS === 'ios' ? 54 : 26,
+    paddingTop: Platform.OS === 'ios' ? 18 : 26,
     paddingBottom: 12,
   },
   backButton: {
@@ -519,7 +519,9 @@ const styles = StyleSheet.create({
   },
   dayScrollContent: {
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    // The start-workout CTA is pinned to the bottom of the screen; leave
+    // enough scroll room so the final exercise is never hidden behind it.
+    paddingBottom: 132,
   },
   collectionTitle: {
     color: '#FFFFFF',

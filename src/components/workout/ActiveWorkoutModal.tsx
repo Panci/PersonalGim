@@ -13,10 +13,12 @@ import {
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { COLORS } from '../../theme/colors';
+import { Exercise } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { primeRestTimerAudio, RestTimerBar } from './RestTimerBar';
 import { PlateCalculatorModal } from './PlateCalculatorModal';
 import { ExerciseMovementPreview } from '../exercise/ExerciseMovementPreview';
+import { ExerciseIllustration } from '../exercise/ExerciseIllustration';
 
 const KEEP_AWAKE_TAG = 'personal-gym-active-workout';
 
@@ -40,6 +42,8 @@ export const ActiveWorkoutModal: React.FC = () => {
   const [calcWeight, setCalcWeight] = useState(60);
   const [showExercisePicker, setShowExercisePicker] = useState(false);
   const [exerciseQuery, setExerciseQuery] = useState('');
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
+  const [showExerciseVideo, setShowExerciseVideo] = useState(false);
   const [editingCell, setEditingCell] = useState<{
     exerciseIndex: number;
     setIndex: number;
@@ -166,6 +170,25 @@ export const ActiveWorkoutModal: React.FC = () => {
     return !query || exercise.name.toLowerCase().includes(query) || exercise.primaryMuscle.includes(query);
   });
 
+  const selectedExerciseVideoUri = selectedExercise
+    ? (Platform.OS === 'web' && selectedExercise.localVideoPath
+      ? selectedExercise.localVideoPath
+      : selectedExercise.videoUrl)
+    : undefined;
+
+  const closeExerciseDetails = () => {
+    setShowExerciseVideo(false);
+    setSelectedExercise(null);
+  };
+
+  // The first exercise with a pending set is the one the athlete is currently
+  // working on. It receives a larger visual treatment so the movement remains
+  // easy to recognise at a glance on a phone.
+  const currentExerciseIndex = activeWorkout.exercises.findIndex((exercise) =>
+    exercise.sets.some((set) => !set.isCompleted),
+  );
+  const highlightedExerciseIndex = currentExerciseIndex >= 0 ? currentExerciseIndex : 0;
+
   return (
     <Modal visible={isWorkoutActive} animationType="slide" onRequestClose={handleCancel}>
       <View style={styles.container}>
@@ -238,17 +261,38 @@ export const ActiveWorkoutModal: React.FC = () => {
           </TouchableOpacity>
 
           {activeWorkout.exercises.map((ex, exIndex) => (
-            <View key={ex.id} style={styles.exerciseCard}>
+            <View
+              key={ex.id}
+              style={[styles.exerciseCard, exIndex === highlightedExerciseIndex && styles.currentExerciseCard]}
+            >
               {/* Exercise Header */}
               <View style={styles.exerciseCardHeader}>
-                {exercises.find((exercise) => exercise.id === ex.exerciseId) && (
-                  <ExerciseMovementPreview
-                    exercise={exercises.find((exercise) => exercise.id === ex.exerciseId)!}
-                    width={92}
-                    height={76}
-                  />
-                )}
+                {(() => {
+                  const exerciseObject = exercises.find((exercise) => exercise.id === ex.exerciseId);
+                  if (!exerciseObject) return null;
+                  return (
+                    <TouchableOpacity
+                      style={[
+                        styles.exercisePreviewButton,
+                        exIndex === highlightedExerciseIndex && styles.exercisePreviewButtonCurrent,
+                      ]}
+                      onPress={() => setSelectedExercise(exerciseObject)}
+                      activeOpacity={0.82}
+                      accessibilityRole="button"
+                      accessibilityLabel={`Ver información de ${exerciseObject.name}`}
+                    >
+                      <ExerciseMovementPreview
+                        exercise={exerciseObject}
+                        width={exIndex === highlightedExerciseIndex ? 144 : 92}
+                        height={exIndex === highlightedExerciseIndex ? 116 : 76}
+                      />
+                    </TouchableOpacity>
+                  );
+                })()}
                 <View style={styles.exerciseCardTitle}>
+                  {exIndex === highlightedExerciseIndex && (
+                    <Text style={styles.currentExerciseLabel}>EJERCICIO ACTUAL</Text>
+                  )}
                   <Text style={styles.exerciseMuscleBadge}>
                     {ex.primaryMuscle.toUpperCase()}
                   </Text>
@@ -376,6 +420,7 @@ export const ActiveWorkoutModal: React.FC = () => {
                       style={[styles.checkbox, s.isCompleted && styles.checkboxCompleted]}
                       onPress={() => handleToggleCompleteSet(exIndex, sIndex)}
                       activeOpacity={0.7}
+                      accessibilityRole="button"
                       accessibilityLabel={s.isCompleted ? `Serie ${s.setNumber} realizada` : `Marcar serie ${s.setNumber} como realizada`}
                     >
                       <Ionicons
@@ -487,6 +532,179 @@ export const ActiveWorkoutModal: React.FC = () => {
           initialWeight={calcWeight}
           onClose={() => setShowPlateCalc(false)}
         />
+
+        {/* Exercise information opened by tapping its thumbnail. */}
+        {selectedExercise && (
+          <Modal
+            visible={true}
+            transparent
+            animationType="slide"
+            onRequestClose={closeExerciseDetails}
+          >
+            <View style={styles.exerciseInfoOverlay}>
+              <View style={styles.exerciseInfoSheet}>
+                <View style={styles.exerciseInfoHeader}>
+                  <View style={styles.exerciseInfoHeaderCopy}>
+                    <Text style={styles.exerciseInfoMuscle}>
+                      {selectedExercise.primaryMuscle.toUpperCase()}
+                    </Text>
+                    <Text style={styles.exerciseInfoTitle} numberOfLines={2}>
+                      {selectedExercise.name}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={closeExerciseDetails}
+                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Cerrar información del ejercicio"
+                  >
+                    <Ionicons name="close" size={25} color="#A1A1A6" />
+                  </TouchableOpacity>
+                </View>
+
+                <ScrollView style={styles.exerciseInfoScroll} showsVerticalScrollIndicator={false}>
+                  <View style={styles.exerciseInfoIllustration}>
+                    <ExerciseIllustration exercise={selectedExercise} height={190} />
+                  </View>
+
+                  <View style={styles.exerciseInfoPills}>
+                    <View style={styles.exerciseInfoPill}>
+                      <Ionicons name="barbell-outline" size={14} color={COLORS.primary} />
+                      <Text style={styles.exerciseInfoPillText}>
+                        {selectedExercise.equipment.toUpperCase().replace('_', ' ')}
+                      </Text>
+                    </View>
+                    {selectedExercise.secondaryMuscles.length > 0 && (
+                      <View style={styles.exerciseInfoPill}>
+                        <Ionicons name="people-outline" size={14} color="#34C759" />
+                        <Text style={styles.exerciseInfoPillText}>
+                          Secundarios: {selectedExercise.secondaryMuscles.join(', ')}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+
+                  {selectedExercise.description && (
+                    <>
+                      <Text style={styles.exerciseInfoSectionTitle}>Descripción</Text>
+                      <Text style={styles.exerciseInfoBodyText}>{selectedExercise.description}</Text>
+                    </>
+                  )}
+
+                  <Text style={styles.exerciseInfoSectionTitle}>Instrucciones de ejecución</Text>
+                  <Text style={styles.exerciseInfoBodyText}>
+                    {selectedExercise.instructions || 'Sin instrucciones adicionales para este ejercicio.'}
+                  </Text>
+
+                  {(selectedExercise.executionSteps || []).length > 0 && (
+                    <>
+                      <Text style={styles.exerciseInfoSectionTitle}>Pasos de ejecución</Text>
+                      <View style={styles.exerciseInfoGuidanceList}>
+                        {(selectedExercise.executionSteps || []).map((step, index) => (
+                          <View key={`${selectedExercise.id}-active-step-${index}`} style={styles.exerciseInfoGuidanceRow}>
+                            <View style={styles.exerciseInfoStepNumber}>
+                              <Text style={styles.exerciseInfoStepNumberText}>{index + 1}</Text>
+                            </View>
+                            <Text style={styles.exerciseInfoGuidanceText}>{step}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    </>
+                  )}
+
+                  {(selectedExercise.indications || []).length > 0 && (
+                    <>
+                      <Text style={styles.exerciseInfoSectionTitle}>Indicaciones y seguridad</Text>
+                      <View style={styles.exerciseInfoGuidanceList}>
+                        {(selectedExercise.indications || []).map((indication, index) => (
+                          <View key={`${selectedExercise.id}-active-indication-${index}`} style={styles.exerciseInfoGuidanceRow}>
+                            <Ionicons name="checkmark-circle-outline" size={18} color="#34C759" />
+                            <Text style={styles.exerciseInfoGuidanceText}>{indication}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    </>
+                  )}
+
+                  {(selectedExercise.commonMistakes || []).length > 0 && (
+                    <>
+                      <Text style={styles.exerciseInfoSectionTitle}>Errores comunes</Text>
+                      <View style={styles.exerciseInfoGuidanceList}>
+                        {(selectedExercise.commonMistakes || []).map((mistake, index) => (
+                          <View key={`${selectedExercise.id}-active-mistake-${index}`} style={styles.exerciseInfoGuidanceRow}>
+                            <Ionicons name="warning-outline" size={18} color="#FF9500" />
+                            <Text style={styles.exerciseInfoGuidanceText}>{mistake}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    </>
+                  )}
+
+                  {selectedExerciseVideoUri && (
+                    <TouchableOpacity
+                      style={styles.exerciseInfoVideoButton}
+                      onPress={() => setShowExerciseVideo(true)}
+                      activeOpacity={0.8}
+                      accessibilityRole="button"
+                      accessibilityLabel="Ver movimiento del ejercicio"
+                    >
+                      <Ionicons name="play-circle-outline" size={21} color={COLORS.primary} />
+                      <Text style={styles.exerciseInfoVideoButtonText}>Ver movimiento del ejercicio</Text>
+                    </TouchableOpacity>
+                  )}
+
+                  <View style={{ height: 24 }} />
+                </ScrollView>
+              </View>
+            </View>
+          </Modal>
+        )}
+
+        {/* Movement video stays inside the app and can be closed on mobile/web. */}
+        {showExerciseVideo && selectedExercise && selectedExerciseVideoUri && (
+          <Modal
+            visible={true}
+            transparent
+            animationType="fade"
+            onRequestClose={() => setShowExerciseVideo(false)}
+          >
+            <View style={styles.exerciseVideoOverlay}>
+              <View style={styles.exerciseVideoSheet}>
+                <View style={styles.exerciseVideoHeader}>
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text style={styles.exerciseVideoEyebrow}>MOVIMIENTO DEL EJERCICIO</Text>
+                    <Text style={styles.exerciseVideoTitle} numberOfLines={2}>{selectedExercise.name}</Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => setShowExerciseVideo(false)}
+                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Cerrar vídeo del ejercicio"
+                  >
+                    <Ionicons name="close" size={25} color="#FFFFFF" />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.exerciseVideoFrame}>
+                  {Platform.OS === 'web' ? (
+                    React.createElement('video', {
+                      src: selectedExerciseVideoUri,
+                      controls: true,
+                      autoPlay: true,
+                      playsInline: true,
+                      poster: selectedExercise.localImagePath || selectedExercise.imageUrl,
+                      style: styles.exerciseVideoPlayer,
+                      'aria-label': `Vídeo de ${selectedExercise.name}`,
+                    } as any)
+                  ) : (
+                    <Text style={styles.exerciseVideoNativeFallback}>
+                      Consulta los pasos de ejecución para realizar el movimiento correctamente.
+                    </Text>
+                  )}
+                </View>
+              </View>
+            </View>
+          </Modal>
+        )}
       </View>
     </Modal>
   );
@@ -496,7 +714,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    maxWidth: 390,
+    maxWidth: 430,
     alignSelf: 'center',
     backgroundColor: '#000000',
     overflow: 'hidden',
@@ -506,6 +724,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
+    // This modal owns the full-screen surface, so it must reserve the notch
+    // area itself (unlike screens rendered inside AppShell's SafeAreaView).
     paddingTop: Platform.OS === 'ios' ? 52 : 24,
     paddingBottom: 12,
     borderBottomWidth: 1,
@@ -627,11 +847,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#2A2A2E',
   },
+  currentExerciseCard: {
+    borderColor: 'rgba(255, 106, 0, 0.62)',
+    backgroundColor: '#202024',
+  },
   exerciseCardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 12,
+  },
+  exercisePreviewButton: {
+    width: 92,
+    height: 76,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  exercisePreviewButtonCurrent: {
+    width: 144,
+    height: 116,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 106, 0, 0.5)',
   },
   exerciseCardTitle: {
     flex: 1,
@@ -643,6 +879,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '800',
     letterSpacing: 0.6,
+  },
+  currentExerciseLabel: {
+    color: COLORS.primary,
+    fontSize: 9,
+    fontWeight: '900',
+    letterSpacing: 0.8,
+    marginBottom: 2,
   },
   exerciseName: {
     color: '#FFFFFF',
@@ -797,6 +1040,183 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '800',
+  },
+  exerciseInfoOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.72)',
+  },
+  exerciseInfoSheet: {
+    maxHeight: '90%',
+    backgroundColor: '#1C1C1E',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 18,
+    paddingTop: 18,
+    paddingBottom: Platform.OS === 'ios' ? 30 : 18,
+  },
+  exerciseInfoHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  exerciseInfoHeaderCopy: {
+    flex: 1,
+    minWidth: 0,
+    paddingRight: 12,
+  },
+  exerciseInfoMuscle: {
+    color: COLORS.primary,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.7,
+  },
+  exerciseInfoTitle: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '800',
+    marginTop: 3,
+  },
+  exerciseInfoScroll: {
+    flexGrow: 0,
+  },
+  exerciseInfoIllustration: {
+    height: 190,
+    borderRadius: 14,
+    overflow: 'hidden',
+    backgroundColor: '#26262A',
+    marginBottom: 12,
+  },
+  exerciseInfoPills: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 7,
+    marginBottom: 4,
+  },
+  exerciseInfoPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#26262A',
+    borderRadius: 8,
+    paddingHorizontal: 9,
+    paddingVertical: 6,
+  },
+  exerciseInfoPillText: {
+    color: '#D1D1D6',
+    fontSize: 10,
+    fontWeight: '700',
+    marginLeft: 5,
+  },
+  exerciseInfoSectionTitle: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '800',
+    marginTop: 15,
+    marginBottom: 6,
+  },
+  exerciseInfoBodyText: {
+    color: '#D1D1D6',
+    fontSize: 13,
+    lineHeight: 19,
+  },
+  exerciseInfoGuidanceList: {
+    gap: 8,
+  },
+  exerciseInfoGuidanceRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  exerciseInfoStepNumber: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: 'rgba(255, 106, 0, 0.18)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
+  exerciseInfoStepNumberText: {
+    color: COLORS.primary,
+    fontSize: 11,
+    fontWeight: '800',
+  },
+  exerciseInfoGuidanceText: {
+    flex: 1,
+    color: '#D1D1D6',
+    fontSize: 12,
+    lineHeight: 18,
+  },
+  exerciseInfoVideoButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 106, 0, 0.16)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 106, 0, 0.55)',
+    borderRadius: 12,
+    paddingVertical: 12,
+    marginTop: 18,
+  },
+  exerciseInfoVideoButtonText: {
+    color: COLORS.primary,
+    fontSize: 13,
+    fontWeight: '800',
+    marginLeft: 7,
+  },
+  exerciseVideoOverlay: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.88)',
+  },
+  exerciseVideoSheet: {
+    width: '100%',
+    maxWidth: 430,
+    backgroundColor: '#1C1C1E',
+    borderRadius: 18,
+    padding: 16,
+  },
+  exerciseVideoHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  exerciseVideoEyebrow: {
+    color: COLORS.primary,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.7,
+  },
+  exerciseVideoTitle: {
+    color: '#FFFFFF',
+    fontSize: 17,
+    fontWeight: '800',
+    marginTop: 3,
+  },
+  exerciseVideoFrame: {
+    width: '100%',
+    aspectRatio: 16 / 9,
+    borderRadius: 12,
+    overflow: 'hidden',
+    backgroundColor: '#000000',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  exerciseVideoPlayer: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',
+    display: 'block',
+  } as any,
+  exerciseVideoNativeFallback: {
+    color: '#D1D1D6',
+    fontSize: 13,
+    lineHeight: 19,
+    textAlign: 'center',
+    padding: 20,
   },
   pickerOverlay: {
     flex: 1,

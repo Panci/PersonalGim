@@ -745,7 +745,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 56 : 28,
+    // AppShell provides the iOS safe-area inset; keep the inner header compact.
+    paddingTop: Platform.OS === 'ios' ? 18 : 28,
     paddingBottom: 14,
   },
   badgeRow: {

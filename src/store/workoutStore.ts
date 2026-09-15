@@ -31,6 +31,8 @@ import {
   getWorkoutStatsFromDb,
   getBodyMeasurementsFromDb,
   saveBodyMeasurementToDb,
+  getTargetWeightFromDb,
+  saveTargetWeightToDb,
   saveCustomRoutineToDb,
   updateRoutineCollectionDetailsInDb,
   deleteRoutineFromDb,
@@ -119,6 +121,8 @@ interface WorkoutStoreState {
   setBodyViewMode: (mode: BodyViewMode) => void;
   bodyMeasurements: BodyMeasurementRecord[];
   addBodyMeasurement: (record: Omit<BodyMeasurementRecord, 'id'>) => void;
+  targetWeightKg: number | null;
+  setTargetWeightKg: (targetWeightKg: number | null) => void;
 
   // Gym Admin & Members Management
   currentRole: AppRole;
@@ -415,6 +419,17 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     saveBodyMeasurementToDb(newRecord);
     const updated = getBodyMeasurementsFromDb();
     set({ bodyMeasurements: [...updated] });
+  },
+  targetWeightKg: null,
+  setTargetWeightKg: (targetWeightKg) => {
+    if (
+      targetWeightKg !== null &&
+      (!Number.isFinite(targetWeightKg) || targetWeightKg < 20 || targetWeightKg > 500)
+    ) {
+      return;
+    }
+    saveTargetWeightToDb(targetWeightKg);
+    set({ targetWeightKg });
   },
 
   // Gym Admin & Members Management
@@ -828,6 +843,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     const hist = getWorkoutHistoryFromDb();
     const st = getWorkoutStatsFromDb('7d');
     const bms = getBodyMeasurementsFromDb();
+    const targetWeightKg = getTargetWeightFromDb();
     const mems = getGymMembersFromDb();
     const atts = getAttendanceLogsFromDb();
 
@@ -837,6 +853,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       history: hist,
       stats: st,
       bodyMeasurements: bms,
+      targetWeightKg,
       gymMembers: mems,
       activeMember: mems.length > 0 ? mems[0] : null,
       attendanceLogs: atts,

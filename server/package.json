@@ -5,7 +5,8 @@
   "type": "commonjs",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "dev": "node --watch src/index.js",
+    "local": "node src/local-dev.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

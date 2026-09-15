@@ -8,10 +8,11 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
+  Image,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
-import { RoutineCollection, RoutineDay, RoutineExercise, WeekDay } from '../../types';
+import { MuscleId, RoutineCollection, RoutineDay, RoutineExercise, WeekDay } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { createId } from '../../utils/ids';
 
@@ -21,6 +22,47 @@ interface CreateRoutineModalProps {
 }
 
 const WEEKDAY_OPTIONS: WeekDay[] = ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'];
+
+const MUSCLE_LABELS: Record<MuscleId, string> = {
+  pectoral: 'Pecho',
+  biceps: 'Bíceps',
+  hombros: 'Hombros',
+  oblicuos: 'Oblicuos',
+  abdomen: 'Abdomen',
+  antebrazo: 'Antebrazo',
+  cuadriceps: 'Cuádriceps',
+  abductores: 'Abductores',
+  adductores: 'Aductores',
+  cardio: 'Cardio',
+  trapecio: 'Trapecio',
+  triceps: 'Tríceps',
+  dorsales: 'Espalda',
+  lumbares: 'Lumbares',
+  gluteos: 'Glúteos',
+  isquiotibiales: 'Isquiotibiales',
+  pantorrillas: 'Gemelos',
+};
+
+const MUSCLE_FILTERS: Array<{ id: MuscleId | 'todos'; label: string }> = [
+  { id: 'todos', label: 'Todos' },
+  { id: 'pectoral', label: MUSCLE_LABELS.pectoral },
+  { id: 'dorsales', label: MUSCLE_LABELS.dorsales },
+  { id: 'hombros', label: MUSCLE_LABELS.hombros },
+  { id: 'biceps', label: MUSCLE_LABELS.biceps },
+  { id: 'triceps', label: MUSCLE_LABELS.triceps },
+  { id: 'abdomen', label: MUSCLE_LABELS.abdomen },
+  { id: 'oblicuos', label: MUSCLE_LABELS.oblicuos },
+  { id: 'gluteos', label: MUSCLE_LABELS.gluteos },
+  { id: 'cuadriceps', label: MUSCLE_LABELS.cuadriceps },
+  { id: 'isquiotibiales', label: MUSCLE_LABELS.isquiotibiales },
+  { id: 'pantorrillas', label: MUSCLE_LABELS.pantorrillas },
+  { id: 'antebrazo', label: MUSCLE_LABELS.antebrazo },
+  { id: 'trapecio', label: MUSCLE_LABELS.trapecio },
+  { id: 'lumbares', label: MUSCLE_LABELS.lumbares },
+  { id: 'abductores', label: MUSCLE_LABELS.abductores },
+  { id: 'adductores', label: MUSCLE_LABELS.adductores },
+  { id: 'cardio', label: MUSCLE_LABELS.cardio },
+];
 
 type RoutineDraftDay = {
   id: string;
@@ -51,6 +93,15 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
   // Exercise selection submodal state
   const [activeDayIndexForExercise, setActiveDayIndexForExercise] = useState<number | null>(null);
   const [exerciseSearch, setExerciseSearch] = useState('');
+  const [selectedMuscleFilter, setSelectedMuscleFilter] = useState<MuscleId | 'todos'>('todos');
+  const [isMuscleFilterOpen, setIsMuscleFilterOpen] = useState(false);
+
+  const closeExercisePicker = () => {
+    setActiveDayIndexForExercise(null);
+    setExerciseSearch('');
+    setSelectedMuscleFilter('todos');
+    setIsMuscleFilterOpen(false);
+  };
 
   const handleAddDay = () => {
     setDays((currentDays) => [...currentDays, createDraftDay(currentDays.length + 1)]);
@@ -76,8 +127,7 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
           : day
       )
     );
-    setActiveDayIndexForExercise(null);
-    setExerciseSearch('');
+    closeExercisePicker();
   };
 
   const handleRemoveExerciseFromDay = (dayIndex: number, exIndex: number) => {
@@ -153,10 +203,22 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
     onClose();
   };
 
-  const filteredExercisesForPicker = exercises.filter((e) =>
-    e.name.toLowerCase().includes(exerciseSearch.toLowerCase()) ||
-    e.primaryMuscle.toLowerCase().includes(exerciseSearch.toLowerCase())
-  );
+  const normalizedExerciseSearch = exerciseSearch.trim().toLowerCase();
+  const filteredExercisesForPicker = exercises.filter((e) => {
+    const matchesMuscle =
+      selectedMuscleFilter === 'todos' || e.primaryMuscle === selectedMuscleFilter;
+    const searchableMuscles = [e.primaryMuscle, ...e.secondaryMuscles]
+      .map((muscle) => `${muscle} ${MUSCLE_LABELS[muscle] || muscle}`.toLowerCase())
+      .join(' ');
+    const matchesSearch =
+      !normalizedExerciseSearch ||
+      e.name.toLowerCase().includes(normalizedExerciseSearch) ||
+      searchableMuscles.includes(normalizedExerciseSearch);
+
+    return matchesMuscle && matchesSearch;
+  });
+  const selectedMuscleLabel =
+    selectedMuscleFilter === 'todos' ? 'Todos los grupos' : MUSCLE_LABELS[selectedMuscleFilter];
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
@@ -308,7 +370,7 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
               <View style={styles.pickerBox}>
                 <View style={styles.pickerHeader}>
                   <Text style={styles.pickerTitle}>Seleccionar Ejercicio</Text>
-                  <TouchableOpacity onPress={() => setActiveDayIndexForExercise(null)}>
+                  <TouchableOpacity onPress={closeExercisePicker}>
                     <Ionicons name="close" size={24} color="#A1A1A6" />
                   </TouchableOpacity>
                 </View>
@@ -318,30 +380,134 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                   <Ionicons name="search" size={16} color="#8E8E93" style={{ marginRight: 8 }} />
                   <TextInput
                     style={styles.pickerSearchInput}
-                    placeholder="Buscar ejercicio o músculo..."
+                    placeholder="Buscar ejercicio o grupo muscular..."
                     placeholderTextColor="#636366"
                     value={exerciseSearch}
                     onChangeText={setExerciseSearch}
                   />
                 </View>
 
+                {/* Muscle group dropdown */}
+                <TouchableOpacity
+                  style={styles.muscleDropdownButton}
+                  onPress={() => setIsMuscleFilterOpen((isOpen) => !isOpen)}
+                  activeOpacity={0.8}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Grupo muscular: ${selectedMuscleLabel}`}
+                  accessibilityState={{ expanded: isMuscleFilterOpen }}
+                >
+                  <View style={styles.muscleDropdownButtonCopy}>
+                    <Ionicons name="body-outline" size={17} color={COLORS.primary} />
+                    <Text style={styles.muscleDropdownLabel}>Grupo muscular</Text>
+                    <Text style={styles.muscleDropdownValue} numberOfLines={1}>{selectedMuscleLabel}</Text>
+                  </View>
+                  <Ionicons
+                    name={isMuscleFilterOpen ? 'chevron-up' : 'chevron-down'}
+                    size={18}
+                    color="#A1A1A6"
+                  />
+                </TouchableOpacity>
+
+                {isMuscleFilterOpen && (
+                  <View style={styles.muscleDropdownMenu}>
+                    <ScrollView
+                      style={styles.muscleDropdownList}
+                      showsVerticalScrollIndicator={false}
+                      nestedScrollEnabled
+                    >
+                      {MUSCLE_FILTERS.map((filter) => {
+                        const isSelected = selectedMuscleFilter === filter.id;
+                        return (
+                          <TouchableOpacity
+                            key={filter.id}
+                            style={[styles.muscleDropdownOption, isSelected && styles.muscleDropdownOptionSelected]}
+                            onPress={() => {
+                              setSelectedMuscleFilter(filter.id);
+                              setIsMuscleFilterOpen(false);
+                            }}
+                            activeOpacity={0.75}
+                          >
+                            <Text
+                              style={[
+                                styles.muscleDropdownOptionText,
+                                isSelected && styles.muscleDropdownOptionTextSelected,
+                              ]}
+                            >
+                              {filter.label}
+                            </Text>
+                            {isSelected && <Ionicons name="checkmark" size={17} color={COLORS.primary} />}
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                )}
+
+                <Text style={styles.pickerResultCount}>
+                  {filteredExercisesForPicker.length === 1
+                    ? '1 ejercicio disponible'
+                    : `${filteredExercisesForPicker.length} ejercicios disponibles`}
+                </Text>
+
                 {/* Exercise List */}
-                <ScrollView style={styles.pickerList} showsVerticalScrollIndicator={false}>
+                <ScrollView
+                  style={[styles.pickerList, isMuscleFilterOpen && styles.pickerListWithDropdown]}
+                  showsVerticalScrollIndicator={false}
+                >
                   {filteredExercisesForPicker.map((ex) => (
                     <TouchableOpacity
                       key={ex.id}
                       style={styles.pickerItem}
                       onPress={() => handleSelectExerciseForDay(ex.id)}
                     >
-                      <View style={{ flex: 1 }}>
-                        <Text style={styles.pickerItemName}>{ex.name}</Text>
+                      <View style={styles.pickerItemImage}>
+                        {(() => {
+                          const thumbnailUri =
+                            (Platform.OS === 'web' && ex.localImagePath
+                              ? ex.localImagePath
+                              : ex.imageUrl || ex.localImagePath) || '';
+
+                          if (!thumbnailUri) {
+                            return <MaterialCommunityIcons name="dumbbell" size={28} color="#8E8E93" />;
+                          }
+
+                          // On web use a native lazy image so opening the picker does not
+                          // download the whole exercise library at once.
+                          if (Platform.OS === 'web') {
+                            return React.createElement('img', {
+                              src: thumbnailUri,
+                              loading: 'lazy',
+                              alt: `Imagen de ${ex.name}`,
+                              style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' },
+                            });
+                          }
+
+                          return (
+                            <Image
+                              source={{ uri: thumbnailUri }}
+                              resizeMode="cover"
+                              style={styles.pickerItemImageContent}
+                              accessibilityLabel={`Imagen de ${ex.name}`}
+                            />
+                          );
+                        })()}
+                      </View>
+                      <View style={styles.pickerItemCopy}>
+                        <Text style={styles.pickerItemName} numberOfLines={2}>{ex.name}</Text>
                         <Text style={styles.pickerItemMuscle}>
-                          {ex.primaryMuscle.toUpperCase()} • {ex.equipment}
+                          {MUSCLE_LABELS[ex.primaryMuscle] || ex.primaryMuscle} • {ex.equipment}
                         </Text>
                       </View>
                       <Ionicons name="add-circle" size={22} color={COLORS.primary} />
                     </TouchableOpacity>
                   ))}
+                  {filteredExercisesForPicker.length === 0 && (
+                    <View style={styles.pickerEmptyState}>
+                      <Ionicons name="search-outline" size={26} color="#8E8E93" />
+                      <Text style={styles.pickerEmptyTitle}>No hay ejercicios</Text>
+                      <Text style={styles.pickerEmptyText}>Prueba con otro nombre o grupo muscular.</Text>
+                    </View>
+                  )}
                 </ScrollView>
               </View>
             </View>
@@ -562,7 +728,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1C1C1E',
     borderRadius: 20,
     width: '100%',
-    maxHeight: '80%',
+    maxHeight: '88%',
     padding: 18,
     borderWidth: 1,
     borderColor: '#2C2C32',
@@ -593,15 +759,107 @@ const styles = StyleSheet.create({
     fontSize: 13,
     padding: 0,
   },
+  muscleDropdownButton: {
+    minHeight: 44,
+    backgroundColor: '#26262A',
+    borderRadius: 11,
+    borderWidth: 1,
+    borderColor: '#3A3A40',
+    paddingHorizontal: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  muscleDropdownButtonCopy: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    minWidth: 0,
+  },
+  muscleDropdownLabel: {
+    color: '#A1A1A6',
+    fontSize: 11,
+    fontWeight: '700',
+    marginLeft: 8,
+    marginRight: 6,
+  },
+  muscleDropdownValue: {
+    color: COLORS.primary,
+    fontSize: 12,
+    fontWeight: '800',
+    flex: 1,
+  },
+  muscleDropdownMenu: {
+    backgroundColor: '#242428',
+    borderRadius: 11,
+    borderWidth: 1,
+    borderColor: '#3A3A40',
+    marginBottom: 8,
+    overflow: 'hidden',
+  },
+  muscleDropdownList: {
+    maxHeight: 170,
+  },
+  muscleDropdownOption: {
+    minHeight: 38,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#303036',
+  },
+  muscleDropdownOptionSelected: {
+    backgroundColor: 'rgba(255, 106, 0, 0.12)',
+  },
+  muscleDropdownOptionText: {
+    color: '#D1D1D6',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  muscleDropdownOptionTextSelected: {
+    color: COLORS.primary,
+    fontWeight: '800',
+  },
+  pickerResultCount: {
+    color: '#8E8E93',
+    fontSize: 11,
+    marginBottom: 4,
+  },
   pickerList: {
     maxHeight: 360,
+  },
+  pickerListWithDropdown: {
+    maxHeight: 220,
   },
   pickerItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    minHeight: 82,
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#28282C',
+  },
+  pickerItemImage: {
+    width: 72,
+    height: 68,
+    borderRadius: 10,
+    overflow: 'hidden',
+    backgroundColor: '#26262A',
+    marginRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pickerItemImageContent: {
+    width: '100%',
+    height: '100%',
+  },
+  pickerItemCopy: {
+    flex: 1,
+    minWidth: 0,
+    marginRight: 8,
   },
   pickerItemName: {
     color: '#FFFFFF',
@@ -613,5 +871,22 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontSize: 11,
     fontWeight: '700',
+  },
+  pickerEmptyState: {
+    alignItems: 'center',
+    paddingVertical: 32,
+    paddingHorizontal: 20,
+  },
+  pickerEmptyTitle: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
+    marginTop: 8,
+  },
+  pickerEmptyText: {
+    color: '#8E8E93',
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 4,
   },
 });

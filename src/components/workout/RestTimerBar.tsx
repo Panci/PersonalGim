@@ -244,7 +244,9 @@ export const RestTimerBar: React.FC = () => {
 const styles = StyleSheet.create({
   floatingContainer: {
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 52 : 36,
+    // Keep the rest controls close to the next-set action, like a bottom
+    // sheet, so the active exercise remains visible above them on mobile.
+    bottom: Platform.OS === 'ios' ? 104 : 84,
     left: 16,
     right: 16,
     backgroundColor: '#1E1E22',

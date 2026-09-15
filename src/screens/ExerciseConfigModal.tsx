@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     width: '100%',
-    maxWidth: 390,
+    maxWidth: 430,
     alignSelf: 'center',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,

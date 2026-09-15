@@ -4,9 +4,8 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
-  Animated,
   Image,
+  useWindowDimensions,
 } from 'react-native';
 import Svg, {
   Path,
@@ -22,13 +21,7 @@ import { COLORS } from '../../theme/colors';
 import { MuscleId, BodySide } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
 
-const { width } = Dimensions.get('window');
-const SVG_WIDTH = Math.min(width - 32, 380);
 const SVG_HEIGHT = 490;
-// Keep the proportions of the original figures while making them large enough
-// to remain legible beside the callout labels on a phone-sized canvas.
-const REFERENCE_IMAGE_WIDTH = Math.min(SVG_WIDTH * 0.5, 180);
-const REFERENCE_IMAGE_HEIGHT = SVG_HEIGHT - 8;
 const USE_REFERENCE_ANATOMY = true;
 
 // The source contains front, side and back figures. They are cropped into
@@ -50,6 +43,14 @@ interface CalloutItem {
 
 export const AnatomyModel: React.FC = () => {
   const { bodySide, toggleBodySide, selectMuscle, selectedMuscleFilter } = useWorkoutStore();
+  const { width: viewportWidth } = useWindowDimensions();
+
+  // Recalculate the canvas when the device rotates or the browser preview is
+  // resized. The previous module-level Dimensions value was captured once at
+  // import time, which could leave callouts clipped after a rotation.
+  const svgWidth = Math.min(Math.max(viewportWidth - 32, 300), 380);
+  const referenceImageWidth = Math.min(svgWidth * 0.5, 180);
+  const referenceImageHeight = SVG_HEIGHT - 8;
 
   const isFront = bodySide === 'frente';
 
@@ -96,18 +97,18 @@ export const AnatomyModel: React.FC = () => {
       </View>
 
       {/* Anatomy reference image with the existing interactive callouts on top */}
-      <View style={styles.canvasContainer}>
+      <View style={[styles.canvasContainer, { width: svgWidth }]}>
         <View pointerEvents="none" style={styles.referenceImageLayer}>
           <Image
             source={isFront ? ANATOMY_REFERENCE_IMAGES.front : ANATOMY_REFERENCE_IMAGES.back}
-            style={styles.referenceImage}
+            style={{ width: referenceImageWidth, height: referenceImageHeight }}
             resizeMode="stretch"
             accessibilityLabel={isFront ? 'Anatomía frontal' : 'Anatomía posterior'}
           />
         </View>
 
         <Svg
-          width={SVG_WIDTH}
+          width={svgWidth}
           height={SVG_HEIGHT}
           viewBox="0 0 380 490"
           style={styles.overlaySvg}
@@ -406,7 +407,6 @@ const styles = StyleSheet.create({
   },
   canvasContainer: {
     position: 'relative',
-    width: SVG_WIDTH,
     height: SVG_HEIGHT,
     alignItems: 'center',
     justifyContent: 'center',
@@ -420,10 +420,6 @@ const styles = StyleSheet.create({
     left: 0,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  referenceImage: {
-    width: REFERENCE_IMAGE_WIDTH,
-    height: REFERENCE_IMAGE_HEIGHT,
   },
   overlaySvg: {
     position: 'absolute',

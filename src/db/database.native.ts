@@ -16,6 +16,7 @@ let fallbackExercises: Exercise[] = clone(INITIAL_EXERCISES);
 let fallbackCollections: RoutineCollection[] = [clone(INITIAL_COLLECTION)];
 let fallbackWorkouts: WorkoutSession[] = clone(INITIAL_WORKOUT_HISTORY);
 let fallbackBodyMeasurements: BodyMeasurementRecord[] = clone(INITIAL_BODY_MEASUREMENTS);
+let fallbackTargetWeightKg: number | null = null;
 let fallbackGymMembers: GymMember[] = clone(INITIAL_GYM_MEMBERS);
 let fallbackAttendanceLogs: AttendanceRecord[] = clone(INITIAL_ATTENDANCE_LOGS);
 
@@ -100,6 +101,7 @@ export const initDatabase = async (): Promise<void> => {
       CREATE TABLE IF NOT EXISTS workout_exercises (id TEXT PRIMARY KEY NOT NULL, workoutId TEXT NOT NULL, exerciseId TEXT NOT NULL, exerciseName TEXT NOT NULL, primaryMuscle TEXT NOT NULL, orderIndex INTEGER NOT NULL, notes TEXT);
       CREATE TABLE IF NOT EXISTS workout_exercise_sets (id TEXT PRIMARY KEY NOT NULL, workoutExerciseId TEXT NOT NULL, sourceSetId TEXT, setNumber INTEGER NOT NULL, type TEXT NOT NULL DEFAULT 'normal', reps INTEGER NOT NULL, weightKg REAL NOT NULL, rpe REAL, isCompleted INTEGER NOT NULL DEFAULT 0, restSeconds INTEGER);
       CREATE TABLE IF NOT EXISTS body_measurements (id TEXT PRIMARY KEY NOT NULL, date TEXT NOT NULL, weightKg REAL NOT NULL, bodyFatPct REAL, chestCm REAL, armLeftCm REAL, armRightCm REAL, waistCm REAL, hipsCm REAL, thighLeftCm REAL, thighRightCm REAL, calfCm REAL, shouldersCm REAL, notes TEXT);
+      CREATE TABLE IF NOT EXISTS user_preferences (key TEXT PRIMARY KEY NOT NULL, value TEXT);
       CREATE TABLE IF NOT EXISTS gym_members (id TEXT PRIMARY KEY NOT NULL, fullName TEXT NOT NULL, email TEXT NOT NULL, phone TEXT, membershipNumber TEXT NOT NULL, enrollmentDate TEXT NOT NULL, status TEXT NOT NULL, objective TEXT NOT NULL, level TEXT NOT NULL, assignedRoutineId TEXT, assignedRoutineTitle TEXT, lastWorkoutDate TEXT, completedWorkoutsCount INTEGER NOT NULL DEFAULT 0, currentWeightKg REAL, avatarUrl TEXT);
       CREATE TABLE IF NOT EXISTS attendance_logs (id TEXT PRIMARY KEY NOT NULL, member_id TEXT NOT NULL, member_name TEXT NOT NULL, membership_number TEXT NOT NULL, timestamp TEXT NOT NULL, type TEXT NOT NULL);
       CREATE INDEX IF NOT EXISTS idx_routine_days_collection ON routine_days(collectionId);
@@ -203,6 +205,22 @@ export const deleteRoutineFromDb = (collectionId: string): void => { const datab
 
 export const getBodyMeasurementsFromDb = (): BodyMeasurementRecord[] => { const database = getDb(); if (!database) return clone(fallbackBodyMeasurements).sort((a, b) => b.date.localeCompare(a.date)); try { return database.getAllSync<BodyMeasurementRecord>('SELECT * FROM body_measurements ORDER BY date DESC'); } catch (error) { console.warn('Unable to read body measurements', error); return []; } };
 export const saveBodyMeasurementToDb = (record: BodyMeasurementRecord): void => { const database = getDb(); if (!database) { fallbackBodyMeasurements = [clone(record), ...fallbackBodyMeasurements.filter(item => item.id !== record.id)]; return; } try { saveMeasurement(database, record); } catch (error) { console.warn('Unable to save body measurement', error); } };
+export const getTargetWeightFromDb = (): number | null => {
+  const database = getDb();
+  if (!database) return fallbackTargetWeightKg;
+  try {
+    const row = database.getFirstSync<{ value: string | null }>('SELECT value FROM user_preferences WHERE key = ?', ['targetWeightKg']);
+    if (!row?.value) return null;
+    const parsed = Number(row.value);
+    return Number.isFinite(parsed) ? parsed : null;
+  } catch (error) { console.warn('Unable to read target weight', error); return null; }
+};
+export const saveTargetWeightToDb = (targetWeightKg: number | null): void => {
+  const database = getDb();
+  if (!database) { fallbackTargetWeightKg = targetWeightKg; return; }
+  try { database.runSync('INSERT OR REPLACE INTO user_preferences (key, value) VALUES (?, ?)', ['targetWeightKg', targetWeightKg === null ? null : String(targetWeightKg)]); }
+  catch (error) { console.warn('Unable to save target weight', error); }
+};
 export const getGymMembersFromDb = (): GymMember[] => { const database = getDb(); if (!database) return clone(fallbackGymMembers); try { return database.getAllSync<GymMember>('SELECT * FROM gym_members ORDER BY enrollmentDate DESC'); } catch (error) { console.warn('Unable to read gym members', error); return []; } };
 export const addGymMemberToDb = (member: GymMember): void => { const database = getDb(); if (!database) { fallbackGymMembers = [clone(member), ...fallbackGymMembers.filter(item => item.id !== member.id)]; return; } try { saveMember(database, member); } catch (error) { console.warn('Unable to save gym member', error); } };
 export const updateGymMemberRoutineInDb = (memberId: string, routineId: string, routineTitle: string): void => { const database = getDb(); if (!database) { const member = fallbackGymMembers.find(item => item.id === memberId); if (member) { member.assignedRoutineId = routineId; member.assignedRoutineTitle = routineTitle; } return; } try { database.runSync('UPDATE gym_members SET assignedRoutineId = ?, assignedRoutineTitle = ? WHERE id = ?', [routineId, routineTitle, memberId]); } catch (error) { console.warn('Unable to assign member routine', error); } };

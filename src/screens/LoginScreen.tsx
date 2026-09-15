@@ -15,7 +15,7 @@ import { COLORS } from '../theme/colors';
 
 const roles = [
   { role: 'Administrador', description: 'Gestiona usuarios, rutinas y analítica.', icon: 'shield-account' },
-  { role: 'Monitor', description: 'Consulta socios y acompaña sus entrenamientos.', icon: 'whistle' },
+  { role: 'Monitor', description: 'Consulta socios, asigna rutinas y acompaña sus entrenamientos.', icon: 'whistle' },
   { role: 'Usuario', description: 'Accede a sus rutinas, registro y progreso.', icon: 'account-heart' },
 ];
 
@@ -126,7 +126,23 @@ export const LoginScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000000', paddingHorizontal: 20, justifyContent: 'center' },
+  container: {
+    flex: 1,
+    backgroundColor: '#000000',
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+    // Keep the unauthenticated screen consistent with the phone-sized shell
+    // used after login when the Expo web preview is opened on a desktop.
+    ...Platform.select({
+      web: {
+        width: '100%' as any,
+        maxWidth: 430,
+        minHeight: '100vh' as any,
+        alignSelf: 'center' as any,
+        marginHorizontal: 'auto' as any,
+      },
+    }),
+  },
   hero: { alignItems: 'center', marginBottom: 28 },
   logoMark: { width: 68, height: 68, borderRadius: 22, backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
   brand: { color: '#FFFFFF', fontSize: 30, fontWeight: '900', letterSpacing: -0.6 },

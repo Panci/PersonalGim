@@ -21,7 +21,10 @@ import { EXERCISE_CATEGORIES, ExerciseCategory } from '../data/exerciseCategorie
 
 export const EjerciciosScreen: React.FC = () => {
   const { width: viewportWidth } = useWindowDimensions();
-  const isNarrowViewport = viewportWidth < 520;
+  // The app shell is intentionally phone-sized in the web preview, so use
+  // the effective shell width instead of the full desktop browser width.
+  const effectiveViewportWidth = Math.min(viewportWidth, 430);
+  const isNarrowViewport = effectiveViewportWidth < 520;
   const {
     exercises,
     searchQuery,
@@ -775,7 +778,7 @@ const styles = StyleSheet.create({
   },
   categoryContent: {
     paddingHorizontal: 16,
-    paddingTop: Platform.OS === 'ios' ? 56 : 26,
+    paddingTop: Platform.OS === 'ios' ? 18 : 26,
     paddingBottom: 40,
   },
   categoryHeader: {
@@ -884,7 +887,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 56 : 28,
+    paddingTop: Platform.OS === 'ios' ? 18 : 28,
     paddingBottom: 12,
   },
   headerTitle: {

@@ -13,6 +13,7 @@ type LocalState = {
   collections: RoutineCollection[];
   workouts: WorkoutSession[];
   measurements: BodyMeasurementRecord[];
+  targetWeightKg: number | null;
   members: GymMember[];
   attendance: AttendanceRecord[];
 };
@@ -28,6 +29,7 @@ const defaults = (): LocalState => ({
   collections: [],
   workouts: [],
   measurements: [],
+  targetWeightKg: null,
   members: [],
   attendance: [],
 });
@@ -58,11 +60,19 @@ const load = (): void => {
       // in sync with the replacement library instead of appending to it.
       const currentIds = new Set(INITIAL_EXERCISES.map((exercise) => exercise.id));
       const retainedExercises = parsed.exercises.filter((exercise) => exercise.isCustom || currentIds.has(exercise.id));
+      const targetWeightKg = typeof parsed.targetWeightKg === 'number' && Number.isFinite(parsed.targetWeightKg)
+        ? parsed.targetWeightKg
+        : null;
       state = {
         ...parsed,
+        targetWeightKg,
         exercises: [...retainedExercises.map(withExerciseGuidance), ...missingExercises],
       };
-      if (missingExercises.length > 0 || retainedExercises.length !== parsed.exercises.length) persist();
+      if (
+        missingExercises.length > 0 ||
+        retainedExercises.length !== parsed.exercises.length ||
+        parsed.targetWeightKg !== targetWeightKg
+      ) persist();
     }
     else console.warn('Ignoring invalid saved PersonalGim data');
   } catch (error) { console.warn('Unable to load local PersonalGim data', error); }
@@ -142,6 +152,8 @@ export const updateRoutineCollectionDetailsInDb = (collectionId: string, title: 
 export const deleteRoutineFromDb = (collectionId: string): void => { load(); state.collections = state.collections.filter(item => item.id !== collectionId); persist(); };
 export const getBodyMeasurementsFromDb = (): BodyMeasurementRecord[] => { load(); return clone(state.measurements).sort((a, b) => b.date.localeCompare(a.date)); };
 export const saveBodyMeasurementToDb = (record: BodyMeasurementRecord): void => { load(); state.measurements = replaceById(state.measurements, record); persist(); };
+export const getTargetWeightFromDb = (): number | null => { load(); return state.targetWeightKg; };
+export const saveTargetWeightToDb = (targetWeightKg: number | null): void => { load(); state.targetWeightKg = targetWeightKg; persist(); };
 export const getGymMembersFromDb = (): GymMember[] => { load(); return clone(state.members).sort((a, b) => b.enrollmentDate.localeCompare(a.enrollmentDate)); };
 export const addGymMemberToDb = (member: GymMember): void => { load(); state.members = replaceById(state.members, member); persist(); };
 export const updateGymMemberRoutineInDb = (memberId: string, routineId: string, routineTitle: string): void => {

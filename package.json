@@ -31,6 +31,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "api:local": "npm --prefix server run local",
     "scrape:smartworkout": "node scripts/scrape-smartworkout.mjs",
     "dev:api-proxy": "node scripts/local-api-proxy.mjs"
   },

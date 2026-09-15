@@ -13,7 +13,7 @@ interface CreateAccessModalProps {
 
 const roleOptions: { id: UserRole; label: string; detail: string }[] = [
   { id: 'user', label: 'Usuario', detail: 'Rutinas, sesiones y progreso propios.' },
-  { id: 'monitor', label: 'Monitor', detail: 'Consulta socios y actividad de la sala.' },
+  { id: 'monitor', label: 'Monitor', detail: 'Consulta socios, asigna rutinas y acompaña en sala.' },
   { id: 'admin', label: 'Administrador', detail: 'Gestión completa del centro.' },
 ];
 
