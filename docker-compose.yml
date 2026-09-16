@@ -29,7 +29,9 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       BOOTSTRAP_ADMIN_EMAIL: ${BOOTSTRAP_ADMIN_EMAIL}
-      BOOTSTRAP_ADMIN_PIN: ${BOOTSTRAP_ADMIN_PIN}
+      # Dokploy's existing service environment used the legacy password key.
+      # Keep accepting it while the application uses the four-digit PIN flow.
+      BOOTSTRAP_ADMIN_PIN: ${BOOTSTRAP_ADMIN_PASSWORD:-${BOOTSTRAP_ADMIN_PIN}}
       CORS_ORIGIN: ${CORS_ORIGIN}
     depends_on:
       db:
