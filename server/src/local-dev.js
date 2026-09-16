@@ -18,6 +18,9 @@ const port = Number(process.env.LOCAL_API_PORT || 8082);
 const host = process.env.LOCAL_API_HOST || '127.0.0.1';
 const jwtSecret = process.env.LOCAL_JWT_SECRET || 'personalgim-local-development-secret-2026';
 const validRoles = new Set(['admin', 'monitor', 'user']);
+const PIN_PATTERN = /^\d{4}$/;
+const DEFAULT_LOCAL_ADMIN_PIN = '1234';
+const LEGACY_LOCAL_ADMIN_PASSWORD = 'LocalPersonalGim2026!';
 const stateDir = path.resolve(__dirname, '..', '.local-data');
 const stateFile = path.join(stateDir, 'state.json');
 
@@ -60,15 +63,24 @@ const readState = async () => {
 
 const bootstrapAdmin = async () => {
   const email = (process.env.LOCAL_BOOTSTRAP_ADMIN_EMAIL || 'admin@local.test').trim().toLowerCase();
-  const password = process.env.LOCAL_BOOTSTRAP_ADMIN_PASSWORD || 'LocalPersonalGim2026!';
-  if (password.length < 12) throw new Error('LOCAL_BOOTSTRAP_ADMIN_PASSWORD debe tener al menos 12 caracteres.');
-  if (state.users.some((user) => user.email === email)) return false;
+  const pin = process.env.LOCAL_BOOTSTRAP_ADMIN_PIN || DEFAULT_LOCAL_ADMIN_PIN;
+  if (!PIN_PATTERN.test(pin)) throw new Error('LOCAL_BOOTSTRAP_ADMIN_PIN debe tener exactamente 4 dígitos.');
+  const existing = state.users.find((user) => user.email === email);
+  if (existing) {
+    if (await bcrypt.compare(LEGACY_LOCAL_ADMIN_PASSWORD, existing.passwordHash)) {
+      existing.passwordHash = await bcrypt.hash(pin, 12);
+      existing.updatedAt = new Date().toISOString();
+      await writeState();
+      console.log(`PIN local actualizado para ${email}.`);
+    }
+    return false;
+  }
 
   state.users.push({
     id: crypto.randomUUID(),
     email,
     fullName: 'Administrador local',
-    passwordHash: await bcrypt.hash(password, 12),
+    passwordHash: await bcrypt.hash(pin, 12),
     role: 'admin',
     isActive: true,
     createdAt: new Date().toISOString(),
@@ -120,12 +132,12 @@ app.get('/health', (_req, res) => res.json({ status: 'ok', environment: 'local' 
 
 app.post('/api/auth/login', async (req, res) => {
   const email = String(req.body?.email || '').trim().toLowerCase();
-  const password = String(req.body?.password || '');
-  if (!email || !password) return res.status(400).json({ error: 'Introduce tu correo y contraseña.' });
+  const pin = String(req.body?.pin || '');
+  if (!email || !PIN_PATTERN.test(pin)) return res.status(400).json({ error: 'Introduce un PIN de exactamente 4 dígitos.' });
 
   const user = state.users.find((candidate) => candidate.email === email);
-  if (!user || !user.isActive || !(await bcrypt.compare(password, user.passwordHash))) {
-    return res.status(401).json({ error: 'Correo o contraseña incorrectos.' });
+  if (!user || !user.isActive || !(await bcrypt.compare(pin, user.passwordHash))) {
+    return res.status(401).json({ error: 'Correo o PIN incorrectos.' });
   }
   await addAudit(user.id, 'login');
   return res.json({ token: createToken(user), user: publicUser(user) });
@@ -134,30 +146,30 @@ app.post('/api/auth/login', async (req, res) => {
 app.get('/api/auth/me', authenticate, (req, res) => res.json({ user: publicUser(req.user) }));
 
 app.patch('/api/auth/account', authenticate, async (req, res) => {
-  const currentPassword = String(req.body?.currentPassword || '');
+  const currentPin = String(req.body?.currentPin || '');
   const nextEmail = String(req.body?.email || '').trim().toLowerCase();
-  const nextPassword = String(req.body?.newPassword || '');
-  if (!currentPassword) return res.status(400).json({ error: 'Introduce tu contraseña actual.' });
+  const nextPin = String(req.body?.newPin || '');
+  if (!PIN_PATTERN.test(currentPin)) return res.status(400).json({ error: 'Introduce tu PIN actual de 4 dígitos.' });
   if (!nextEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nextEmail)) {
     return res.status(400).json({ error: 'Introduce un correo electrónico válido.' });
   }
-  if (nextPassword && nextPassword.length < 12) {
-    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 12 caracteres.' });
+  if (nextPin && !PIN_PATTERN.test(nextPin)) {
+    return res.status(400).json({ error: 'El nuevo PIN debe tener exactamente 4 dígitos.' });
   }
   if (state.users.some((user) => user.id !== req.user.id && user.email === nextEmail)) {
     return res.status(409).json({ error: 'Ya existe una cuenta con ese correo.' });
   }
-  if (!(await bcrypt.compare(currentPassword, req.user.passwordHash))) {
-    return res.status(401).json({ error: 'La contraseña actual no es correcta.' });
+  if (!(await bcrypt.compare(currentPin, req.user.passwordHash))) {
+    return res.status(401).json({ error: 'El PIN actual no es correcto.' });
   }
 
   const previousEmail = req.user.email;
   req.user.email = nextEmail;
-  if (nextPassword) req.user.passwordHash = await bcrypt.hash(nextPassword, 12);
+  if (nextPin) req.user.passwordHash = await bcrypt.hash(nextPin, 12);
   req.user.updatedAt = new Date().toISOString();
   await addAudit(req.user.id, 'update_account', {
     emailChanged: previousEmail !== nextEmail,
-    passwordChanged: Boolean(nextPassword),
+    pinChanged: Boolean(nextPin),
   });
   return res.json({ token: createToken(req.user), user: publicUser(req.user) });
 });
@@ -169,10 +181,10 @@ app.get('/api/users', authenticate, authorize('admin'), (_req, res) => {
 app.post('/api/users', authenticate, authorize('admin'), async (req, res) => {
   const email = String(req.body?.email || '').trim().toLowerCase();
   const fullName = String(req.body?.fullName || '').trim();
-  const password = String(req.body?.password || '');
+  const pin = String(req.body?.pin || '');
   const role = String(req.body?.role || 'user');
-  if (!email || !fullName || password.length < 12 || !validRoles.has(role)) {
-    return res.status(400).json({ error: 'Datos de usuario no válidos.' });
+  if (!email || !fullName || !PIN_PATTERN.test(pin) || !validRoles.has(role)) {
+    return res.status(400).json({ error: 'Indica un PIN de exactamente 4 dígitos.' });
   }
   if (state.users.some((user) => user.email === email)) {
     return res.status(409).json({ error: 'Ya existe una cuenta con ese correo.' });
@@ -182,7 +194,7 @@ app.post('/api/users', authenticate, authorize('admin'), async (req, res) => {
     id: crypto.randomUUID(),
     email,
     fullName,
-    passwordHash: await bcrypt.hash(password, 12),
+    passwordHash: await bcrypt.hash(pin, 12),
     role,
     isActive: true,
     createdAt: new Date().toISOString(),
@@ -235,7 +247,7 @@ const start = async () => {
   const created = await bootstrapAdmin();
   app.listen(port, host, () => {
     console.log(`PersonalGim API local escuchando en http://${host}:${port}`);
-    if (created) console.log('Cuenta local inicial: admin@local.test / LocalPersonalGim2026!');
+    if (created) console.log('Cuenta local inicial: admin@local.test / PIN 1234');
   });
 };
 

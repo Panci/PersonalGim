@@ -188,29 +188,40 @@ export const AdminDashboard: React.FC = () => {
     <View style={styles.container}>
       {/* Top Admin Header */}
       <View style={styles.header}>
-        <View>
+        <View style={styles.headerLeft}>
           <View style={styles.badgeRow}>
             <View style={styles.adminBadge}>
               <Text style={styles.adminBadgeText}>PANEL ADMINISTRADOR</Text>
             </View>
             <Text style={styles.capacityBadge}>{gymMembers.length} / 100 socios</Text>
           </View>
+          <TouchableOpacity
+            style={styles.switchRoleBtn}
+            onPress={() => setCurrentRole('member')}
+            activeOpacity={0.8}
+            hitSlop={6}
+          >
+            <Ionicons name="barbell" size={16} color="#FFFFFF" style={{ marginRight: 6 }} />
+            <Text style={styles.switchRoleText}>Modo Entreno</Text>
+          </TouchableOpacity>
           <Text style={styles.title}>Gestión del Gimnasio</Text>
         </View>
 
         <View style={styles.headerActions}>
           <TouchableOpacity
-            style={styles.switchRoleBtn}
-            onPress={() => setCurrentRole('member')}
-            activeOpacity={0.8}
+            style={styles.logoutBtn}
+            onPress={() => void signOut()}
+            accessibilityLabel="Cerrar sesión"
+            hitSlop={6}
           >
-            <Ionicons name="barbell" size={16} color="#FFFFFF" style={{ marginRight: 6 }} />
-            <Text style={styles.switchRoleText}>Modo Entreno</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.logoutBtn} onPress={() => void signOut()} accessibilityLabel="Cerrar sesión">
             <Ionicons name="log-out-outline" size={19} color="#FFFFFF" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.createAccessBtn} onPress={() => setShowCreateAccessModal(true)} accessibilityLabel="Crear cuenta">
+          <TouchableOpacity
+            style={styles.createAccessBtn}
+            onPress={() => setShowCreateAccessModal(true)}
+            accessibilityLabel="Crear cuenta"
+            hitSlop={6}
+          >
             <Ionicons name="person-add-outline" size={19} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
@@ -250,22 +261,22 @@ export const AdminDashboard: React.FC = () => {
       {/* Admin Tabs */}
       <View style={styles.tabsRow}>
         {[
-          { id: 'socios', label: 'Socios', icon: 'people' },
-          { id: 'accesos', label: 'Tornos y Aforo', icon: 'qr-code' },
-          { id: 'rutinas', label: 'Plantillas Rutina', icon: 'clipboard' },
-          { id: 'analitica', label: 'Analítica y CSV', icon: 'bar-chart' },
+          { id: 'socios', label: 'Socios', icon: 'people', tone: styles.tabBtnSocios, iconColor: COLORS.primary },
+          { id: 'accesos', label: 'Tornos y Aforo', icon: 'qr-code', tone: styles.tabBtnAccesos, iconColor: '#0A84FF' },
+          { id: 'rutinas', label: 'Plantillas Rutina', icon: 'clipboard', tone: styles.tabBtnRutinas, iconColor: '#34C759' },
+          { id: 'analitica', label: 'Analítica y CSV', icon: 'bar-chart', tone: styles.tabBtnAnalitica, iconColor: '#AF52DE' },
         ].map((t) => {
           const isSel = activeTab === t.id;
           return (
             <TouchableOpacity
               key={t.id}
-              style={[styles.tabBtn, isSel && styles.tabBtnActive]}
+              style={[styles.tabBtn, t.tone, isSel && styles.tabBtnActive]}
               onPress={() => setActiveTab(t.id as AdminTab)}
             >
               <Ionicons
                 name={t.icon as any}
                 size={14}
-                color={isSel ? COLORS.primary : '#8E8E93'}
+                color={isSel ? '#FFFFFF' : t.iconColor}
                 style={{ marginRight: 6 }}
               />
               <Text style={[styles.tabText, isSel && styles.tabTextActive]}>{t.label}</Text>
@@ -303,16 +314,21 @@ export const AdminDashboard: React.FC = () => {
 
             {/* Status Filter Chips */}
             <View style={styles.filterChipsRow}>
-              {(['todos', 'activo', 'inactivo', 'pendiente'] as const).map((st) => {
-                const isSel = statusFilter === st;
+              {([
+                { id: 'todos', label: 'TODOS', tone: styles.statusChipTodos, selectedTone: styles.statusChipSelectedTodos },
+                { id: 'activo', label: 'ACTIVO', tone: styles.statusChipActivo, selectedTone: styles.statusChipSelectedActivo },
+                { id: 'inactivo', label: 'INACTIVO', tone: styles.statusChipInactivo, selectedTone: styles.statusChipSelectedInactivo },
+                { id: 'pendiente', label: 'PENDIENTE', tone: styles.statusChipPendiente, selectedTone: styles.statusChipSelectedPendiente },
+              ] as const).map((st) => {
+                const isSel = statusFilter === st.id;
                 return (
                   <TouchableOpacity
-                    key={st}
-                    style={[styles.statusChip, isSel && styles.statusChipActive]}
-                    onPress={() => setStatusFilter(st)}
+                    key={st.id}
+                    style={[styles.statusChip, st.tone, isSel && styles.statusChipActive, isSel && st.selectedTone]}
+                    onPress={() => setStatusFilter(st.id)}
                   >
                     <Text style={[styles.statusChipText, isSel && styles.statusChipTextActive]}>
-                      {st.toUpperCase()}
+                      {st.label}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -744,10 +760,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    paddingHorizontal: 20,
+    paddingHorizontal: 8,
     // AppShell provides the iOS safe-area inset; keep the inner header compact.
     paddingTop: Platform.OS === 'ios' ? 18 : 28,
-    paddingBottom: 14,
+    paddingBottom: 20,
+  },
+  headerLeft: {
+    flexShrink: 1,
+    alignItems: 'flex-start',
   },
   badgeRow: {
     flexDirection: 'row',
@@ -782,27 +802,28 @@ const styles = StyleSheet.create({
   headerActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 10,
   },
   switchRoleBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#26262A',
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: 12,
+    minHeight: 42,
+    paddingHorizontal: 13,
+    paddingVertical: 9,
+    borderRadius: 13,
     borderWidth: 1,
     borderColor: '#383840',
   },
   switchRoleText: {
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
   },
   logoutBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 12,
+    width: 42,
+    height: 42,
+    borderRadius: 13,
     backgroundColor: '#26262A',
     borderWidth: 1,
     borderColor: '#383840',
@@ -810,9 +831,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   createAccessBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 12,
+    width: 42,
+    height: 42,
+    borderRadius: 13,
     backgroundColor: COLORS.primary,
     alignItems: 'center',
     justifyContent: 'center',
@@ -821,7 +842,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#1E2C1E',
-    marginHorizontal: 20,
+    marginHorizontal: 8,
     marginBottom: 10,
     paddingHorizontal: 14,
     paddingVertical: 8,
@@ -839,12 +860,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: '#1C1C1E',
-    marginHorizontal: 20,
+    marginHorizontal: 8,
     borderRadius: 16,
     paddingVertical: 12,
     borderWidth: 1,
     borderColor: '#2A2A2E',
-    marginBottom: 12,
+    marginBottom: 26,
   },
   kpiItem: {
     alignItems: 'center',
@@ -867,29 +888,49 @@ const styles = StyleSheet.create({
   },
   tabsRow: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
-    gap: 8,
-    marginBottom: 12,
+    paddingHorizontal: 8,
+    columnGap: 8,
+    rowGap: 14,
+    marginBottom: 20,
     flexWrap: 'wrap',
   },
   tabBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    justifyContent: 'center',
+    width: '48%',
+    minHeight: 44,
+    paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 12,
     backgroundColor: '#1C1C1E',
     borderWidth: 1,
     borderColor: '#2A2A2E',
   },
+  tabBtnSocios: {
+    backgroundColor: 'rgba(255, 106, 0, 0.14)',
+    borderColor: 'rgba(255, 106, 0, 0.35)',
+  },
+  tabBtnAccesos: {
+    backgroundColor: 'rgba(10, 132, 255, 0.14)',
+    borderColor: 'rgba(10, 132, 255, 0.35)',
+  },
+  tabBtnRutinas: {
+    backgroundColor: 'rgba(52, 199, 89, 0.14)',
+    borderColor: 'rgba(52, 199, 89, 0.35)',
+  },
+  tabBtnAnalitica: {
+    backgroundColor: 'rgba(175, 82, 222, 0.14)',
+    borderColor: 'rgba(175, 82, 222, 0.35)',
+  },
   tabBtnActive: {
     borderColor: COLORS.primary,
     backgroundColor: 'rgba(255, 106, 0, 0.1)',
   },
   tabText: {
-    color: '#8E8E93',
-    fontSize: 11,
-    fontWeight: '600',
+    color: '#F2F2F7',
+    fontSize: 13,
+    fontWeight: '700',
   },
   tabTextActive: {
     color: '#FFFFFF',
@@ -899,7 +940,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 8,
     paddingBottom: 40,
   },
   actionRow: {
@@ -939,25 +980,63 @@ const styles = StyleSheet.create({
   },
   filterChipsRow: {
     flexDirection: 'row',
-    gap: 6,
-    marginBottom: 14,
+    columnGap: 8,
+    rowGap: 14,
+    marginBottom: 18,
+    flexWrap: 'wrap',
   },
   statusChip: {
+    width: '48%',
+    minHeight: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 8,
     borderRadius: 8,
     backgroundColor: '#1C1C1E',
     borderWidth: 1,
     borderColor: '#2A2A2E',
   },
+  statusChipTodos: {
+    backgroundColor: '#26262A',
+    borderColor: '#3A3A40',
+  },
+  statusChipActivo: {
+    backgroundColor: 'rgba(52, 199, 89, 0.16)',
+    borderColor: 'rgba(52, 199, 89, 0.4)',
+  },
+  statusChipInactivo: {
+    backgroundColor: 'rgba(255, 69, 58, 0.16)',
+    borderColor: 'rgba(255, 69, 58, 0.4)',
+  },
+  statusChipPendiente: {
+    backgroundColor: 'rgba(255, 159, 10, 0.16)',
+    borderColor: 'rgba(255, 159, 10, 0.4)',
+  },
   statusChipActive: {
     backgroundColor: '#2E2E32',
     borderColor: COLORS.primary,
   },
+  statusChipSelectedTodos: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  statusChipSelectedActivo: {
+    backgroundColor: '#34C759',
+    borderColor: '#34C759',
+  },
+  statusChipSelectedInactivo: {
+    backgroundColor: '#FF453A',
+    borderColor: '#FF453A',
+  },
+  statusChipSelectedPendiente: {
+    backgroundColor: '#FF9F0A',
+    borderColor: '#FF9F0A',
+  },
   statusChipText: {
-    color: '#8E8E93',
-    fontSize: 10,
-    fontWeight: '700',
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '800',
   },
   statusChipTextActive: {
     color: '#FFFFFF',

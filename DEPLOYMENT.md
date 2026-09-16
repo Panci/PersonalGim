@@ -18,9 +18,9 @@ Los roles disponibles son:
 
 ## Preparar variables
 
-En Dokploy crea las variables definidas en `.env.example`. Sustituye todos los valores de ejemplo por secretos únicos. Para generar secretos se recomienda una cadena aleatoria de al menos 32 caracteres para `JWT_SECRET` y una contraseña larga para `POSTGRES_PASSWORD`.
+En Dokploy crea las variables definidas en `.env.example`. Sustituye todos los valores de ejemplo por valores propios. Para generar secretos se recomienda una cadena aleatoria de al menos 32 caracteres para `JWT_SECRET` y una contraseña larga para `POSTGRES_PASSWORD`. El `BOOTSTRAP_ADMIN_PIN` debe ser un PIN numérico de exactamente 4 dígitos.
 
-La primera vez, `BOOTSTRAP_ADMIN_EMAIL` y `BOOTSTRAP_ADMIN_PASSWORD` crean la cuenta administradora. Después de entrar con esa cuenta, el administrador puede crear accesos de monitor o usuario desde el panel.
+La primera vez, `BOOTSTRAP_ADMIN_EMAIL` y `BOOTSTRAP_ADMIN_PIN` crean la cuenta administradora. Después de entrar con esa cuenta, el administrador puede crear accesos de monitor o usuario desde el panel.
 
 Para el despliegue web mantén:
 

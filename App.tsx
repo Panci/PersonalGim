@@ -128,6 +128,7 @@ function AppShell() {
         return (
           <EntrenoScreen
             onOpenRoutineDetail={() => setShowRoutineDetail(true)}
+            onOpenAccountSettings={() => setShowAccountSettings(true)}
             onOpenDayWorkout={(collectionId, dayId) => {
               const collection = collections.find((item) => item.id === collectionId);
               const day = collection?.days.find((item) => item.id === dayId);
@@ -146,7 +147,13 @@ function AppShell() {
       case 'cuerpo':
         return <CuerpoScreen />;
       default:
-        return <EntrenoScreen onOpenRoutineDetail={() => setShowRoutineDetail(true)} onOpenDayWorkout={() => {}} />;
+        return (
+          <EntrenoScreen
+            onOpenRoutineDetail={() => setShowRoutineDetail(true)}
+            onOpenAccountSettings={() => setShowAccountSettings(true)}
+            onOpenDayWorkout={() => {}}
+          />
+        );
     }
   };
 
@@ -154,7 +161,7 @@ function AppShell() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {session && !isWorkoutActive && (
+      {session && currentRole === 'member' && (activeTab !== 'entreno' || showRoutineDetail) && !isWorkoutActive && (
         <TouchableOpacity
           style={styles.accountButton}
           onPress={() => setShowAccountSettings(true)}

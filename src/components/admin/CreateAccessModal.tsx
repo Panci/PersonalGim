@@ -3,6 +3,7 @@ import { ActivityIndicator, Modal, StyleSheet, Text, TextInput, TouchableOpacity
 import { Ionicons } from '@expo/vector-icons';
 import { createUserRequest } from '../../auth/api';
 import { useAuth } from '../../auth/AuthProvider';
+import { isValidPin, normalizePin, PIN_LENGTH } from '../../auth/pin';
 import { UserRole } from '../../auth/types';
 import { COLORS } from '../../theme/colors';
 
@@ -21,7 +22,7 @@ export const CreateAccessModal: React.FC<CreateAccessModalProps> = ({ visible, o
   const { session } = useAuth();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [pin, setPin] = useState('');
   const [role, setRole] = useState<UserRole>('user');
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -29,7 +30,7 @@ export const CreateAccessModal: React.FC<CreateAccessModalProps> = ({ visible, o
   const closeAndReset = () => {
     setFullName('');
     setEmail('');
-    setPassword('');
+    setPin('');
     setRole('user');
     setError('');
     onClose();
@@ -37,8 +38,8 @@ export const CreateAccessModal: React.FC<CreateAccessModalProps> = ({ visible, o
 
   const createAccess = async () => {
     if (!session) return;
-    if (!fullName.trim() || !email.trim() || password.length < 12) {
-      setError('Indica nombre, correo y una contraseña de al menos 12 caracteres.');
+    if (!fullName.trim() || !email.trim() || !isValidPin(pin)) {
+      setError('Indica nombre, correo y un PIN de exactamente 4 dígitos.');
       return;
     }
     setSaving(true);
@@ -47,7 +48,7 @@ export const CreateAccessModal: React.FC<CreateAccessModalProps> = ({ visible, o
       await createUserRequest(session.token, {
         fullName: fullName.trim(),
         email: email.trim().toLowerCase(),
-        password,
+        pin,
         role,
       });
       closeAndReset();
@@ -76,8 +77,8 @@ export const CreateAccessModal: React.FC<CreateAccessModalProps> = ({ visible, o
           <TextInput style={styles.input} value={fullName} onChangeText={setFullName} placeholder="Nombre y apellidos" placeholderTextColor="#6E6E73" />
           <Text style={styles.label}>CORREO ELECTRÓNICO</Text>
           <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="correo@centro.com" placeholderTextColor="#6E6E73" autoCapitalize="none" keyboardType="email-address" />
-          <Text style={styles.label}>CONTRASEÑA INICIAL</Text>
-          <TextInput style={styles.input} value={password} onChangeText={setPassword} placeholder="Mínimo 12 caracteres" placeholderTextColor="#6E6E73" secureTextEntry autoCapitalize="none" />
+          <Text style={styles.label}>PIN INICIAL</Text>
+          <TextInput style={styles.input} value={pin} onChangeText={(value) => setPin(normalizePin(value))} placeholder="0000" placeholderTextColor="#6E6E73" secureTextEntry keyboardType="numeric" maxLength={PIN_LENGTH} />
 
           <Text style={styles.label}>ROL</Text>
           {roleOptions.map((option) => (

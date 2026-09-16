@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '../auth/AuthProvider';
+import { isValidPin, normalizePin, PIN_LENGTH } from '../auth/pin';
 import { COLORS } from '../theme/colors';
 
 const roles = [
@@ -22,22 +23,26 @@ const roles = [
 export const LoginScreen: React.FC = () => {
   const { signIn } = useAuth();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [pin, setPin] = useState('');
+  const [showPin, setShowPin] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const handleSignIn = async () => {
     const normalizedEmail = email.trim().toLowerCase();
-    if (!normalizedEmail || !password) {
-      setError('Introduce tu correo y contraseña.');
+    if (!normalizedEmail || !pin) {
+      setError('Introduce tu correo y PIN.');
+      return;
+    }
+    if (!isValidPin(pin)) {
+      setError('El PIN debe tener exactamente 4 dígitos.');
       return;
     }
 
     setSubmitting(true);
     setError('');
     try {
-      await signIn(normalizedEmail, password);
+      await signIn(normalizedEmail, pin);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'No se pudo iniciar sesión.');
     } finally {
@@ -75,25 +80,26 @@ export const LoginScreen: React.FC = () => {
           editable={!submitting}
         />
 
-        <Text style={styles.label}>CONTRASEÑA</Text>
-        <View style={styles.passwordRow}>
+        <Text style={styles.label}>PIN DE ACCESO</Text>
+        <View style={styles.pinRow}>
           <TextInput
-            style={styles.passwordInput}
-            value={password}
-            onChangeText={setPassword}
-            placeholder="Tu contraseña"
+            style={styles.pinInput}
+            value={pin}
+            onChangeText={(value) => setPin(normalizePin(value))}
+            placeholder="0000"
             placeholderTextColor="#6E6E73"
-            secureTextEntry={!showPassword}
-            autoCapitalize="none"
+            secureTextEntry={!showPin}
+            keyboardType="numeric"
+            maxLength={PIN_LENGTH}
             editable={!submitting}
             onSubmitEditing={handleSignIn}
           />
           <TouchableOpacity
-            style={styles.showPasswordButton}
-            onPress={() => setShowPassword((value) => !value)}
-            accessibilityLabel={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+            style={styles.showPinButton}
+            onPress={() => setShowPin((value) => !value)}
+            accessibilityLabel={showPin ? 'Ocultar PIN' : 'Mostrar PIN'}
           >
-            <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={21} color="#A1A1A6" />
+            <Ionicons name={showPin ? 'eye-off-outline' : 'eye-outline'} size={21} color="#A1A1A6" />
           </TouchableOpacity>
         </View>
 
@@ -152,9 +158,9 @@ const styles = StyleSheet.create({
   cardSubtitle: { color: '#A1A1A6', fontSize: 13, marginTop: 5, marginBottom: 20 },
   label: { color: '#8E8E93', fontSize: 10, fontWeight: '800', letterSpacing: 0.8, marginBottom: 7, marginTop: 13 },
   input: { height: 48, borderRadius: 12, backgroundColor: '#28282C', color: '#FFFFFF', paddingHorizontal: 14, fontSize: 15, borderWidth: 1, borderColor: '#34343A' },
-  passwordRow: { height: 48, borderRadius: 12, backgroundColor: '#28282C', flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#34343A' },
-  passwordInput: { flex: 1, height: '100%', color: '#FFFFFF', paddingHorizontal: 14, fontSize: 15 },
-  showPasswordButton: { width: 48, height: '100%', alignItems: 'center', justifyContent: 'center' },
+  pinRow: { height: 48, borderRadius: 12, backgroundColor: '#28282C', flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#34343A' },
+  pinInput: { flex: 1, height: '100%', color: '#FFFFFF', paddingHorizontal: 14, fontSize: 18, letterSpacing: 4 },
+  showPinButton: { width: 48, height: '100%', alignItems: 'center', justifyContent: 'center' },
   error: { color: '#FF6961', fontSize: 13, lineHeight: 18, marginTop: 12 },
   submitButton: { height: 52, marginTop: 20, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.primary },
   submitButtonDisabled: { opacity: 0.65 },

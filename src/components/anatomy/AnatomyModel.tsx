@@ -41,7 +41,17 @@ interface CalloutItem {
   labelY: number;
 }
 
-export const AnatomyModel: React.FC = () => {
+interface AnatomyModelProps {
+  showHeader?: boolean;
+  showRotateButton?: boolean;
+  compact?: boolean;
+}
+
+export const AnatomyModel: React.FC<AnatomyModelProps> = ({
+  showHeader = true,
+  showRotateButton = true,
+  compact = false,
+}) => {
   const { bodySide, toggleBodySide, selectMuscle, selectedMuscleFilter } = useWorkoutStore();
   const { width: viewportWidth } = useWindowDimensions();
 
@@ -85,16 +95,18 @@ export const AnatomyModel: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, compact && styles.compactContainer]}>
       {/* Title & View Indicator */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Cuerpo</Text>
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>
-            {isFront ? 'Vista Frontal' : 'Vista Posterior'}
-          </Text>
+      {showHeader && (
+        <View style={styles.header}>
+          <Text style={styles.title}>Cuerpo</Text>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>
+              {isFront ? 'Vista Frontal' : 'Vista Posterior'}
+            </Text>
+          </View>
         </View>
-      </View>
+      )}
 
       {/* Anatomy reference image with the existing interactive callouts on top */}
       <View style={[styles.canvasContainer, { width: svgWidth }]}>
@@ -362,14 +374,16 @@ export const AnatomyModel: React.FC = () => {
       </View>
 
       {/* Floating Orange "Girar" Button (from IMG_1168.PNG & IMG_1169.PNG) */}
-      <TouchableOpacity
-        style={styles.rotateButton}
-        onPress={toggleBodySide}
-        activeOpacity={0.8}
-      >
-        <Ionicons name="refresh" size={26} color="#FFFFFF" />
-        <Text style={styles.rotateButtonText}>Girar</Text>
-      </TouchableOpacity>
+      {showRotateButton && (
+        <TouchableOpacity
+          style={styles.rotateButton}
+          onPress={toggleBodySide}
+          activeOpacity={0.8}
+        >
+          <Ionicons name="refresh" size={26} color="#FFFFFF" />
+          <Text style={styles.rotateButtonText}>Girar</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -380,6 +394,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
     alignItems: 'center',
     paddingTop: 12,
+  },
+  compactContainer: {
+    flex: 0,
+    width: '100%',
+    height: SVG_HEIGHT + 100,
+    paddingTop: 0,
   },
   header: {
     alignItems: 'center',

@@ -9,10 +9,11 @@ import { useAuth } from '../auth/AuthProvider';
 
 interface EntrenoScreenProps {
   onOpenRoutineDetail: () => void;
+  onOpenAccountSettings: () => void;
   onOpenDayWorkout: (collectionId: string, dayId: string) => void;
 }
 
-export const EntrenoScreen: React.FC<EntrenoScreenProps> = ({ onOpenRoutineDetail }) => {
+export const EntrenoScreen: React.FC<EntrenoScreenProps> = ({ onOpenRoutineDetail, onOpenAccountSettings }) => {
   const { signOut } = useAuth();
   const {
     collections,
@@ -94,13 +95,26 @@ export const EntrenoScreen: React.FC<EntrenoScreenProps> = ({ onOpenRoutineDetai
       <ScrollView style={styles.scrollArea} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Mi Entreno</Text>
-          <TouchableOpacity
-            style={styles.profileIcon}
-            onPress={() => void signOut()}
-            accessibilityLabel="Cerrar sesión"
-          >
-            <MaterialCommunityIcons name="account-circle-outline" size={42} color={COLORS.primary} />
-          </TouchableOpacity>
+          <View style={styles.headerActions}>
+            <TouchableOpacity
+              style={[styles.headerAction, styles.accountAction]}
+              onPress={onOpenAccountSettings}
+              accessibilityLabel="Mi cuenta"
+              hitSlop={6}
+            >
+              <Ionicons name="person-outline" size={19} color={COLORS.primary} />
+              <Text style={styles.headerActionText}>Cuenta</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.headerAction, styles.logoutAction]}
+              onPress={() => void signOut()}
+              accessibilityLabel="Cerrar sesión"
+              hitSlop={6}
+            >
+              <Ionicons name="log-out-outline" size={19} color="#FFFFFF" />
+              <Text style={styles.headerActionText}>Salir</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <Text style={styles.sectionTitle}>Mi Colección</Text>
@@ -154,9 +168,13 @@ const styles = StyleSheet.create({
   // AppShell already handles the iOS safe-area inset. A compact inner gutter
   // prevents the header from being pushed too far down on an iPhone 15.
   scrollContent: { paddingHorizontal: 20, paddingTop: Platform.OS === 'ios' ? 18 : 32 },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 42 },
-  headerTitle: { color: '#FFFFFF', fontSize: 38, fontWeight: '900', letterSpacing: -0.8 },
-  profileIcon: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 42 },
+  headerTitle: { color: '#FFFFFF', fontSize: 32, fontWeight: '900', letterSpacing: -0.8, flexShrink: 1 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 0 },
+  headerAction: { minHeight: 40, borderRadius: 12, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1 },
+  accountAction: { backgroundColor: '#242426', borderColor: '#383840' },
+  logoutAction: { backgroundColor: COLORS.primary, borderColor: COLORS.primary },
+  headerActionText: { color: '#FFFFFF', fontSize: 12, fontWeight: '700' },
   sectionTitle: { color: '#FFFFFF', fontSize: 24, fontWeight: '800', marginBottom: 16 },
   featuredCard: { minHeight: 154, borderRadius: 26, backgroundColor: '#242426', overflow: 'hidden', flexDirection: 'row', alignItems: 'center', paddingLeft: 24, marginBottom: 18 },
   featuredCopy: { flex: 1, zIndex: 1 },

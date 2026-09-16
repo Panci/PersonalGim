@@ -5,20 +5,19 @@ import {
   MemberStatus, AttendanceRecord, RoutineExercise, WorkoutExerciseLog,
 } from '../types';
 import {
-  INITIAL_EXERCISES, INITIAL_COLLECTION, INITIAL_WORKOUT_HISTORY,
-  INITIAL_BODY_MEASUREMENTS, INITIAL_GYM_MEMBERS, INITIAL_ATTENDANCE_LOGS,
+  INITIAL_EXERCISES,
 } from './initialData';
 import { withExerciseGuidance } from '../data/exerciseGuidance';
 
 let db: SQLite.SQLiteDatabase | null = null;
 const clone = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 let fallbackExercises: Exercise[] = clone(INITIAL_EXERCISES);
-let fallbackCollections: RoutineCollection[] = [clone(INITIAL_COLLECTION)];
-let fallbackWorkouts: WorkoutSession[] = clone(INITIAL_WORKOUT_HISTORY);
-let fallbackBodyMeasurements: BodyMeasurementRecord[] = clone(INITIAL_BODY_MEASUREMENTS);
+let fallbackCollections: RoutineCollection[] = [];
+let fallbackWorkouts: WorkoutSession[] = [];
+let fallbackBodyMeasurements: BodyMeasurementRecord[] = [];
 let fallbackTargetWeightKg: number | null = null;
-let fallbackGymMembers: GymMember[] = clone(INITIAL_GYM_MEMBERS);
-let fallbackAttendanceLogs: AttendanceRecord[] = clone(INITIAL_ATTENDANCE_LOGS);
+let fallbackGymMembers: GymMember[] = [];
+let fallbackAttendanceLogs: AttendanceRecord[] = [];
 
 export const getDb = (): SQLite.SQLiteDatabase | null => {
   if (!db) {
@@ -125,11 +124,6 @@ export const initDatabase = async (): Promise<void> => {
         }
       }
       for (const ex of INITIAL_EXERCISES) database.runSync('INSERT OR IGNORE INTO exercises (id, name, primaryMuscle, secondaryMuscles, equipment, instructions, imageUrl, isFavorite, isCustom, description, executionSteps, indications, tips, commonMistakes, videoUrl, localImagePath, localVideoPath, sourceUrl, sourceProvider) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [ex.id, ex.name, ex.primaryMuscle, JSON.stringify(ex.secondaryMuscles), ex.equipment, nullable(ex.instructions), nullable(ex.imageUrl), ex.isFavorite ? 1 : 0, ex.isCustom ? 1 : 0, nullable(ex.description), serializeList(ex.executionSteps), serializeList(ex.indications), serializeList(ex.tips), serializeList(ex.commonMistakes), nullable(ex.videoUrl), nullable(ex.localImagePath), nullable(ex.localVideoPath), nullable(ex.sourceUrl), nullable(ex.sourceProvider)]);
-      seedRoutine(database, INITIAL_COLLECTION);
-      for (const workout of INITIAL_WORKOUT_HISTORY) seedWorkout(database, workout);
-      if ((database.getFirstSync<{ count: number }>('SELECT COUNT(*) AS count FROM body_measurements')?.count ?? 0) === 0) for (const record of INITIAL_BODY_MEASUREMENTS) saveMeasurement(database, record);
-      if ((database.getFirstSync<{ count: number }>('SELECT COUNT(*) AS count FROM gym_members')?.count ?? 0) === 0) for (const member of INITIAL_GYM_MEMBERS) saveMember(database, member);
-      if ((database.getFirstSync<{ count: number }>('SELECT COUNT(*) AS count FROM attendance_logs')?.count ?? 0) === 0) for (const attendance of INITIAL_ATTENDANCE_LOGS) saveAttendance(database, attendance);
     });
   } catch (error) { console.warn('Unable to initialise local database', error); }
 };

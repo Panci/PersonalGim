@@ -9,22 +9,16 @@ import {
   Modal,
   Platform,
   ScrollView,
-  useWindowDimensions,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
 import { Exercise, MuscleId, EquipmentType } from '../types';
 import { useWorkoutStore } from '../store/workoutStore';
 import { ExerciseIllustration } from '../components/exercise/ExerciseIllustration';
-import { ExerciseCategoryIllustration } from '../components/exercise/ExerciseCategoryIllustration';
+import { AnatomyModel } from '../components/anatomy/AnatomyModel';
 import { EXERCISE_CATEGORIES, ExerciseCategory } from '../data/exerciseCategories';
 
 export const EjerciciosScreen: React.FC = () => {
-  const { width: viewportWidth } = useWindowDimensions();
-  // The app shell is intentionally phone-sized in the web preview, so use
-  // the effective shell width instead of the full desktop browser width.
-  const effectiveViewportWidth = Math.min(viewportWidth, 430);
-  const isNarrowViewport = effectiveViewportWidth < 520;
   const {
     exercises,
     searchQuery,
@@ -44,6 +38,7 @@ export const EjerciciosScreen: React.FC = () => {
   const [showVideo, setShowVideo] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showMuscleModal, setShowMuscleModal] = useState(false);
+  const [showEquipmentModal, setShowEquipmentModal] = useState(false);
   const [showCategoryOverview, setShowCategoryOverview] = useState(() => selectedMuscleFilter === null);
   const [selectedCategory, setSelectedCategory] = useState<ExerciseCategory | null>(null);
 
@@ -112,6 +107,7 @@ export const EjerciciosScreen: React.FC = () => {
     { id: 'maquina', label: 'Máquinas' },
     { id: 'polea', label: 'Poleas' },
     { id: 'peso_corporal', label: 'Corporal' },
+    { id: 'otro', label: 'Otro' },
   ];
 
   const handleCreateExercise = () => {
@@ -127,15 +123,6 @@ export const EjerciciosScreen: React.FC = () => {
     setNewName('');
     setNewInstructions('');
     setShowCreateModal(false);
-  };
-
-  const openCategory = (category: ExerciseCategory) => {
-    setSelectedCategory(category);
-    setSelectedMuscleFilter(null);
-    setSelectedEquipmentFilter('todos');
-    if (showFavoritesOnly) toggleFavoritesFilter();
-    setSearchQuery('');
-    setShowCategoryOverview(false);
   };
 
   const selectMuscleFilter = (muscle: MuscleId | null) => {
@@ -176,30 +163,13 @@ export const EjerciciosScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.categoryGrid}>
-            {EXERCISE_CATEGORIES.map((category) => {
-              const count = exercises.filter((exercise) => category.muscleIds.includes(exercise.primaryMuscle)).length;
-              return (
-                <TouchableOpacity
-                  key={category.id}
-                  style={[styles.categoryCard, isNarrowViewport && styles.categoryCardNarrow]}
-                  onPress={() => openCategory(category)}
-                  activeOpacity={0.82}
-                >
-                  <View style={styles.categoryArt}>
-                    <ExerciseCategoryIllustration category={category} />
-                    <View style={[styles.categoryCount, { backgroundColor: `${category.color}22` }]}>
-                      <Text style={[styles.categoryCountText, { color: category.color }]}>{count}</Text>
-                    </View>
-                  </View>
-                  <Text style={styles.categoryLabel}>{category.label}</Text>
-                  <Text style={styles.categoryMeta}>
-                    {count} {count === 1 ? 'ejercicio' : 'ejercicios'} para {category.label.toLowerCase()}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
+          <View style={styles.anatomyPickerIntro}>
+            <Text style={styles.anatomyPickerTitle}>Grupos musculares</Text>
+            <Text style={styles.anatomyPickerText}>
+              Pulsa un músculo para ver sus ejercicios.
+            </Text>
           </View>
+          <AnatomyModel showHeader={false} compact />
           <TouchableOpacity style={styles.categoryCreateButton} onPress={() => setShowCreateModal(true)} activeOpacity={0.8}>
             <Ionicons name="add" size={19} color={COLORS.primary} />
             <Text style={styles.categoryCreateText}>Crear ejercicio propio</Text>
@@ -246,11 +216,13 @@ export const EjerciciosScreen: React.FC = () => {
 
       {/* Horizontal Filter Chips matching IMG_1170.PNG */}
       <View style={styles.filtersWrapper}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterChipsRow}>
-          {/* All Filter */}
+        <View style={styles.filterRows}>
+          <View style={styles.filterRow}>
+            {/* All Filter */}
           <TouchableOpacity
             style={[
               styles.chip,
+              styles.filterChipExpanded,
               !selectedMuscleFilter && selectedEquipmentFilter === 'todos' && !showFavoritesOnly && styles.chipActive,
             ]}
             onPress={() => {
@@ -269,9 +241,27 @@ export const EjerciciosScreen: React.FC = () => {
             </Text>
           </TouchableOpacity>
 
-          {/* Muscle Group Indicator Pill matching IMG_1170.PNG */}
+            {/* Favorites chip */}
+            <TouchableOpacity
+              style={[styles.chip, styles.filterChipExpanded, showFavoritesOnly && styles.chipActive]}
+              onPress={toggleFavoritesFilter}
+            >
+              <Ionicons
+                name={showFavoritesOnly ? 'star' : 'star-outline'}
+                size={14}
+                color={showFavoritesOnly ? '#FFFFFF' : '#FF9500'}
+                style={{ marginRight: 4 }}
+              />
+              <Text style={[styles.chipText, showFavoritesOnly && styles.chipTextActive]}>
+                Favoritos
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.filterRow}>
+            {/* Muscle Group Indicator Pill matching IMG_1170.PNG */}
           <TouchableOpacity
-            style={[styles.chip, selectedMuscleFilter !== null && styles.chipActive]}
+            style={[styles.chip, styles.filterChipExpanded, selectedMuscleFilter !== null && styles.chipActive]}
             onPress={() => setShowMuscleModal(true)}
             activeOpacity={0.7}
           >
@@ -291,56 +281,34 @@ export const EjerciciosScreen: React.FC = () => {
                 <Text style={styles.filterCountBadgeText}>1</Text>
               </View>
             )}
+              <Ionicons name="chevron-down" size={14} color={selectedMuscleFilter !== null ? '#FFFFFF' : '#8E8E93'} />
           </TouchableOpacity>
 
-          {/* Favorites chip */}
-          <TouchableOpacity
-            style={[styles.chip, showFavoritesOnly && styles.chipActive]}
-            onPress={toggleFavoritesFilter}
-          >
-            <Ionicons
-              name={showFavoritesOnly ? 'star' : 'star-outline'}
-              size={14}
-              color={showFavoritesOnly ? '#FFFFFF' : '#FF9500'}
-              style={{ marginRight: 4 }}
-            />
-            <Text style={[styles.chipText, showFavoritesOnly && styles.chipTextActive]}>
-              Favoritos
-            </Text>
-          </TouchableOpacity>
-
-          {/* Equipment Pills */}
-          {equipmentList.filter((e) => e.id !== 'todos').map((eq) => {
-            const isSelected = selectedEquipmentFilter === eq.id;
-            return (
-              <TouchableOpacity
-                key={eq.id}
-                style={[styles.chip, isSelected && styles.chipActive]}
-                onPress={() => setSelectedEquipmentFilter(isSelected ? 'todos' : (eq.id as EquipmentType))}
-              >
-                <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
-                  {eq.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-
-          {/* Individual Muscle Chips */}
-          {muscleList.map((m) => {
-            const isSelected = selectedMuscleFilter === m.id;
-            return (
-              <TouchableOpacity
-                key={m.id}
-                style={[styles.chip, isSelected && styles.chipActive]}
-                onPress={() => selectMuscleFilter(isSelected ? null : m.id)}
-              >
-                <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
-                  {m.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
+            {/* Equipment dropdown */}
+            <TouchableOpacity
+              style={[styles.chip, styles.filterChipExpanded, selectedEquipmentFilter !== 'todos' && styles.chipActive]}
+              onPress={() => setShowEquipmentModal(true)}
+              activeOpacity={0.7}
+            >
+              <MaterialCommunityIcons
+                name="dumbbell"
+                size={14}
+                color={selectedEquipmentFilter !== 'todos' ? '#FFFFFF' : '#8E8E93'}
+                style={{ marginRight: 4 }}
+              />
+              <Text style={[styles.chipText, selectedEquipmentFilter !== 'todos' && styles.chipTextActive]}>
+                {selectedEquipmentFilter === 'todos'
+                  ? 'Equipamiento'
+                  : equipmentList.find((equipment) => equipment.id === selectedEquipmentFilter)?.label || 'Equipamiento'}
+              </Text>
+              <Ionicons
+                name="chevron-down"
+                size={14}
+                color={selectedEquipmentFilter !== 'todos' ? '#FFFFFF' : '#8E8E93'}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
 
       {/* Section Subheader matching IMG_1170.PNG ("Ejercicios" on left, "Crear" on right) */}
@@ -764,6 +732,70 @@ export const EjerciciosScreen: React.FC = () => {
           </View>
         </View>
       </Modal>
+
+      {/* Equipment Filter Modal */}
+      <Modal
+        visible={showEquipmentModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowEquipmentModal(false)}
+      >
+        <View style={styles.detailOverlay}>
+          <View style={styles.muscleModalBox}>
+            <View style={styles.detailHeader}>
+              <View>
+                <Text style={styles.createModalTitle}>Equipamiento</Text>
+                <Text style={styles.muscleModalSubtitle}>Selecciona el material para filtrar los ejercicios</Text>
+              </View>
+              <TouchableOpacity
+                style={{ padding: 6, borderRadius: 12, backgroundColor: '#252528' }}
+                onPress={() => setShowEquipmentModal(false)}
+              >
+                <Ionicons name="close" size={20} color="#A1A1A6" />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={styles.muscleSelectScroll} showsVerticalScrollIndicator={false}>
+              {equipmentList.map((equipment) => {
+                const count = equipment.id === 'todos'
+                  ? exercises.length
+                  : exercises.filter((exercise) => exercise.equipment === equipment.id).length;
+                const isSelected = selectedEquipmentFilter === equipment.id;
+                return (
+                  <TouchableOpacity
+                    key={equipment.id}
+                    style={[styles.muscleSelectRow, isSelected && styles.muscleSelectRowActive]}
+                    onPress={() => {
+                      setSelectedEquipmentFilter(equipment.id);
+                      setShowEquipmentModal(false);
+                    }}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.muscleSelectLeft}>
+                      <View style={[styles.muscleSelectIconBox, isSelected && styles.muscleSelectIconBoxActive]}>
+                        {equipment.id === 'todos' ? (
+                          <Ionicons name="apps" size={18} color={isSelected ? '#FFFFFF' : COLORS.primary} />
+                        ) : (
+                          <MaterialCommunityIcons name="dumbbell" size={18} color={isSelected ? '#FFFFFF' : COLORS.primary} />
+                        )}
+                      </View>
+                      <View>
+                        <Text style={[styles.muscleSelectName, isSelected && styles.muscleSelectNameActive]}>
+                          {equipment.id === 'todos' ? 'Todos los equipamientos' : equipment.label}
+                        </Text>
+                        <Text style={styles.muscleSelectCount}>{count} ejercicios</Text>
+                      </View>
+                    </View>
+                    {isSelected && (
+                      <Ionicons name="checkmark-circle" size={22} color={COLORS.primary} />
+                    )}
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -799,59 +831,21 @@ const styles = StyleSheet.create({
     marginTop: 8,
     maxWidth: 270,
   },
-  categoryGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    rowGap: 10,
-  },
-  categoryCard: {
-    width: '31.7%',
-    backgroundColor: '#151517',
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#29292F',
-    padding: 6,
-    marginBottom: 2,
-  },
-  categoryCardNarrow: {
-    width: '48.3%',
-  },
-  categoryArt: {
-    height: 112,
-    borderRadius: 10,
-    backgroundColor: '#202126',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  categoryCount: {
-    position: 'absolute',
-    right: 5,
-    top: 5,
-    minWidth: 23,
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-    borderRadius: 6,
+  anatomyPickerIntro: {
     alignItems: 'center',
-  },
-  categoryCountText: {
-    fontSize: 9,
-    fontWeight: '800',
-  },
-  categoryLabel: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '800',
-    textAlign: 'center',
     marginTop: 8,
+    marginBottom: 4,
   },
-  categoryMeta: {
-    color: '#777780',
-    fontSize: 9,
-    lineHeight: 12,
+  anatomyPickerTitle: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '800',
+  },
+  anatomyPickerText: {
+    color: '#8E8E93',
+    fontSize: 12,
+    marginTop: 4,
     textAlign: 'center',
-    marginTop: 3,
-    marginBottom: 5,
   },
   categoryCreateButton: {
     marginTop: 18,
@@ -909,6 +903,9 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 1,
     borderColor: '#383840',
+    // The account button is fixed over the top-right corner of the app shell.
+    // Reserve its space so the 1RM action remains fully tappable.
+    marginRight: 44,
   },
   oneRmHeaderBtnText: {
     color: '#FFFFFF',
@@ -954,10 +951,22 @@ const styles = StyleSheet.create({
   filtersWrapper: {
     marginTop: 12,
     marginBottom: 8,
+    alignItems: 'center',
   },
-  filterChipsRow: {
+  filterRows: {
+    width: '100%',
+    gap: 8,
+  },
+  filterRow: {
+    flexDirection: 'row',
+    width: '100%',
     paddingHorizontal: 20,
     gap: 8,
+  },
+  filterChipExpanded: {
+    flex: 1,
+    justifyContent: 'center',
+    minHeight: 40,
   },
   chip: {
     flexDirection: 'row',
@@ -974,9 +983,10 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
   },
   chipText: {
-    color: '#8E8E93',
-    fontSize: 12,
-    fontWeight: '600',
+    color: '#F2F2F7',
+    fontSize: 13,
+    fontWeight: '700',
+    lineHeight: 17,
   },
   chipTextActive: {
     color: '#FFFFFF',
@@ -993,7 +1003,7 @@ const styles = StyleSheet.create({
   },
   filterCountBadgeText: {
     color: COLORS.primary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
   },
   sectionHeaderRow: {

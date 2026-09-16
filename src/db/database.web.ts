@@ -8,7 +8,7 @@ import {
 import { withExerciseGuidance } from '../data/exerciseGuidance';
 
 type LocalState = {
-  version: 2;
+  version: 2 | 3;
   exercises: Exercise[];
   collections: RoutineCollection[];
   workouts: WorkoutSession[];
@@ -18,13 +18,14 @@ type LocalState = {
   attendance: AttendanceRecord[];
 };
 
-// Version 2 intentionally starts with an empty operational workspace. The
+// Version 3 intentionally starts with an empty operational workspace. The
 // exercise catalog remains available, while demo members, attendance,
 // workouts, measurements and routines are not seeded into new web sessions.
-const STORAGE_KEY = 'personalgim.local-data.v2';
+const STORAGE_KEY = 'personalgim.local-data.v3';
+const LEGACY_STORAGE_KEY = 'personalgim.local-data.v2';
 const clone = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 const defaults = (): LocalState => ({
-  version: 2,
+  version: 3,
   exercises: clone(INITIAL_EXERCISES),
   collections: [],
   workouts: [],
@@ -39,7 +40,7 @@ let loaded = false;
 const storageAvailable = (): boolean => typeof localStorage !== 'undefined';
 const validState = (value: unknown): value is LocalState => {
   const candidate = value as Partial<LocalState> | null;
-  return Boolean(candidate && candidate.version === 2 && Array.isArray(candidate.exercises) &&
+  return Boolean(candidate && (candidate.version === 2 || candidate.version === 3) && Array.isArray(candidate.exercises) &&
     Array.isArray(candidate.collections) && Array.isArray(candidate.workouts) &&
     Array.isArray(candidate.measurements) && Array.isArray(candidate.members) &&
     Array.isArray(candidate.attendance));
@@ -49,10 +50,19 @@ const load = (): void => {
   loaded = true;
   if (!storageAvailable()) return;
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const currentRaw = localStorage.getItem(STORAGE_KEY);
+    const raw = currentRaw || localStorage.getItem(LEGACY_STORAGE_KEY);
     if (!raw) return;
     const parsed: unknown = JSON.parse(raw);
     if (validState(parsed)) {
+      // The previous local build contained development data. Start this
+      // workspace clean while keeping the built-in exercise catalogue.
+      if (!currentRaw) {
+        state = defaults();
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
+        persist();
+        return;
+      }
       const existingIds = new Set(parsed.exercises.map((exercise) => exercise.id));
       const missingExercises = INITIAL_EXERCISES.filter((exercise) => !existingIds.has(exercise.id));
       // Remove catalogue entries from pre-SmartWorkout builds while preserving
@@ -65,10 +75,12 @@ const load = (): void => {
         : null;
       state = {
         ...parsed,
+        version: 3,
         targetWeightKg,
         exercises: [...retainedExercises.map(withExerciseGuidance), ...missingExercises],
       };
       if (
+        parsed.version !== 3 ||
         missingExercises.length > 0 ||
         retainedExercises.length !== parsed.exercises.length ||
         parsed.targetWeightKg !== targetWeightKg

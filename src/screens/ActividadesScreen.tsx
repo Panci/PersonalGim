@@ -13,6 +13,44 @@ import { COLORS } from '../theme/colors';
 import { useWorkoutStore } from '../store/workoutStore';
 import { StatsTimeRange, WorkoutSession } from '../types';
 import { WorkoutSessionDetailModal } from '../components/workout/WorkoutSessionDetailModal';
+import { formatWorkoutTime, getCompletedRestSeconds } from '../utils/workoutMetrics';
+
+const MUSCLE_DISPLAY: Record<string, { name: string; color: string }> = {
+  pectoral: { name: 'Pectorales', color: COLORS.primary },
+  biceps: { name: 'Bíceps', color: '#FFA066' },
+  hombros: { name: 'Hombros', color: '#34C759' },
+  oblicuos: { name: 'Oblicuos', color: '#AF52DE' },
+  abdomen: { name: 'Abdomen', color: '#0A84FF' },
+  antebrazo: { name: 'Antebrazo', color: '#64D2FF' },
+  cuadriceps: { name: 'Cuádriceps', color: '#0A84FF' },
+  abductores: { name: 'Abductores', color: '#30D158' },
+  adductores: { name: 'Aductores', color: '#30D158' },
+  cardio: { name: 'Cardio', color: '#FF9F0A' },
+  trapecio: { name: 'Trapecio', color: '#BF5AF2' },
+  triceps: { name: 'Tríceps', color: COLORS.primary },
+  dorsales: { name: 'Espalda', color: '#0A84FF' },
+  lumbares: { name: 'Lumbares', color: '#64D2FF' },
+  gluteos: { name: 'Glúteos', color: '#FF375F' },
+  isquiotibiales: { name: 'Isquiotibiales', color: '#FF453A' },
+  pantorrillas: { name: 'Gemelos', color: '#FFD60A' },
+};
+
+const EMPTY_PERSONAL_RECORDS = [
+  { id: 'empty-pr-1', exercise: 'Press de banca (barra)' },
+  { id: 'empty-pr-2', exercise: 'Sentadilla trasera (barra)' },
+  { id: 'empty-pr-3', exercise: 'Peso muerto convencional' },
+  { id: 'empty-pr-4', exercise: 'Press militar (barra)' },
+  { id: 'empty-pr-5', exercise: 'Hip Thrust con barra' },
+];
+
+const formatRelativeDate = (isoDate: string): string => {
+  const elapsedDays = Math.max(
+    0,
+    Math.floor((Date.now() - new Date(isoDate).getTime()) / 86400000),
+  );
+  if (elapsedDays === 0) return 'Hoy';
+  return `Hace ${elapsedDays} ${elapsedDays === 1 ? 'día' : 'días'}`;
+};
 
 export const ActividadesScreen: React.FC = () => {
   const {
@@ -32,14 +70,6 @@ export const ActividadesScreen: React.FC = () => {
     { id: '28d', label: '28 días' },
   ];
 
-  const muscleFrequencyList = [
-    { name: 'Tríceps', pct: 35, color: COLORS.primary },
-    { name: 'Pectorales', pct: 30, color: '#FF8533' },
-    { name: 'Bíceps', pct: 20, color: '#FFA066' },
-    { name: 'Hombros', pct: 10, color: '#34C759' },
-    { name: 'Cuádriceps', pct: 5, color: '#0A84FF' },
-  ];
-
   const latestSession = history[0] ?? null;
   const latestCompletedSets = latestSession
     ? latestSession.exercises.reduce(
@@ -47,60 +77,69 @@ export const ActividadesScreen: React.FC = () => {
         0
       )
     : 0;
-  const formatSessionDuration = (seconds: number) => {
-    const safeSeconds = Math.max(0, seconds || 0);
-    const hours = Math.floor(safeSeconds / 3600);
-    const minutes = Math.floor((safeSeconds % 3600) / 60);
-    return hours > 0 ? `${hours}h ${minutes}m` : `${minutes} min`;
-  };
 
-  const personalRecordsList = [
-    {
-      id: 'pr-1',
-      exercise: 'Press de banca (barra)',
-      value: '100 kg',
-      type: '1RM Máximo',
-      date: 'Hace 4 días',
-      medal: '🥇',
-      color: '#FFD700',
-    },
-    {
-      id: 'pr-2',
-      exercise: 'Sentadilla trasera (barra)',
-      value: '135 kg',
-      type: '1RM Máximo',
-      date: 'Hace 8 días',
-      medal: '🥇',
-      color: '#FFD700',
-    },
-    {
-      id: 'pr-3',
-      exercise: 'Peso muerto convencional',
-      value: '170 kg',
-      type: '1RM Máximo',
-      date: 'Hace 12 días',
-      medal: '🥇',
-      color: '#FFD700',
-    },
-    {
-      id: 'pr-4',
-      exercise: 'Press militar (barra)',
-      value: '65 kg',
-      type: '1RM Máximo',
-      date: 'Hace 14 días',
-      medal: '🥇',
-      color: '#FFD700',
-    },
-    {
-      id: 'pr-5',
-      exercise: 'Hip Thrust con barra',
-      value: '150 kg',
-      type: '1RM Máximo',
-      date: 'Hace 18 días',
-      medal: '🥇',
-      color: '#FFD700',
-    },
-  ];
+  const personalRecordsByExercise: Record<string, {
+    id: string;
+    exercise: string;
+    value: string;
+    type: string;
+    date: string;
+    medal: string;
+    color: string;
+    numericValue: number;
+  }> = {};
+
+  history
+    .filter((session) => session.isCompleted)
+    .forEach((session) => {
+      session.exercises.forEach((exercise) => {
+        exercise.sets
+          .filter((set) => set.isCompleted && Number.isFinite(set.weightKg) && set.weightKg > 0)
+          .forEach((set) => {
+            const current = personalRecordsByExercise[exercise.exerciseId];
+            if (!current || set.weightKg > current.numericValue) {
+              personalRecordsByExercise[exercise.exerciseId] = {
+                id: `${session.id}-${exercise.id}-${set.id}`,
+                exercise: exercise.exerciseName,
+                value: `${set.weightKg} kg`,
+                type: 'Mejor carga',
+                date: formatRelativeDate(session.startTime),
+                medal: '🥇',
+                color: '#FFD700',
+                numericValue: set.weightKg,
+              };
+            }
+          });
+      });
+    });
+
+  const realPersonalRecords = Object.values(personalRecordsByExercise)
+    .sort((first, second) => second.numericValue - first.numericValue);
+  const personalRecordsList = realPersonalRecords.length > 0
+    ? realPersonalRecords
+    : EMPTY_PERSONAL_RECORDS.map((record) => ({
+        ...record,
+        value: '0 kg',
+        type: 'Sin registro',
+        date: 'Sin registros',
+        medal: '🏅',
+        color: '#8E8E93',
+        numericValue: 0,
+      }));
+
+  const muscleFrequencyEntries = Object.entries(stats.muscleFrequency)
+    .filter(([, count]) => Number(count) > 0)
+    .map(([muscle, count]) => ({
+      ...(MUSCLE_DISPLAY[muscle] || { name: muscle, color: '#8E8E93' }),
+      count: Number(count),
+    }))
+    .sort((first, second) => second.count - first.count);
+  const muscleFrequencyTotal = muscleFrequencyEntries.reduce((total, item) => total + item.count, 0);
+  const muscleFrequencyList = muscleFrequencyEntries.slice(0, 5).map((item) => ({
+    name: item.name,
+    color: item.color,
+    pct: muscleFrequencyTotal > 0 ? Math.round((item.count / muscleFrequencyTotal) * 100) : 0,
+  }));
 
   const handleRepeatSession = (session: WorkoutSession) => {
     setSelectedSessionDetail(null);
@@ -115,28 +154,84 @@ export const ActividadesScreen: React.FC = () => {
         <Text style={styles.headerTitle}>Actividades</Text>
       </View>
 
-      {/* Segmented Range Filter matching IMG_1172.PNG */}
-      <View style={styles.rangeFilterContainer}>
-        <View style={styles.rangeCapsule}>
-          {ranges.map((r) => {
-            const isActive = statsRange === r.id;
-            return (
-              <TouchableOpacity
-                key={r.id}
-                style={[styles.rangeBtn, isActive && styles.rangeBtnActive]}
-                onPress={() => setStatsRange(r.id)}
-                activeOpacity={0.8}
-              >
-                <Text style={[styles.rangeBtnText, isActive && styles.rangeBtnTextActive]}>
-                  {r.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </View>
-
       <ScrollView style={styles.scrollArea} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        {/* Resumen de la rutina recién terminada */}
+        {latestSession && (
+          <TouchableOpacity
+            style={styles.latestSessionCard}
+            onPress={() => setSelectedSessionDetail(latestSession)}
+            activeOpacity={0.82}
+          >
+            <View style={styles.latestSessionHeader}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.latestSessionEyebrow}>ÚLTIMO ENTRENAMIENTO</Text>
+                <Text style={styles.latestSessionName} numberOfLines={1}>
+                  {latestSession.name}
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color="#8E8E93" />
+            </View>
+            <Text style={styles.latestSessionDate}>
+              {new Date(latestSession.startTime).toLocaleDateString('es-ES', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short',
+              })}
+            </Text>
+            <View style={styles.latestSessionMetrics}>
+              <View style={styles.latestSessionMetric}>
+                <Ionicons name="time-outline" size={15} color="#34C759" />
+                <Text style={styles.latestSessionMetricValue}>{formatWorkoutTime(latestSession.durationSeconds)}</Text>
+                <Text style={styles.latestSessionMetricLabel}>Duración</Text>
+              </View>
+              <View style={styles.latestSessionMetric}>
+                <Ionicons name="hourglass-outline" size={15} color="#AF52DE" />
+                <Text style={styles.latestSessionMetricValue}>
+                  {formatWorkoutTime(getCompletedRestSeconds(latestSession))}
+                </Text>
+                <Text style={styles.latestSessionMetricLabel}>Descanso</Text>
+              </View>
+              <View style={styles.latestSessionMetric}>
+                <Ionicons name="flame-outline" size={15} color={COLORS.primary} />
+                <Text style={styles.latestSessionMetricValue}>{latestSession.totalKcal} kcal</Text>
+                <Text style={styles.latestSessionMetricLabel}>Energía</Text>
+              </View>
+              <View style={styles.latestSessionMetric}>
+                <MaterialCommunityIcons name="weight-kilogram" size={16} color="#0A84FF" />
+                <Text style={styles.latestSessionMetricValue}>{latestSession.totalVolumeKg.toLocaleString()} kg</Text>
+                <Text style={styles.latestSessionMetricLabel}>Volumen</Text>
+              </View>
+            </View>
+            <View style={styles.latestSessionFooter}>
+              <Text style={styles.latestSessionFooterText}>
+                {latestSession.exercises.length} ejercicios · {latestCompletedSets} series completadas
+              </Text>
+              <Text style={styles.latestSessionDetailLink}>Ver detalle</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+
+        {/* Segmented Range Filter matching IMG_1172.PNG */}
+        <View style={styles.rangeFilterContainer}>
+          <View style={styles.rangeCapsule}>
+            {ranges.map((r) => {
+              const isActive = statsRange === r.id;
+              return (
+                <TouchableOpacity
+                  key={r.id}
+                  style={[styles.rangeBtn, isActive && styles.rangeBtnActive]}
+                  onPress={() => setStatsRange(r.id)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={[styles.rangeBtnText, isActive && styles.rangeBtnTextActive]}>
+                    {r.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+
         {/* 3 KPI Sparkline Cards matching IMG_1172.PNG */}
         <View style={styles.kpiContainer}>
           {/* Card 1: Tiempo de entrenamiento */}
@@ -223,133 +318,96 @@ export const ActividadesScreen: React.FC = () => {
           </View>
         </View>
 
-        {/* Resumen de la rutina recién terminada */}
-        {latestSession && (
-          <TouchableOpacity
-            style={styles.latestSessionCard}
-            onPress={() => setSelectedSessionDetail(latestSession)}
-            activeOpacity={0.82}
-          >
-            <View style={styles.latestSessionHeader}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.latestSessionEyebrow}>ÚLTIMO ENTRENAMIENTO</Text>
-                <Text style={styles.latestSessionName} numberOfLines={1}>
-                  {latestSession.name}
-                </Text>
-              </View>
-              <Ionicons name="chevron-forward" size={18} color="#8E8E93" />
+        {personalRecordsList.length > 0 && (
+          <>
+            {/* Récords Personales (Hall of Fame) */}
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>🏆 Récords Personales (PRs)</Text>
             </View>
-            <Text style={styles.latestSessionDate}>
-              {new Date(latestSession.startTime).toLocaleDateString('es-ES', {
-                weekday: 'short',
-                day: 'numeric',
-                month: 'short',
-              })}
-            </Text>
-            <View style={styles.latestSessionMetrics}>
-              <View style={styles.latestSessionMetric}>
-                <Ionicons name="time-outline" size={15} color="#34C759" />
-                <Text style={styles.latestSessionMetricValue}>{formatSessionDuration(latestSession.durationSeconds)}</Text>
-                <Text style={styles.latestSessionMetricLabel}>Duración</Text>
-              </View>
-              <View style={styles.latestSessionMetric}>
-                <Ionicons name="flame-outline" size={15} color={COLORS.primary} />
-                <Text style={styles.latestSessionMetricValue}>{latestSession.totalKcal} kcal</Text>
-                <Text style={styles.latestSessionMetricLabel}>Energía</Text>
-              </View>
-              <View style={styles.latestSessionMetric}>
-                <MaterialCommunityIcons name="weight-kilogram" size={16} color="#0A84FF" />
-                <Text style={styles.latestSessionMetricValue}>{latestSession.totalVolumeKg.toLocaleString()} kg</Text>
-                <Text style={styles.latestSessionMetricLabel}>Volumen</Text>
-              </View>
+
+            <View style={styles.prGrid}>
+              {personalRecordsList.map((pr) => (
+                <View key={pr.id} style={styles.prCard}>
+                  <View style={styles.prTopRow}>
+                    <Text style={styles.prMedal}>{pr.medal}</Text>
+                    <Text style={styles.prDate}>{pr.date}</Text>
+                  </View>
+                  <Text style={styles.prValueText}>{pr.value}</Text>
+                  <Text style={styles.prExerciseName} numberOfLines={2}>
+                    {pr.exercise}
+                  </Text>
+                  <Text style={styles.prTypeText}>{pr.type}</Text>
+                </View>
+              ))}
             </View>
-            <View style={styles.latestSessionFooter}>
-              <Text style={styles.latestSessionFooterText}>
-                {latestSession.exercises.length} ejercicios · {latestCompletedSets} series completadas
-              </Text>
-              <Text style={styles.latestSessionDetailLink}>Ver detalle</Text>
-            </View>
-          </TouchableOpacity>
+          </>
         )}
 
-        {/* Récords Personales (Hall of Fame) */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>🏆 Récords Personales (PRs)</Text>
-        </View>
-
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.prScrollRow}>
-          {personalRecordsList.map((pr) => (
-            <View key={pr.id} style={styles.prCard}>
-              <View style={styles.prTopRow}>
-                <Text style={styles.prMedal}>{pr.medal}</Text>
-                <Text style={styles.prDate}>{pr.date}</Text>
-              </View>
-              <Text style={styles.prValueText}>{pr.value}</Text>
-              <Text style={styles.prExerciseName} numberOfLines={2}>
-                {pr.exercise}
-              </Text>
-              <Text style={styles.prTypeText}>{pr.type}</Text>
+        {muscleFrequencyList.length > 0 && (
+          <>
+            {/* Regiones Más Entrenadas */}
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Regiones más entrenadas</Text>
             </View>
-          ))}
-        </ScrollView>
 
-        {/* Regiones Más Entrenadas matching IMG_1172.PNG */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Regiones más entrenadas</Text>
-        </View>
-
-        <View style={styles.muscleRegionCard}>
-          {muscleFrequencyList.map((item) => (
-            <View key={item.name} style={styles.muscleRow}>
-              <View style={styles.muscleInfoRow}>
-                <Text style={styles.muscleNameText}>{item.name}</Text>
-                <Text style={styles.musclePctText}>{item.pct}%</Text>
-              </View>
-              <View style={styles.progressBackground}>
-                <View
-                  style={[
-                    styles.progressFill,
-                    { width: `${item.pct}%`, backgroundColor: item.color },
-                  ]}
-                />
-              </View>
+            <View style={styles.muscleRegionCard}>
+              {muscleFrequencyList.map((item) => (
+                <View key={item.name} style={styles.muscleRow}>
+                  <View style={styles.muscleInfoRow}>
+                    <Text style={styles.muscleNameText}>{item.name}</Text>
+                    <Text style={styles.musclePctText}>{item.pct}%</Text>
+                  </View>
+                  <View style={styles.progressBackground}>
+                    <View
+                      style={[
+                        styles.progressFill,
+                        { width: `${item.pct}%`, backgroundColor: item.color },
+                      ]}
+                    />
+                  </View>
+                </View>
+              ))}
             </View>
-          ))}
-        </View>
+          </>
+        )}
 
         {/* Historial de Sesiones */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Historial de entrenamientos</Text>
-        </View>
+        {history.length > 0 && (
+          <>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Historial de entrenamientos</Text>
+            </View>
 
-        {history.map((h) => (
-          <TouchableOpacity
-            key={h.id}
-            style={styles.historyCard}
-            onPress={() => setSelectedSessionDetail(h)}
-            activeOpacity={0.8}
-          >
-            <View style={styles.historyTop}>
-              <Text style={styles.historyName}>{h.name}</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={styles.historyDate}>
-                  {new Date(h.startTime).toLocaleDateString('es-ES', {
-                    day: 'numeric',
-                    month: 'short',
-                  })}
-                </Text>
-                <Ionicons name="chevron-forward" size={16} color="#8E8E93" style={{ marginLeft: 6 }} />
-              </View>
-            </View>
-            <View style={styles.historyMetaRow}>
-              <Text style={styles.historyMetaText}>
-                ⏱️ {Math.floor((h.durationSeconds || 3600) / 60)} min
-              </Text>
-              <Text style={styles.historyMetaText}>🔥 {h.totalKcal} kcal</Text>
-              <Text style={styles.historyMetaText}>🏋️ {h.totalVolumeKg.toLocaleString()} kg</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
+            {history.map((h) => (
+              <TouchableOpacity
+                key={h.id}
+                style={styles.historyCard}
+                onPress={() => setSelectedSessionDetail(h)}
+                activeOpacity={0.8}
+              >
+                <View style={styles.historyTop}>
+                  <Text style={styles.historyName}>{h.name}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.historyDate}>
+                      {new Date(h.startTime).toLocaleDateString('es-ES', {
+                        day: 'numeric',
+                        month: 'short',
+                      })}
+                    </Text>
+                    <Ionicons name="chevron-forward" size={16} color="#8E8E93" style={{ marginLeft: 6 }} />
+                  </View>
+                </View>
+                <View style={styles.historyMetaRow}>
+                  <Text style={styles.historyMetaText}>
+                    ⏱️ {Math.floor((h.durationSeconds || 3600) / 60)} min
+                  </Text>
+                  <Text style={styles.historyMetaText}>🔥 {h.totalKcal} kcal</Text>
+                  <Text style={styles.historyMetaText}>🏋️ {h.totalVolumeKg.toLocaleString()} kg</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </>
+        )}
 
         <View style={{ height: 40 }} />
       </ScrollView>
@@ -566,7 +624,11 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '800',
   },
-  prScrollRow: {
+  prGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    columnGap: 10,
+    rowGap: 10,
     marginBottom: 20,
   },
   prCard: {
@@ -575,8 +637,7 @@ const styles = StyleSheet.create({
     padding: 14,
     borderWidth: 1,
     borderColor: '#2A2A2E',
-    width: 150,
-    marginRight: 10,
+    width: '48%',
   },
   prTopRow: {
     flexDirection: 'row',

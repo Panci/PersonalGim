@@ -33,13 +33,8 @@ const parseWeight = (value: string): number | undefined => {
   return Number.isFinite(parsed) ? parsed : undefined;
 };
 
-const generateTemporaryPassword = (): string => {
-  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!';
-  let password = '';
-  for (let index = 0; index < 16; index += 1) {
-    password += alphabet[Math.floor(Math.random() * alphabet.length)];
-  }
-  return password;
+const generateTemporaryPin = (): string => {
+  return String(Math.floor(1000 + Math.random() * 9000));
 };
 
 const normalizeWhatsappPhone = (value: string): string => {
@@ -126,12 +121,12 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
 
     setSaving(true);
     try {
-      const temporaryPassword = generateTemporaryPassword();
+      const temporaryPin = generateTemporaryPin();
       if (!session) throw new Error('La sesión de administrador ha caducado. Vuelve a iniciar sesión.');
       const createdUser = await createUserRequest(session.token, {
         fullName: fullName.trim(),
         email: normalizedEmail,
-        password: temporaryPassword,
+        pin: temporaryPin,
         role: 'user',
       });
 
@@ -160,9 +155,9 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
           '',
           `Accede desde: ${appUrl}`,
           `Email: ${normalizedEmail}`,
-          `Contraseña temporal: ${temporaryPassword}`,
+          `PIN temporal: ${temporaryPin}`,
           '',
-          'Cuando entres, cambia la contraseña y podrás crear tus rutinas.',
+          'Cuando entres, cambia el PIN y podrás crear tus rutinas.',
         ].join('\n');
         const whatsappUrl = `https://wa.me/${normalizeWhatsappPhone(normalizedPhone)}?text=${encodeURIComponent(message)}`;
         try {
@@ -240,7 +235,7 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
               </View>
               <View style={styles.inviteCopy}>
                 <Text style={styles.inviteTitle}>Crear acceso e invitar por WhatsApp</Text>
-                <Text style={styles.inviteDetail}>Se generará una contraseña temporal para el rol Usuario.</Text>
+                <Text style={styles.inviteDetail}>Se generará un PIN temporal de 4 dígitos para el rol Usuario.</Text>
               </View>
             </TouchableOpacity>
 

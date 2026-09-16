@@ -10,6 +10,7 @@ const app = express();
 const port = Number(process.env.PORT || 3000);
 const jwtSecret = process.env.JWT_SECRET;
 const validRoles = new Set(['admin', 'monitor', 'user']);
+const PIN_PATTERN = /^\d{4}$/;
 
 if (!jwtSecret || jwtSecret.length < 32) {
   throw new Error('JWT_SECRET debe tener al menos 32 caracteres.');
@@ -97,17 +98,17 @@ const writeAuditLog = async (actorUserId, action, targetType, targetId, metadata
 
 const bootstrapAdmin = async () => {
   const email = process.env.BOOTSTRAP_ADMIN_EMAIL?.trim().toLowerCase();
-  const password = process.env.BOOTSTRAP_ADMIN_PASSWORD;
-  if (!email || !password) {
-    console.warn('No se ha creado administrador inicial: define BOOTSTRAP_ADMIN_EMAIL y BOOTSTRAP_ADMIN_PASSWORD.');
+  const pin = process.env.BOOTSTRAP_ADMIN_PIN;
+  if (!email || !pin) {
+    console.warn('No se ha creado administrador inicial: define BOOTSTRAP_ADMIN_EMAIL y BOOTSTRAP_ADMIN_PIN.');
     return;
   }
-  if (password.length < 12) throw new Error('BOOTSTRAP_ADMIN_PASSWORD debe tener al menos 12 caracteres.');
+  if (!PIN_PATTERN.test(pin)) throw new Error('BOOTSTRAP_ADMIN_PIN debe tener exactamente 4 dígitos.');
 
   const existing = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
   if (existing.rowCount) return;
 
-  const hash = await bcrypt.hash(password, 12);
+  const hash = await bcrypt.hash(pin, 12);
   await pool.query(
     'INSERT INTO users (email, full_name, password_hash, role) VALUES ($1, $2, $3, $4)',
     [email, 'Administrador', hash, 'admin'],
@@ -122,16 +123,16 @@ app.get('/health', async (_req, res) => {
 
 app.post('/api/auth/login', loginLimiter, async (req, res) => {
   const email = String(req.body?.email || '').trim().toLowerCase();
-  const password = String(req.body?.password || '');
-  if (!email || !password) return res.status(400).json({ error: 'Introduce tu correo y contraseña.' });
+  const pin = String(req.body?.pin || '');
+  if (!email || !PIN_PATTERN.test(pin)) return res.status(400).json({ error: 'Introduce un PIN de exactamente 4 dígitos.' });
 
   const { rows } = await pool.query(
     'SELECT id, email, full_name, password_hash, role, is_active FROM users WHERE email = $1',
     [email],
   );
   const user = rows[0];
-  if (!user || !user.is_active || !(await bcrypt.compare(password, user.password_hash))) {
-    return res.status(401).json({ error: 'Correo o contraseña incorrectos.' });
+  if (!user || !user.is_active || !(await bcrypt.compare(pin, user.password_hash))) {
+    return res.status(401).json({ error: 'Correo o PIN incorrectos.' });
   }
 
   await writeAuditLog(user.id, 'login', 'user', user.id);
@@ -143,23 +144,23 @@ app.get('/api/auth/me', authenticate, (req, res) => {
 });
 
 app.patch('/api/auth/account', authenticate, async (req, res) => {
-  const currentPassword = String(req.body?.currentPassword || '');
+  const currentPin = String(req.body?.currentPin || '');
   const nextEmail = String(req.body?.email || '').trim().toLowerCase();
-  const nextPassword = String(req.body?.newPassword || '');
+  const nextPin = String(req.body?.newPin || '');
 
-  if (!currentPassword) return res.status(400).json({ error: 'Introduce tu contraseña actual.' });
+  if (!PIN_PATTERN.test(currentPin)) return res.status(400).json({ error: 'Introduce tu PIN actual de 4 dígitos.' });
   if (!nextEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nextEmail)) {
     return res.status(400).json({ error: 'Introduce un correo electrónico válido.' });
   }
-  if (nextPassword && nextPassword.length < 12) {
-    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 12 caracteres.' });
+  if (nextPin && !PIN_PATTERN.test(nextPin)) {
+    return res.status(400).json({ error: 'El nuevo PIN debe tener exactamente 4 dígitos.' });
   }
 
-  const passwordMatches = await bcrypt.compare(currentPassword, req.user.password_hash);
-  if (!passwordMatches) return res.status(401).json({ error: 'La contraseña actual no es correcta.' });
+  const pinMatches = await bcrypt.compare(currentPin, req.user.password_hash);
+  if (!pinMatches) return res.status(401).json({ error: 'El PIN actual no es correcto.' });
 
   try {
-    const passwordHash = nextPassword ? await bcrypt.hash(nextPassword, 12) : null;
+    const passwordHash = nextPin ? await bcrypt.hash(nextPin, 12) : null;
     const { rows } = await pool.query(
       `UPDATE users
           SET email = $1,
@@ -172,7 +173,7 @@ app.patch('/api/auth/account', authenticate, async (req, res) => {
     const updatedUser = rows[0];
     await writeAuditLog(req.user.id, 'update_account', 'user', req.user.id, {
       emailChanged: nextEmail !== req.user.email,
-      passwordChanged: Boolean(nextPassword),
+      pinChanged: Boolean(nextPin),
     });
     res.json({ token: createToken(updatedUser), user: publicUser(updatedUser) });
   } catch (error) {
@@ -191,14 +192,14 @@ app.get('/api/users', authenticate, authorize('admin'), async (_req, res) => {
 app.post('/api/users', authenticate, authorize('admin'), async (req, res) => {
   const email = String(req.body?.email || '').trim().toLowerCase();
   const fullName = String(req.body?.fullName || '').trim();
-  const password = String(req.body?.password || '');
+  const pin = String(req.body?.pin || '');
   const role = String(req.body?.role || 'user');
-  if (!email || !fullName || password.length < 12 || !validRoles.has(role)) {
-    return res.status(400).json({ error: 'Datos de usuario no válidos.' });
+  if (!email || !fullName || !PIN_PATTERN.test(pin) || !validRoles.has(role)) {
+    return res.status(400).json({ error: 'Indica un PIN de exactamente 4 dígitos.' });
   }
 
   try {
-    const hash = await bcrypt.hash(password, 12);
+    const hash = await bcrypt.hash(pin, 12);
     const { rows } = await pool.query(
       'INSERT INTO users (email, full_name, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING id, email, full_name, role, is_active',
       [email, fullName, hash, role],

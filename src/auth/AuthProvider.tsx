@@ -6,8 +6,8 @@ import { AuthSession } from './types';
 interface AuthContextValue {
   session: AuthSession | null;
   isRestoring: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  updateAccount: (payload: { currentPassword: string; email: string; newPassword?: string }) => Promise<void>;
+  signIn: (email: string, pin: string) => Promise<void>;
+  updateAccount: (payload: { currentPin: string; email: string; newPin?: string }) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -40,8 +40,8 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const value = useMemo<AuthContextValue>(() => ({
     session,
     isRestoring,
-    signIn: async (email, password) => {
-      const nextSession = await loginRequest(email, password);
+    signIn: async (email, pin) => {
+      const nextSession = await loginRequest(email, pin);
       await setAuthToken(nextSession.token);
       setSession(nextSession);
     },

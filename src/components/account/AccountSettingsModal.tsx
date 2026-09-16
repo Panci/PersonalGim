@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../auth/AuthProvider';
+import { isValidPin, normalizePin, PIN_LENGTH } from '../../auth/pin';
 import { COLORS } from '../../theme/colors';
 
 interface AccountSettingsModalProps {
@@ -25,18 +26,18 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const AccountSettingsModal: React.FC<AccountSettingsModalProps> = ({ visible, onClose }) => {
   const { session, updateAccount } = useAuth();
   const [email, setEmail] = useState('');
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [currentPin, setCurrentPin] = useState('');
+  const [newPin, setNewPin] = useState('');
+  const [confirmPin, setConfirmPin] = useState('');
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (!visible) return;
     setEmail(session?.user.email || '');
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
+    setCurrentPin('');
+    setNewPin('');
+    setConfirmPin('');
     setError('');
   }, [visible, session?.user.email]);
 
@@ -52,16 +53,16 @@ export const AccountSettingsModal: React.FC<AccountSettingsModalProps> = ({ visi
       setError('Introduce un correo electrónico válido.');
       return;
     }
-    if (!currentPassword) {
-      setError('Introduce tu contraseña actual para confirmar los cambios.');
+    if (!isValidPin(currentPin)) {
+      setError('El PIN actual debe tener exactamente 4 dígitos.');
       return;
     }
-    if (newPassword && newPassword.length < 12) {
-      setError('La nueva contraseña debe tener al menos 12 caracteres.');
+    if (newPin && !isValidPin(newPin)) {
+      setError('El nuevo PIN debe tener exactamente 4 dígitos.');
       return;
     }
-    if (newPassword !== confirmPassword) {
-      setError('Las nuevas contraseñas no coinciden.');
+    if (newPin !== confirmPin) {
+      setError('Los nuevos PIN no coinciden.');
       return;
     }
 
@@ -69,9 +70,9 @@ export const AccountSettingsModal: React.FC<AccountSettingsModalProps> = ({ visi
     setError('');
     try {
       await updateAccount({
-        currentPassword,
+        currentPin,
         email: normalizedEmail,
-        ...(newPassword ? { newPassword } : {}),
+        ...(newPin ? { newPin } : {}),
       });
       close();
       Alert.alert('Cuenta actualizada', 'Tus datos de acceso se han actualizado correctamente.');
@@ -97,7 +98,7 @@ export const AccountSettingsModal: React.FC<AccountSettingsModalProps> = ({ visi
           </View>
 
           <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
-            <Text style={styles.helper}>Actualiza el correo y la contraseña que usas para entrar.</Text>
+            <Text style={styles.helper}>Actualiza el correo y el PIN que usas para entrar.</Text>
 
             <Text style={styles.label}>CORREO ELECTRÓNICO</Text>
             <TextInput
@@ -110,36 +111,39 @@ export const AccountSettingsModal: React.FC<AccountSettingsModalProps> = ({ visi
               placeholderTextColor="#6E6E73"
             />
 
-            <Text style={styles.label}>CONTRASEÑA ACTUAL *</Text>
+            <Text style={styles.label}>PIN ACTUAL *</Text>
             <TextInput
               style={styles.input}
-              value={currentPassword}
-              onChangeText={setCurrentPassword}
+              value={currentPin}
+              onChangeText={(value) => setCurrentPin(normalizePin(value))}
               secureTextEntry
-              autoCapitalize="none"
-              placeholder="Necesaria para confirmar"
+              keyboardType="numeric"
+              maxLength={PIN_LENGTH}
+              placeholder="Necesario para confirmar"
               placeholderTextColor="#6E6E73"
             />
 
-            <Text style={styles.label}>NUEVA CONTRASEÑA (OPCIONAL)</Text>
+            <Text style={styles.label}>NUEVO PIN (OPCIONAL)</Text>
             <TextInput
               style={styles.input}
-              value={newPassword}
-              onChangeText={setNewPassword}
+              value={newPin}
+              onChangeText={(value) => setNewPin(normalizePin(value))}
               secureTextEntry
-              autoCapitalize="none"
-              placeholder="Mínimo 12 caracteres"
+              keyboardType="numeric"
+              maxLength={PIN_LENGTH}
+              placeholder="0000"
               placeholderTextColor="#6E6E73"
             />
 
-            <Text style={styles.label}>REPETIR NUEVA CONTRASEÑA</Text>
+            <Text style={styles.label}>REPETIR NUEVO PIN</Text>
             <TextInput
               style={styles.input}
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
+              value={confirmPin}
+              onChangeText={(value) => setConfirmPin(normalizePin(value))}
               secureTextEntry
-              autoCapitalize="none"
-              placeholder="Repite la nueva contraseña"
+              keyboardType="numeric"
+              maxLength={PIN_LENGTH}
+              placeholder="Repite el nuevo PIN"
               placeholderTextColor="#6E6E73"
             />
 

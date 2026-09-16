@@ -29,12 +29,12 @@ const readResponse = async <T>(response: Response): Promise<T> => {
   return data as T;
 };
 
-export const loginRequest = async (email: string, password: string): Promise<AuthSession> => {
+export const loginRequest = async (email: string, pin: string): Promise<AuthSession> => {
   try {
     const response = await fetch(endpoint('/auth/login'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, pin }),
     });
     return readResponse<AuthSession>(response);
   } catch (error) {
@@ -58,7 +58,7 @@ export const currentUserRequest = async (token: string): Promise<AuthUser> => {
 
 export const updateAccountRequest = async (
   token: string,
-  payload: { currentPassword: string; email: string; newPassword?: string },
+  payload: { currentPin: string; email: string; newPin?: string },
 ): Promise<AuthSession> => {
   const response = await fetch(endpoint('/auth/account'), {
     method: 'PATCH',
@@ -94,7 +94,7 @@ export const saveWorkoutRequest = async (token: string, workout: WorkoutSession)
 
 export const createUserRequest = async (
   token: string,
-  payload: { fullName: string; email: string; password: string; role: UserRole },
+  payload: { fullName: string; email: string; pin: string; role: UserRole },
 ): Promise<AuthUser> => {
   const response = await fetch(endpoint('/users'), {
     method: 'POST',

@@ -10,6 +10,7 @@ import {
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
 import { WorkoutSession } from '../../types';
+import { formatWorkoutTime, getCompletedRestSeconds } from '../../utils/workoutMetrics';
 
 interface WorkoutSessionDetailModalProps {
   visible: boolean;
@@ -26,9 +27,8 @@ export const WorkoutSessionDetailModal: React.FC<WorkoutSessionDetailModalProps>
 }) => {
   if (!session) return null;
 
-  const hours = Math.floor(session.durationSeconds / 3600);
-  const minutes = Math.floor((session.durationSeconds % 3600) / 60);
-  const durationStr = hours > 0 ? `${hours}h ${minutes}m` : `${minutes} min`;
+  const durationStr = formatWorkoutTime(session.durationSeconds);
+  const restStr = formatWorkoutTime(getCompletedRestSeconds(session));
 
   const dateStr = new Date(session.startTime).toLocaleDateString('es-ES', {
     weekday: 'long',
@@ -66,6 +66,12 @@ export const WorkoutSessionDetailModal: React.FC<WorkoutSessionDetailModalProps>
                 <Ionicons name="time-outline" size={16} color="#34C759" />
                 <Text style={styles.kpiVal}>{durationStr}</Text>
                 <Text style={styles.kpiLabel}>Duración</Text>
+              </View>
+              <View style={styles.kpiDivider} />
+              <View style={styles.kpiItem}>
+                <Ionicons name="hourglass-outline" size={16} color="#AF52DE" />
+                <Text style={styles.kpiVal}>{restStr}</Text>
+                <Text style={styles.kpiLabel}>Descanso</Text>
               </View>
               <View style={styles.kpiDivider} />
               <View style={styles.kpiItem}>
