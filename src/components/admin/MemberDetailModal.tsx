@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontSize: 12,
     fontWeight: '800',
-    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -322,12 +322,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   changeRoutineBtn: {
-    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: 'rgba(255, 106, 0, 0.3)',
+    borderColor: 'rgba(22, 201, 91, 0.3)',
   },
   changeRoutineBtnText: {
     color: COLORS.primary,

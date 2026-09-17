@@ -915,12 +915,12 @@ const styles = StyleSheet.create({
   createBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 106, 0, 0.12)',
+    backgroundColor: 'rgba(22, 201, 91, 0.12)',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: 'rgba(255, 106, 0, 0.3)',
+    borderColor: 'rgba(22, 201, 91, 0.3)',
   },
   createBtnText: {
     color: COLORS.primary,
@@ -1203,7 +1203,7 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     borderRadius: 11,
-    backgroundColor: 'rgba(255, 106, 0, 0.18)',
+    backgroundColor: 'rgba(22, 201, 91, 0.18)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1315,11 +1315,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
     paddingVertical: 12,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: 'rgba(255, 106, 0, 0.4)',
+    borderColor: 'rgba(22, 201, 91, 0.4)',
     marginBottom: 10,
   },
   detailOneRmBtnText: {
@@ -1417,7 +1417,7 @@ const styles = StyleSheet.create({
     borderColor: '#323238',
   },
   muscleSelectRowActive: {
-    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
     borderColor: COLORS.primary,
   },
   muscleSelectLeft: {

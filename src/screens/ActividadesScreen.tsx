@@ -550,7 +550,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     padding: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255, 106, 0, 0.42)',
+    borderColor: 'rgba(22, 201, 91, 0.42)',
     marginBottom: 20,
   },
   latestSessionHeader: {

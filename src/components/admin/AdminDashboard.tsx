@@ -833,12 +833,12 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   adminBadge: {
-    backgroundColor: 'rgba(255, 106, 0, 0.2)',
+    backgroundColor: 'rgba(22, 201, 91, 0.2)',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: 'rgba(255, 106, 0, 0.4)',
+    borderColor: 'rgba(22, 201, 91, 0.4)',
   },
   adminBadgeText: {
     color: COLORS.primary,
@@ -891,9 +891,9 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 13,
-    backgroundColor: 'rgba(255, 106, 0, 0.13)',
+    backgroundColor: 'rgba(22, 201, 91, 0.13)',
     borderWidth: 1,
-    borderColor: 'rgba(255, 106, 0, 0.4)',
+    borderColor: 'rgba(22, 201, 91, 0.4)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -975,8 +975,8 @@ const styles = StyleSheet.create({
     borderColor: '#2A2A2E',
   },
   tabBtnSocios: {
-    backgroundColor: 'rgba(255, 106, 0, 0.14)',
-    borderColor: 'rgba(255, 106, 0, 0.35)',
+    backgroundColor: 'rgba(22, 201, 91, 0.14)',
+    borderColor: 'rgba(22, 201, 91, 0.35)',
   },
   tabBtnAccesos: {
     backgroundColor: 'rgba(10, 132, 255, 0.14)',
@@ -992,7 +992,7 @@ const styles = StyleSheet.create({
   },
   tabBtnActive: {
     borderColor: COLORS.primary,
-    backgroundColor: 'rgba(255, 106, 0, 0.1)',
+    backgroundColor: 'rgba(22, 201, 91, 0.1)',
   },
   tabText: {
     color: '#F2F2F7',
@@ -1154,7 +1154,7 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontSize: 11,
     fontWeight: '800',
-    backgroundColor: 'rgba(255, 106, 0, 0.1)',
+    backgroundColor: 'rgba(22, 201, 91, 0.1)',
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
@@ -1197,11 +1197,11 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 8,
-    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(255, 106, 0, 0.3)',
+    borderColor: 'rgba(22, 201, 91, 0.3)',
   },
   memberStatusCol: {
     flexDirection: 'row',
@@ -1471,7 +1471,7 @@ const styles = StyleSheet.create({
   addRoutineBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
@@ -1515,7 +1515,7 @@ const styles = StyleSheet.create({
   memberCounterBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 106, 0, 0.12)',
+    backgroundColor: 'rgba(22, 201, 91, 0.12)',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 8,

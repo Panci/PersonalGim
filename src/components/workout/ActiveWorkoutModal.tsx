@@ -848,7 +848,7 @@ const styles = StyleSheet.create({
     borderColor: '#2A2A2E',
   },
   currentExerciseCard: {
-    borderColor: 'rgba(255, 106, 0, 0.62)',
+    borderColor: 'rgba(22, 201, 91, 0.62)',
     backgroundColor: '#202024',
   },
   exerciseCardHeader: {
@@ -867,7 +867,7 @@ const styles = StyleSheet.create({
     width: 144,
     height: 116,
     borderWidth: 1,
-    borderColor: 'rgba(255, 106, 0, 0.5)',
+    borderColor: 'rgba(22, 201, 91, 0.5)',
   },
   exerciseCardTitle: {
     flex: 1,
@@ -1135,7 +1135,7 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     borderRadius: 11,
-    backgroundColor: 'rgba(255, 106, 0, 0.18)',
+    backgroundColor: 'rgba(22, 201, 91, 0.18)',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 8,
@@ -1155,9 +1155,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 106, 0, 0.16)',
+    backgroundColor: 'rgba(22, 201, 91, 0.16)',
     borderWidth: 1,
-    borderColor: 'rgba(255, 106, 0, 0.55)',
+    borderColor: 'rgba(22, 201, 91, 0.55)',
     borderRadius: 12,
     paddingVertical: 12,
     marginTop: 18,
@@ -1288,7 +1288,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 107, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
   },
   pickerOptionName: {
     color: '#FFFFFF',

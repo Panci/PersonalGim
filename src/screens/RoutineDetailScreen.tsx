@@ -782,7 +782,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 107, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
   },
   pickerOptionName: {
     color: '#FFFFFF',

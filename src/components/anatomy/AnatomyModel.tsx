@@ -131,8 +131,8 @@ export const AnatomyModel: React.FC<AnatomyModelProps> = ({
               <Stop offset="100%" stopColor="#1E1E22" />
             </LinearGradient>
             <LinearGradient id="highlightGrad" x1="0" y1="0" x2="1" y2="1">
-              <Stop offset="0%" stopColor="#FF7A1A" />
-              <Stop offset="100%" stopColor="#FF4500" />
+              <Stop offset="0%" stopColor="#35DD6E" />
+              <Stop offset="100%" stopColor="#0C9842" />
             </LinearGradient>
           </Defs>
 
@@ -218,7 +218,7 @@ export const AnatomyModel: React.FC<AnatomyModelProps> = ({
               <Path
                 d="M 175 168 L 205 168 L 203 245 L 177 245 Z"
                 fill={selectedMuscleFilter === 'abdomen' ? 'url(#highlightGrad)' : '#3E3E46'}
-                stroke="#FF6A00"
+                stroke="#16C95B"
                 strokeWidth={selectedMuscleFilter === 'abdomen' ? '2' : '0.5'}
               />
 
@@ -459,7 +459,7 @@ const styles = StyleSheet.create({
   },
   calloutBadgeActive: {
     backgroundColor: COLORS.primary,
-    borderColor: '#FFA04D',
+    borderColor: '#65EE91',
   },
   calloutText: {
     color: '#D1D1D6',

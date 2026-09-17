@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   routinesContent: { paddingHorizontal: 20 },
   routinesIntro: { color: '#A1A1A6', fontSize: 16, lineHeight: 23, marginBottom: 18 },
   routineRow: { minHeight: 78, borderRadius: 18, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C30', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, marginBottom: 10 },
-  routineRowIcon: { width: 44, height: 44, borderRadius: 14, backgroundColor: 'rgba(255, 106, 0, 0.14)', alignItems: 'center', justifyContent: 'center', marginRight: 12 },
+  routineRowIcon: { width: 44, height: 44, borderRadius: 14, backgroundColor: 'rgba(22, 201, 91, 0.14)', alignItems: 'center', justifyContent: 'center', marginRight: 12 },
   routineRowText: { flex: 1, marginRight: 8 },
   routineRowTitle: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   routineRowSubtitle: { color: '#8E8E93', fontSize: 14, marginTop: 4 },

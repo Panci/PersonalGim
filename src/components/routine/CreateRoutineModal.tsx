@@ -871,7 +871,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   templateChipActive: {
-    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
     borderColor: COLORS.primary,
   },
   templateChipText: {
@@ -892,7 +892,7 @@ const styles = StyleSheet.create({
   addDayBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 10,
@@ -1190,7 +1190,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#303036',
   },
   muscleDropdownOptionSelected: {
-    backgroundColor: 'rgba(255, 106, 0, 0.12)',
+    backgroundColor: 'rgba(22, 201, 91, 0.12)',
   },
   muscleDropdownOptionText: {
     color: '#D1D1D6',

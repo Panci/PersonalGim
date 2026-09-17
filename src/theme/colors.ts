@@ -1,3 +1,15 @@
+/**
+ * Previous brand palette, kept as a named reference so it can be restored
+ * without having to recover values from an older commit.
+ */
+export const LEGACY_ORANGE_PALETTE = {
+  primary: '#FF6A00',
+  primaryLight: '#FF8533',
+  primaryDark: '#D95A00',
+  primaryMuted: 'rgba(255, 106, 0, 0.15)',
+  textOrange: '#FF7A1A',
+} as const;
+
 export const COLORS = {
   // Backgrounds
   background: '#000000',      // AMOLED Pure Black
@@ -6,16 +18,18 @@ export const COLORS = {
   surfaceHighlight: '#2C2C2E',// Hover/active state on cards
   
   // Brand / Accents
-  primary: '#FF6A00',         // Vibrant Fitness Orange (from reference)
-  primaryLight: '#FF8533',    // Light orange highlight
-  primaryDark: '#D95A00',     // Dark orange pressed state
-  primaryMuted: 'rgba(255, 106, 0, 0.15)', // Orange background tint
+  // Neon green accent inspired by the supplied reference image. The slightly
+  // deeper tone keeps white labels readable on filled buttons and cards.
+  primary: '#16C95B',
+  primaryLight: '#4BE77C',
+  primaryDark: '#0C9842',
+  primaryMuted: 'rgba(22, 201, 91, 0.15)',
 
   // Text
   text: '#FFFFFF',            // High contrast white
   textSecondary: '#A1A1A6',   // Clean medium gray for labels and metadata
   textMuted: '#636366',       // Muted gray for inactive icons and placeholders
-  textOrange: '#FF7A1A',      // Orange text for actions/links
+  textOrange: '#35DD6E',      // Green text for actions/links
 
   // Day Badges (from IMG_1171.PNG)
   dayBadges: {
@@ -30,7 +44,7 @@ export const COLORS = {
 
   // Set Types
   setTypes: {
-    normal: '#FF6A00',
+    normal: '#16C95B',
     warmup: '#F59E0B',
     drop: '#EC4899',
     failure: '#EF4444',

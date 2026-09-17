@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   label: { color: '#8E8E93', fontSize: 10, fontWeight: '800', letterSpacing: 0.7, marginTop: 12, marginBottom: 6 },
   input: { height: 46, borderRadius: 11, backgroundColor: '#28282C', borderWidth: 1, borderColor: '#37373D', color: '#FFFFFF', paddingHorizontal: 13, fontSize: 14 },
   roleOption: { flexDirection: 'row', padding: 11, borderRadius: 12, borderWidth: 1, borderColor: '#333338', marginBottom: 7, backgroundColor: '#242428' },
-  roleOptionSelected: { borderColor: COLORS.primary, backgroundColor: 'rgba(255,106,0,0.1)' },
+  roleOptionSelected: { borderColor: COLORS.primary, backgroundColor: 'rgba(22,201,91,0.1)' },
   radio: { width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: '#74747A', marginTop: 1, alignItems: 'center', justifyContent: 'center' },
   radioSelected: { borderColor: COLORS.primary },
   radioDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: COLORS.primary },

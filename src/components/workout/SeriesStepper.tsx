@@ -170,7 +170,7 @@ export const SeriesStepper: React.FC<SeriesStepperProps> = ({
         <View style={styles.rowWrapper}>
           <View style={styles.timelineColumn}>
             <View style={[styles.circleBadge, styles.circleBadgeAdd]}>
-              <Ionicons name="add" size={16} color="#FF6A00" />
+              <Ionicons name="add" size={16} color="#16C95B" />
             </View>
           </View>
           <TouchableOpacity style={styles.addSeriesButton} onPress={onAddSet} activeOpacity={0.7}>
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   },
   circleBadgeAdd: {
     borderColor: COLORS.primary,
-    backgroundColor: 'rgba(255, 106, 0, 0.1)',
+    backgroundColor: 'rgba(22, 201, 91, 0.1)',
   },
   circleText: {
     color: '#FFFFFF',

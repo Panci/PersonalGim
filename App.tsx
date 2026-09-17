@@ -173,7 +173,7 @@ function AppShell() {
           onPress={() => setShowAccountSettings(true)}
           accessibilityLabel="Mi cuenta"
         >
-          <Ionicons name="person-circle-outline" size={25} color="#FF6A00" />
+          <Ionicons name="person-circle-outline" size={25} color={COLORS.primary} />
         </TouchableOpacity>
       )}
 

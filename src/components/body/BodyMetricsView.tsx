@@ -260,7 +260,7 @@ export const BodyMetricsView: React.FC = () => {
         {/* Card 2: Pecho */}
         <View style={styles.gridCard}>
           <View style={styles.cardTopRow}>
-            <MaterialCommunityIcons name="human" size={22} color="#FF8533" />
+            <MaterialCommunityIcons name="human" size={22} color="#4BE77C" />
             <Text style={styles.cardLabel}>Pecho</Text>
           </View>
           <Text style={styles.cardValue}>{latest?.chestCm || '--'} <Text style={styles.cardUnit}>cm</Text></Text>
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   heroTag: {
-    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    backgroundColor: 'rgba(22, 201, 91, 0.15)',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 6,
