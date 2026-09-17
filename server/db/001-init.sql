@@ -23,6 +23,10 @@ CREATE TABLE IF NOT EXISTS gym_members (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+ALTER TABLE gym_members
+  ADD COLUMN IF NOT EXISTS assigned_routine_id TEXT,
+  ADD COLUMN IF NOT EXISTS assigned_routine_title TEXT;
+
 CREATE TABLE IF NOT EXISTS workout_sessions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -46,6 +50,33 @@ CREATE INDEX IF NOT EXISTS workout_sessions_user_started_idx
 CREATE TABLE IF NOT EXISTS user_routines (
   user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
   routines JSONB NOT NULL DEFAULT '[]'::jsonb,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS routine_templates (
+  id TEXT PRIMARY KEY,
+  created_by UUID NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+  title TEXT NOT NULL,
+  subtitle TEXT,
+  objective TEXT NOT NULL CHECK (objective IN ('hipertrofia', 'fuerza', 'perdida_grasa', 'salud_general')),
+  level TEXT NOT NULL CHECK (level IN ('principiante', 'intermedio', 'avanzado')),
+  equipment JSONB NOT NULL DEFAULT '[]'::jsonb,
+  routine JSONB NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS routine_templates_goal_level_idx
+  ON routine_templates (objective, level);
+
+-- The Gemini credential is encrypted by the API before it reaches this table.
+-- It is never sent back to mobile/web clients.
+CREATE TABLE IF NOT EXISTS ai_provider_settings (
+  id BOOLEAN PRIMARY KEY DEFAULT TRUE CHECK (id),
+  provider TEXT NOT NULL DEFAULT 'gemini' CHECK (provider = 'gemini'),
+  encrypted_api_key TEXT NOT NULL,
+  updated_by UUID REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 

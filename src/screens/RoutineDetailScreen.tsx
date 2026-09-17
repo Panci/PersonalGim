@@ -332,6 +332,7 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
           {collection?.days.map((day) => {
             const badgeColor =
               COLORS.dayBadges[day.dayBadge as keyof typeof COLORS.dayBadges] || COLORS.primary;
+            const scheduledDays = day.scheduledDays?.length ? day.scheduledDays : [day.dayBadge];
 
             return (
               <TouchableOpacity
@@ -351,7 +352,7 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
                 <View style={styles.dayCardInfo}>
                   <Text style={styles.dayCardName}>{day.name}</Text>
                   <Text style={styles.dayCardMeta}>
-                    {day.estimatedMinutes} min • {day.estimatedCalories} kcal • {day.exercises.length} ejerc.
+                    {scheduledDays.map((weekday) => weekday.toUpperCase()).join(' · ')} • {day.estimatedMinutes} min • {day.estimatedCalories} kcal • {day.exercises.length} ejerc.
                   </Text>
                 </View>
 

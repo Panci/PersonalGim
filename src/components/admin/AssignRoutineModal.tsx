@@ -16,24 +16,34 @@ interface AssignRoutineModalProps {
   visible: boolean;
   member: GymMember | null;
   onClose: () => void;
+  onOpenLibrary?: () => void;
 }
 
 export const AssignRoutineModal: React.FC<AssignRoutineModalProps> = ({
   visible,
   member,
   onClose,
+  onOpenLibrary,
 }) => {
-  const { collections, assignRoutineToMember } = useWorkoutStore();
+  const { routineTemplates, assignRoutineTemplateToMember } = useWorkoutStore();
   const [selectedId, setSelectedId] = useState(member?.assignedRoutineId || '');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   if (!member) return null;
 
-  const handleConfirm = () => {
-    const targetCol = collections.find((c) => c.id === selectedId);
-    if (targetCol) {
-      assignRoutineToMember(member.id, targetCol.id, targetCol.title);
+  const handleConfirm = async () => {
+    if (!selectedId || saving) return;
+    setSaving(true);
+    setError('');
+    try {
+      await assignRoutineTemplateToMember(member.id, selectedId);
+      onClose();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'No se pudo asignar la rutina.');
+    } finally {
+      setSaving(false);
     }
-    onClose();
   };
 
   return (
@@ -52,22 +62,22 @@ export const AssignRoutineModal: React.FC<AssignRoutineModalProps> = ({
           </View>
 
           <Text style={styles.instruction}>
-            Selecciona la rutina del gimnasio que quieres asignar a este socio. La verá de inmediato en su app:
+            Selecciona una plantilla del gimnasio. Se copiará al plan de este socio sin modificar la original.
           </Text>
 
           <ScrollView style={styles.listArea}>
-            {collections.map((col) => {
-              const isSelected = selectedId === col.id;
+            {routineTemplates.map((template) => {
+              const isSelected = selectedId === template.id;
               return (
                 <TouchableOpacity
-                  key={col.id}
+                  key={template.id}
                   style={[styles.routineItem, isSelected && styles.routineItemActive]}
-                  onPress={() => setSelectedId(col.id)}
+                  onPress={() => setSelectedId(template.id)}
                 >
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.routineTitle}>{col.title}</Text>
+                    <Text style={styles.routineTitle}>{template.title}</Text>
                     <Text style={styles.routineMeta}>
-                      {col.days.length} días estructurados • {col.subtitle || 'Hipertrofia y fuerza'}
+                      {template.routine.days.length} días · {template.objective.replace('_', ' ')} · {template.level}
                     </Text>
                   </View>
                   <Ionicons
@@ -78,10 +88,17 @@ export const AssignRoutineModal: React.FC<AssignRoutineModalProps> = ({
                 </TouchableOpacity>
               );
             })}
+            {routineTemplates.length === 0 && (
+              <View style={styles.emptyState}>
+                <Text style={styles.emptyText}>No hay plantillas compartidas todavía.</Text>
+                {onOpenLibrary && <TouchableOpacity onPress={onOpenLibrary}><Text style={styles.emptyAction}>Crear plantilla manual</Text></TouchableOpacity>}
+              </View>
+            )}
           </ScrollView>
 
-          <TouchableOpacity style={styles.confirmBtn} onPress={handleConfirm} activeOpacity={0.85}>
-            <Text style={styles.confirmBtnText}>Asignar Rutina</Text>
+          {error !== '' && <Text style={styles.error}>{error}</Text>}
+          <TouchableOpacity style={[styles.confirmBtn, (!selectedId || saving) && styles.confirmBtnDisabled]} onPress={() => void handleConfirm()} activeOpacity={0.85} disabled={!selectedId || saving}>
+            <Text style={styles.confirmBtnText}>{saving ? 'Asignando…' : 'Asignar Rutina'}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -169,4 +186,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '800',
   },
+  confirmBtnDisabled: { opacity: 0.55 },
+  emptyState: { paddingVertical: 18, alignItems: 'center' },
+  emptyText: { color: '#A1A1A6', fontSize: 13, textAlign: 'center' },
+  emptyAction: { color: COLORS.primary, fontSize: 13, fontWeight: '800', marginTop: 10 },
+  error: { color: '#FF6961', fontSize: 12, lineHeight: 17, marginBottom: 8 },
 });

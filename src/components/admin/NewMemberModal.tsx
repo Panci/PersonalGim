@@ -56,7 +56,7 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
   visible,
   onClose,
 }) => {
-  const { addGymMember, collections, gymMembers } = useWorkoutStore();
+  const { gymMembers, loadSharedGymData } = useWorkoutStore();
   const { session } = useAuth();
 
   const [fullName, setFullName] = useState('');
@@ -67,9 +67,6 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
   const [weightKg, setWeightKg] = useState('75.0');
   const [inviteViaWhatsApp, setInviteViaWhatsApp] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [selectedRoutineId, setSelectedRoutineId] = useState<string>(
-    collections[0]?.id || ''
-  );
 
   const objectives: { id: MemberObjective; label: string }[] = [
     { id: 'hipertrofia', label: 'Hipertrofia' },
@@ -117,30 +114,18 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
       return;
     }
 
-    const assignedCol = collections.find((c) => c.id === selectedRoutineId);
-
     setSaving(true);
     try {
       const temporaryPin = generateTemporaryPin();
       if (!session) throw new Error('La sesión de administrador ha caducado. Vuelve a iniciar sesión.');
-      const createdUser = await createUserRequest(session.token, {
+      await createUserRequest(session.token, {
         fullName: fullName.trim(),
         email: normalizedEmail,
         pin: temporaryPin,
         role: 'user',
+        memberProfile: { phone: normalizedPhone || undefined, objective, level },
       });
-
-      addGymMember({
-        userId: createdUser.id,
-        fullName: fullName.trim(),
-        email: normalizedEmail,
-        phone: normalizedPhone || undefined,
-        objective,
-        level,
-        assignedRoutineId: assignedCol?.id,
-        assignedRoutineTitle: assignedCol?.title,
-        currentWeightKg: parsedWeight,
-      });
+      await loadSharedGymData();
 
       setFullName('');
       setEmail('');
@@ -288,29 +273,9 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({
               onChangeText={setWeightKg}
             />
 
-            {/* Assign Initial Routine */}
-            <Text style={styles.sectionHeading}>RUTINA ASIGNADA DEL GIMNASIO</Text>
-            <View style={styles.routinesList}>
-              {collections.map((col) => {
-                const isSelected = selectedRoutineId === col.id;
-                return (
-                  <TouchableOpacity
-                    key={col.id}
-                    style={[styles.routineCard, isSelected && styles.routineCardActive]}
-                    onPress={() => setSelectedRoutineId(col.id)}
-                  >
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.routineTitle}>{col.title}</Text>
-                      <Text style={styles.routineSub}>{col.days.length} días de entrenamiento</Text>
-                    </View>
-                    <Ionicons
-                      name={isSelected ? 'checkmark-circle' : 'ellipse-outline'}
-                      size={22}
-                      color={isSelected ? COLORS.primary : '#636366'}
-                    />
-                  </TouchableOpacity>
-                );
-              })}
+            <View style={styles.assignmentHint}>
+              <Ionicons name="clipboard-outline" size={18} color={COLORS.primary} />
+              <Text style={styles.assignmentHintText}>Tras el alta, asigna la plantilla más adecuada desde la biblioteca de rutinas.</Text>
             </View>
 
             <View style={{ height: 24 }} />
@@ -460,32 +425,8 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: '800',
   },
-  routinesList: {
-    gap: 8,
-  },
-  routineCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#26262A',
-    borderRadius: 14,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: '#34343A',
-  },
-  routineCardActive: {
-    borderColor: COLORS.primary,
-    backgroundColor: 'rgba(255, 106, 0, 0.08)',
-  },
-  routineTitle: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  routineSub: {
-    color: '#8E8E93',
-    fontSize: 11,
-    marginTop: 2,
-  },
+  assignmentHint: { flexDirection: 'row', alignItems: 'center', gap: 9, borderRadius: 12, borderWidth: 1, borderColor: '#34343A', backgroundColor: '#26262A', padding: 12 },
+  assignmentHintText: { flex: 1, color: '#B5B5BB', fontSize: 12, lineHeight: 17 },
   saveBtn: {
     backgroundColor: COLORS.primary,
     paddingVertical: 15,

@@ -37,7 +37,7 @@ const parseList = (value: string | null | undefined): string[] | undefined => {
 const saveRoutine = (database: SQLite.SQLiteDatabase, collection: RoutineCollection) => {
   database.runSync('INSERT INTO routine_collections (id, title, subtitle, imageUrl) VALUES (?, ?, ?, ?)', [collection.id, collection.title, nullable(collection.subtitle), nullable(collection.imageUrl)]);
   for (const day of collection.days) {
-    database.runSync('INSERT INTO routine_days (id, collectionId, name, dayBadge, estimatedMinutes, estimatedCalories) VALUES (?, ?, ?, ?, ?, ?)', [day.id, collection.id, day.name, day.dayBadge, day.estimatedMinutes, day.estimatedCalories]);
+    database.runSync('INSERT INTO routine_days (id, collectionId, name, dayBadge, scheduledDays, estimatedMinutes, estimatedCalories) VALUES (?, ?, ?, ?, ?, ?, ?)', [day.id, collection.id, day.name, day.dayBadge, JSON.stringify(day.scheduledDays?.length ? day.scheduledDays : [day.dayBadge]), day.estimatedMinutes, day.estimatedCalories]);
     for (const item of day.exercises) {
       database.runSync('INSERT INTO routine_exercises (id, routineDayId, exerciseId, orderIndex, targetSets, targetRepRange, targetWeightRange, targetRestSeconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [item.id, day.id, item.exerciseId, item.orderIndex, item.targetSets, item.targetRepRange, item.targetWeightRange, item.targetRestSeconds]);
       for (const set of item.defaultSets) {
@@ -52,7 +52,7 @@ const saveRoutine = (database: SQLite.SQLiteDatabase, collection: RoutineCollect
 const seedRoutine = (database: SQLite.SQLiteDatabase, collection: RoutineCollection) => {
   database.runSync('INSERT OR IGNORE INTO routine_collections (id, title, subtitle, imageUrl) VALUES (?, ?, ?, ?)', [collection.id, collection.title, nullable(collection.subtitle), nullable(collection.imageUrl)]);
   for (const day of collection.days) {
-    database.runSync('INSERT OR IGNORE INTO routine_days (id, collectionId, name, dayBadge, estimatedMinutes, estimatedCalories) VALUES (?, ?, ?, ?, ?, ?)', [day.id, collection.id, day.name, day.dayBadge, day.estimatedMinutes, day.estimatedCalories]);
+    database.runSync('INSERT OR IGNORE INTO routine_days (id, collectionId, name, dayBadge, scheduledDays, estimatedMinutes, estimatedCalories) VALUES (?, ?, ?, ?, ?, ?, ?)', [day.id, collection.id, day.name, day.dayBadge, JSON.stringify(day.scheduledDays?.length ? day.scheduledDays : [day.dayBadge]), day.estimatedMinutes, day.estimatedCalories]);
     for (const item of day.exercises) {
       database.runSync('INSERT OR IGNORE INTO routine_exercises (id, routineDayId, exerciseId, orderIndex, targetSets, targetRepRange, targetWeightRange, targetRestSeconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [item.id, day.id, item.exerciseId, item.orderIndex, item.targetSets, item.targetRepRange, item.targetWeightRange, item.targetRestSeconds]);
       const existingSets = database.getFirstSync<{ count: number }>('SELECT COUNT(*) AS count FROM routine_exercise_sets WHERE routineExerciseId = ?', [item.id])?.count ?? 0;
@@ -93,7 +93,7 @@ export const initDatabase = async (): Promise<void> => {
       PRAGMA foreign_keys = ON;
       CREATE TABLE IF NOT EXISTS exercises (id TEXT PRIMARY KEY NOT NULL, name TEXT NOT NULL, primaryMuscle TEXT NOT NULL, secondaryMuscles TEXT NOT NULL, equipment TEXT NOT NULL, instructions TEXT, imageUrl TEXT, isFavorite INTEGER NOT NULL DEFAULT 0, isCustom INTEGER NOT NULL DEFAULT 0);
       CREATE TABLE IF NOT EXISTS routine_collections (id TEXT PRIMARY KEY NOT NULL, title TEXT NOT NULL, subtitle TEXT, imageUrl TEXT);
-      CREATE TABLE IF NOT EXISTS routine_days (id TEXT PRIMARY KEY NOT NULL, collectionId TEXT NOT NULL, name TEXT NOT NULL, dayBadge TEXT NOT NULL, estimatedMinutes INTEGER NOT NULL DEFAULT 45, estimatedCalories INTEGER NOT NULL DEFAULT 400);
+      CREATE TABLE IF NOT EXISTS routine_days (id TEXT PRIMARY KEY NOT NULL, collectionId TEXT NOT NULL, name TEXT NOT NULL, dayBadge TEXT NOT NULL, scheduledDays TEXT, estimatedMinutes INTEGER NOT NULL DEFAULT 45, estimatedCalories INTEGER NOT NULL DEFAULT 400);
       CREATE TABLE IF NOT EXISTS routine_exercises (id TEXT PRIMARY KEY NOT NULL, routineDayId TEXT NOT NULL, exerciseId TEXT NOT NULL, orderIndex INTEGER NOT NULL, targetSets INTEGER NOT NULL DEFAULT 4, targetRepRange TEXT NOT NULL DEFAULT '10-15', targetWeightRange TEXT NOT NULL DEFAULT '40-50', targetRestSeconds INTEGER NOT NULL DEFAULT 60);
       CREATE TABLE IF NOT EXISTS routine_exercise_sets (id TEXT PRIMARY KEY NOT NULL, routineExerciseId TEXT NOT NULL, sourceSetId TEXT, setNumber INTEGER NOT NULL, type TEXT NOT NULL DEFAULT 'normal', reps INTEGER NOT NULL, weightKg REAL NOT NULL, rpe REAL, isCompleted INTEGER NOT NULL DEFAULT 0, restSeconds INTEGER);
       CREATE TABLE IF NOT EXISTS workout_logs (id TEXT PRIMARY KEY NOT NULL, routineDayId TEXT, name TEXT NOT NULL, startTime TEXT NOT NULL, endTime TEXT, durationSeconds INTEGER NOT NULL DEFAULT 0, totalKcal INTEGER NOT NULL DEFAULT 0, totalVolumeKg REAL NOT NULL DEFAULT 0, isCompleted INTEGER NOT NULL DEFAULT 0);
@@ -112,7 +112,7 @@ export const initDatabase = async (): Promise<void> => {
       CREATE INDEX IF NOT EXISTS idx_attendance_timestamp ON attendance_logs(timestamp);
     `);
     for (const statement of [
-      'ALTER TABLE routine_exercise_sets ADD COLUMN sourceSetId TEXT', "ALTER TABLE routine_exercise_sets ADD COLUMN type TEXT NOT NULL DEFAULT 'normal'", 'ALTER TABLE routine_exercise_sets ADD COLUMN rpe REAL', 'ALTER TABLE routine_exercise_sets ADD COLUMN isCompleted INTEGER NOT NULL DEFAULT 0', 'ALTER TABLE routine_exercise_sets ADD COLUMN restSeconds INTEGER', 'ALTER TABLE routine_collections ADD COLUMN imageUrl TEXT',
+      'ALTER TABLE routine_exercise_sets ADD COLUMN sourceSetId TEXT', "ALTER TABLE routine_exercise_sets ADD COLUMN type TEXT NOT NULL DEFAULT 'normal'", 'ALTER TABLE routine_exercise_sets ADD COLUMN rpe REAL', 'ALTER TABLE routine_exercise_sets ADD COLUMN isCompleted INTEGER NOT NULL DEFAULT 0', 'ALTER TABLE routine_exercise_sets ADD COLUMN restSeconds INTEGER', 'ALTER TABLE routine_collections ADD COLUMN imageUrl TEXT', 'ALTER TABLE routine_days ADD COLUMN scheduledDays TEXT',
       'ALTER TABLE exercises ADD COLUMN description TEXT', 'ALTER TABLE exercises ADD COLUMN executionSteps TEXT', 'ALTER TABLE exercises ADD COLUMN indications TEXT', 'ALTER TABLE exercises ADD COLUMN tips TEXT', 'ALTER TABLE exercises ADD COLUMN commonMistakes TEXT', 'ALTER TABLE exercises ADD COLUMN videoUrl TEXT', 'ALTER TABLE exercises ADD COLUMN localImagePath TEXT', 'ALTER TABLE exercises ADD COLUMN localVideoPath TEXT', 'ALTER TABLE exercises ADD COLUMN sourceUrl TEXT', 'ALTER TABLE exercises ADD COLUMN sourceProvider TEXT',
     ]) { try { database.execSync(statement); } catch { /* already migrated */ } }
     database.withTransactionSync(() => {
@@ -145,7 +145,8 @@ export const addCustomExerciseToDb = (exercise: Exercise): void => {
 
 const readRoutineDay = (database: SQLite.SQLiteDatabase, row: any): RoutineDay => {
   const exercises = database.getAllSync<any>('SELECT * FROM routine_exercises WHERE routineDayId = ? ORDER BY orderIndex', [row.id]).map((item): RoutineExercise => ({ id: item.id, routineId: row.id, exerciseId: item.exerciseId, orderIndex: item.orderIndex, targetSets: item.targetSets, targetRepRange: item.targetRepRange, targetWeightRange: item.targetWeightRange, targetRestSeconds: item.targetRestSeconds, defaultSets: database.getAllSync<any>('SELECT * FROM routine_exercise_sets WHERE routineExerciseId = ? ORDER BY setNumber', [item.id]).map(set => ({ id: set.sourceSetId || set.id, setNumber: set.setNumber, type: set.type || 'normal', reps: set.reps, weightKg: set.weightKg, rpe: set.rpe ?? undefined, isCompleted: Boolean(set.isCompleted), restSeconds: set.restSeconds ?? undefined })) }));
-  return { id: row.id, name: row.name, dayBadge: row.dayBadge, estimatedMinutes: row.estimatedMinutes, estimatedCalories: row.estimatedCalories, exercisesCount: exercises.length, exercises };
+  const scheduledDays = (parseList(row.scheduledDays) || [row.dayBadge]).filter((day) => ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'].includes(day));
+  return { id: row.id, name: row.name, dayBadge: row.dayBadge, scheduledDays: scheduledDays.length ? scheduledDays as RoutineDay['scheduledDays'] : [row.dayBadge], estimatedMinutes: row.estimatedMinutes, estimatedCalories: row.estimatedCalories, exercisesCount: exercises.length, exercises };
 };
 export const getCollectionsFromDb = (): RoutineCollection[] => {
   const database = getDb(); if (!database) return clone(fallbackCollections);

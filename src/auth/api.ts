@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { RoutineCollection, WorkoutSession } from '../types';
+import { EquipmentType, GymMember, MemberLevel, MemberObjective, RoutineCollection, RoutineTemplate, WeekDay, WorkoutSession } from '../types';
 import { AuthSession, AuthUser, UserRole } from './types';
 
 // Keep this as a direct EXPO_PUBLIC_* member access so Expo can inline the
@@ -115,9 +115,107 @@ export const saveRoutinesRequest = async (
   await readResponse<{ routines: RoutineCollection[] }>(response);
 };
 
+export const getGymMembersRequest = async (token: string): Promise<GymMember[]> => {
+  const response = await fetch(endpoint('/members'), { headers: { Authorization: `Bearer ${token}` } });
+  const data = await readResponse<{ members: GymMember[] }>(response);
+  return Array.isArray(data.members) ? data.members : [];
+};
+
+export const getRoutineTemplatesRequest = async (token: string): Promise<RoutineTemplate[]> => {
+  const response = await fetch(endpoint('/routine-templates'), { headers: { Authorization: `Bearer ${token}` } });
+  const data = await readResponse<{ templates: RoutineTemplate[] }>(response);
+  return Array.isArray(data.templates) ? data.templates : [];
+};
+
+export const createRoutineTemplateRequest = async (
+  token: string,
+  template: Omit<RoutineTemplate, 'createdAt' | 'updatedAt'>,
+): Promise<RoutineTemplate> => {
+  const response = await fetch(endpoint('/routine-templates'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(template),
+  });
+  const data = await readResponse<{ template: RoutineTemplate }>(response);
+  return data.template;
+};
+
+export const assignRoutineTemplateRequest = async (
+  token: string,
+  memberId: string,
+  templateId: string,
+): Promise<{ assignedRoutineId: string; assignedRoutineTitle: string }> => {
+  const response = await fetch(endpoint(`/members/${encodeURIComponent(memberId)}/assign-routine`), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ templateId }),
+  });
+  return readResponse<{ assignedRoutineId: string; assignedRoutineTitle: string }>(response);
+};
+
+export interface AiProviderSettings {
+  provider: 'gemini';
+  configured: boolean;
+  updatedAt: string | null;
+}
+
+export const getAiProviderSettingsRequest = async (token: string): Promise<AiProviderSettings> => {
+  const response = await fetch(endpoint('/admin/ai-settings'), { headers: { Authorization: `Bearer ${token}` } });
+  return readResponse<AiProviderSettings>(response);
+};
+
+export const saveGeminiApiKeyRequest = async (token: string, apiKey: string): Promise<AiProviderSettings> => {
+  const response = await fetch(endpoint('/admin/ai-settings'), {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ apiKey }),
+  });
+  return readResponse<AiProviderSettings>(response);
+};
+
+export interface AiRoutineGenerationRequest {
+  sex: 'mujer' | 'hombre' | 'no_especificado';
+  objective: MemberObjective;
+  level: MemberLevel;
+  equipment: EquipmentType[];
+  trainingDays: WeekDay[];
+  weeklyStructure: 'repetir_bloques' | 'dias_distintos';
+  focus?: string;
+  exerciseCatalog: Array<{ id: string; name: string; primaryMuscle: string; equipment: EquipmentType }>;
+}
+
+export interface AiRoutinePlan {
+  title: string;
+  subtitle: string;
+  blocks: Array<{
+    name: string;
+    scheduledDays: WeekDay[];
+    exercises: Array<{ exerciseId: string; sets: number; repRange: string; restSeconds: number }>;
+  }>;
+}
+
+export const generateAiRoutineRequest = async (
+  token: string,
+  payload: AiRoutineGenerationRequest,
+): Promise<AiRoutinePlan> => {
+  const response = await fetch(endpoint('/ai/routine-generation'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+  const data = await readResponse<{ plan: AiRoutinePlan }>(response);
+  return data.plan;
+};
+
 export const createUserRequest = async (
   token: string,
-  payload: { fullName: string; email: string; pin: string; role: UserRole },
+  payload: {
+    fullName: string;
+    email: string;
+    pin: string;
+    role: UserRole;
+    memberProfile?: { phone?: string; objective: GymMember['objective']; level: GymMember['level'] };
+  },
 ): Promise<AuthUser> => {
   const response = await fetch(endpoint('/users'), {
     method: 'POST',

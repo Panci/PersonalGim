@@ -49,6 +49,7 @@ function AppShell() {
     currentRole,
     setCurrentRole,
     isWorkoutActive,
+    loadSharedGymData,
   } = useWorkoutStore();
   const { session, isRestoring } = useAuth();
 
@@ -85,7 +86,10 @@ function AppShell() {
     if (!session) return;
     setCurrentRole(session.user.role === 'user' ? 'member' : session.user.role);
     void syncRoutines().catch((error) => console.warn('Error synchronizing routines:', error));
-  }, [session, setCurrentRole, syncRoutines]);
+    if (session.user.role === 'admin' || session.user.role === 'monitor') {
+      void loadSharedGymData().catch((error) => console.warn('Error loading shared gym data:', error));
+    }
+  }, [session, setCurrentRole, syncRoutines, loadSharedGymData]);
 
   if (isLoading || isRestoring) {
     return (

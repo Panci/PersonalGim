@@ -91,6 +91,9 @@ export type WeekDay = 'lun' | 'mar' | 'mie' | 'jue' | 'vie' | 'sab' | 'dom';
 export interface RoutineDay {
   id: string;
   name: string;
+  // One exercise block can be scheduled on several weekdays (e.g. Monday
+  // and Wednesday) without copying its exercises.
+  scheduledDays?: WeekDay[];
   dayBadge: WeekDay;
   estimatedMinutes: number;
   estimatedCalories: number;
@@ -104,6 +107,18 @@ export interface RoutineCollection {
   subtitle?: string;
   imageUrl?: string;
   days: RoutineDay[];
+}
+
+export interface RoutineTemplate {
+  id: string;
+  title: string;
+  subtitle?: string;
+  objective: MemberObjective;
+  level: MemberLevel;
+  equipment: EquipmentType[];
+  routine: RoutineCollection;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface WorkoutExerciseLog {

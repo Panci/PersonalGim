@@ -6,11 +6,13 @@ import { useWorkoutStore } from '../../store/workoutStore';
 import { COLORS } from '../../theme/colors';
 import { GymMember } from '../../types';
 import { AssignRoutineModal } from '../admin/AssignRoutineModal';
+import { RoutineTemplateLibraryModal } from '../routine/RoutineTemplateLibraryModal';
 
 export const MonitorDashboard: React.FC = () => {
   const { signOut, session } = useAuth();
-  const { gymMembers, attendanceLogs, history, collections } = useWorkoutStore();
+  const { gymMembers, attendanceLogs, history, routineTemplates } = useWorkoutStore();
   const [selectedMemberForRoutine, setSelectedMemberForRoutine] = useState<GymMember | null>(null);
+  const [showTemplateLibrary, setShowTemplateLibrary] = useState(false);
   const activeMembers = gymMembers.filter((member) => member.status === 'activo').length;
   const currentlyTraining = useMemo(() => new Set(
     attendanceLogs
@@ -34,6 +36,15 @@ export const MonitorDashboard: React.FC = () => {
           </TouchableOpacity>
         </View>
 
+        <TouchableOpacity style={styles.libraryButton} onPress={() => setShowTemplateLibrary(true)} activeOpacity={0.8}>
+          <MaterialCommunityIcons name="clipboard-text-outline" size={19} color={COLORS.primary} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.libraryButtonTitle}>Biblioteca de rutinas</Text>
+            <Text style={styles.libraryButtonDetail}>{routineTemplates.length} plantilla{routineTemplates.length === 1 ? '' : 's'} compartida{routineTemplates.length === 1 ? '' : 's'}</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color={COLORS.primary} />
+        </TouchableOpacity>
+
         <View style={styles.metrics}>
           <View style={styles.metricCard}>
             <MaterialCommunityIcons name="account-group" size={22} color={COLORS.primary} />
@@ -54,9 +65,9 @@ export const MonitorDashboard: React.FC = () => {
 
         <Text style={styles.sectionTitle}>Socios activos</Text>
         <Text style={styles.sectionHint}>
-          {collections.length > 0
+          {routineTemplates.length > 0
             ? 'Pulsa un socio para asignarle o cambiarle una rutina.'
-            : 'Crea primero una plantilla de rutina para poder asignarla.'}
+            : 'Crea una plantilla manual para poder asignarla.'}
         </Text>
         {gymMembers.filter((member) => member.status === 'activo').map((member) => (
           <TouchableOpacity
@@ -86,8 +97,13 @@ export const MonitorDashboard: React.FC = () => {
           visible
           member={selectedMemberForRoutine}
           onClose={() => setSelectedMemberForRoutine(null)}
+          onOpenLibrary={() => {
+            setSelectedMemberForRoutine(null);
+            setShowTemplateLibrary(true);
+          }}
         />
       )}
+      <RoutineTemplateLibraryModal visible={showTemplateLibrary} onClose={() => setShowTemplateLibrary(false)} />
     </View>
   );
 };
@@ -100,6 +116,9 @@ const styles = StyleSheet.create({
   title: { color: '#FFFFFF', fontSize: 25, fontWeight: '900', maxWidth: 275, marginTop: 5, lineHeight: 31 },
   logoutButton: { width: 42, height: 42, borderRadius: 13, backgroundColor: '#28282C', alignItems: 'center', justifyContent: 'center' },
   metrics: { flexDirection: 'row', gap: 9, marginBottom: 28 },
+  libraryButton: { minHeight: 67, flexDirection: 'row', alignItems: 'center', gap: 11, marginBottom: 24, paddingHorizontal: 14, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(255,106,0,0.5)', backgroundColor: 'rgba(255,106,0,0.08)' },
+  libraryButtonTitle: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
+  libraryButtonDetail: { color: '#A1A1A6', fontSize: 12, marginTop: 3 },
   metricCard: { flex: 1, minHeight: 116, borderRadius: 17, padding: 12, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#303036' },
   metricNumber: { color: '#FFFFFF', fontSize: 24, fontWeight: '900', marginTop: 10 },
   metricLabel: { color: '#A1A1A6', fontSize: 11, fontWeight: '600', marginTop: 3, lineHeight: 14 },

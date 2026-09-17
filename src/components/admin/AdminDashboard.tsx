@@ -10,13 +10,17 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
-import { GymMember, MemberStatus } from '../../types';
+import { GymMember, MemberStatus, RoutineTemplate } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { NewMemberModal } from './NewMemberModal';
 import { MemberDetailModal } from './MemberDetailModal';
 import { exportCsvFile } from './csvExport';
 import { useAuth } from '../../auth/AuthProvider';
 import { CreateAccessModal } from './CreateAccessModal';
+import { RoutineTemplateLibraryModal } from '../routine/RoutineTemplateLibraryModal';
+import { GeminiSettingsModal } from './GeminiSettingsModal';
+import { RoutineTemplatePreviewModal } from '../routine/RoutineTemplatePreviewModal';
+import { CreateRoutineModal } from '../routine/CreateRoutineModal';
 
 type AdminTab = 'socios' | 'accesos' | 'rutinas' | 'analitica';
 
@@ -35,15 +39,15 @@ export const AdminDashboard: React.FC = () => {
   const {
     gymMembers,
     setCurrentRole,
-    collections,
+    routineTemplates,
     selectedMemberForDetail,
     setSelectedMemberForDetail,
-    setShowCreateRoutineModal,
     attendanceLogs,
     registerAttendance,
     history,
     setActiveMember,
     setShowQrPassModal,
+    createRoutineTemplate,
   } = useWorkoutStore();
 
   const [activeTab, setActiveTab] = useState<AdminTab>('socios');
@@ -51,10 +55,26 @@ export const AdminDashboard: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<'todos' | MemberStatus>('todos');
   const [showNewMemberModal, setShowNewMemberModal] = useState(false);
   const [showCreateAccessModal, setShowCreateAccessModal] = useState(false);
+  const [showTemplateLibrary, setShowTemplateLibrary] = useState(false);
+  const [selectedRoutineTemplate, setSelectedRoutineTemplate] = useState<RoutineTemplate | null>(null);
+  const [editingRoutineTemplate, setEditingRoutineTemplate] = useState<RoutineTemplate | null>(null);
+  const [showGeminiSettings, setShowGeminiSettings] = useState(false);
   const [selectedMemberForCheckIn, setSelectedMemberForCheckIn] = useState<string>('');
   const [downloadSuccessMsg, setDownloadSuccessMsg] = useState<string>('');
   const activeMembersCount = gymMembers.filter((m) => m.status === 'activo').length;
   const totalWorkoutsMonth = gymMembers.reduce((acc, m) => acc + m.completedWorkoutsCount, 0);
+
+  const saveEditedTemplate = async (routine: RoutineTemplate['routine'], metadata: {
+    objective: RoutineTemplate['objective']; level: RoutineTemplate['level']; equipment: RoutineTemplate['equipment'];
+  }) => {
+    await createRoutineTemplate({
+      id: routine.id,
+      title: routine.title,
+      subtitle: routine.subtitle,
+      routine,
+      ...metadata,
+    });
+  };
 
   const getLatestAttendanceForMember = (memberId: string) => attendanceLogs
     .filter((log) => log.memberId === memberId)
@@ -208,6 +228,14 @@ export const AdminDashboard: React.FC = () => {
         </View>
 
         <View style={styles.headerActions}>
+          <TouchableOpacity
+            style={styles.aiSettingsBtn}
+            onPress={() => setShowGeminiSettings(true)}
+            accessibilityLabel="Configuración de Gemini"
+            hitSlop={6}
+          >
+            <MaterialCommunityIcons name="key-variant" size={19} color={COLORS.primary} />
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.logoutBtn}
             onPress={() => void signOut()}
@@ -545,24 +573,30 @@ export const AdminDashboard: React.FC = () => {
               <Text style={styles.sectionHeading}>PROGRAMAS DEL GIMNASIO</Text>
               <TouchableOpacity
                 style={styles.addRoutineBtn}
-                onPress={() => setShowCreateRoutineModal(true)}
+                onPress={() => setShowTemplateLibrary(true)}
               >
                 <Ionicons name="add" size={16} color={COLORS.primary} />
                 <Text style={styles.addRoutineBtnText}>Crear Plantilla</Text>
               </TouchableOpacity>
             </View>
 
-            {collections.map((col) => {
+            {routineTemplates.map((col) => {
               const membersWithThisRoutine = gymMembers.filter(
                 (m) => m.assignedRoutineId === col.id
               ).length;
 
               return (
-                <View key={col.id} style={styles.routineAdminCard}>
+                <TouchableOpacity
+                  key={col.id}
+                  style={styles.routineAdminCard}
+                  onPress={() => setSelectedRoutineTemplate(col)}
+                  activeOpacity={0.78}
+                  accessibilityLabel={`Ver detalles de ${col.title}`}
+                >
                   <View style={styles.routineAdminTop}>
                     <View style={{ flex: 1 }}>
                       <Text style={styles.routineAdminTitle}>{col.title}</Text>
-                      <Text style={styles.routineAdminSub}>{col.subtitle}</Text>
+                      <Text style={styles.routineAdminSub}>{col.subtitle || `${col.objective.replace('_', ' ')} · ${col.level}`}</Text>
                     </View>
                     <View style={styles.memberCounterBadge}>
                       <Ionicons name="people" size={13} color={COLORS.primary} style={{ marginRight: 4 }} />
@@ -571,15 +605,20 @@ export const AdminDashboard: React.FC = () => {
                   </View>
 
                   <View style={styles.routineDaysList}>
-                    {col.days.map((d) => (
+                    {col.routine.days.map((d) => (
                       <View key={d.id} style={styles.miniDayPill}>
                         <Text style={styles.miniDayPillText}>{d.dayBadge.toUpperCase()}: {d.name}</Text>
                       </View>
                     ))}
                   </View>
-                </View>
+                  <View style={styles.routineDetailAction}>
+                    <Text style={styles.routineDetailActionText}>Ver detalle</Text>
+                    <Ionicons name="chevron-forward" size={16} color={COLORS.primary} />
+                  </View>
+                </TouchableOpacity>
               );
             })}
+            {routineTemplates.length === 0 && <Text style={styles.emptyStateText}>Todavía no hay plantillas compartidas. Crea la primera para que los monitores puedan asignarla.</Text>}
           </View>
         )}
 
@@ -667,6 +706,24 @@ export const AdminDashboard: React.FC = () => {
         onClose={() => setSelectedMemberForDetail(null)}
       />
       <CreateAccessModal visible={showCreateAccessModal} onClose={() => setShowCreateAccessModal(false)} />
+      <RoutineTemplateLibraryModal visible={showTemplateLibrary} onClose={() => setShowTemplateLibrary(false)} />
+      <RoutineTemplatePreviewModal
+        template={selectedRoutineTemplate}
+        onClose={() => setSelectedRoutineTemplate(null)}
+        onEdit={() => {
+          if (!selectedRoutineTemplate) return;
+          setEditingRoutineTemplate(selectedRoutineTemplate);
+          setSelectedRoutineTemplate(null);
+        }}
+      />
+      <CreateRoutineModal
+        visible={editingRoutineTemplate !== null}
+        initialTemplate={editingRoutineTemplate}
+        variant="template"
+        onSaveRoutine={saveEditedTemplate}
+        onClose={() => setEditingRoutineTemplate(null)}
+      />
+      <GeminiSettingsModal visible={showGeminiSettings} onClose={() => setShowGeminiSettings(false)} />
     </View>
   );
 };
@@ -827,6 +884,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#26262A',
     borderWidth: 1,
     borderColor: '#383840',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  aiSettingsBtn: {
+    width: 42,
+    height: 42,
+    borderRadius: 13,
+    backgroundColor: 'rgba(255, 106, 0, 0.13)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 106, 0, 0.4)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1439,6 +1506,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 2,
   },
+  emptyStateText: {
+    color: '#A1A1A6',
+    fontSize: 14,
+    lineHeight: 20,
+    paddingVertical: 18,
+  },
   memberCounterBadge: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1466,6 +1539,18 @@ const styles = StyleSheet.create({
   miniDayPillText: {
     color: '#D1D1D6',
     fontSize: 11,
+  },
+  routineDetailAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 2,
+    marginTop: 12,
+  },
+  routineDetailActionText: {
+    color: COLORS.primary,
+    fontSize: 13,
+    fontWeight: '800',
   },
   analyticsCard: {
     backgroundColor: '#1C1C1E',

@@ -12,11 +12,15 @@ const jwt = require('jsonwebtoken');
 const crypto = require('node:crypto');
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const { GeminiRoutineError, generateGeminiRoutine } = require('./gemini');
 
 const app = express();
 const port = Number(process.env.LOCAL_API_PORT || 8082);
 const host = process.env.LOCAL_API_HOST || '127.0.0.1';
 const jwtSecret = process.env.LOCAL_JWT_SECRET || 'personalgim-local-development-secret-2026';
+const settingsCipherKey = crypto.createHash('sha256')
+  .update(process.env.LOCAL_SETTINGS_ENCRYPTION_KEY || jwtSecret, 'utf8')
+  .digest();
 const validRoles = new Set(['admin', 'monitor', 'user']);
 const PIN_PATTERN = /^\d{4}$/;
 const DEFAULT_LOCAL_ADMIN_PIN = '1234';
@@ -24,7 +28,22 @@ const LEGACY_LOCAL_ADMIN_PASSWORD = 'LocalPersonalGim2026!';
 const stateDir = path.resolve(__dirname, '..', '.local-data');
 const stateFile = path.join(stateDir, 'state.json');
 
-let state = { users: [], workouts: [], routinesByUser: {}, audit: [] };
+let state = { users: [], workouts: [], routinesByUser: {}, audit: [], members: [], routineTemplates: [], aiSettings: null };
+
+const encryptSecret = (value) => {
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv('aes-256-gcm', settingsCipherKey, iv);
+  const encrypted = Buffer.concat([cipher.update(value, 'utf8'), cipher.final()]);
+  return `${iv.toString('base64url')}.${cipher.getAuthTag().toString('base64url')}.${encrypted.toString('base64url')}`;
+};
+
+const decryptSecret = (encryptedValue) => {
+  const [ivValue, tagValue, ciphertextValue] = String(encryptedValue || '').split('.');
+  if (!ivValue || !tagValue || !ciphertextValue) throw new Error('Credencial cifrada no válida.');
+  const decipher = crypto.createDecipheriv('aes-256-gcm', settingsCipherKey, Buffer.from(ivValue, 'base64url'));
+  decipher.setAuthTag(Buffer.from(tagValue, 'base64url'));
+  return Buffer.concat([decipher.update(Buffer.from(ciphertextValue, 'base64url')), decipher.final()]).toString('utf8');
+};
 
 const publicUser = (user) => ({
   id: user.id,
@@ -57,6 +76,14 @@ const readState = async () => {
         ? parsed.routinesByUser
         : {},
       audit: Array.isArray(parsed.audit) ? parsed.audit : [],
+      members: Array.isArray(parsed.members) ? parsed.members : [],
+      routineTemplates: Array.isArray(parsed.routineTemplates) ? parsed.routineTemplates : [],
+      // Local keys are encrypted with a machine-local server secret. The
+      // source file is ignored by git and the key is never returned by the API.
+      aiSettings: typeof parsed.aiSettings?.encryptedApiKey === 'string' ? {
+        encryptedApiKey: parsed.aiSettings.encryptedApiKey,
+        updatedAt: parsed.aiSettings.updatedAt || null,
+      } : null,
     };
   } catch (error) {
     if (error.code !== 'ENOENT') throw error;
@@ -91,6 +118,21 @@ const bootstrapAdmin = async () => {
   });
   await writeState();
   return true;
+};
+
+const syncLocalMembers = async () => {
+  let changed = false;
+  for (const user of state.users.filter((candidate) => candidate.role === 'user')) {
+    if (state.members.some((member) => member.userId === user.id)) continue;
+    state.members.push({
+      id: crypto.randomUUID(), userId: user.id, fullName: user.fullName, email: user.email,
+      membershipNumber: `SOC-${user.id.replaceAll('-', '').slice(0, 8).toUpperCase()}`,
+      objective: 'salud_general', level: 'principiante', status: 'activo',
+      enrollmentDate: user.createdAt, completedWorkoutsCount: 0,
+    });
+    changed = true;
+  }
+  if (changed) await writeState();
 };
 
 const authenticate = (req, res, next) => {
@@ -204,14 +246,90 @@ app.post('/api/users', authenticate, authorize('admin'), async (req, res) => {
     updatedAt: new Date().toISOString(),
   };
   state.users.push(user);
+  if (role === 'user') {
+    const profile = req.body?.memberProfile || {};
+    state.members.push({
+      id: crypto.randomUUID(), userId: user.id, fullName: user.fullName, email: user.email,
+      membershipNumber: `SOC-${user.id.replaceAll('-', '').slice(0, 8).toUpperCase()}`,
+      phone: String(profile.phone || '').trim() || undefined,
+      objective: ['hipertrofia', 'fuerza', 'perdida_grasa', 'salud_general'].includes(profile.objective) ? profile.objective : 'salud_general',
+      level: ['principiante', 'intermedio', 'avanzado'].includes(profile.level) ? profile.level : 'principiante',
+      status: 'activo', enrollmentDate: user.createdAt, completedWorkoutsCount: 0,
+    });
+  }
   await addAudit(req.user.id, 'create', { role });
   return res.status(201).json({ user: publicUser(user) });
 });
 
-// Member data remains local in development. Routines mirror production's
-// account-backed store so reload and sync behaviour can be tested locally.
 app.get('/api/members', authenticate, authorize('admin', 'monitor'), (_req, res) => {
-  res.json({ members: [] });
+  res.json({ members: state.members });
+});
+
+app.get('/api/admin/ai-settings', authenticate, authorize('admin'), (_req, res) => {
+  res.json({
+    provider: 'gemini',
+    configured: Boolean(process.env.GEMINI_API_KEY || state.aiSettings?.encryptedApiKey),
+    updatedAt: state.aiSettings?.updatedAt || null,
+  });
+});
+
+app.put('/api/admin/ai-settings', authenticate, authorize('admin'), async (req, res) => {
+  const apiKey = String(req.body?.apiKey || '').trim();
+  if (apiKey.length < 20 || apiKey.length > 512) {
+    return res.status(400).json({ error: 'Introduce una clave de Gemini válida.' });
+  }
+  state.aiSettings = { encryptedApiKey: encryptSecret(apiKey), updatedAt: new Date().toISOString() };
+  await addAudit(req.user.id, 'configure_ai', { provider: 'gemini' });
+  return res.json({ provider: 'gemini', configured: true });
+});
+
+app.post('/api/ai/routine-generation', authenticate, authorize('admin', 'monitor'), async (req, res) => {
+  const encryptedApiKey = state.aiSettings?.encryptedApiKey;
+  if (!process.env.GEMINI_API_KEY && !encryptedApiKey) {
+    return res.status(409).json({ error: 'Un administrador debe configurar primero la clave de Gemini.' });
+  }
+  try {
+    const apiKey = process.env.GEMINI_API_KEY || decryptSecret(encryptedApiKey);
+    const plan = await generateGeminiRoutine({ apiKey, body: req.body });
+    await addAudit(req.user.id, 'generate_ai_routine', { provider: 'gemini' });
+    return res.json({ plan });
+  } catch (error) {
+    if (error instanceof GeminiRoutineError) return res.status(422).json({ error: error.message });
+    return res.status(500).json({ error: 'No se pudo usar la configuración de Gemini. Vuelve a guardarla.' });
+  }
+});
+
+app.get('/api/routine-templates', authenticate, authorize('admin', 'monitor'), (_req, res) => {
+  res.json({ templates: state.routineTemplates });
+});
+
+app.post('/api/routine-templates', authenticate, authorize('admin', 'monitor'), async (req, res) => {
+  const body = req.body || {};
+  if (!body.id || !body.title || !body.routine || body.routine.id !== body.id) {
+    return res.status(400).json({ error: 'La plantilla de rutina no es válida.' });
+  }
+  const existingTemplate = state.routineTemplates.find((item) => item.id === body.id);
+  const template = {
+    id: body.id, title: body.title, subtitle: body.subtitle || undefined,
+    objective: body.objective, level: body.level,
+    equipment: Array.isArray(body.equipment) ? body.equipment : [], routine: body.routine,
+    createdAt: existingTemplate?.createdAt || new Date().toISOString(), updatedAt: new Date().toISOString(),
+  };
+  state.routineTemplates = [template, ...state.routineTemplates.filter((item) => item.id !== template.id)];
+  await writeState();
+  return res.status(201).json({ template });
+});
+
+app.post('/api/members/:memberId/assign-routine', authenticate, authorize('admin', 'monitor'), async (req, res) => {
+  const member = state.members.find((item) => item.id === req.params.memberId);
+  const template = state.routineTemplates.find((item) => item.id === req.body?.templateId);
+  if (!member?.userId || !template) return res.status(404).json({ error: 'No se encontró el socio o la plantilla.' });
+  const routines = Array.isArray(state.routinesByUser[member.userId]) ? state.routinesByUser[member.userId] : [];
+  state.routinesByUser[member.userId] = [...routines.filter((item) => item.id !== member.assignedRoutineId && item.id !== template.id), template.routine];
+  member.assignedRoutineId = template.id;
+  member.assignedRoutineTitle = template.title;
+  await writeState();
+  return res.json({ assignedRoutineId: template.id, assignedRoutineTitle: template.title });
 });
 
 app.get('/api/routines', authenticate, (req, res) => {
@@ -261,6 +379,7 @@ app.post('/api/workouts', authenticate, async (req, res) => {
 const start = async () => {
   await readState();
   const created = await bootstrapAdmin();
+  await syncLocalMembers();
   app.listen(port, host, () => {
     console.log(`PersonalGim API local escuchando en http://${host}:${port}`);
     if (created) console.log('Cuenta local inicial: admin@local.test / PIN 1234');

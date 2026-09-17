@@ -16,6 +16,7 @@ import {
   GymMember,
   MemberStatus,
   AttendanceRecord,
+  RoutineTemplate,
 } from '../types';
 import {
   initDatabase,
@@ -47,7 +48,15 @@ import {
 import { createId } from '../utils/ids';
 import { withExerciseGuidance } from '../data/exerciseGuidance';
 import { getAuthToken } from '../auth/authStorage';
-import { getRoutinesRequest, saveRoutinesRequest, saveWorkoutRequest } from '../auth/api';
+import {
+  assignRoutineTemplateRequest,
+  createRoutineTemplateRequest,
+  getGymMembersRequest,
+  getRoutineTemplatesRequest,
+  getRoutinesRequest,
+  saveRoutinesRequest,
+  saveWorkoutRequest,
+} from '../auth/api';
 
 export type MainTab = 'entreno' | 'actividades' | 'ejercicios' | 'cuerpo';
 export type EntrenoSegment = 'plan' | 'entreno' | 'rapido';
@@ -132,6 +141,10 @@ interface WorkoutStoreState {
   syncRoutines: () => Promise<void>;
   updateRoutineCollectionDetails: (routineId: string, title: string, subtitle?: string) => void;
   deleteCustomRoutine: (routineId: string) => void;
+  routineTemplates: RoutineTemplate[];
+  loadSharedGymData: () => Promise<void>;
+  createRoutineTemplate: (template: Omit<RoutineTemplate, 'createdAt' | 'updatedAt'>) => Promise<void>;
+  assignRoutineTemplateToMember: (memberId: string, templateId: string) => Promise<void>;
 
   // Body & Measurements
   bodyViewMode: BodyViewMode;
@@ -409,6 +422,37 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       selectedDay: selected?.id === routineId ? null : get().selectedDay,
     });
     syncCollectionsToServer();
+  },
+  routineTemplates: [],
+  loadSharedGymData: async () => {
+    const token = await getAuthToken();
+    if (!token) return;
+    const [members, templates] = await Promise.all([
+      getGymMembersRequest(token),
+      getRoutineTemplatesRequest(token),
+    ]);
+    set({ gymMembers: members, routineTemplates: templates });
+  },
+  createRoutineTemplate: async (template) => {
+    const token = await getAuthToken();
+    if (!token) throw new Error('La sesión ha caducado. Vuelve a iniciar sesión.');
+    const created = await createRoutineTemplateRequest(token, template);
+    set((state) => ({
+      routineTemplates: [created, ...state.routineTemplates.filter((item) => item.id !== created.id)],
+    }));
+  },
+  assignRoutineTemplateToMember: async (memberId, templateId) => {
+    const token = await getAuthToken();
+    if (!token) throw new Error('La sesión ha caducado. Vuelve a iniciar sesión.');
+    const assigned = await assignRoutineTemplateRequest(token, memberId, templateId);
+    const updateMember = (member: GymMember) => member.id === memberId
+      ? { ...member, assignedRoutineId: assigned.assignedRoutineId, assignedRoutineTitle: assigned.assignedRoutineTitle }
+      : member;
+    set((state) => ({
+      gymMembers: state.gymMembers.map(updateMember),
+      selectedMemberForDetail: state.selectedMemberForDetail && updateMember(state.selectedMemberForDetail),
+      activeMember: state.activeMember && updateMember(state.activeMember),
+    }));
   },
   syncRoutines: async () => {
     const token = await getAuthToken();

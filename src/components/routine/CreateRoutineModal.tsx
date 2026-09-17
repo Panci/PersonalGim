@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -12,13 +12,20 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
-import { EquipmentType, MuscleId, RoutineCollection, RoutineDay, RoutineExercise, WeekDay } from '../../types';
+import { EquipmentType, MemberLevel, MemberObjective, MuscleId, RoutineCollection, RoutineDay, RoutineExercise, RoutineTemplate, WeekDay } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { createId } from '../../utils/ids';
 
 interface CreateRoutineModalProps {
   visible: boolean;
   onClose: () => void;
+  variant?: 'personal' | 'template';
+  onSaveRoutine?: (routine: RoutineCollection, metadata: {
+    objective: MemberObjective;
+    level: MemberLevel;
+    equipment: EquipmentType[];
+  }) => Promise<void> | void;
+  initialTemplate?: RoutineTemplate | null;
 }
 
 const WEEKDAY_OPTIONS: WeekDay[] = ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'];
@@ -75,28 +82,64 @@ const EQUIPMENT_FILTERS: Array<{ id: EquipmentType | 'todos'; label: string }> =
   { id: 'otro', label: 'Otro' },
 ];
 
+type RoutineDraftExercise = {
+  id?: string;
+  exerciseId: string;
+  sets: number;
+  repRange: string;
+  weightRange: string;
+  restSeconds: number;
+};
+
 type RoutineDraftDay = {
   id: string;
   name: string;
   dayBadge: WeekDay;
-  exercises: { exerciseId: string; sets: number; repRange: string; weightRange: string; restSeconds: number }[];
+  scheduledDays: WeekDay[];
+  exercises: RoutineDraftExercise[];
 };
 
-const createDraftDay = (position: number): RoutineDraftDay => ({
-  id: createId('draft-day'),
-  name: position === 1 ? 'Día 1 - Torso' : `Día ${position}`,
-  dayBadge: WEEKDAY_OPTIONS[(position - 1) % WEEKDAY_OPTIONS.length],
-  exercises: [],
-});
+const createDraftDay = (position: number): RoutineDraftDay => {
+  const dayBadge = WEEKDAY_OPTIONS[(position - 1) % WEEKDAY_OPTIONS.length];
+  return {
+    id: createId('draft-day'),
+    name: '',
+    dayBadge,
+    scheduledDays: [dayBadge],
+    exercises: [],
+  };
+};
+
+const templateToDraftDays = (template: RoutineTemplate): RoutineDraftDay[] => template.routine.days.map((day) => ({
+  id: day.id,
+  name: day.name,
+  dayBadge: day.dayBadge,
+  scheduledDays: day.scheduledDays?.length ? day.scheduledDays : [day.dayBadge],
+  exercises: day.exercises.map((exercise) => ({
+    id: exercise.id,
+    exerciseId: exercise.exerciseId,
+    sets: exercise.targetSets,
+    repRange: exercise.targetRepRange,
+    weightRange: exercise.targetWeightRange,
+    restSeconds: exercise.targetRestSeconds,
+  })),
+}));
 
 export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
   visible,
   onClose,
+  variant = 'personal',
+  onSaveRoutine,
+  initialTemplate = null,
 }) => {
   const { exercises, saveNewCustomRoutine } = useWorkoutStore();
 
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
+  const [objective, setObjective] = useState<MemberObjective>('hipertrofia');
+  const [level, setLevel] = useState<MemberLevel>('principiante');
+  const [equipment, setEquipment] = useState<EquipmentType[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Draft days list
   const [days, setDays] = useState<RoutineDraftDay[]>(() => [createDraftDay(1)]);
@@ -108,6 +151,33 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
   const [isMuscleFilterOpen, setIsMuscleFilterOpen] = useState(false);
   const [selectedEquipmentFilter, setSelectedEquipmentFilter] = useState<EquipmentType | 'todos'>('todos');
   const [isEquipmentFilterOpen, setIsEquipmentFilterOpen] = useState(false);
+  const [editingExerciseTarget, setEditingExerciseTarget] = useState<{ dayIndex: number; exerciseIndex: number } | null>(null);
+
+  useEffect(() => {
+    if (!visible) return;
+    if (initialTemplate) {
+      setTitle(initialTemplate.title);
+      setSubtitle(initialTemplate.subtitle || '');
+      setObjective(initialTemplate.objective);
+      setLevel(initialTemplate.level);
+      setEquipment(initialTemplate.equipment);
+      setDays(templateToDraftDays(initialTemplate));
+    } else {
+      setTitle('');
+      setSubtitle('');
+      setObjective('hipertrofia');
+      setLevel('principiante');
+      setEquipment([]);
+      setDays([createDraftDay(1)]);
+    }
+    setEditingExerciseTarget(null);
+    setActiveDayIndexForExercise(null);
+    setExerciseSearch('');
+    setSelectedMuscleFilter('todos');
+    setSelectedEquipmentFilter('todos');
+    setIsMuscleFilterOpen(false);
+    setIsEquipmentFilterOpen(false);
+  }, [visible, initialTemplate]);
 
   const closeExercisePicker = () => {
     setActiveDayIndexForExercise(null);
@@ -125,6 +195,19 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
   const handleRemoveDay = (index: number) => {
     if (days.length <= 1) return;
     setDays((currentDays) => currentDays.filter((_, i) => i !== index));
+  };
+
+  const toggleScheduledDay = (dayIndex: number, weekday: WeekDay) => {
+    setDays((currentDays) => currentDays.map((day, index) => {
+      if (index !== dayIndex) return day;
+      const currentSchedule = day.scheduledDays.length ? day.scheduledDays : [day.dayBadge];
+      // A block must remain assigned to at least one weekday.
+      if (currentSchedule.includes(weekday) && currentSchedule.length === 1) return day;
+      const nextSchedule = currentSchedule.includes(weekday)
+        ? currentSchedule.filter((item) => item !== weekday)
+        : WEEKDAY_OPTIONS.filter((item) => [...currentSchedule, weekday].includes(item));
+      return { ...day, scheduledDays: nextSchedule, dayBadge: nextSchedule[0] };
+    }));
   };
 
   const handleSelectExerciseForDay = (exerciseId: string) => {
@@ -155,14 +238,27 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
     );
   };
 
-  const handleSaveRoutine = () => {
+  const updateDraftExercise = (dayIndex: number, exerciseIndex: number, patch: Partial<RoutineDraftExercise>) => {
+    setDays((currentDays) => currentDays.map((day, currentDayIndex) => {
+      if (currentDayIndex !== dayIndex) return day;
+      return {
+        ...day,
+        exercises: day.exercises.map((exercise, currentExerciseIndex) => (
+          currentExerciseIndex === exerciseIndex ? { ...exercise, ...patch } : exercise
+        )),
+      };
+    }));
+  };
+
+  const handleSaveRoutine = async () => {
+    if (isSaving) return;
     if (!title.trim()) {
       alert('Por favor introduce un nombre para tu rutina.');
       return;
     }
 
     if (days.some((day) => !day.name.trim())) {
-      alert('Cada día debe tener un nombre.');
+      alert('Describe cada rutina semanal para que el socio sepa qué debe entrenar.');
       return;
     }
     if (days.some((day) => day.exercises.length === 0)) {
@@ -170,12 +266,12 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
       return;
     }
 
-    const collectionId = createId('collection');
+    const collectionId = initialTemplate?.id || createId('collection');
 
     const formattedDays: RoutineDay[] = days.map((d) => {
-      const dayId = createId('routine-day');
+      const dayId = d.id || createId('routine-day');
       const routineExercises: RoutineExercise[] = d.exercises.map((ex, index) => ({
-        id: createId('routine-exercise'),
+        id: ex.id || createId('routine-exercise'),
         routineId: dayId,
         exerciseId: ex.exerciseId,
         orderIndex: index + 1,
@@ -187,8 +283,8 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
           id: createId('routine-set'),
           setNumber: index + 1,
           type: 'normal',
-          reps: 12,
-          weightKg: 40,
+          reps: Number.parseInt(ex.repRange, 10) || 12,
+          weightKg: Number.parseFloat(ex.weightRange) || 0,
           isCompleted: false,
         })),
       }));
@@ -197,6 +293,7 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
         id: dayId,
         name: d.name.trim(),
         dayBadge: d.dayBadge,
+        scheduledDays: d.scheduledDays.length ? d.scheduledDays : [d.dayBadge],
         estimatedMinutes: Math.max(30, routineExercises.length * 12),
         estimatedCalories: Math.max(300, routineExercises.length * 90),
         exercisesCount: routineExercises.length,
@@ -207,15 +304,23 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
     const newCollection: RoutineCollection = {
       id: collectionId,
       title: title.trim(),
-      subtitle: subtitle.trim() || 'Rutina personalizada por el usuario',
+      subtitle: subtitle.trim() || 'Plan semanal creado por el monitor',
       days: formattedDays,
     };
 
-    saveNewCustomRoutine(newCollection);
-    setTitle('');
-    setSubtitle('');
-    setDays([createDraftDay(1)]);
-    onClose();
+    try {
+      setIsSaving(true);
+      if (onSaveRoutine) {
+        await onSaveRoutine(newCollection, { objective, level, equipment });
+      } else {
+        saveNewCustomRoutine(newCollection);
+      }
+      onClose();
+    } catch (error) {
+      alert(error instanceof Error ? error.message : 'No se pudo guardar la rutina.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const normalizedExerciseSearch = exerciseSearch.trim().toLowerCase();
@@ -239,6 +344,12 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
   const selectedEquipmentLabel =
     EQUIPMENT_FILTERS.find((filter) => filter.id === selectedEquipmentFilter)?.label
     ?? 'Todos los equipamientos';
+  const editingExercise = editingExerciseTarget
+    ? days[editingExerciseTarget.dayIndex]?.exercises[editingExerciseTarget.exerciseIndex]
+    : null;
+  const editingExerciseInfo = editingExercise
+    ? exercises.find((exercise) => exercise.id === editingExercise.exerciseId)
+    : undefined;
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
@@ -247,8 +358,8 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
           {/* Header */}
           <View style={styles.header}>
             <View>
-              <Text style={styles.subtitle}>PERSONALIZACIÓN</Text>
-              <Text style={styles.title}>Crear Nueva Rutina</Text>
+              <Text style={styles.subtitle}>{variant === 'template' ? 'BIBLIOTECA DEL GIMNASIO' : 'PERSONALIZACIÓN'}</Text>
+              <Text style={styles.title}>{initialTemplate ? 'Revisar y editar plantilla' : variant === 'template' ? 'Crear Plantilla Manual' : 'Crear Nueva Rutina'}</Text>
             </View>
             <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
               <Ionicons name="close" size={24} color="#A1A1A6" />
@@ -257,48 +368,82 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
 
           <ScrollView style={styles.scrollArea} showsVerticalScrollIndicator={false}>
             {/* Title & Description */}
-            <Text style={styles.sectionHeading}>DATOS DE LA RUTINA</Text>
-            <Text style={styles.inputLabel}>Nombre de la Rutina *</Text>
+            <Text style={styles.sectionHeading}>PLAN SEMANAL</Text>
+            <Text style={styles.inputLabel}>Nombre del plan semanal *</Text>
             <TextInput
               style={styles.textInput}
-              placeholder="Ej. Torso / Pierna Frecuencia 2"
+              placeholder="Ej. Semana 1 · Hipertrofia"
               placeholderTextColor="#636366"
               value={title}
               onChangeText={setTitle}
             />
 
-            <Text style={styles.inputLabel}>Descripción u Objetivo (opcional)</Text>
+            <Text style={styles.inputLabel}>Indicaciones del monitor (opcional)</Text>
             <TextInput
               style={styles.textInput}
-              placeholder="Ej. Enfoque en hipertrofia de pecho y espalda"
+              placeholder="Ej. Alternar días y dejar un día de descanso si hay fatiga"
               placeholderTextColor="#636366"
               value={subtitle}
               onChangeText={setSubtitle}
             />
 
-            {/* Days Section */}
+            {variant === 'template' && (
+              <View style={styles.templateMetadata}>
+                <Text style={styles.sectionHeading}>PERFIL DE LA PLANTILLA</Text>
+                <Text style={styles.inputLabel}>Objetivo</Text>
+                <View style={styles.templateChipRow}>
+                  {([
+                    ['hipertrofia', 'Hipertrofia'], ['fuerza', 'Fuerza'],
+                    ['perdida_grasa', 'Pérdida grasa'], ['salud_general', 'Salud'],
+                  ] as Array<[MemberObjective, string]>).map(([id, label]) => (
+                    <TouchableOpacity key={id} onPress={() => setObjective(id)} style={[styles.templateChip, objective === id && styles.templateChipActive]}>
+                      <Text style={[styles.templateChipText, objective === id && styles.templateChipTextActive]}>{label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                <Text style={styles.inputLabel}>Nivel</Text>
+                <View style={styles.templateChipRow}>
+                  {([
+                    ['principiante', 'Principiante'], ['intermedio', 'Intermedio'], ['avanzado', 'Avanzado'],
+                  ] as Array<[MemberLevel, string]>).map(([id, label]) => (
+                    <TouchableOpacity key={id} onPress={() => setLevel(id)} style={[styles.templateChip, level === id && styles.templateChipActive]}>
+                      <Text style={[styles.templateChipText, level === id && styles.templateChipTextActive]}>{label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                <Text style={styles.inputLabel}>Material disponible (opcional)</Text>
+                <View style={styles.templateChipRow}>
+                  {EQUIPMENT_FILTERS.filter((item) => item.id !== 'todos').map((item) => {
+                    const id = item.id as EquipmentType;
+                    const selected = equipment.includes(id);
+                    return (
+                      <TouchableOpacity key={id} onPress={() => setEquipment((current) => selected ? current.filter((value) => value !== id) : [...current, id])} style={[styles.templateChip, selected && styles.templateChipActive]}>
+                        <Text style={[styles.templateChipText, selected && styles.templateChipTextActive]}>{item.label}</Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
+
+            {/* Each block is a different workout that can be scheduled on one or more weekdays. */}
             <View style={styles.daysHeaderRow}>
-              <Text style={styles.sectionHeading}>DÍAS DE ENTRENAMIENTO ({days.length})</Text>
+              <Text style={styles.sectionHeading}>RUTINAS DE LA SEMANA ({days.length})</Text>
               <TouchableOpacity style={styles.addDayBtn} onPress={handleAddDay}>
                 <Ionicons name="add" size={16} color={COLORS.primary} />
-                <Text style={styles.addDayBtnText}>Añadir Día</Text>
+                <Text style={styles.addDayBtnText}>Añadir rutina</Text>
               </TouchableOpacity>
             </View>
 
             {days.map((day, dayIndex) => {
-              const badgeColor =
-                COLORS.dayBadges[day.dayBadge as keyof typeof COLORS.dayBadges] || COLORS.primary;
-
               return (
                 <View key={day.id} style={styles.dayCardBox}>
-                  {/* Day Header */}
                   <View style={styles.dayCardTop}>
-                    <View style={[styles.dayBadgePill, { backgroundColor: badgeColor }]}>
-                      <Text style={styles.dayBadgeText}>{day.dayBadge.toUpperCase()}</Text>
-                    </View>
                     <TextInput
                       style={styles.dayNameInput}
                       value={day.name}
+                      placeholder="Ej. Torso y core"
+                      placeholderTextColor="#7C7C82"
                       onChangeText={(name) =>
                         setDays((currentDays) =>
                           currentDays.map((item, index) =>
@@ -314,10 +459,10 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                     )}
                   </View>
 
-                  {/* Day Badge Selector Pills */}
+                  <Text style={styles.weekdayLabel}>DÍAS EN LOS QUE SE REALIZA ESTA RUTINA</Text>
                   <View style={styles.weekdayRow}>
                     {WEEKDAY_OPTIONS.map((w) => {
-                      const isSel = day.dayBadge === w;
+                      const isSel = day.scheduledDays.includes(w);
                       const wColor = COLORS.dayBadges[w];
                       return (
                         <TouchableOpacity
@@ -326,13 +471,7 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                             styles.weekdayChip,
                             isSel && { backgroundColor: wColor, borderColor: wColor },
                           ]}
-                          onPress={() =>
-                            setDays((currentDays) =>
-                              currentDays.map((item, index) =>
-                                index === dayIndex ? { ...item, dayBadge: w } : item
-                              )
-                            )
-                          }
+                          onPress={() => toggleScheduledDay(dayIndex, w)}
                         >
                           <Text style={[styles.weekdayChipText, isSel && { color: '#FFFFFF', fontWeight: '800' }]}>
                             {w.toUpperCase()}
@@ -347,12 +486,13 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                     {day.exercises.map((exItem, exIndex) => {
                       const exObj = exercises.find((e) => e.id === exItem.exerciseId);
                       return (
-                        <View key={exIndex} style={styles.exerciseItemRow}>
+                        <View key={exItem.id || exIndex} style={styles.exerciseItemRow}>
                           <View style={styles.exerciseBullet} />
-                          <Text style={styles.exerciseItemName} numberOfLines={1}>
-                            {exObj?.name || 'Ejercicio'}
-                          </Text>
-                          <Text style={styles.exerciseItemSets}>{exItem.sets} series</Text>
+                          <TouchableOpacity style={styles.exerciseItemEdit} onPress={() => setEditingExerciseTarget({ dayIndex, exerciseIndex: exIndex })} accessibilityLabel={`Editar ${exObj?.name || 'ejercicio'}`}>
+                            <Text style={styles.exerciseItemName} numberOfLines={1}>{exObj?.name || 'Ejercicio'}</Text>
+                            <Text style={styles.exerciseItemSets}>{exItem.sets} series · {exItem.repRange} reps · {exItem.restSeconds}s</Text>
+                          </TouchableOpacity>
+                          <Ionicons name="pencil-outline" size={16} color={COLORS.primary} style={styles.exerciseEditIcon} />
                           <TouchableOpacity onPress={() => handleRemoveExerciseFromDay(dayIndex, exIndex)}>
                             <Ionicons name="close-circle-outline" size={18} color="#8E8E93" />
                           </TouchableOpacity>
@@ -378,8 +518,8 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
           </ScrollView>
 
           {/* Save Button */}
-          <TouchableOpacity style={styles.saveBtn} onPress={handleSaveRoutine} activeOpacity={0.85}>
-            <Text style={styles.saveBtnText}>Guardar Rutina en Mi Colección</Text>
+          <TouchableOpacity style={[styles.saveBtn, isSaving && styles.saveBtnDisabled]} onPress={() => void handleSaveRoutine()} activeOpacity={0.85} disabled={isSaving}>
+            <Text style={styles.saveBtnText}>{isSaving ? 'Guardando…' : initialTemplate ? 'Guardar cambios en la Biblioteca' : variant === 'template' ? 'Guardar en la Biblioteca' : 'Guardar Rutina en Mi Colección'}</Text>
           </TouchableOpacity>
         </View>
 
@@ -598,6 +738,46 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
             </View>
           </Modal>
         )}
+
+        {editingExerciseTarget && editingExercise && (
+          <Modal visible transparent animationType="fade" onRequestClose={() => setEditingExerciseTarget(null)}>
+            <View style={styles.pickerOverlay}>
+              <View style={styles.exerciseSettingsBox}>
+                <View style={styles.pickerHeader}>
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text style={styles.pickerTitle}>Ajustar ejercicio</Text>
+                    <Text style={styles.exerciseSettingsName}>{editingExerciseInfo?.name || 'Ejercicio'}</Text>
+                  </View>
+                  <TouchableOpacity onPress={() => setEditingExerciseTarget(null)} accessibilityLabel="Cerrar ajuste de ejercicio">
+                    <Ionicons name="close" size={24} color="#A1A1A6" />
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.exerciseSettingsHint}>Modifica la propuesta antes de guardarla en la biblioteca.</Text>
+                <View style={styles.exerciseSettingsGrid}>
+                  <View style={styles.exerciseSettingField}>
+                    <Text style={styles.exerciseSettingLabel}>SERIES</Text>
+                    <TextInput style={styles.exerciseSettingInput} value={String(editingExercise.sets)} keyboardType="number-pad" onChangeText={(value) => updateDraftExercise(editingExerciseTarget.dayIndex, editingExerciseTarget.exerciseIndex, { sets: Math.max(1, Math.min(8, Number.parseInt(value, 10) || 1)) })} />
+                  </View>
+                  <View style={styles.exerciseSettingField}>
+                    <Text style={styles.exerciseSettingLabel}>REPETICIONES</Text>
+                    <TextInput style={styles.exerciseSettingInput} value={editingExercise.repRange} onChangeText={(value) => updateDraftExercise(editingExerciseTarget.dayIndex, editingExerciseTarget.exerciseIndex, { repRange: value.slice(0, 30) })} />
+                  </View>
+                  <View style={styles.exerciseSettingField}>
+                    <Text style={styles.exerciseSettingLabel}>DESCANSO (S)</Text>
+                    <TextInput style={styles.exerciseSettingInput} value={String(editingExercise.restSeconds)} keyboardType="number-pad" onChangeText={(value) => updateDraftExercise(editingExerciseTarget.dayIndex, editingExerciseTarget.exerciseIndex, { restSeconds: Math.max(20, Math.min(300, Number.parseInt(value, 10) || 20)) })} />
+                  </View>
+                  <View style={styles.exerciseSettingField}>
+                    <Text style={styles.exerciseSettingLabel}>CARGA GUÍA (KG)</Text>
+                    <TextInput style={styles.exerciseSettingInput} value={editingExercise.weightRange} keyboardType="decimal-pad" onChangeText={(value) => updateDraftExercise(editingExerciseTarget.dayIndex, editingExerciseTarget.exerciseIndex, { weightRange: value.slice(0, 30) })} />
+                  </View>
+                </View>
+                <TouchableOpacity style={styles.exerciseSettingsDone} onPress={() => setEditingExerciseTarget(null)}>
+                  <Text style={styles.exerciseSettingsDoneText}>Guardar ajuste</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+        )}
       </View>
     </Modal>
   );
@@ -673,6 +853,35 @@ const styles = StyleSheet.create({
     borderColor: '#34343A',
     marginBottom: 10,
   },
+  templateMetadata: {
+    marginBottom: 4,
+  },
+  templateChipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 7,
+    marginBottom: 4,
+  },
+  templateChip: {
+    borderWidth: 1,
+    borderColor: '#3A3A40',
+    backgroundColor: '#26262A',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  templateChipActive: {
+    backgroundColor: 'rgba(255, 106, 0, 0.15)',
+    borderColor: COLORS.primary,
+  },
+  templateChipText: {
+    color: '#B5B5BB',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  templateChipTextActive: {
+    color: COLORS.primary,
+  },
   daysHeaderRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -730,6 +939,14 @@ const styles = StyleSheet.create({
     gap: 6,
     marginBottom: 12,
   },
+  weekdayLabel: {
+    color: '#8E8E93',
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.6,
+    marginTop: 12,
+    marginBottom: 7,
+  },
   weekdayChip: {
     flex: 1,
     paddingVertical: 4,
@@ -756,6 +973,11 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 8,
   },
+  exerciseItemEdit: {
+    flex: 1,
+    minHeight: 34,
+    justifyContent: 'center',
+  },
   exerciseBullet: {
     width: 6,
     height: 6,
@@ -772,7 +994,10 @@ const styles = StyleSheet.create({
   exerciseItemSets: {
     color: '#8E8E93',
     fontSize: 12,
-    marginRight: 8,
+    marginTop: 2,
+  },
+  exerciseEditIcon: {
+    marginHorizontal: 8,
   },
   addExerciseToDayBtn: {
     flexDirection: 'row',
@@ -801,9 +1026,72 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 6,
   },
+  saveBtnDisabled: {
+    opacity: 0.65,
+  },
   saveBtnText: {
     color: '#FFFFFF',
     fontSize: 16,
+    fontWeight: '800',
+  },
+  exerciseSettingsBox: {
+    width: '90%',
+    maxWidth: 390,
+    backgroundColor: '#242428',
+    borderRadius: 18,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: '#3A3A40',
+  },
+  exerciseSettingsName: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '800',
+    marginTop: 4,
+  },
+  exerciseSettingsHint: {
+    color: '#A1A1A6',
+    fontSize: 13,
+    lineHeight: 18,
+    marginTop: -3,
+    marginBottom: 15,
+  },
+  exerciseSettingsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  exerciseSettingField: {
+    width: '47%',
+  },
+  exerciseSettingLabel: {
+    color: '#A1A1A6',
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+    marginBottom: 5,
+  },
+  exerciseSettingInput: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '700',
+    backgroundColor: '#1C1C1E',
+    borderWidth: 1,
+    borderColor: '#3A3A40',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  exerciseSettingsDone: {
+    marginTop: 18,
+    borderRadius: 12,
+    backgroundColor: COLORS.primary,
+    alignItems: 'center',
+    paddingVertical: 13,
+  },
+  exerciseSettingsDoneText: {
+    color: '#FFFFFF',
+    fontSize: 15,
     fontWeight: '800',
   },
   pickerOverlay: {
