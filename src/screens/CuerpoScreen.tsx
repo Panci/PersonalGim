@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#FFFFFF',
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: '800',
   },
   qrPassPill: {
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   qrPassPillText: {
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '700',
   },
   content: {

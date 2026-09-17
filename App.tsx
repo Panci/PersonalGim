@@ -39,6 +39,7 @@ function AppShell() {
   const {
     activeTab,
     loadInitialData,
+    syncRoutines,
     collections,
     selectedCollection,
     setSelectedCollection,
@@ -83,7 +84,8 @@ function AppShell() {
   useEffect(() => {
     if (!session) return;
     setCurrentRole(session.user.role === 'user' ? 'member' : session.user.role);
-  }, [session, setCurrentRole]);
+    void syncRoutines().catch((error) => console.warn('Error synchronizing routines:', error));
+  }, [session, setCurrentRole, syncRoutines]);
 
   if (isLoading || isRestoring) {
     return (

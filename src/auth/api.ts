@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { WorkoutSession } from '../types';
+import { RoutineCollection, WorkoutSession } from '../types';
 import { AuthSession, AuthUser, UserRole } from './types';
 
 // Keep this as a direct EXPO_PUBLIC_* member access so Expo can inline the
@@ -90,6 +90,29 @@ export const saveWorkoutRequest = async (token: string, workout: WorkoutSession)
     }),
   });
   await readResponse<{ workout: unknown }>(response);
+};
+
+export const getRoutinesRequest = async (token: string): Promise<RoutineCollection[]> => {
+  const response = await fetch(endpoint('/routines'), {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await readResponse<{ routines: RoutineCollection[] }>(response);
+  return Array.isArray(data.routines) ? data.routines : [];
+};
+
+export const saveRoutinesRequest = async (
+  token: string,
+  routines: RoutineCollection[],
+): Promise<void> => {
+  const response = await fetch(endpoint('/routines'), {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ routines }),
+  });
+  await readResponse<{ routines: RoutineCollection[] }>(response);
 };
 
 export const createUserRequest = async (

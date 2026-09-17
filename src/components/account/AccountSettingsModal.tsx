@@ -160,8 +160,11 @@ export const AccountSettingsModal: React.FC<AccountSettingsModalProps> = ({ visi
 };
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.72)' },
+  overlay: { flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.72)' },
   sheet: {
+    width: '100%',
+    maxWidth: 430,
+    alignSelf: 'center',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,

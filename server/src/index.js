@@ -96,6 +96,32 @@ const writeAuditLog = async (actorUserId, action, targetType, targetId, metadata
   );
 };
 
+const runMigrations = async () => {
+  // `001-init.sql` only runs when the PostgreSQL volume is first created.
+  // Keep this migration here as well so existing deployments receive routine
+  // persistence on their next API restart.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS user_routines (
+      user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+      routines JSONB NOT NULL DEFAULT '[]'::jsonb,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `);
+};
+
+const isRoutineDocument = (routines) => Array.isArray(routines)
+  && routines.length <= 100
+  && routines.every((routine) => (
+    routine
+    && typeof routine.id === 'string'
+    && routine.id.length <= 160
+    && typeof routine.title === 'string'
+    && routine.title.length > 0
+    && routine.title.length <= 160
+    && Array.isArray(routine.days)
+    && routine.days.length <= 31
+  ));
+
 const bootstrapAdmin = async () => {
   const email = process.env.BOOTSTRAP_ADMIN_EMAIL?.trim().toLowerCase();
   const pin = process.env.BOOTSTRAP_ADMIN_PIN;
@@ -231,6 +257,30 @@ app.get('/api/workouts', authenticate, async (req, res) => {
   res.json({ workouts: rows });
 });
 
+app.get('/api/routines', authenticate, async (req, res) => {
+  const { rows } = await pool.query(
+    'SELECT routines FROM user_routines WHERE user_id = $1',
+    [req.user.id],
+  );
+  res.json({ routines: Array.isArray(rows[0]?.routines) ? rows[0].routines : [] });
+});
+
+app.put('/api/routines', authenticate, async (req, res) => {
+  const routines = req.body?.routines;
+  if (!isRoutineDocument(routines)) {
+    return res.status(400).json({ error: 'Las rutinas recibidas no son válidas.' });
+  }
+
+  await pool.query(
+    `INSERT INTO user_routines (user_id, routines, updated_at)
+     VALUES ($1, $2::jsonb, NOW())
+     ON CONFLICT (user_id)
+     DO UPDATE SET routines = EXCLUDED.routines, updated_at = NOW()`,
+    [req.user.id, JSON.stringify(routines)],
+  );
+  res.json({ routines });
+});
+
 app.post('/api/workouts', authenticate, async (req, res) => {
   const body = req.body || {};
   const name = String(body.name || '').trim();
@@ -264,6 +314,7 @@ app.use((error, _req, res, _next) => {
 
 const start = async () => {
   await pool.query('SELECT 1');
+  await runMigrations();
   await bootstrapAdmin();
   app.listen(port, () => console.log(`PersonalGim API escuchando en el puerto ${port}`));
 };

@@ -24,7 +24,7 @@ const LEGACY_LOCAL_ADMIN_PASSWORD = 'LocalPersonalGim2026!';
 const stateDir = path.resolve(__dirname, '..', '.local-data');
 const stateFile = path.join(stateDir, 'state.json');
 
-let state = { users: [], workouts: [], audit: [] };
+let state = { users: [], workouts: [], routinesByUser: {}, audit: [] };
 
 const publicUser = (user) => ({
   id: user.id,
@@ -53,6 +53,9 @@ const readState = async () => {
     state = {
       users: Array.isArray(parsed.users) ? parsed.users : [],
       workouts: Array.isArray(parsed.workouts) ? parsed.workouts : [],
+      routinesByUser: parsed.routinesByUser && typeof parsed.routinesByUser === 'object'
+        ? parsed.routinesByUser
+        : {},
       audit: Array.isArray(parsed.audit) ? parsed.audit : [],
     };
   } catch (error) {
@@ -205,10 +208,23 @@ app.post('/api/users', authenticate, authorize('admin'), async (req, res) => {
   return res.status(201).json({ user: publicUser(user) });
 });
 
-// Member/routine data remains in the app's local SQLite store. These routes
-// keep the API shape compatible with the production server when needed.
+// Member data remains local in development. Routines mirror production's
+// account-backed store so reload and sync behaviour can be tested locally.
 app.get('/api/members', authenticate, authorize('admin', 'monitor'), (_req, res) => {
   res.json({ members: [] });
+});
+
+app.get('/api/routines', authenticate, (req, res) => {
+  const routines = state.routinesByUser[req.user.id];
+  res.json({ routines: Array.isArray(routines) ? routines : [] });
+});
+
+app.put('/api/routines', authenticate, async (req, res) => {
+  const routines = req.body?.routines;
+  if (!Array.isArray(routines)) return res.status(400).json({ error: 'Las rutinas recibidas no son válidas.' });
+  state.routinesByUser[req.user.id] = routines;
+  await writeState();
+  return res.json({ routines });
 });
 
 app.get('/api/workouts', authenticate, (req, res) => {

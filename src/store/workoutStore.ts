@@ -23,6 +23,7 @@ import {
   toggleFavoriteInDb,
   addCustomExerciseToDb,
   getCollectionsFromDb,
+  replaceCollectionsInDb,
   getRoutineDayDetailFromDb,
   updateRoutineDayNameInDb,
   updateRoutineDayExerciseSets,
@@ -46,7 +47,7 @@ import {
 import { createId } from '../utils/ids';
 import { withExerciseGuidance } from '../data/exerciseGuidance';
 import { getAuthToken } from '../auth/authStorage';
-import { saveWorkoutRequest } from '../auth/api';
+import { getRoutinesRequest, saveRoutinesRequest, saveWorkoutRequest } from '../auth/api';
 
 export type MainTab = 'entreno' | 'actividades' | 'ejercicios' | 'cuerpo';
 export type EntrenoSegment = 'plan' | 'entreno' | 'rapido';
@@ -70,6 +71,21 @@ const calculateCompletedVolume = (exercises: WorkoutExerciseLog[]): number =>
 
 const isValidSetValue = (value: number, max: number): boolean =>
   Number.isFinite(value) && value >= 0 && value <= max;
+
+// The device copy keeps the app usable offline. When a user has a valid
+// session, mirror the whole routine catalogue to their account as well so a
+// browser restart, a cleared cache, or another device cannot lose it.
+let routineSyncChain: Promise<void> = Promise.resolve();
+const syncCollectionsToServer = (): void => {
+  routineSyncChain = routineSyncChain
+    .catch(() => undefined)
+    .then(async () => {
+    const token = await getAuthToken();
+    if (!token) return;
+    await saveRoutinesRequest(token, getCollectionsFromDb());
+    });
+  void routineSyncChain.catch((error) => console.warn('Unable to sync routines to the server', error));
+};
 
 
 
@@ -113,6 +129,7 @@ interface WorkoutStoreState {
   showCreateRoutineModal: boolean;
   setShowCreateRoutineModal: (show: boolean) => void;
   saveNewCustomRoutine: (routine: RoutineCollection) => void;
+  syncRoutines: () => Promise<void>;
   updateRoutineCollectionDetails: (routineId: string, title: string, subtitle?: string) => void;
   deleteCustomRoutine: (routineId: string) => void;
 
@@ -266,6 +283,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       selectedCollection: updatedCollection ?? get().selectedCollection,
       selectedDay: updatedDay,
     });
+    syncCollectionsToServer();
   },
   updateExerciseSets: (dayId, routineExerciseId, sets, restSeconds) => {
     updateRoutineDayExerciseSets(dayId, routineExerciseId, sets, restSeconds);
@@ -280,6 +298,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       selectedCollection: updatedCollection ?? get().selectedCollection,
       editingExercise: null,
     });
+    syncCollectionsToServer();
   },
   addExerciseToRoutineDay: (dayId, exerciseId) => {
     const collection = get().collections.find((item) => item.days.some((day) => day.id === dayId));
@@ -328,6 +347,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       selectedCollection: persistedCollection ?? get().selectedCollection,
       selectedDay: persistedCollection?.days.find((day) => day.id === dayId) ?? get().selectedDay,
     });
+    syncCollectionsToServer();
   },
   removeExerciseFromRoutineDay: (dayId, routineExerciseId) => {
     const collection = get().collections.find((item) => item.days.some((day) => day.id === dayId));
@@ -352,6 +372,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       selectedCollection: persistedCollection ?? get().selectedCollection,
       selectedDay: persistedCollection?.days.find((day) => day.id === dayId) ?? get().selectedDay,
     });
+    syncCollectionsToServer();
   },
   showCreateRoutineModal: false,
   setShowCreateRoutineModal: (show) => set({ showCreateRoutineModal: show }),
@@ -364,6 +385,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       selectedCollection: savedRoutine ?? get().selectedCollection,
       showCreateRoutineModal: false,
     });
+    syncCollectionsToServer();
   },
   updateRoutineCollectionDetails: (routineId, title, subtitle) => {
     const trimmedTitle = title.trim();
@@ -375,6 +397,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       collections: [...updatedCollections],
       selectedCollection: selected ?? get().selectedCollection,
     });
+    syncCollectionsToServer();
   },
   deleteCustomRoutine: (routineId) => {
     deleteRoutineFromDb(routineId);
@@ -385,6 +408,36 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       selectedCollection: selected?.id === routineId ? null : selected,
       selectedDay: selected?.id === routineId ? null : get().selectedDay,
     });
+    syncCollectionsToServer();
+  },
+  syncRoutines: async () => {
+    const token = await getAuthToken();
+    if (!token) return;
+
+    const remoteCollections = await getRoutinesRequest(token);
+    const localCollections = getCollectionsFromDb();
+
+    if (remoteCollections.length === 0) {
+      if (localCollections.length > 0) await saveRoutinesRequest(token, localCollections);
+      return;
+    }
+
+    // Retain any unsynced local routine while preferring its newer local
+    // version for the same id. This safely migrates routines created before
+    // this server-backed storage was introduced.
+    const remoteById = new Map(remoteCollections.map((routine) => [routine.id, routine]));
+    const mergedCollections = [
+      ...localCollections,
+      ...remoteCollections.filter((routine) => !localCollections.some((local) => local.id === routine.id)),
+    ];
+    const hasLocalChanges = localCollections.some(
+      (routine) => JSON.stringify(remoteById.get(routine.id)) !== JSON.stringify(routine)
+    );
+    replaceCollectionsInDb(mergedCollections);
+    set({ collections: [...mergedCollections] });
+    if (hasLocalChanges || mergedCollections.length !== remoteCollections.length) {
+      await saveRoutinesRequest(token, mergedCollections);
+    }
   },
 
   // Body & Measurements

@@ -456,13 +456,13 @@ const styles = StyleSheet.create({
   },
   heroTagText: {
     color: COLORS.primary,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
   },
   heroDate: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 13,
   },
   weightRow: {
     flexDirection: 'row',
@@ -497,12 +497,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(10, 132, 255, 0.15)',
   },
   deltaText: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
   },
   fatSubtext: {
     color: '#8E8E93',
-    fontSize: 13,
+    fontSize: 14,
     marginBottom: 16,
   },
   fatValue: {
@@ -530,13 +530,13 @@ const styles = StyleSheet.create({
   },
   targetLabel: {
     color: '#A1A1A6',
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.7,
   },
   targetEditText: {
     color: COLORS.primary,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '700',
   },
   targetValueRow: {
@@ -552,7 +552,7 @@ const styles = StyleSheet.create({
   },
   targetStatus: {
     color: '#FF9500',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
     textAlign: 'right',
   },
@@ -573,19 +573,19 @@ const styles = StyleSheet.create({
   },
   evolutionText: {
     color: '#D1D1D6',
-    fontSize: 11,
+    fontSize: 13,
     marginTop: 8,
   },
   clearTargetText: {
     color: '#8E8E93',
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: '600',
     marginTop: 8,
   },
   targetEmptyText: {
     color: '#D1D1D6',
-    fontSize: 12,
-    lineHeight: 17,
+    fontSize: 14,
+    lineHeight: 20,
   },
   targetEditRow: {
     flexDirection: 'row',
@@ -606,13 +606,13 @@ const styles = StyleSheet.create({
   targetInput: {
     flex: 1,
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
     padding: 0,
   },
   targetUnit: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '700',
     marginLeft: 5,
   },
@@ -625,7 +625,7 @@ const styles = StyleSheet.create({
   },
   targetSaveText: {
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '800',
   },
   addMeasureBtn: {
@@ -638,7 +638,7 @@ const styles = StyleSheet.create({
   },
   addMeasureBtnText: {
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '800',
   },
   sectionHeader: {
@@ -651,12 +651,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     color: '#FFFFFF',
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: '800',
   },
   historyCount: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
   },
   gridContainer: {
@@ -681,22 +681,22 @@ const styles = StyleSheet.create({
   },
   cardLabel: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
   },
   cardValue: {
     color: '#FFFFFF',
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: '800',
     marginBottom: 4,
   },
   cardUnit: {
     color: COLORS.primary,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '600',
   },
   cardDelta: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
   },
   tableCard: {
@@ -717,11 +717,11 @@ const styles = StyleSheet.create({
   },
   tableLabel: {
     color: '#D1D1D6',
-    fontSize: 14,
+    fontSize: 16,
   },
   tableValue: {
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
   },
   historyItemCard: {
@@ -747,7 +747,7 @@ const styles = StyleSheet.create({
   },
   historyDateText: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
     flexShrink: 1,
   },
@@ -774,23 +774,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(142, 142, 147, 0.14)',
   },
   historyDeltaText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '700',
   },
   historyInitialText: {
     color: '#8E8E93',
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '600',
     marginTop: 2,
   },
   historyWeightText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '800',
   },
   historyNotes: {
     color: '#A1A1A6',
-    fontSize: 12,
+    fontSize: 13,
     fontStyle: 'italic',
     marginBottom: 8,
   },
@@ -802,13 +802,13 @@ const styles = StyleSheet.create({
   historyChip: {
     backgroundColor: '#26262A',
     color: '#D1D1D6',
-    fontSize: 11,
+    fontSize: 12,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
   },
   historyNoMeasurements: {
     color: '#8E8E93',
-    fontSize: 11,
+    fontSize: 12,
   },
 });

@@ -440,9 +440,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
   },
   editModal: {
+    width: '100%',
+    maxWidth: 430,
     backgroundColor: '#1C1C1E',
     borderRadius: 20,
     padding: 20,
@@ -462,7 +465,7 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     color: '#D1D1D6',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
     marginBottom: 6,
   },
@@ -532,7 +535,7 @@ const styles = StyleSheet.create({
   },
   collectionSub: {
     color: '#8E8E93',
-    fontSize: 14,
+    fontSize: 15,
     marginBottom: 24,
   },
   daysList: {
@@ -565,13 +568,13 @@ const styles = StyleSheet.create({
   },
   dayCardName: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
     marginBottom: 4,
   },
   dayCardMeta: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 13,
   },
   dayTitleRow: {
     flexDirection: 'row',
@@ -587,7 +590,7 @@ const styles = StyleSheet.create({
   },
   dayBadgeText: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '800',
   },
   dayHeaderTitle: {
@@ -615,7 +618,7 @@ const styles = StyleSheet.create({
   },
   ribbonValue: {
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '700',
   },
   ribbonDivider: {
@@ -631,7 +634,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     color: '#FFFFFF',
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: '800',
   },
   addExerciseButton: {
@@ -645,7 +648,7 @@ const styles = StyleSheet.create({
   },
   addExerciseText: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '800',
   },
   exerciseRowCard: {
@@ -669,7 +672,7 @@ const styles = StyleSheet.create({
   },
   exerciseIndexText: {
     color: COLORS.primary,
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '800',
   },
   exerciseInfoColumn: {
@@ -677,13 +680,13 @@ const styles = StyleSheet.create({
   },
   exerciseRowName: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '700',
     marginBottom: 2,
   },
   exerciseRowMeta: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 13,
   },
   configExerciseBtn: {
     padding: 6,
@@ -726,9 +729,13 @@ const styles = StyleSheet.create({
   pickerOverlay: {
     flex: 1,
     justifyContent: 'flex-end',
+    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.65)',
   },
   pickerSheet: {
+    width: '100%',
+    maxWidth: 430,
+    alignSelf: 'center',
     maxHeight: '82%',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,

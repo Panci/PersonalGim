@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
   },
   rangeBtnText: {
     color: '#8E8E93',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
   },
   rangeBtnTextActive: {
@@ -500,13 +500,13 @@ const styles = StyleSheet.create({
   },
   kpiLabel: {
     color: '#8E8E93',
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '600',
     flex: 1,
   },
   kpiMainValue: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: '800',
     marginBottom: 4,
   },
@@ -530,13 +530,13 @@ const styles = StyleSheet.create({
   },
   summaryColLabel: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
     marginBottom: 4,
   },
   summaryColNum: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '800',
   },
   summaryColDivider: {
@@ -559,7 +559,7 @@ const styles = StyleSheet.create({
   },
   latestSessionEyebrow: {
     color: COLORS.primary,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '900',
     letterSpacing: 0.8,
     marginBottom: 3,
@@ -571,7 +571,7 @@ const styles = StyleSheet.create({
   },
   latestSessionDate: {
     color: '#8E8E93',
-    fontSize: 11,
+    fontSize: 13,
     marginTop: 4,
     textTransform: 'capitalize',
   },
@@ -590,13 +590,13 @@ const styles = StyleSheet.create({
   },
   latestSessionMetricValue: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '800',
     textAlign: 'center',
   },
   latestSessionMetricLabel: {
     color: '#8E8E93',
-    fontSize: 10,
+    fontSize: 12,
     textAlign: 'center',
   },
   latestSessionFooter: {
@@ -607,12 +607,12 @@ const styles = StyleSheet.create({
   },
   latestSessionFooterText: {
     color: '#D1D1D6',
-    fontSize: 11,
+    fontSize: 13,
     flex: 1,
   },
   latestSessionDetailLink: {
     color: COLORS.primary,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '800',
     marginLeft: 8,
   },
@@ -621,7 +621,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     color: '#FFFFFF',
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: '800',
   },
   prGrid: {
@@ -650,7 +650,7 @@ const styles = StyleSheet.create({
   },
   prDate: {
     color: '#8E8E93',
-    fontSize: 10,
+    fontSize: 11,
   },
   prValueText: {
     color: '#FFD700',
@@ -660,13 +660,13 @@ const styles = StyleSheet.create({
   },
   prExerciseName: {
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
     height: 32,
   },
   prTypeText: {
     color: '#8E8E93',
-    fontSize: 10,
+    fontSize: 11,
     marginTop: 4,
     fontWeight: '600',
   },
@@ -689,12 +689,12 @@ const styles = StyleSheet.create({
   },
   muscleNameText: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
   },
   musclePctText: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
   },
   progressBackground: {
@@ -728,7 +728,7 @@ const styles = StyleSheet.create({
   },
   historyDate: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 13,
   },
   historyMetaRow: {
     flexDirection: 'row',
@@ -736,7 +736,7 @@ const styles = StyleSheet.create({
   },
   historyMetaText: {
     color: '#D1D1D6',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '500',
   },
 });

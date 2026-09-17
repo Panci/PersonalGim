@@ -826,8 +826,8 @@ const styles = StyleSheet.create({
   },
   categoryDescription: {
     color: '#8E8E93',
-    fontSize: 12,
-    lineHeight: 17,
+    fontSize: 14,
+    lineHeight: 20,
     marginTop: 8,
     maxWidth: 270,
   },
@@ -843,7 +843,7 @@ const styles = StyleSheet.create({
   },
   anatomyPickerText: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 14,
     marginTop: 4,
     textAlign: 'center',
   },
@@ -861,7 +861,7 @@ const styles = StyleSheet.create({
   },
   categoryCreateText: {
     color: COLORS.primary,
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '700',
   },
   categoryBottomSpacer: {
@@ -909,7 +909,7 @@ const styles = StyleSheet.create({
   },
   oneRmHeaderBtnText: {
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
   },
   createBtn: {
@@ -924,7 +924,7 @@ const styles = StyleSheet.create({
   },
   createBtnText: {
     color: COLORS.primary,
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '700',
     marginLeft: 4,
   },
@@ -945,7 +945,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 16,
     padding: 0,
   },
   filtersWrapper: {
@@ -1122,8 +1122,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   detailSheet: {
+    width: '100%',
+    maxWidth: 430,
+    alignSelf: 'center',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
@@ -1240,7 +1244,7 @@ const styles = StyleSheet.create({
   },
   videoSheet: {
     width: '100%',
-    maxWidth: 640,
+    maxWidth: 430,
     backgroundColor: '#1C1C1E',
     borderRadius: 20,
     padding: 16,
@@ -1335,6 +1339,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   createModalBox: {
+    width: '100%',
+    maxWidth: 430,
+    alignSelf: 'center',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
@@ -1380,6 +1387,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   muscleModalBox: {
+    width: '100%',
+    maxWidth: 430,
+    alignSelf: 'center',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,

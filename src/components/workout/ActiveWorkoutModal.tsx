@@ -1044,9 +1044,13 @@ const styles = StyleSheet.create({
   exerciseInfoOverlay: {
     flex: 1,
     justifyContent: 'flex-end',
+    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.72)',
   },
   exerciseInfoSheet: {
+    width: '100%',
+    maxWidth: 430,
+    alignSelf: 'center',
     maxHeight: '90%',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,
@@ -1221,9 +1225,13 @@ const styles = StyleSheet.create({
   pickerOverlay: {
     flex: 1,
     justifyContent: 'flex-end',
+    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.62)',
   },
   pickerSheet: {
+    width: '100%',
+    maxWidth: 430,
+    alignSelf: 'center',
     maxHeight: '82%',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,

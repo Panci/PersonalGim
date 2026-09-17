@@ -102,8 +102,8 @@ export const CreateAccessModal: React.FC<CreateAccessModalProps> = ({ visible, o
 };
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.68)' },
-  sheet: { backgroundColor: '#1C1C1E', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, borderWidth: 1, borderColor: '#333338' },
+  overlay: { flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.68)' },
+  sheet: { width: '100%', maxWidth: 430, alignSelf: 'center', backgroundColor: '#1C1C1E', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, borderWidth: 1, borderColor: '#333338' },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 },
   eyebrow: { color: COLORS.primary, fontSize: 10, fontWeight: '800', letterSpacing: 0.8 },
   title: { color: '#FFFFFF', fontSize: 23, fontWeight: '900', marginTop: 4 },

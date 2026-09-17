@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   tabLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     marginTop: 4,
     letterSpacing: 0.2,

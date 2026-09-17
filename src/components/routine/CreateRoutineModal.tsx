@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../../theme/colors';
-import { MuscleId, RoutineCollection, RoutineDay, RoutineExercise, WeekDay } from '../../types';
+import { EquipmentType, MuscleId, RoutineCollection, RoutineDay, RoutineExercise, WeekDay } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { createId } from '../../utils/ids';
 
@@ -64,6 +64,17 @@ const MUSCLE_FILTERS: Array<{ id: MuscleId | 'todos'; label: string }> = [
   { id: 'cardio', label: MUSCLE_LABELS.cardio },
 ];
 
+const EQUIPMENT_FILTERS: Array<{ id: EquipmentType | 'todos'; label: string }> = [
+  { id: 'todos', label: 'Todos los equipamientos' },
+  { id: 'maquina', label: 'Máquina' },
+  { id: 'barra', label: 'Barra' },
+  { id: 'mancuerna', label: 'Mancuernas' },
+  { id: 'polea', label: 'Polea' },
+  { id: 'peso_corporal', label: 'Peso corporal' },
+  { id: 'cardio', label: 'Cardio' },
+  { id: 'otro', label: 'Otro' },
+];
+
 type RoutineDraftDay = {
   id: string;
   name: string;
@@ -95,12 +106,16 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
   const [exerciseSearch, setExerciseSearch] = useState('');
   const [selectedMuscleFilter, setSelectedMuscleFilter] = useState<MuscleId | 'todos'>('todos');
   const [isMuscleFilterOpen, setIsMuscleFilterOpen] = useState(false);
+  const [selectedEquipmentFilter, setSelectedEquipmentFilter] = useState<EquipmentType | 'todos'>('todos');
+  const [isEquipmentFilterOpen, setIsEquipmentFilterOpen] = useState(false);
 
   const closeExercisePicker = () => {
     setActiveDayIndexForExercise(null);
     setExerciseSearch('');
     setSelectedMuscleFilter('todos');
     setIsMuscleFilterOpen(false);
+    setSelectedEquipmentFilter('todos');
+    setIsEquipmentFilterOpen(false);
   };
 
   const handleAddDay = () => {
@@ -207,6 +222,8 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
   const filteredExercisesForPicker = exercises.filter((e) => {
     const matchesMuscle =
       selectedMuscleFilter === 'todos' || e.primaryMuscle === selectedMuscleFilter;
+    const matchesEquipment =
+      selectedEquipmentFilter === 'todos' || e.equipment === selectedEquipmentFilter;
     const searchableMuscles = [e.primaryMuscle, ...e.secondaryMuscles]
       .map((muscle) => `${muscle} ${MUSCLE_LABELS[muscle] || muscle}`.toLowerCase())
       .join(' ');
@@ -215,10 +232,13 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
       e.name.toLowerCase().includes(normalizedExerciseSearch) ||
       searchableMuscles.includes(normalizedExerciseSearch);
 
-    return matchesMuscle && matchesSearch;
+    return matchesMuscle && matchesEquipment && matchesSearch;
   });
   const selectedMuscleLabel =
     selectedMuscleFilter === 'todos' ? 'Todos los grupos' : MUSCLE_LABELS[selectedMuscleFilter];
+  const selectedEquipmentLabel =
+    EQUIPMENT_FILTERS.find((filter) => filter.id === selectedEquipmentFilter)?.label
+    ?? 'Todos los equipamientos';
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
@@ -390,7 +410,10 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                 {/* Muscle group dropdown */}
                 <TouchableOpacity
                   style={styles.muscleDropdownButton}
-                  onPress={() => setIsMuscleFilterOpen((isOpen) => !isOpen)}
+                  onPress={() => {
+                    setIsMuscleFilterOpen((isOpen) => !isOpen);
+                    setIsEquipmentFilterOpen(false);
+                  }}
                   activeOpacity={0.8}
                   accessibilityRole="button"
                   accessibilityLabel={`Grupo muscular: ${selectedMuscleLabel}`}
@@ -443,6 +466,65 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                   </View>
                 )}
 
+                {/* Equipment dropdown */}
+                <TouchableOpacity
+                  style={styles.muscleDropdownButton}
+                  onPress={() => {
+                    setIsEquipmentFilterOpen((isOpen) => !isOpen);
+                    setIsMuscleFilterOpen(false);
+                  }}
+                  activeOpacity={0.8}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Equipamiento: ${selectedEquipmentLabel}`}
+                  accessibilityState={{ expanded: isEquipmentFilterOpen }}
+                >
+                  <View style={styles.muscleDropdownButtonCopy}>
+                    <MaterialCommunityIcons name="dumbbell" size={17} color={COLORS.primary} />
+                    <Text style={styles.muscleDropdownLabel}>Equipamiento</Text>
+                    <Text style={styles.muscleDropdownValue} numberOfLines={1}>{selectedEquipmentLabel}</Text>
+                  </View>
+                  <Ionicons
+                    name={isEquipmentFilterOpen ? 'chevron-up' : 'chevron-down'}
+                    size={18}
+                    color="#A1A1A6"
+                  />
+                </TouchableOpacity>
+
+                {isEquipmentFilterOpen && (
+                  <View style={styles.muscleDropdownMenu}>
+                    <ScrollView
+                      style={styles.muscleDropdownList}
+                      showsVerticalScrollIndicator={false}
+                      nestedScrollEnabled
+                    >
+                      {EQUIPMENT_FILTERS.map((filter) => {
+                        const isSelected = selectedEquipmentFilter === filter.id;
+                        return (
+                          <TouchableOpacity
+                            key={filter.id}
+                            style={[styles.muscleDropdownOption, isSelected && styles.muscleDropdownOptionSelected]}
+                            onPress={() => {
+                              setSelectedEquipmentFilter(filter.id);
+                              setIsEquipmentFilterOpen(false);
+                            }}
+                            activeOpacity={0.75}
+                          >
+                            <Text
+                              style={[
+                                styles.muscleDropdownOptionText,
+                                isSelected && styles.muscleDropdownOptionTextSelected,
+                              ]}
+                            >
+                              {filter.label}
+                            </Text>
+                            {isSelected && <Ionicons name="checkmark" size={17} color={COLORS.primary} />}
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                )}
+
                 <Text style={styles.pickerResultCount}>
                   {filteredExercisesForPicker.length === 1
                     ? '1 ejercicio disponible'
@@ -451,7 +533,10 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
 
                 {/* Exercise List */}
                 <ScrollView
-                  style={[styles.pickerList, isMuscleFilterOpen && styles.pickerListWithDropdown]}
+                  style={[
+                    styles.pickerList,
+                    (isMuscleFilterOpen || isEquipmentFilterOpen) && styles.pickerListWithDropdown,
+                  ]}
                   showsVerticalScrollIndicator={false}
                 >
                   {filteredExercisesForPicker.map((ex) => (
@@ -505,7 +590,7 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                     <View style={styles.pickerEmptyState}>
                       <Ionicons name="search-outline" size={26} color="#8E8E93" />
                       <Text style={styles.pickerEmptyTitle}>No hay ejercicios</Text>
-                      <Text style={styles.pickerEmptyText}>Prueba con otro nombre o grupo muscular.</Text>
+                      <Text style={styles.pickerEmptyText}>Prueba con otro nombre, grupo muscular o equipamiento.</Text>
                     </View>
                   )}
                 </ScrollView>
@@ -523,8 +608,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   modalContent: {
+    width: '100%',
+    maxWidth: 430,
+    alignSelf: 'center',
     backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
@@ -543,7 +632,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: COLORS.primary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
   },
@@ -561,14 +650,14 @@ const styles = StyleSheet.create({
   },
   sectionHeading: {
     color: '#8E8E93',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     letterSpacing: 0.6,
     marginBottom: 8,
   },
   inputLabel: {
     color: '#D1D1D6',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
     marginTop: 8,
     marginBottom: 4,
@@ -579,7 +668,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 12,
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 16,
     borderWidth: 1,
     borderColor: '#34343A',
     marginBottom: 10,
@@ -601,7 +690,7 @@ const styles = StyleSheet.create({
   },
   addDayBtnText: {
     color: COLORS.primary,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
     marginLeft: 4,
   },
@@ -626,7 +715,7 @@ const styles = StyleSheet.create({
   },
   dayBadgeText: {
     color: '#FFFFFF',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
   },
   dayNameInput: {
@@ -652,7 +741,7 @@ const styles = StyleSheet.create({
   },
   weekdayChipText: {
     color: '#8E8E93',
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '700',
   },
   dayExercisesList: {
@@ -677,12 +766,12 @@ const styles = StyleSheet.create({
   exerciseItemName: {
     flex: 1,
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
   },
   exerciseItemSets: {
     color: '#8E8E93',
-    fontSize: 11,
+    fontSize: 12,
     marginRight: 8,
   },
   addExerciseToDayBtn: {
@@ -697,7 +786,7 @@ const styles = StyleSheet.create({
   },
   addExerciseToDayText: {
     color: COLORS.primary,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
   },
   saveBtn: {
@@ -728,6 +817,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1C1C1E',
     borderRadius: 20,
     width: '100%',
+    maxWidth: 430,
     maxHeight: '88%',
     padding: 18,
     borderWidth: 1,
@@ -756,7 +846,7 @@ const styles = StyleSheet.create({
   pickerSearchInput: {
     flex: 1,
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 15,
     padding: 0,
   },
   muscleDropdownButton: {
@@ -779,14 +869,14 @@ const styles = StyleSheet.create({
   },
   muscleDropdownLabel: {
     color: '#A1A1A6',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     marginLeft: 8,
     marginRight: 6,
   },
   muscleDropdownValue: {
     color: COLORS.primary,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '800',
     flex: 1,
   },
@@ -816,7 +906,7 @@ const styles = StyleSheet.create({
   },
   muscleDropdownOptionText: {
     color: '#D1D1D6',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '600',
   },
   muscleDropdownOptionTextSelected: {
@@ -825,7 +915,7 @@ const styles = StyleSheet.create({
   },
   pickerResultCount: {
     color: '#8E8E93',
-    fontSize: 11,
+    fontSize: 12,
     marginBottom: 4,
   },
   pickerList: {
@@ -863,13 +953,13 @@ const styles = StyleSheet.create({
   },
   pickerItemName: {
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '600',
     marginBottom: 2,
   },
   pickerItemMuscle: {
     color: COLORS.primary,
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: '700',
   },
   pickerEmptyState: {

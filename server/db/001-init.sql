@@ -40,6 +40,15 @@ CREATE TABLE IF NOT EXISTS workout_sessions (
 CREATE INDEX IF NOT EXISTS workout_sessions_user_started_idx
   ON workout_sessions (user_id, started_at DESC);
 
+-- Routines belong to the signed-in user rather than to a browser. Keeping the
+-- complete routine document in JSONB lets the mobile and web clients evolve
+-- their nested day/exercise structure without a fragile set of joins.
+CREATE TABLE IF NOT EXISTS user_routines (
+  user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  routines JSONB NOT NULL DEFAULT '[]'::jsonb,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 CREATE TABLE IF NOT EXISTS audit_log (
   id BIGSERIAL PRIMARY KEY,
   actor_user_id UUID REFERENCES users(id) ON DELETE SET NULL,

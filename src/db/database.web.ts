@@ -106,6 +106,11 @@ export const toggleFavoriteInDb = (exerciseId: string): boolean => {
 export const addCustomExerciseToDb = (exercise: Exercise): void => { load(); state.exercises = replaceById(state.exercises, exercise); persist(); };
 
 export const getCollectionsFromDb = (): RoutineCollection[] => { load(); return clone(state.collections); };
+export const replaceCollectionsInDb = (collections: RoutineCollection[]): void => {
+  load();
+  state.collections = clone(collections);
+  persist();
+};
 export const getRoutineDayDetailFromDb = (dayId: string): RoutineDay | null => {
   load(); const day = state.collections.flatMap(collection => collection.days).find(item => item.id === dayId);
   return day ? clone(day) : null;

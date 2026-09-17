@@ -151,6 +151,26 @@ export const getCollectionsFromDb = (): RoutineCollection[] => {
   const database = getDb(); if (!database) return clone(fallbackCollections);
   try { return database.getAllSync<any>('SELECT * FROM routine_collections ORDER BY rowid DESC').map(row => ({ id: row.id, title: row.title, subtitle: row.subtitle || undefined, imageUrl: row.imageUrl || undefined, days: database.getAllSync<any>('SELECT * FROM routine_days WHERE collectionId = ? ORDER BY rowid', [row.id]).map(day => readRoutineDay(database, day)) })); } catch (error) { console.warn('Unable to read routines', error); return []; }
 };
+export const replaceCollectionsInDb = (collections: RoutineCollection[]): void => {
+  const database = getDb();
+  if (!database) { fallbackCollections = clone(collections); return; }
+  try {
+    database.withTransactionSync(() => {
+      const collectionIds = database.getAllSync<{ id: string }>('SELECT id FROM routine_collections').map((row) => row.id);
+      for (const collectionId of collectionIds) {
+        const dayIds = database.getAllSync<{ id: string }>('SELECT id FROM routine_days WHERE collectionId = ?', [collectionId]).map((row) => row.id);
+        for (const dayId of dayIds) {
+          const exerciseIds = database.getAllSync<{ id: string }>('SELECT id FROM routine_exercises WHERE routineDayId = ?', [dayId]).map((row) => row.id);
+          for (const exerciseId of exerciseIds) database.runSync('DELETE FROM routine_exercise_sets WHERE routineExerciseId = ?', [exerciseId]);
+          database.runSync('DELETE FROM routine_exercises WHERE routineDayId = ?', [dayId]);
+        }
+        database.runSync('DELETE FROM routine_days WHERE collectionId = ?', [collectionId]);
+      }
+      database.runSync('DELETE FROM routine_collections');
+      for (const collection of collections) saveRoutine(database, collection);
+    });
+  } catch (error) { console.warn('Unable to replace routines', error); }
+};
 export const getRoutineDayDetailFromDb = (dayId: string): RoutineDay | null => {
   const database = getDb(); if (!database) return clone(fallbackCollections.flatMap(collection => collection.days).find(day => day.id === dayId) || null);
   try { const row = database.getFirstSync<any>('SELECT * FROM routine_days WHERE id = ?', [dayId]); return row ? readRoutineDay(database, row) : null; } catch (error) { console.warn('Unable to read routine detail', error); return null; }
