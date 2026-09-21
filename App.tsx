@@ -179,7 +179,9 @@ function AppShell() {
 
       {/* Active screen. Reserve space so it is never hidden by the fixed tabs. */}
       <View style={styles.content}>
-        {currentRole === 'admin' ? <AdminDashboard /> : currentRole === 'monitor' ? <MonitorDashboard /> : renderCurrentTab()}
+        {currentRole === 'admin' ? (
+          <AdminDashboard onOpenAccountSettings={() => setShowAccountSettings(true)} />
+        ) : currentRole === 'monitor' ? <MonitorDashboard /> : renderCurrentTab()}
       </View>
 
       {/* Keep navigation available everywhere except while tracking a live routine. */}

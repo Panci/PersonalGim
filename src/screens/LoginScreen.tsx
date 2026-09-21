@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
+  Image,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -13,6 +14,8 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '../auth/AuthProvider';
 import { isValidPin, normalizePin, PIN_LENGTH } from '../auth/pin';
 import { COLORS } from '../theme/colors';
+
+const personalGimLogo = require('../../assets/personalgim-logo.jpeg');
 
 const roles = [
   { role: 'Administrador', description: 'Gestiona usuarios, rutinas y analítica.', icon: 'shield-account' },
@@ -56,10 +59,14 @@ export const LoginScreen: React.FC = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <View style={styles.hero}>
-        <View style={styles.logoMark}>
-          <MaterialCommunityIcons name="dumbbell" size={36} color="#FFFFFF" />
+        <View style={styles.logoFrame}>
+          <Image
+            source={personalGimLogo}
+            style={styles.logoImage}
+            resizeMode="cover"
+            accessibilityLabel="Logotipo de PersonalGim"
+          />
         </View>
-        <Text style={styles.brand}>PersonalGim</Text>
         <Text style={styles.tagline}>Entrena, acompaña y gestiona desde un solo lugar.</Text>
       </View>
 
@@ -150,8 +157,8 @@ const styles = StyleSheet.create({
     }),
   },
   hero: { alignItems: 'center', marginBottom: 28 },
-  logoMark: { width: 68, height: 68, borderRadius: 22, backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
-  brand: { color: '#FFFFFF', fontSize: 30, fontWeight: '900', letterSpacing: -0.6 },
+  logoFrame: { width: '100%', height: 160, borderRadius: 18, overflow: 'hidden', backgroundColor: '#FFFFFF', marginBottom: 16 },
+  logoImage: { width: '100%', height: '100%' },
   tagline: { color: '#A1A1A6', fontSize: 16, textAlign: 'center', marginTop: 7, lineHeight: 23 },
   card: { backgroundColor: '#1C1C1E', borderRadius: 22, padding: 20, borderWidth: 1, borderColor: '#2E2E32' },
   cardTitle: { color: '#FFFFFF', fontSize: 23, fontWeight: '800' },

@@ -24,6 +24,10 @@ import { CreateRoutineModal } from '../routine/CreateRoutineModal';
 
 type AdminTab = 'socios' | 'accesos' | 'rutinas' | 'analitica';
 
+interface AdminDashboardProps {
+  onOpenAccountSettings?: () => void;
+}
+
 const csvCell = (value: unknown) => {
   const text = value === null || value === undefined ? '' : String(value);
   // Excel/LibreOffice may evaluate a cell that starts with one of these characters.
@@ -34,7 +38,7 @@ const csvCell = (value: unknown) => {
 const toCsv = (headers: string[], rows: unknown[][]) =>
   `\uFEFF${[headers, ...rows].map((row) => row.map(csvCell).join(',')).join('\r\n')}`;
 
-export const AdminDashboard: React.FC = () => {
+export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSettings }) => {
   const { signOut } = useAuth();
   const {
     gymMembers,
@@ -228,6 +232,14 @@ export const AdminDashboard: React.FC = () => {
         </View>
 
         <View style={styles.headerActions}>
+          <TouchableOpacity
+            style={styles.accountSettingsBtn}
+            onPress={() => onOpenAccountSettings?.()}
+            accessibilityLabel="Mi cuenta"
+            hitSlop={6}
+          >
+            <Ionicons name="person-circle-outline" size={21} color={COLORS.primary} />
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.aiSettingsBtn}
             onPress={() => setShowGeminiSettings(true)}
@@ -859,7 +871,7 @@ const styles = StyleSheet.create({
   headerActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 7,
   },
   switchRoleBtn: {
     flexDirection: 'row',
@@ -881,6 +893,16 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 13,
+    backgroundColor: '#26262A',
+    borderWidth: 1,
+    borderColor: '#383840',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  accountSettingsBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
     backgroundColor: '#26262A',
     borderWidth: 1,
     borderColor: '#383840',
