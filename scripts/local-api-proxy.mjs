@@ -1,6 +1,6 @@
 import http from 'node:http';
 
-const targetOrigin = (process.env.LOCAL_API_TARGET || 'http://srv1865637.hstgr.cloud:8081').replace(/\/$/, '');
+const targetOrigin = (process.env.LOCAL_API_TARGET || 'https://personalgim.eu').replace(/\/$/, '');
 const port = Number(process.env.LOCAL_API_PROXY_PORT || 8082);
 const allowedOrigin = process.env.LOCAL_API_ALLOWED_ORIGIN || 'http://localhost:8081';
 

@@ -5,6 +5,7 @@ import {
   EquipmentType,
   RoutineCollection,
   RoutineDay,
+  WeekDay,
   RoutineExercise,
   ExerciseSet,
   WorkoutSession,
@@ -28,6 +29,7 @@ import {
   getRoutineDayDetailFromDb,
   updateRoutineDayNameInDb,
   updateRoutineDayExerciseSets,
+  updateRoutineDayExerciseOrderInDb,
   saveWorkoutLogToDb,
   getWorkoutHistoryFromDb,
   getWorkoutStatsFromDb,
@@ -46,6 +48,7 @@ import {
   registerAttendanceToDb,
 } from '../db/database';
 import { createId } from '../utils/ids';
+import { isMembershipPaymentBlocked } from '../utils/membershipBilling';
 import { withExerciseGuidance } from '../data/exerciseGuidance';
 import { getAuthToken } from '../auth/authStorage';
 import {
@@ -128,13 +131,15 @@ interface WorkoutStoreState {
   selectedCollection: RoutineCollection | null;
   setSelectedCollection: (col: RoutineCollection | null) => void;
   selectedDay: RoutineDay | null;
-  setSelectedDay: (day: RoutineDay | null) => void;
+  selectedWeekday: WeekDay | null;
+  setSelectedDay: (day: RoutineDay | null, weekday?: WeekDay) => void;
   editingExercise: { dayId: string; routineExerciseId: string; exercise: Exercise; sets: ExerciseSet[]; restSeconds: number } | null;
   setEditingExercise: (item: { dayId: string; routineExerciseId: string; exercise: Exercise; sets: ExerciseSet[]; restSeconds: number } | null) => void;
   updateRoutineDayName: (dayId: string, name: string) => void;
   updateExerciseSets: (dayId: string, routineExerciseId: string, sets: ExerciseSet[], restSeconds: number) => void;
   addExerciseToRoutineDay: (dayId: string, exerciseId: string) => void;
   removeExerciseFromRoutineDay: (dayId: string, routineExerciseId: string) => void;
+  moveExerciseInRoutineDay: (dayId: string, routineExerciseId: string, direction: -1 | 1) => void;
   showCreateRoutineModal: boolean;
   setShowCreateRoutineModal: (show: boolean) => void;
   saveNewCustomRoutine: (routine: RoutineCollection) => void;
@@ -271,15 +276,19 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
   collections: [],
   selectedCollection: null,
   setSelectedCollection: (col) =>
-    set((state) => ({
-      selectedCollection: col,
-      selectedDay:
-        state.selectedDay && col?.days.some((day) => day.id === state.selectedDay?.id)
-          ? state.selectedDay
-          : null,
-    })),
+    set((state) => {
+      const selectedDay = state.selectedDay && col?.days.some((day) => day.id === state.selectedDay?.id)
+        ? state.selectedDay
+        : null;
+      return {
+        selectedCollection: col,
+        selectedDay,
+        selectedWeekday: selectedDay ? state.selectedWeekday : null,
+      };
+    }),
   selectedDay: null,
-  setSelectedDay: (day) => set({ selectedDay: day }),
+  selectedWeekday: null,
+  setSelectedDay: (day, weekday) => set({ selectedDay: day, selectedWeekday: day ? (weekday ?? day.dayBadge) : null }),
   editingExercise: null,
   setEditingExercise: (item) => set({ editingExercise: item }),
   updateRoutineDayName: (dayId, name) => {
@@ -387,6 +396,26 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     });
     syncCollectionsToServer();
   },
+  moveExerciseInRoutineDay: (dayId, routineExerciseId, direction) => {
+    const collection = get().collections.find(item => item.days.some(day => day.id === dayId));
+    const day = collection?.days.find(item => item.id === dayId);
+    if (!collection || !day) return;
+    const exerciseIndex = day.exercises.findIndex(item => item.id === routineExerciseId);
+    const targetIndex = exerciseIndex + direction;
+    if (exerciseIndex < 0 || targetIndex < 0 || targetIndex >= day.exercises.length) return;
+    const orderedExerciseIds = day.exercises.map(item => item.id);
+    [orderedExerciseIds[exerciseIndex], orderedExerciseIds[targetIndex]] =
+      [orderedExerciseIds[targetIndex], orderedExerciseIds[exerciseIndex]];
+    if (!updateRoutineDayExerciseOrderInDb(dayId, orderedExerciseIds)) return;
+    const updatedCollections = getCollectionsFromDb();
+    const updatedCollection = updatedCollections.find(item => item.id === collection.id);
+    set({
+      collections: updatedCollections,
+      selectedCollection: updatedCollection ?? get().selectedCollection,
+      selectedDay: updatedCollection?.days.find(item => item.id === dayId) ?? get().selectedDay,
+    });
+    syncCollectionsToServer();
+  },
   showCreateRoutineModal: false,
   setShowCreateRoutineModal: (show) => set({ showCreateRoutineModal: show }),
   saveNewCustomRoutine: (routine) => {
@@ -420,6 +449,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       collections: [...updatedCollections],
       selectedCollection: selected?.id === routineId ? null : selected,
       selectedDay: selected?.id === routineId ? null : get().selectedDay,
+      selectedWeekday: selected?.id === routineId ? null : get().selectedWeekday,
     });
     syncCollectionsToServer();
   },
@@ -599,6 +629,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
   registerAttendance: (memberId, type = 'entrada') => {
     const mem = get().gymMembers.find((m) => m.id === memberId);
     if (!mem) return;
+    if (type === 'entrada' && isMembershipPaymentBlocked(mem)) return;
     const newRecord: AttendanceRecord = {
       id: createId('att'),
       memberId: mem.id,
@@ -665,6 +696,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       activeWorkout: session,
       isWorkoutActive: true,
       selectedDay: null,
+      selectedWeekday: null,
     });
   },
   startQuickWorkout: () => {

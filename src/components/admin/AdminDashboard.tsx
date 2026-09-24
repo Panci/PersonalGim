@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -21,8 +21,10 @@ import { RoutineTemplateLibraryModal } from '../routine/RoutineTemplateLibraryMo
 import { GeminiSettingsModal } from './GeminiSettingsModal';
 import { RoutineTemplatePreviewModal } from '../routine/RoutineTemplatePreviewModal';
 import { CreateRoutineModal } from '../routine/CreateRoutineModal';
+import { MembershipPaymentsSection } from './MembershipPaymentsSection';
+import { isMembershipPaymentBlocked } from '../../utils/membershipBilling';
 
-type AdminTab = 'socios' | 'accesos' | 'rutinas' | 'analitica';
+type AdminTab = 'socios' | 'accesos' | 'rutinas' | 'analitica' | 'cuotas';
 
 interface AdminDashboardProps {
   onOpenAccountSettings?: () => void;
@@ -64,9 +66,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
   const [editingRoutineTemplate, setEditingRoutineTemplate] = useState<RoutineTemplate | null>(null);
   const [showGeminiSettings, setShowGeminiSettings] = useState(false);
   const [selectedMemberForCheckIn, setSelectedMemberForCheckIn] = useState<string>('');
+  const [billingTick, setBillingTick] = useState(0);
   const [downloadSuccessMsg, setDownloadSuccessMsg] = useState<string>('');
-  const activeMembersCount = gymMembers.filter((m) => m.status === 'activo').length;
+  const activeMembersCount = gymMembers.filter((m) => m.status === 'activo' && !isMembershipPaymentBlocked(m)).length;
   const totalWorkoutsMonth = gymMembers.reduce((acc, m) => acc + m.completedWorkoutsCount, 0);
+
+  useEffect(() => {
+    const timer = setInterval(() => setBillingTick((tick) => tick + 1), 60 * 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const saveEditedTemplate = async (routine: RoutineTemplate['routine'], metadata: {
     objective: RoutineTemplate['objective']; level: RoutineTemplate['level']; equipment: RoutineTemplate['equipment'];
@@ -204,21 +212,70 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
   };
 
   const handleQuickCheckIn = (memberId: string, type: 'entrada' | 'salida') => {
+    const member = gymMembers.find((item) => item.id === memberId);
+    if (type === 'entrada' && isMembershipPaymentBlocked(member)) return;
     registerAttendance(memberId, type);
     setSelectedMemberForCheckIn('');
   };
+
+  const selectedCheckInMember = gymMembers.find((item) => item.id === selectedMemberForCheckIn);
+  const selectedCheckInIsBlocked = useMemo(
+    () => isMembershipPaymentBlocked(selectedCheckInMember),
+    [selectedCheckInMember, billingTick],
+  );
 
   return (
     <View style={styles.container}>
       {/* Top Admin Header */}
       <View style={styles.header}>
-        <View style={styles.headerLeft}>
+        <View style={styles.headerTopRow}>
           <View style={styles.badgeRow}>
             <View style={styles.adminBadge}>
               <Text style={styles.adminBadgeText}>PANEL ADMINISTRADOR</Text>
             </View>
             <Text style={styles.capacityBadge}>{gymMembers.length} / 100 socios</Text>
           </View>
+
+          <View style={styles.headerActions}>
+            <TouchableOpacity
+              style={styles.accountSettingsBtn}
+              onPress={() => onOpenAccountSettings?.()}
+              accessibilityLabel="Mi cuenta"
+              hitSlop={6}
+            >
+              <Ionicons name="person-circle-outline" size={21} color={COLORS.primary} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.aiSettingsBtn}
+              onPress={() => setShowGeminiSettings(true)}
+              accessibilityLabel="Configuración de Gemini"
+              hitSlop={6}
+            >
+              <MaterialCommunityIcons name="key-variant" size={19} color={COLORS.primary} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.logoutBtn}
+              onPress={() => void signOut()}
+              accessibilityLabel="Cerrar sesión"
+              hitSlop={6}
+            >
+              <Ionicons name="log-out-outline" size={19} color="#FFFFFF" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.createAccessBtn}
+              onPress={() => setShowCreateAccessModal(true)}
+              accessibilityLabel="Crear cuenta"
+              hitSlop={6}
+            >
+              <Ionicons name="person-add-outline" size={19} color="#FFFFFF" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.headerTitleRow}>
+          <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit>
+            Gestión del Gimnasio
+          </Text>
           <TouchableOpacity
             style={styles.switchRoleBtn}
             onPress={() => setCurrentRole('member')}
@@ -227,42 +284,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
           >
             <Ionicons name="barbell" size={16} color="#FFFFFF" style={{ marginRight: 6 }} />
             <Text style={styles.switchRoleText}>Modo Entreno</Text>
-          </TouchableOpacity>
-          <Text style={styles.title}>Gestión del Gimnasio</Text>
-        </View>
-
-        <View style={styles.headerActions}>
-          <TouchableOpacity
-            style={styles.accountSettingsBtn}
-            onPress={() => onOpenAccountSettings?.()}
-            accessibilityLabel="Mi cuenta"
-            hitSlop={6}
-          >
-            <Ionicons name="person-circle-outline" size={21} color={COLORS.primary} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.aiSettingsBtn}
-            onPress={() => setShowGeminiSettings(true)}
-            accessibilityLabel="Configuración de Gemini"
-            hitSlop={6}
-          >
-            <MaterialCommunityIcons name="key-variant" size={19} color={COLORS.primary} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.logoutBtn}
-            onPress={() => void signOut()}
-            accessibilityLabel="Cerrar sesión"
-            hitSlop={6}
-          >
-            <Ionicons name="log-out-outline" size={19} color="#FFFFFF" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.createAccessBtn}
-            onPress={() => setShowCreateAccessModal(true)}
-            accessibilityLabel="Crear cuenta"
-            hitSlop={6}
-          >
-            <Ionicons name="person-add-outline" size={19} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
       </View>
@@ -305,12 +326,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
           { id: 'accesos', label: 'Tornos y Aforo', icon: 'qr-code', tone: styles.tabBtnAccesos, iconColor: '#0A84FF' },
           { id: 'rutinas', label: 'Plantillas Rutina', icon: 'clipboard', tone: styles.tabBtnRutinas, iconColor: '#34C759' },
           { id: 'analitica', label: 'Analítica y CSV', icon: 'bar-chart', tone: styles.tabBtnAnalitica, iconColor: '#AF52DE' },
+          { id: 'cuotas', label: 'Cuotas y Pagos', icon: 'card', tone: styles.tabBtnCuotas, iconColor: '#FF9F0A' },
         ].map((t) => {
           const isSel = activeTab === t.id;
           return (
             <TouchableOpacity
               key={t.id}
-              style={[styles.tabBtn, t.tone, isSel && styles.tabBtnActive]}
+              style={[styles.tabBtn, t.tone, t.id === 'cuotas' && styles.tabBtnFull, isSel && styles.tabBtnActive]}
               onPress={() => setActiveTab(t.id as AdminTab)}
             >
               <Ionicons
@@ -502,12 +524,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
                       style={[
                         styles.quickMemberChip,
                         selectedMemberForCheckIn === m.id && styles.quickMemberChipSelected,
+                        isMembershipPaymentBlocked(m) && styles.quickMemberChipBlocked,
                       ]}
                       onPress={() => setSelectedMemberForCheckIn(m.id)}
                     >
                       <View style={[styles.miniStatusDot, { backgroundColor: isInside ? '#34C759' : '#8E8E93' }]} />
                       <Text style={styles.quickMemberName}>{m.fullName}</Text>
                       <Text style={styles.quickMemberCode}>({m.membershipNumber})</Text>
+                      {isMembershipPaymentBlocked(m) && <Ionicons name="lock-closed" size={12} color="#FF6961" />}
                     </TouchableOpacity>
                   );
                 })}
@@ -516,11 +540,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
               {selectedMemberForCheckIn !== '' && (
                 <View style={styles.checkInActionButtonsRow}>
                   <TouchableOpacity
-                    style={[styles.checkInBtn, { backgroundColor: '#34C759' }]}
+                    style={[styles.checkInBtn, { backgroundColor: '#34C759' }, selectedCheckInIsBlocked && styles.checkInBtnDisabled]}
+                    disabled={selectedCheckInIsBlocked}
                     onPress={() => handleQuickCheckIn(selectedMemberForCheckIn, 'entrada')}
                   >
-                    <Ionicons name="log-in" size={16} color="#FFFFFF" style={{ marginRight: 6 }} />
-                    <Text style={styles.checkInBtnText}>Registrar Entrada (Abrir Torno)</Text>
+                    <Ionicons name={selectedCheckInIsBlocked ? 'lock-closed' : 'log-in'} size={16} color="#FFFFFF" style={{ marginRight: 6 }} />
+                    <Text style={styles.checkInBtnText}>{selectedCheckInIsBlocked ? 'Entrada bloqueada por cuota' : 'Registrar Entrada (Abrir Torno)'}</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -633,6 +658,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
             {routineTemplates.length === 0 && <Text style={styles.emptyStateText}>Todavía no hay plantillas compartidas. Crea la primera para que los monitores puedan asignarla.</Text>}
           </View>
         )}
+
+        {activeTab === 'cuotas' && <MembershipPaymentsSection />}
 
         {/* Tab 4: Analítica y Exportación CSV */}
         {activeTab === 'analitica' && (
@@ -826,23 +853,24 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    flexDirection: 'column',
+    gap: 8,
     paddingHorizontal: 8,
     // AppShell provides the iOS safe-area inset; keep the inner header compact.
     paddingTop: Platform.OS === 'ios' ? 18 : 28,
     paddingBottom: 20,
   },
-  headerLeft: {
-    flexShrink: 1,
-    alignItems: 'flex-start',
+  headerTopRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
   },
   badgeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: 4,
+    flexShrink: 1,
   },
   adminBadge: {
     backgroundColor: 'rgba(22, 201, 91, 0.2)',
@@ -862,11 +890,20 @@ const styles = StyleSheet.create({
     color: '#8E8E93',
     fontSize: 11,
     fontWeight: '600',
+    flexShrink: 1,
+  },
+  headerTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
   },
   title: {
     color: '#FFFFFF',
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '900',
+    flex: 1,
+    flexShrink: 1,
   },
   headerActions: {
     flexDirection: 'row',
@@ -877,12 +914,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#26262A',
-    minHeight: 42,
-    paddingHorizontal: 13,
-    paddingVertical: 9,
+    minHeight: 38,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
     borderRadius: 13,
     borderWidth: 1,
     borderColor: '#383840',
+    flexShrink: 0,
   },
   switchRoleText: {
     color: '#FFFFFF',
@@ -1011,6 +1049,13 @@ const styles = StyleSheet.create({
   tabBtnAnalitica: {
     backgroundColor: 'rgba(175, 82, 222, 0.14)',
     borderColor: 'rgba(175, 82, 222, 0.35)',
+  },
+  tabBtnCuotas: {
+    backgroundColor: 'rgba(255, 159, 10, 0.12)',
+    borderColor: 'rgba(255, 159, 10, 0.35)',
+  },
+  tabBtnFull: {
+    width: '100%',
   },
   tabBtnActive: {
     borderColor: COLORS.primary,
@@ -1363,6 +1408,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
   },
+  quickMemberChipBlocked: {
+    borderColor: 'rgba(255, 69, 58, 0.55)',
+  },
   miniStatusDot: {
     width: 6,
     height: 6,
@@ -1389,6 +1437,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 10,
     borderRadius: 10,
+  },
+  checkInBtnDisabled: {
+    backgroundColor: '#6B2521',
+    opacity: 0.82,
   },
   checkInBtnText: {
     color: '#FFFFFF',

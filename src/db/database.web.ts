@@ -131,6 +131,17 @@ export const updateRoutineDayExerciseSets = (dayId: string, routineExerciseId: s
   persist();
 };
 
+export const updateRoutineDayExerciseOrderInDb = (dayId: string, orderedExerciseIds: string[]): boolean => {
+  load();
+  const day = state.collections.flatMap(collection => collection.days).find(item => item.id === dayId);
+  if (!day || day.exercises.length !== orderedExerciseIds.length) return false;
+  const exercisesById = new Map(day.exercises.map(exercise => [exercise.id, exercise]));
+  if (new Set(orderedExerciseIds).size !== orderedExerciseIds.length || orderedExerciseIds.some(id => !exercisesById.has(id))) return false;
+  day.exercises = orderedExerciseIds.map((id, index) => ({ ...exercisesById.get(id)!, orderIndex: index + 1 }));
+  persist();
+  return true;
+};
+
 export const saveWorkoutLogToDb = (workout: WorkoutSession): void => { load(); state.workouts = replaceById(state.workouts, workout); persist(); };
 export const getWorkoutHistoryFromDb = (): WorkoutSession[] => { load(); return clone(state.workouts).sort((a, b) => b.startTime.localeCompare(a.startTime)); };
 export const getWorkoutStatsFromDb = (range: StatsTimeRange): WorkoutStats => {

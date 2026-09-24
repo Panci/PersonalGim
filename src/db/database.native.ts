@@ -192,6 +192,31 @@ export const updateRoutineDayExerciseSets = (dayId: string, routineExerciseId: s
   try { database.withTransactionSync(() => { const found = database.getFirstSync<{ id: string }>('SELECT id FROM routine_exercises WHERE id = ? AND routineDayId = ?', [routineExerciseId, dayId]); if (!found) throw new Error('Routine exercise does not belong to day'); database.runSync('UPDATE routine_exercises SET targetSets = ?, targetRestSeconds = ? WHERE id = ?', [newSets.length, restSeconds, routineExerciseId]); database.runSync('DELETE FROM routine_exercise_sets WHERE routineExerciseId = ?', [routineExerciseId]); for (const set of newSets) database.runSync('INSERT INTO routine_exercise_sets (id, routineExerciseId, sourceSetId, setNumber, type, reps, weightKg, rpe, isCompleted, restSeconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [setStorageId(routineExerciseId, set), routineExerciseId, set.id, set.setNumber, set.type, set.reps, set.weightKg, nullable(set.rpe), set.isCompleted ? 1 : 0, nullable(set.restSeconds)]); }); } catch (error) { console.warn('Unable to update routine sets', error); }
 };
 
+export const updateRoutineDayExerciseOrderInDb = (dayId: string, orderedExerciseIds: string[]): boolean => {
+  const database = getDb();
+  if (!database) {
+    const day = fallbackCollections.flatMap(collection => collection.days).find(item => item.id === dayId);
+    if (!day || day.exercises.length !== orderedExerciseIds.length) return false;
+    const exercisesById = new Map(day.exercises.map(exercise => [exercise.id, exercise]));
+    if (new Set(orderedExerciseIds).size !== orderedExerciseIds.length || orderedExerciseIds.some(id => !exercisesById.has(id))) return false;
+    day.exercises = orderedExerciseIds.map((id, index) => ({ ...exercisesById.get(id)!, orderIndex: index + 1 }));
+    return true;
+  }
+  try {
+    const storedIds = database.getAllSync<{ id: string }>('SELECT id FROM routine_exercises WHERE routineDayId = ?', [dayId]).map(item => item.id);
+    if (storedIds.length !== orderedExerciseIds.length || new Set(orderedExerciseIds).size !== storedIds.length || orderedExerciseIds.some(id => !storedIds.includes(id))) return false;
+    database.withTransactionSync(() => {
+      orderedExerciseIds.forEach((id, index) => {
+        database.runSync('UPDATE routine_exercises SET orderIndex = ? WHERE id = ? AND routineDayId = ?', [index + 1, id, dayId]);
+      });
+    });
+    return true;
+  } catch (error) {
+    console.warn('Unable to update routine exercise order', error);
+    return false;
+  }
+};
+
 export const saveWorkoutLogToDb = (workout: WorkoutSession): void => { const database = getDb(); if (!database) { fallbackWorkouts = [clone(workout), ...fallbackWorkouts.filter(item => item.id !== workout.id)]; return; } try { database.withTransactionSync(() => saveWorkout(database, workout)); } catch (error) { console.warn('Unable to save workout', error); } };
 const readWorkouts = (database: SQLite.SQLiteDatabase): WorkoutSession[] => database.getAllSync<any>('SELECT * FROM workout_logs ORDER BY startTime DESC').map(workout => ({ id: workout.id, routineId: workout.routineDayId || undefined, name: workout.name, startTime: workout.startTime, endTime: workout.endTime || undefined, durationSeconds: workout.durationSeconds, totalKcal: workout.totalKcal, totalVolumeKg: workout.totalVolumeKg, isCompleted: Boolean(workout.isCompleted), exercises: database.getAllSync<any>('SELECT * FROM workout_exercises WHERE workoutId = ? ORDER BY orderIndex', [workout.id]).map((exercise): WorkoutExerciseLog => ({ id: exercise.id, workoutId: workout.id, exerciseId: exercise.exerciseId, exerciseName: exercise.exerciseName, primaryMuscle: exercise.primaryMuscle as MuscleId, orderIndex: exercise.orderIndex, notes: exercise.notes || undefined, sets: database.getAllSync<any>('SELECT * FROM workout_exercise_sets WHERE workoutExerciseId = ? ORDER BY setNumber', [exercise.id]).map(set => ({ id: set.sourceSetId || set.id, setNumber: set.setNumber, type: set.type || 'normal', reps: set.reps, weightKg: set.weightKg, rpe: set.rpe ?? undefined, isCompleted: Boolean(set.isCompleted), restSeconds: set.restSeconds ?? undefined })) })) }));
 export const getWorkoutHistoryFromDb = (): WorkoutSession[] => { const database = getDb(); if (!database) return clone(fallbackWorkouts); try { return readWorkouts(database); } catch (error) { console.warn('Unable to read workout history', error); return []; } };

@@ -15,6 +15,7 @@ import { COLORS } from '../../theme/colors';
 import { EquipmentType, MemberLevel, MemberObjective, MuscleId, RoutineCollection, RoutineDay, RoutineExercise, RoutineTemplate, WeekDay } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { createId } from '../../utils/ids';
+import { ExerciseInfoModal } from '../exercise/ExerciseInfoModal';
 
 interface CreateRoutineModalProps {
   visible: boolean;
@@ -132,7 +133,7 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
   onSaveRoutine,
   initialTemplate = null,
 }) => {
-  const { exercises, saveNewCustomRoutine } = useWorkoutStore();
+  const { exercises, saveNewCustomRoutine, toggleFavorite } = useWorkoutStore();
 
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
@@ -151,6 +152,8 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
   const [isMuscleFilterOpen, setIsMuscleFilterOpen] = useState(false);
   const [selectedEquipmentFilter, setSelectedEquipmentFilter] = useState<EquipmentType | 'todos'>('todos');
   const [isEquipmentFilterOpen, setIsEquipmentFilterOpen] = useState(false);
+  const [showPickerFavoritesOnly, setShowPickerFavoritesOnly] = useState(false);
+  const [previewExerciseId, setPreviewExerciseId] = useState<string | null>(null);
   const [editingExerciseTarget, setEditingExerciseTarget] = useState<{ dayIndex: number; exerciseIndex: number } | null>(null);
 
   useEffect(() => {
@@ -177,6 +180,8 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
     setSelectedEquipmentFilter('todos');
     setIsMuscleFilterOpen(false);
     setIsEquipmentFilterOpen(false);
+    setShowPickerFavoritesOnly(false);
+    setPreviewExerciseId(null);
   }, [visible, initialTemplate]);
 
   const closeExercisePicker = () => {
@@ -186,6 +191,8 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
     setIsMuscleFilterOpen(false);
     setSelectedEquipmentFilter('todos');
     setIsEquipmentFilterOpen(false);
+    setShowPickerFavoritesOnly(false);
+    setPreviewExerciseId(null);
   };
 
   const handleAddDay = () => {
@@ -236,6 +243,18 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
           : day
       )
     );
+  };
+
+  const moveExerciseInDay = (dayIndex: number, exerciseIndex: number, direction: -1 | 1) => {
+    setDays((currentDays) => currentDays.map((day, index) => {
+      if (index !== dayIndex) return day;
+      const targetIndex = exerciseIndex + direction;
+      if (targetIndex < 0 || targetIndex >= day.exercises.length) return day;
+      const reorderedExercises = [...day.exercises];
+      [reorderedExercises[exerciseIndex], reorderedExercises[targetIndex]] =
+        [reorderedExercises[targetIndex], reorderedExercises[exerciseIndex]];
+      return { ...day, exercises: reorderedExercises };
+    }));
   };
 
   const updateDraftExercise = (dayIndex: number, exerciseIndex: number, patch: Partial<RoutineDraftExercise>) => {
@@ -337,8 +356,9 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
       e.name.toLowerCase().includes(normalizedExerciseSearch) ||
       searchableMuscles.includes(normalizedExerciseSearch);
 
-    return matchesMuscle && matchesEquipment && matchesSearch;
+    return matchesMuscle && matchesEquipment && matchesSearch && (!showPickerFavoritesOnly || e.isFavorite);
   });
+  const previewExercise = exercises.find((exercise) => exercise.id === previewExerciseId) ?? null;
   const selectedMuscleLabel =
     selectedMuscleFilter === 'todos' ? 'Todos los grupos' : MUSCLE_LABELS[selectedMuscleFilter];
   const selectedEquipmentLabel =
@@ -481,19 +501,42 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                     })}
                   </View>
 
-                  {/* Exercises in this Day */}
+                  <Text style={styles.exerciseOrderLabel}>ORDEN DE EJECUCIÓN</Text>
                   <View style={styles.dayExercisesList}>
                     {day.exercises.map((exItem, exIndex) => {
                       const exObj = exercises.find((e) => e.id === exItem.exerciseId);
+                      const exerciseName = exObj?.name || 'Ejercicio';
                       return (
                         <View key={exItem.id || exIndex} style={styles.exerciseItemRow}>
-                          <View style={styles.exerciseBullet} />
-                          <TouchableOpacity style={styles.exerciseItemEdit} onPress={() => setEditingExerciseTarget({ dayIndex, exerciseIndex: exIndex })} accessibilityLabel={`Editar ${exObj?.name || 'ejercicio'}`}>
-                            <Text style={styles.exerciseItemName} numberOfLines={1}>{exObj?.name || 'Ejercicio'}</Text>
+                          <Text style={styles.exerciseOrderNumber}>{exIndex + 1}</Text>
+                          <TouchableOpacity style={styles.exerciseItemEdit} onPress={() => setEditingExerciseTarget({ dayIndex, exerciseIndex: exIndex })} accessibilityLabel={`Editar ${exerciseName}`}>
+                            <Text style={styles.exerciseItemName} numberOfLines={1}>{exerciseName}</Text>
                             <Text style={styles.exerciseItemSets}>{exItem.sets} series · {exItem.repRange} reps · {exItem.restSeconds}s</Text>
                           </TouchableOpacity>
+                          <View style={styles.exerciseMoveControls}>
+                            <TouchableOpacity
+                              style={styles.exerciseMoveButton}
+                              onPress={() => moveExerciseInDay(dayIndex, exIndex, -1)}
+                              disabled={exIndex === 0}
+                              accessibilityRole="button"
+                              accessibilityLabel={`Subir ${exerciseName}`}
+                              accessibilityState={{ disabled: exIndex === 0 }}
+                            >
+                              <Ionicons name="chevron-up" size={18} color={exIndex === 0 ? '#636366' : COLORS.primary} />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              style={styles.exerciseMoveButton}
+                              onPress={() => moveExerciseInDay(dayIndex, exIndex, 1)}
+                              disabled={exIndex === day.exercises.length - 1}
+                              accessibilityRole="button"
+                              accessibilityLabel={`Bajar ${exerciseName}`}
+                              accessibilityState={{ disabled: exIndex === day.exercises.length - 1 }}
+                            >
+                              <Ionicons name="chevron-down" size={18} color={exIndex === day.exercises.length - 1 ? '#636366' : COLORS.primary} />
+                            </TouchableOpacity>
+                          </View>
                           <Ionicons name="pencil-outline" size={16} color={COLORS.primary} style={styles.exerciseEditIcon} />
-                          <TouchableOpacity onPress={() => handleRemoveExerciseFromDay(dayIndex, exIndex)}>
+                          <TouchableOpacity onPress={() => handleRemoveExerciseFromDay(dayIndex, exIndex)} accessibilityRole="button" accessibilityLabel={`Eliminar ${exerciseName}`}>
                             <Ionicons name="close-circle-outline" size={18} color="#8E8E93" />
                           </TouchableOpacity>
                         </View>
@@ -665,6 +708,17 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                   </View>
                 )}
 
+                <TouchableOpacity
+                  style={[styles.pickerFavoritesFilter, showPickerFavoritesOnly && styles.pickerFavoritesFilterActive]}
+                  onPress={() => setShowPickerFavoritesOnly((current) => !current)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Mostrar solo ejercicios favoritos"
+                  accessibilityState={{ selected: showPickerFavoritesOnly }}
+                >
+                  <Ionicons name={showPickerFavoritesOnly ? 'star' : 'star-outline'} size={18} color={showPickerFavoritesOnly ? '#FF9500' : '#A1A1A6'} />
+                  <Text style={[styles.pickerFavoritesText, showPickerFavoritesOnly && styles.pickerFavoritesTextActive]}>Solo favoritos</Text>
+                </TouchableOpacity>
+
                 <Text style={styles.pickerResultCount}>
                   {filteredExercisesForPicker.length === 1
                     ? '1 ejercicio disponible'
@@ -680,12 +734,16 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                   showsVerticalScrollIndicator={false}
                 >
                   {filteredExercisesForPicker.map((ex) => (
-                    <TouchableOpacity
+                    <View
                       key={ex.id}
                       style={styles.pickerItem}
-                      onPress={() => handleSelectExerciseForDay(ex.id)}
                     >
-                      <View style={styles.pickerItemImage}>
+                      <TouchableOpacity
+                        style={styles.pickerItemImage}
+                        onPress={() => setPreviewExerciseId(ex.id)}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Ver detalles de ${ex.name}`}
+                      >
                         {(() => {
                           const thumbnailUri =
                             (Platform.OS === 'web' && ex.localImagePath
@@ -716,21 +774,27 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
                             />
                           );
                         })()}
-                      </View>
-                      <View style={styles.pickerItemCopy}>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.pickerItemCopy} onPress={() => setPreviewExerciseId(ex.id)} accessibilityRole="button" accessibilityLabel={`Ver detalles de ${ex.name}`}>
                         <Text style={styles.pickerItemName} numberOfLines={2}>{ex.name}</Text>
                         <Text style={styles.pickerItemMuscle}>
                           {MUSCLE_LABELS[ex.primaryMuscle] || ex.primaryMuscle} • {ex.equipment}
                         </Text>
-                      </View>
-                      <Ionicons name="add-circle" size={22} color={COLORS.primary} />
-                    </TouchableOpacity>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => handleSelectExerciseForDay(ex.id)} accessibilityRole="button" accessibilityLabel={`Añadir ${ex.name}`} hitSlop={8}>
+                        <Ionicons name="add-circle" size={22} color={COLORS.primary} />
+                      </TouchableOpacity>
+                    </View>
                   ))}
                   {filteredExercisesForPicker.length === 0 && (
                     <View style={styles.pickerEmptyState}>
                       <Ionicons name="search-outline" size={26} color="#8E8E93" />
                       <Text style={styles.pickerEmptyTitle}>No hay ejercicios</Text>
-                      <Text style={styles.pickerEmptyText}>Prueba con otro nombre, grupo muscular o equipamiento.</Text>
+                      <Text style={styles.pickerEmptyText}>
+                        {showPickerFavoritesOnly
+                          ? 'No hay favoritos con estos filtros. Desactiva «Solo favoritos» y marca la estrella en la ficha de un ejercicio.'
+                          : 'Prueba con otro nombre, grupo muscular o equipamiento.'}
+                      </Text>
                     </View>
                   )}
                 </ScrollView>
@@ -738,6 +802,16 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({
             </View>
           </Modal>
         )}
+
+        <ExerciseInfoModal
+          exercise={previewExercise}
+          onClose={() => setPreviewExerciseId(null)}
+          onToggleFavorite={toggleFavorite}
+          onAdd={(exerciseId) => {
+            setPreviewExerciseId(null);
+            handleSelectExerciseForDay(exerciseId);
+          }}
+        />
 
         {editingExerciseTarget && editingExercise && (
           <Modal visible transparent animationType="fade" onRequestClose={() => setEditingExerciseTarget(null)}>
@@ -965,12 +1039,19 @@ const styles = StyleSheet.create({
     gap: 6,
     marginBottom: 8,
   },
+  exerciseOrderLabel: {
+    color: '#8E8E93',
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.6,
+    marginBottom: 7,
+  },
   exerciseItemRow: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#1E1E22',
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
     borderRadius: 8,
   },
   exerciseItemEdit: {
@@ -978,12 +1059,23 @@ const styles = StyleSheet.create({
     minHeight: 34,
     justifyContent: 'center',
   },
-  exerciseBullet: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: COLORS.primary,
-    marginRight: 8,
+  exerciseOrderNumber: {
+    width: 22,
+    color: COLORS.primary,
+    fontSize: 13,
+    fontWeight: '800',
+    textAlign: 'center',
+    marginRight: 4,
+  },
+  exerciseMoveControls: {
+    width: 28,
+    marginLeft: 4,
+  },
+  exerciseMoveButton: {
+    width: 28,
+    height: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   exerciseItemName: {
     flex: 1,
@@ -1205,6 +1297,31 @@ const styles = StyleSheet.create({
     color: '#8E8E93',
     fontSize: 12,
     marginBottom: 4,
+  },
+  pickerFavoritesFilter: {
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+    backgroundColor: '#26262A',
+    borderWidth: 1,
+    borderColor: '#3A3A40',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginBottom: 10,
+  },
+  pickerFavoritesFilterActive: {
+    borderColor: '#FF9500',
+    backgroundColor: 'rgba(255,149,0,0.12)',
+  },
+  pickerFavoritesText: {
+    color: '#D1D1D6',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  pickerFavoritesTextActive: {
+    color: '#FFB340',
   },
   pickerList: {
     maxHeight: 360,

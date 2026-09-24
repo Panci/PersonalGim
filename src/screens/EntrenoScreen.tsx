@@ -6,6 +6,7 @@ import { useWorkoutStore } from '../store/workoutStore';
 import { FloatingSegmentCapsule } from '../components/navigation/FloatingSegmentCapsule';
 import { CreateRoutineModal } from '../components/routine/CreateRoutineModal';
 import { useAuth } from '../auth/AuthProvider';
+import { countScheduledTrainingDays } from '../utils/routineSchedule';
 
 interface EntrenoScreenProps {
   onOpenRoutineDetail: () => void;
@@ -23,6 +24,7 @@ export const EntrenoScreen: React.FC<EntrenoScreenProps> = ({ onOpenRoutineDetai
   } = useWorkoutStore();
   const [showAllRoutines, setShowAllRoutines] = useState(false);
   const featuredRoutine = collections[0];
+  const featuredTrainingDays = featuredRoutine ? countScheduledTrainingDays(featuredRoutine) : 0;
 
   const openCollection = (collection: (typeof collections)[number]) => {
     setSelectedCollection(collection);
@@ -55,20 +57,23 @@ export const EntrenoScreen: React.FC<EntrenoScreenProps> = ({ onOpenRoutineDetai
 
         <ScrollView style={styles.scrollArea} contentContainerStyle={styles.routinesContent} showsVerticalScrollIndicator={false}>
           <Text style={styles.routinesIntro}>Aquí tienes todas tus rutinas guardadas.</Text>
-          {collections.map((collection) => (
-            <TouchableOpacity key={collection.id} style={styles.routineRow} onPress={() => openCollection(collection)} activeOpacity={0.8}>
-              <View style={styles.routineRowIcon}>
-                <MaterialCommunityIcons name="dumbbell" size={24} color={COLORS.primary} />
-              </View>
-              <View style={styles.routineRowText}>
-                <Text style={styles.routineRowTitle} numberOfLines={1}>{collection.title}</Text>
-                <Text style={styles.routineRowSubtitle} numberOfLines={1}>
-                  {collection.days.length} {collection.days.length === 1 ? 'día' : 'días'} · {collection.subtitle || 'Rutina personalizada'}
-                </Text>
-              </View>
-              <Ionicons name="chevron-forward" size={20} color="#707076" />
-            </TouchableOpacity>
-          ))}
+          {collections.map((collection) => {
+            const trainingDays = countScheduledTrainingDays(collection);
+            return (
+              <TouchableOpacity key={collection.id} style={styles.routineRow} onPress={() => openCollection(collection)} activeOpacity={0.8}>
+                <View style={styles.routineRowIcon}>
+                  <MaterialCommunityIcons name="dumbbell" size={24} color={COLORS.primary} />
+                </View>
+                <View style={styles.routineRowText}>
+                  <Text style={styles.routineRowTitle} numberOfLines={1}>{collection.title}</Text>
+                  <Text style={styles.routineRowSubtitle} numberOfLines={1}>
+                    {trainingDays} {trainingDays === 1 ? 'día' : 'días'} · {collection.subtitle || 'Rutina personalizada'}
+                  </Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color="#707076" />
+              </TouchableOpacity>
+            );
+          })}
 
           {collections.length === 0 && (
             <View style={styles.emptyState}>
@@ -124,7 +129,7 @@ export const EntrenoScreen: React.FC<EntrenoScreenProps> = ({ onOpenRoutineDetai
             <View style={styles.featuredCopy}>
               <Text style={styles.featuredTitle}>{featuredRoutine.title}</Text>
               <Text style={styles.featuredMeta}>
-                {featuredRoutine.days.length} {featuredRoutine.days.length === 1 ? 'día de entrenamiento' : 'días de entrenamiento'}
+                {featuredTrainingDays} {featuredTrainingDays === 1 ? 'día de entrenamiento' : 'días de entrenamiento'}
               </Text>
             </View>
             <View style={styles.featuredGraphic}>

@@ -13,6 +13,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
 import { RoutineDay, RoutineExercise } from '../types';
 import { useWorkoutStore } from '../store/workoutStore';
+import { getWeeklyRoutineSchedule } from '../utils/routineSchedule';
 
 interface RoutineDetailScreenProps {
   onBack: () => void;
@@ -26,6 +27,7 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
   const {
     selectedCollection,
     selectedDay,
+    selectedWeekday,
     setSelectedDay,
     startWorkoutFromDay,
     exercises,
@@ -33,6 +35,7 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
     updateRoutineDayName,
     addExerciseToRoutineDay,
     removeExerciseFromRoutineDay,
+    moveExerciseInRoutineDay,
   } = useWorkoutStore();
 
   const collection = selectedCollection;
@@ -75,7 +78,7 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
   // If a day is selected, show Day Workout Detail (IMG_1173.PNG)
   if (selectedDay) {
     const badgeColor =
-      COLORS.dayBadges[selectedDay.dayBadge as keyof typeof COLORS.dayBadges] || COLORS.primary;
+      COLORS.dayBadges[selectedWeekday || selectedDay.dayBadge] || COLORS.primary;
 
     const totalEstimatedWeight = selectedDay.exercises.reduce((acc, curr) => {
       const avgWeight = curr.defaultSets.reduce((sAcc, s) => sAcc + s.weightKg, 0);
@@ -107,7 +110,7 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
           {/* Day Title & Badge */}
           <View style={styles.dayTitleRow}>
             <View style={[styles.dayBadgePill, { backgroundColor: badgeColor }]}>
-              <Text style={styles.dayBadgeText}>{selectedDay.dayBadge.toUpperCase()}</Text>
+              <Text style={styles.dayBadgeText}>{(selectedWeekday || selectedDay.dayBadge).toUpperCase()}</Text>
             </View>
             <Text style={styles.dayHeaderTitle}>{selectedDay.name}</Text>
           </View>
@@ -145,6 +148,8 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
             </TouchableOpacity>
           </View>
 
+          <Text style={styles.exerciseOrderHint}>Usa las flechas para cambiar el orden de ejecución.</Text>
+
           {/* Exercises List matching IMG_1173.PNG */}
           {selectedDay.exercises.map((re, index) => {
             const exInfo = exercises.find((e) => e.id === re.exerciseId);
@@ -171,6 +176,29 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
                     {setsCount} series • {re.targetRepRange} reps • {re.targetWeightRange} kg
                   </Text>
                 </TouchableOpacity>
+
+                <View style={styles.exerciseMoveControls}>
+                  <TouchableOpacity
+                    style={styles.exerciseMoveButton}
+                    onPress={() => moveExerciseInRoutineDay(selectedDay.id, re.id, -1)}
+                    disabled={index === 0}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Subir ${exInfo?.name || 'ejercicio'}`}
+                    accessibilityState={{ disabled: index === 0 }}
+                  >
+                    <Ionicons name="chevron-up" size={18} color={index === 0 ? '#636366' : COLORS.primary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.exerciseMoveButton}
+                    onPress={() => moveExerciseInRoutineDay(selectedDay.id, re.id, 1)}
+                    disabled={index === selectedDay.exercises.length - 1}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Bajar ${exInfo?.name || 'ejercicio'}`}
+                    accessibilityState={{ disabled: index === selectedDay.exercises.length - 1 }}
+                  >
+                    <Ionicons name="chevron-down" size={18} color={index === selectedDay.exercises.length - 1 ? '#636366' : COLORS.primary} />
+                  </TouchableOpacity>
+                </View>
 
                 {/* Edit / Config Action button */}
                 <TouchableOpacity
@@ -329,22 +357,20 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
 
         {/* Days List matching IMG_1171.PNG */}
         <View style={styles.daysList}>
-          {collection?.days.map((day) => {
-            const badgeColor =
-              COLORS.dayBadges[day.dayBadge as keyof typeof COLORS.dayBadges] || COLORS.primary;
-            const scheduledDays = day.scheduledDays?.length ? day.scheduledDays : [day.dayBadge];
+          {collection && getWeeklyRoutineSchedule(collection).map(({ day, weekday }) => {
+            const badgeColor = COLORS.dayBadges[weekday] || COLORS.primary;
 
             return (
               <TouchableOpacity
-                key={day.id}
+                key={`${day.id}-${weekday}`}
                 style={styles.dayCard}
-                onPress={() => setSelectedDay(day)}
+                onPress={() => setSelectedDay(day, weekday)}
                 activeOpacity={0.8}
               >
                 {/* Weekday Badge */}
                 <View style={[styles.dayCardBadge, { backgroundColor: badgeColor }]}>
                   <Text style={styles.dayCardBadgeText}>
-                    {day.dayBadge.toUpperCase()}
+                    {weekday.toUpperCase()}
                   </Text>
                 </View>
 
@@ -352,7 +378,7 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
                 <View style={styles.dayCardInfo}>
                   <Text style={styles.dayCardName}>{day.name}</Text>
                   <Text style={styles.dayCardMeta}>
-                    {scheduledDays.map((weekday) => weekday.toUpperCase()).join(' · ')} • {day.estimatedMinutes} min • {day.estimatedCalories} kcal • {day.exercises.length} ejerc.
+                    {weekday.toUpperCase()} • {day.estimatedMinutes} min • {day.estimatedCalories} kcal • {day.exercises.length} ejerc.
                   </Text>
                 </View>
 
@@ -652,6 +678,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '800',
   },
+  exerciseOrderHint: {
+    color: '#8E8E93',
+    fontSize: 12,
+    marginBottom: 10,
+  },
   exerciseRowCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -678,6 +709,16 @@ const styles = StyleSheet.create({
   },
   exerciseInfoColumn: {
     flex: 1,
+  },
+  exerciseMoveControls: {
+    width: 30,
+    marginLeft: 4,
+  },
+  exerciseMoveButton: {
+    width: 30,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   exerciseRowName: {
     color: '#FFFFFF',

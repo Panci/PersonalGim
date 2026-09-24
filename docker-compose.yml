@@ -27,12 +27,20 @@ services:
       DB_NAME: ${POSTGRES_DB}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_SSL: ${DB_SSL:-false}
+      DB_SSL_CA: ${DB_SSL_CA:-}
       JWT_SECRET: ${JWT_SECRET}
       BOOTSTRAP_ADMIN_EMAIL: ${BOOTSTRAP_ADMIN_EMAIL}
       # Dokploy's existing service environment used the legacy password key.
       # Keep accepting it while the application uses the four-digit PIN flow.
       BOOTSTRAP_ADMIN_PIN: ${BOOTSTRAP_ADMIN_PASSWORD:-${BOOTSTRAP_ADMIN_PIN}}
       CORS_ORIGIN: ${CORS_ORIGIN}
+      WHATSAPP_ACCESS_TOKEN: ${WHATSAPP_ACCESS_TOKEN:-}
+      WHATSAPP_PHONE_NUMBER_ID: ${WHATSAPP_PHONE_NUMBER_ID:-}
+      WHATSAPP_TEMPLATE_NAME: ${WHATSAPP_TEMPLATE_NAME:-cuota_recordatorio}
+      WHATSAPP_TEMPLATE_LANGUAGE: ${WHATSAPP_TEMPLATE_LANGUAGE:-es_ES}
+      WHATSAPP_GRAPH_API_VERSION: ${WHATSAPP_GRAPH_API_VERSION:-}
+      BILLING_TIME_ZONE: ${BILLING_TIME_ZONE:-Europe/Madrid}
     depends_on:
       db:
         condition: service_healthy

@@ -12,6 +12,7 @@ server/.local-data/
 .claude/
 dist/
 web-build/
+.verification-dist/
 expo-env.d.ts
 
 # Native

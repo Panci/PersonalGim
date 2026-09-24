@@ -204,6 +204,13 @@ export interface GymMember {
   assignedRoutineTitle?: string;
   lastWorkoutDate?: string;
   completedWorkoutsCount: number;
+  monthlyFee?: number;
+  paymentDueDate?: string;
+  lastPaymentAt?: string;
+    whatsappRemindersEnabled?: boolean;
+    whatsappConsentNote?: string;
+    whatsappConsentRecordedAt?: string;
+  paymentBlocked?: boolean;
   currentWeightKg?: number;
   avatarUrl?: string;
 }

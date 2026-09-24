@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('node:crypto');
 const { Pool } = require('pg');
 const { GeminiRoutineError, generateGeminiRoutine } = require('./gemini');
+const { isWhatsAppConfigured, sendMembershipReminder } = require('./whatsapp');
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -16,6 +17,7 @@ const PIN_PATTERN = /^\d{4}$/;
 const validObjectives = new Set(['hipertrofia', 'fuerza', 'perdida_grasa', 'salud_general']);
 const validLevels = new Set(['principiante', 'intermedio', 'avanzado']);
 const validEquipment = new Set(['barra', 'mancuerna', 'maquina', 'polea', 'peso_corporal', 'cardio', 'otro']);
+const billingTimeZone = process.env.BILLING_TIME_ZONE || 'Europe/Madrid';
 
 if (!jwtSecret || jwtSecret.length < 32) {
   throw new Error('JWT_SECRET debe tener al menos 32 caracteres.');
@@ -47,13 +49,37 @@ const decryptSecret = (encryptedValue) => {
   ]).toString('utf8');
 };
 
+const dateInBillingTimeZone = (date = new Date()) => {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: billingTimeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+};
+
+const addDaysToDateOnly = (value, days) => {
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day + days));
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`;
+};
+
+const formatDateForMember = (value) => {
+  const [year, month, day] = String(value || '').slice(0, 10).split('-');
+  return year && month && day ? `${day}/${month}/${year}` : '';
+};
+
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
   port: Number(process.env.DB_PORT || 5432),
   database: process.env.DB_NAME || 'personalgim',
   user: process.env.DB_USER || 'personalgim',
   password: process.env.DB_PASSWORD,
-  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined,
+  ssl: process.env.DB_SSL === 'true'
+    ? { rejectUnauthorized: true, ...(process.env.DB_SSL_CA ? { ca: process.env.DB_SSL_CA } : {}) }
+    : undefined,
 });
 
 const allowedOrigins = (process.env.CORS_ORIGIN || '')
@@ -111,15 +137,23 @@ const authenticate = async (req, res, next) => {
   try {
     const payload = jwt.verify(token, jwtSecret, { issuer: 'personalgim-api', audience: 'personalgim-app' });
     const { rows } = await pool.query(
-      'SELECT id, email, full_name, password_hash, role, is_active FROM users WHERE id = $1',
-      [payload.sub],
+      `SELECT u.id, u.email, u.full_name, u.password_hash, u.role, u.is_active,
+              (u.role = 'user' AND m.monthly_fee IS NOT NULL AND m.payment_due_date IS NOT NULL
+                AND m.payment_due_date + 5 <= (NOW() AT TIME ZONE $2)::date) AS payment_blocked
+         FROM users u LEFT JOIN gym_members m ON m.user_id = u.id
+        WHERE u.id = $1`,
+      [payload.sub, billingTimeZone],
     );
     const user = rows[0];
     if (!user || !user.is_active) return res.status(401).json({ error: 'La cuenta no está disponible.' });
+    if (user.payment_blocked) return res.status(403).json({ error: 'Acceso suspendido por una cuota pendiente desde hace cinco días. Contacta con el gimnasio cuando hayas realizado el pago.' });
     req.user = user;
     next();
-  } catch {
-    return res.status(401).json({ error: 'Tu sesión ha caducado. Inicia sesión otra vez.' });
+  } catch (error) {
+    if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(401).json({ error: 'Tu sesión ha caducado. Inicia sesión otra vez.' });
+    }
+    return next(error);
   }
 };
 
@@ -150,6 +184,40 @@ const runMigrations = async () => {
     ALTER TABLE gym_members
       ADD COLUMN IF NOT EXISTS assigned_routine_id TEXT,
       ADD COLUMN IF NOT EXISTS assigned_routine_title TEXT
+  `);
+  await pool.query(`
+    ALTER TABLE gym_members
+      ADD COLUMN IF NOT EXISTS monthly_fee NUMERIC(10, 2),
+      ADD COLUMN IF NOT EXISTS payment_due_date DATE,
+      ADD COLUMN IF NOT EXISTS last_payment_at TIMESTAMPTZ,
+      ADD COLUMN IF NOT EXISTS whatsapp_reminders_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+      ADD COLUMN IF NOT EXISTS whatsapp_consent_note TEXT,
+      ADD COLUMN IF NOT EXISTS whatsapp_consent_recorded_at TIMESTAMPTZ
+  `);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS membership_payments (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      member_id UUID NOT NULL REFERENCES gym_members(id) ON DELETE CASCADE,
+      amount NUMERIC(10, 2) NOT NULL CHECK (amount > 0),
+      covered_due_date DATE NOT NULL,
+      paid_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      recorded_by UUID REFERENCES users(id) ON DELETE SET NULL
+    )
+  `);
+  await pool.query('CREATE INDEX IF NOT EXISTS membership_payments_member_paid_idx ON membership_payments (member_id, paid_at DESC)');
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS membership_reminders (
+      member_id UUID NOT NULL REFERENCES gym_members(id) ON DELETE CASCADE,
+      covered_due_date DATE NOT NULL,
+      reminder_type TEXT NOT NULL DEFAULT 'before_due' CHECK (reminder_type = 'before_due'),
+      attempt_count INTEGER NOT NULL DEFAULT 0 CHECK (attempt_count BETWEEN 0 AND 3),
+      next_attempt_at TIMESTAMPTZ,
+      last_error TEXT,
+      provider_message_id TEXT,
+      sent_at TIMESTAMPTZ,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      PRIMARY KEY (member_id, covered_due_date, reminder_type)
+    )
   `);
   await pool.query(`
     CREATE TABLE IF NOT EXISTS routine_templates (
@@ -232,12 +300,19 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
   if (!email || !PIN_PATTERN.test(pin)) return res.status(400).json({ error: 'Introduce un PIN de exactamente 4 dígitos.' });
 
   const { rows } = await pool.query(
-    'SELECT id, email, full_name, password_hash, role, is_active FROM users WHERE email = $1',
-    [email],
+    `SELECT u.id, u.email, u.full_name, u.password_hash, u.role, u.is_active,
+            (u.role = 'user' AND m.monthly_fee IS NOT NULL AND m.payment_due_date IS NOT NULL
+              AND m.payment_due_date + 5 <= (NOW() AT TIME ZONE $2)::date) AS payment_blocked
+       FROM users u LEFT JOIN gym_members m ON m.user_id = u.id
+      WHERE u.email = $1`,
+    [email, billingTimeZone],
   );
   const user = rows[0];
   if (!user || !user.is_active || !(await bcrypt.compare(pin, user.password_hash))) {
     return res.status(401).json({ error: 'Correo o PIN incorrectos.' });
+  }
+  if (user.payment_blocked) {
+    return res.status(403).json({ error: 'Acceso suspendido por una cuota pendiente desde hace cinco días. Contacta con el gimnasio cuando hayas realizado el pago.' });
   }
 
   await writeAuditLog(user.id, 'login', 'user', user.id);
@@ -380,9 +455,13 @@ app.post('/api/users', authenticate, authorize('admin'), async (req, res) => {
   }
 });
 
-app.get('/api/members', authenticate, authorize('admin', 'monitor'), async (_req, res) => {
+app.get('/api/members', authenticate, authorize('admin', 'monitor'), async (req, res) => {
   const { rows } = await pool.query(
     `SELECT m.id, m.membership_number, m.phone, m.objective, m.level, m.status,
+            m.monthly_fee, m.payment_due_date::text, m.last_payment_at,
+            m.whatsapp_reminders_enabled, m.whatsapp_consent_note, m.whatsapp_consent_recorded_at,
+            (m.monthly_fee IS NOT NULL AND m.payment_due_date IS NOT NULL
+              AND m.payment_due_date + 5 <= (NOW() AT TIME ZONE $1)::date) AS payment_blocked,
             m.assigned_routine_id, m.assigned_routine_title,
             u.id AS user_id, u.full_name, u.email,
             COUNT(w.id)::INTEGER AS completed_workouts_count
@@ -391,6 +470,7 @@ app.get('/api/members', authenticate, authorize('admin', 'monitor'), async (_req
        LEFT JOIN workout_sessions w ON w.user_id = m.user_id AND w.finished_at IS NOT NULL
       GROUP BY m.id, u.id
       ORDER BY u.full_name NULLS LAST, m.created_at DESC`,
+    [billingTimeZone],
   );
   res.json({ members: rows.map((member) => ({
     id: member.id,
@@ -405,8 +485,206 @@ app.get('/api/members', authenticate, authorize('admin', 'monitor'), async (_req
     fullName: member.full_name || 'Socio sin nombre',
     email: member.email || '',
     completedWorkoutsCount: member.completed_workouts_count || 0,
+    monthlyFee: member.monthly_fee === null ? undefined : Number(member.monthly_fee),
+    paymentDueDate: member.payment_due_date || undefined,
+    lastPaymentAt: member.last_payment_at || undefined,
+    whatsappRemindersEnabled: member.whatsapp_reminders_enabled === true,
+    whatsappConsentNote: req.user.role === 'admin' ? member.whatsapp_consent_note || undefined : undefined,
+    whatsappConsentRecordedAt: req.user.role === 'admin' ? member.whatsapp_consent_recorded_at || undefined : undefined,
+    paymentBlocked: member.payment_blocked === true,
     enrollmentDate: new Date().toISOString(),
   })) });
+});
+
+app.get('/api/admin/whatsapp-settings', authenticate, authorize('admin'), (_req, res) => {
+  const configured = isWhatsAppConfigured();
+  return res.json({
+    configured,
+    templateName: configured ? process.env.WHATSAPP_TEMPLATE_NAME : null,
+  });
+});
+
+app.patch('/api/members/:memberId', authenticate, authorize('admin'), async (req, res) => {
+  const memberId = String(req.params.memberId || '').trim();
+  const fullName = String(req.body?.fullName || '').trim();
+  const email = String(req.body?.email || '').trim().toLowerCase();
+  const phone = String(req.body?.memberProfile?.phone || '').trim();
+  const objective = String(req.body?.memberProfile?.objective || '');
+  const level = String(req.body?.memberProfile?.level || '');
+  const newPin = String(req.body?.newPin || '');
+  const phoneDigits = phone.replace(/\D/g, '');
+
+  if (!fullName || fullName.length > 120) return res.status(400).json({ error: 'Introduce un nombre válido (máximo 120 caracteres).' });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+    return res.status(400).json({ error: 'Introduce un correo electrónico válido.' });
+  }
+  if (phone && (phoneDigits.length < 6 || phoneDigits.length > 15)) {
+    return res.status(400).json({ error: 'Introduce un teléfono válido o déjalo vacío.' });
+  }
+  if (!validObjectives.has(objective) || !validLevels.has(level)) {
+    return res.status(400).json({ error: 'El objetivo o nivel de entrenamiento no es válido.' });
+  }
+  if (newPin && !PIN_PATTERN.test(newPin)) {
+    return res.status(400).json({ error: 'El nuevo PIN debe tener exactamente 4 dígitos.' });
+  }
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const memberResult = await client.query(
+      'SELECT m.id, m.user_id, u.id AS linked_user_id, u.role, u.email, u.full_name '
+        + 'FROM gym_members m LEFT JOIN users u ON u.id = m.user_id '
+        + 'WHERE m.id = $1 FOR UPDATE OF m',
+      [memberId],
+    );
+    const member = memberResult.rows[0];
+    if (!member) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ error: 'No se encontró el socio.' });
+    }
+    if (!member.linked_user_id || member.role !== 'user') {
+      await client.query('ROLLBACK');
+      return res.status(409).json({ error: 'Este socio no tiene una cuenta de Usuario asociada.' });
+    }
+
+    const passwordHash = newPin ? await bcrypt.hash(newPin, 12) : null;
+    await client.query(
+      'UPDATE users SET full_name = $1, email = $2, '
+        + 'password_hash = COALESCE($3, password_hash), updated_at = NOW() WHERE id = $4',
+      [fullName, email, passwordHash, member.linked_user_id],
+    );
+    await client.query(
+      'UPDATE gym_members SET whatsapp_reminders_enabled = CASE WHEN phone IS DISTINCT FROM $1 '
+        + 'THEN FALSE ELSE whatsapp_reminders_enabled END, '
+        + 'phone = $1, objective = $2, level = $3, updated_at = NOW() WHERE id = $4',
+      [phone || null, objective, level, memberId],
+    );
+    await client.query(
+      'INSERT INTO audit_log (actor_user_id, action, target_type, target_id, metadata) '
+        + 'VALUES ($1, $2, $3, $4, $5)',
+      [req.user.id, 'update', 'member', memberId, {
+        emailChanged: email !== member.email,
+        fullNameChanged: fullName !== member.full_name,
+        pinChanged: Boolean(newPin),
+      }],
+    );
+    await client.query('COMMIT');
+    return res.json({ ok: true });
+  } catch (error) {
+    await client.query('ROLLBACK').catch(() => undefined);
+    if (error.code === '23505') return res.status(409).json({ error: 'Ya existe una cuenta con ese correo electrónico.' });
+    throw error;
+  } finally {
+    client.release();
+  }
+});
+
+app.patch('/api/members/:memberId/membership', authenticate, authorize('admin'), async (req, res) => {
+  const memberId = String(req.params.memberId || '').trim();
+  const monthlyFee = Number(req.body?.monthlyFee);
+  const normalizedMonthlyFee = Math.round(monthlyFee * 100) / 100;
+  const paymentDueDate = String(req.body?.paymentDueDate || '').trim();
+  const whatsappRemindersEnabled = req.body?.whatsappRemindersEnabled === true;
+  const whatsappConsentNote = String(req.body?.whatsappConsentNote || '').trim();
+  const parsedDueDate = new Date(paymentDueDate + 'T00:00:00.000Z');
+  if (!Number.isFinite(monthlyFee) || normalizedMonthlyFee < 0.01 || normalizedMonthlyFee > 10000) {
+    return res.status(400).json({ error: 'Introduce una cuota mensual válida (entre 0,01 € y 10.000 €).' });
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(paymentDueDate)
+    || Number.isNaN(parsedDueDate.getTime())
+    || parsedDueDate.toISOString().slice(0, 10) !== paymentDueDate) {
+    return res.status(400).json({ error: 'Introduce una fecha de vencimiento válida.' });
+  }
+  if (whatsappRemindersEnabled) {
+    if (whatsappConsentNote.length < 5 || whatsappConsentNote.length > 200) {
+      return res.status(400).json({ error: 'Indica cómo y cuándo autorizó el socio los avisos por WhatsApp (5 a 200 caracteres).' });
+    }
+    const phoneResult = await pool.query('SELECT phone FROM gym_members WHERE id = $1', [memberId]);
+    if (!phoneResult.rowCount) return res.status(404).json({ error: 'No se encontró el socio.' });
+    if (!String(phoneResult.rows[0].phone || '').trim()) {
+      return res.status(409).json({ error: 'Añade un teléfono al socio antes de activar sus avisos.' });
+    }
+  }
+  const result = await pool.query(
+    'UPDATE gym_members SET monthly_fee = $1, payment_due_date = $2, whatsapp_reminders_enabled = $3, '
+      + 'whatsapp_consent_note = CASE WHEN $3 THEN $4 ELSE whatsapp_consent_note END, '
+      + 'whatsapp_consent_recorded_at = CASE WHEN $3 AND (whatsapp_reminders_enabled IS FALSE OR whatsapp_consent_note IS DISTINCT FROM $4) '
+      + 'THEN NOW() ELSE whatsapp_consent_recorded_at END, updated_at = NOW() WHERE id = $5',
+    [normalizedMonthlyFee, paymentDueDate, whatsappRemindersEnabled, whatsappConsentNote, memberId],
+  );
+  if (!result.rowCount) return res.status(404).json({ error: 'No se encontró el socio.' });
+  await writeAuditLog(req.user.id, 'update_membership', 'member', memberId, {
+    monthlyFee: normalizedMonthlyFee,
+    paymentDueDate,
+    whatsappRemindersEnabled,
+    consentEvidenceRecorded: whatsappRemindersEnabled && Boolean(whatsappConsentNote),
+  });
+  return res.json({ ok: true });
+});
+
+app.get('/api/members/:memberId/payments', authenticate, authorize('admin'), async (req, res) => {
+  const memberId = String(req.params.memberId || '').trim();
+  const memberResult = await pool.query('SELECT id FROM gym_members WHERE id = $1', [memberId]);
+  if (!memberResult.rowCount) return res.status(404).json({ error: 'No se encontró el socio.' });
+  const { rows } = await pool.query(
+    'SELECT amount, covered_due_date::text AS covered_due_date, paid_at '
+      + 'FROM membership_payments WHERE member_id = $1 ORDER BY paid_at DESC LIMIT 24',
+    [memberId],
+  );
+  return res.json({ payments: rows.map((payment) => ({
+    amount: Number(payment.amount),
+    coveredDueDate: payment.covered_due_date,
+    paidAt: payment.paid_at,
+  })) });
+});
+
+app.post('/api/members/:memberId/payments', authenticate, authorize('admin'), async (req, res) => {
+  const memberId = String(req.params.memberId || '').trim();
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const memberResult = await client.query(
+      'SELECT monthly_fee, payment_due_date::text FROM gym_members WHERE id = $1 FOR UPDATE',
+      [memberId],
+    );
+    const member = memberResult.rows[0];
+    if (!member) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ error: 'No se encontró el socio.' });
+    }
+    if (!member.monthly_fee || !member.payment_due_date) {
+      await client.query('ROLLBACK');
+      return res.status(409).json({ error: 'Configura primero la cuota mensual y su vencimiento.' });
+    }
+    const paymentResult = await client.query(
+      'INSERT INTO membership_payments (member_id, amount, covered_due_date, recorded_by) '
+        + 'VALUES ($1, $2, $3, $4) RETURNING paid_at',
+      [memberId, member.monthly_fee, member.payment_due_date, req.user.id],
+    );
+    const updatedResult = await client.query(
+      "UPDATE gym_members SET last_payment_at = NOW(), payment_due_date = (payment_due_date + INTERVAL '1 month')::date, updated_at = NOW() "
+        + 'WHERE id = $1 RETURNING payment_due_date::text',
+      [memberId],
+    );
+    await client.query(
+      'INSERT INTO audit_log (actor_user_id, action, target_type, target_id, metadata) VALUES ($1, $2, $3, $4, $5)',
+      [req.user.id, 'record_membership_payment', 'member', memberId, {
+        amount: Number(member.monthly_fee),
+        coveredDueDate: member.payment_due_date,
+      }],
+    );
+    await client.query('COMMIT');
+    return res.json({ payment: {
+      amount: Number(member.monthly_fee),
+      paidAt: paymentResult.rows[0].paid_at,
+      paymentDueDate: updatedResult.rows[0].payment_due_date,
+    } });
+  } catch (error) {
+    await client.query('ROLLBACK').catch(() => undefined);
+    throw error;
+  } finally {
+    client.release();
+  }
 });
 
 app.get('/api/routine-templates', authenticate, authorize('admin', 'monitor'), async (_req, res) => {
@@ -562,6 +840,105 @@ app.post('/api/workouts', authenticate, async (req, res) => {
   res.status(201).json({ workout: rows[0] });
 });
 
+const processMembershipReminders = async () => {
+  if (!isWhatsAppConfigured()) return;
+  const dueDate = addDaysToDateOnly(dateInBillingTimeZone(), 2);
+  const client = await pool.connect();
+  let hasAdvisoryLock = false;
+  try {
+    const lockResult = await client.query('SELECT pg_try_advisory_lock(1279701098, 2) AS locked');
+    hasAdvisoryLock = lockResult.rows[0]?.locked === true;
+    if (!hasAdvisoryLock) return;
+
+    const { rows } = await client.query(
+      "SELECT m.id, m.phone, m.monthly_fee, m.payment_due_date::text AS due_date, COALESCE(u.full_name, 'socio') AS full_name "
+        + 'FROM gym_members m LEFT JOIN users u ON u.id = m.user_id '
+        + 'WHERE m.whatsapp_reminders_enabled IS TRUE AND m.whatsapp_consent_recorded_at IS NOT NULL '
+        + 'AND NULLIF(BTRIM(m.whatsapp_consent_note), $1) IS NOT NULL '
+        + 'AND m.phone IS NOT NULL AND m.phone <> $1 AND u.is_active IS TRUE '
+        + "AND m.payment_due_date = $2::date AND m.monthly_fee IS NOT NULL AND m.status = 'activo'",
+      ['', dueDate],
+    );
+
+    for (const member of rows) {
+      try {
+        await client.query('BEGIN');
+        const currentResult = await client.query(
+          'SELECT phone, monthly_fee, payment_due_date::text AS due_date, whatsapp_reminders_enabled, '
+            + 'whatsapp_consent_note, whatsapp_consent_recorded_at, status, full_name, users.is_active '
+            + 'FROM gym_members LEFT JOIN users ON users.id = gym_members.user_id '
+            + 'WHERE gym_members.id = $1 FOR UPDATE OF gym_members',
+          [member.id],
+        );
+        const currentMember = currentResult.rows[0];
+        if (!currentMember
+          || currentMember.due_date !== member.due_date
+          || currentMember.whatsapp_reminders_enabled !== true
+          || !String(currentMember.whatsapp_consent_note || '').trim()
+          || !currentMember.whatsapp_consent_recorded_at
+          || !String(currentMember.phone || '').trim()
+          || currentMember.is_active !== true
+          || currentMember.status !== 'activo') {
+          await client.query('ROLLBACK');
+          continue;
+        }
+
+        const attemptResult = await client.query(
+          `INSERT INTO membership_reminders
+             (member_id, covered_due_date, reminder_type, attempt_count, next_attempt_at)
+           VALUES ($1, $2::date, 'before_due', 1, NOW() + INTERVAL '15 minutes')
+           ON CONFLICT (member_id, covered_due_date, reminder_type) DO UPDATE
+             SET attempt_count = membership_reminders.attempt_count + 1,
+                 next_attempt_at = NOW() + INTERVAL '15 minutes',
+                 last_error = NULL
+           WHERE membership_reminders.sent_at IS NULL
+             AND membership_reminders.attempt_count < 3
+             AND (membership_reminders.next_attempt_at IS NULL OR membership_reminders.next_attempt_at <= NOW())
+           RETURNING attempt_count`,
+          [member.id, member.due_date],
+        );
+        if (!attemptResult.rowCount) {
+          await client.query('ROLLBACK');
+          continue;
+        }
+
+        try {
+          const providerMessageId = await sendMembershipReminder({
+            phone: currentMember.phone,
+            fullName: currentMember.full_name || 'socio',
+            monthlyFee: Number(currentMember.monthly_fee),
+            dueDate: formatDateForMember(currentMember.due_date),
+          });
+          await client.query(
+            'UPDATE membership_reminders SET sent_at = NOW(), provider_message_id = $3, next_attempt_at = NULL, last_error = NULL '
+              + 'WHERE member_id = $1 AND covered_due_date = $2::date AND reminder_type = $4',
+            [member.id, member.due_date, providerMessageId, 'before_due'],
+          );
+          await client.query('COMMIT');
+        } catch (error) {
+          const message = String(error instanceof Error ? error.message : 'Error de envío').slice(0, 500);
+          await client.query(
+            'UPDATE membership_reminders '
+              + 'SET last_error = $3, next_attempt_at = CASE WHEN attempt_count < 3 THEN NOW() + INTERVAL \'15 minutes\' ELSE NULL END '
+              + 'WHERE member_id = $1 AND covered_due_date = $2::date AND reminder_type = $4',
+            [member.id, member.due_date, message, 'before_due'],
+          );
+          await client.query('COMMIT');
+          console.warn(`No se pudo enviar recordatorio de cuota al socio ${member.id}: ${message}`);
+        }
+      } catch (error) {
+        await client.query('ROLLBACK').catch(() => undefined);
+        console.error(`No se pudo procesar el recordatorio del socio ${member.id}:`, error);
+      }
+    }
+  } catch (error) {
+    console.error('No se pudieron procesar los recordatorios de cuotas:', error);
+  } finally {
+    if (hasAdvisoryLock) await client.query('SELECT pg_advisory_unlock(1279701098, 2)').catch(() => undefined);
+    client.release();
+  }
+};
+
 app.use((error, _req, res, _next) => {
   console.error(error);
   res.status(500).json({ error: 'Error interno del servidor.' });
@@ -571,7 +948,13 @@ const start = async () => {
   await pool.query('SELECT 1');
   await runMigrations();
   await bootstrapAdmin();
+  if (!isWhatsAppConfigured()) {
+    console.info('Avisos de cuota por WhatsApp desactivados: falta configurar WhatsApp Cloud API y su plantilla.');
+  }
   app.listen(port, () => console.log(`PersonalGim API escuchando en el puerto ${port}`));
+  const reminderTimer = setInterval(() => void processMembershipReminders(), 15 * 60 * 1000);
+  reminderTimer.unref?.();
+  void processMembershipReminders();
 };
 
 start().catch((error) => {

@@ -19,6 +19,12 @@ CREATE TABLE IF NOT EXISTS gym_members (
   objective TEXT,
   level TEXT,
   status TEXT NOT NULL DEFAULT 'activo' CHECK (status IN ('activo', 'inactivo', 'pendiente')),
+  monthly_fee NUMERIC(10, 2) CHECK (monthly_fee IS NULL OR monthly_fee > 0),
+  payment_due_date DATE,
+  last_payment_at TIMESTAMPTZ,
+  whatsapp_reminders_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+  whatsapp_consent_note TEXT,
+  whatsapp_consent_recorded_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -26,6 +32,39 @@ CREATE TABLE IF NOT EXISTS gym_members (
 ALTER TABLE gym_members
   ADD COLUMN IF NOT EXISTS assigned_routine_id TEXT,
   ADD COLUMN IF NOT EXISTS assigned_routine_title TEXT;
+
+ALTER TABLE gym_members
+  ADD COLUMN IF NOT EXISTS monthly_fee NUMERIC(10, 2),
+  ADD COLUMN IF NOT EXISTS payment_due_date DATE,
+  ADD COLUMN IF NOT EXISTS last_payment_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS whatsapp_reminders_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+  ADD COLUMN IF NOT EXISTS whatsapp_consent_note TEXT,
+  ADD COLUMN IF NOT EXISTS whatsapp_consent_recorded_at TIMESTAMPTZ;
+
+CREATE TABLE IF NOT EXISTS membership_payments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  member_id UUID NOT NULL REFERENCES gym_members(id) ON DELETE CASCADE,
+  amount NUMERIC(10, 2) NOT NULL CHECK (amount > 0),
+  covered_due_date DATE NOT NULL,
+  paid_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  recorded_by UUID REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS membership_payments_member_paid_idx
+  ON membership_payments (member_id, paid_at DESC);
+
+CREATE TABLE IF NOT EXISTS membership_reminders (
+  member_id UUID NOT NULL REFERENCES gym_members(id) ON DELETE CASCADE,
+  covered_due_date DATE NOT NULL,
+  reminder_type TEXT NOT NULL DEFAULT 'before_due' CHECK (reminder_type = 'before_due'),
+  attempt_count INTEGER NOT NULL DEFAULT 0 CHECK (attempt_count BETWEEN 0 AND 3),
+  next_attempt_at TIMESTAMPTZ,
+  last_error TEXT,
+  provider_message_id TEXT,
+  sent_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (member_id, covered_due_date, reminder_type)
+);
 
 CREATE TABLE IF NOT EXISTS workout_sessions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

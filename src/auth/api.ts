@@ -121,6 +121,76 @@ export const getGymMembersRequest = async (token: string): Promise<GymMember[]> 
   return Array.isArray(data.members) ? data.members : [];
 };
 
+export const updateGymMemberRequest = async (
+  token: string,
+  memberId: string,
+  payload: {
+    fullName: string;
+    email: string;
+    phone: string;
+    objective: GymMember['objective'];
+    level: GymMember['level'];
+    newPin?: string;
+  },
+): Promise<void> => {
+  const response = await fetch(endpoint('/members/' + encodeURIComponent(memberId)), {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+    body: JSON.stringify({
+      fullName: payload.fullName,
+      email: payload.email,
+      newPin: payload.newPin,
+      memberProfile: {
+        phone: payload.phone,
+        objective: payload.objective,
+        level: payload.level,
+      },
+    }),
+  });
+  await readResponse<{ ok: boolean }>(response);
+};
+
+export const updateMemberMembershipRequest = async (
+  token: string,
+  memberId: string,
+  payload: { monthlyFee: number; paymentDueDate: string; whatsappRemindersEnabled: boolean; whatsappConsentNote?: string },
+): Promise<void> => {
+  const response = await fetch(endpoint('/members/' + encodeURIComponent(memberId) + '/membership'), {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+    body: JSON.stringify(payload),
+  });
+  await readResponse<{ ok: boolean }>(response);
+};
+
+export const recordMemberPaymentRequest = async (
+  token: string,
+  memberId: string,
+): Promise<{ payment: { amount: number; paidAt: string; paymentDueDate: string } }> => {
+  const response = await fetch(endpoint('/members/' + encodeURIComponent(memberId) + '/payments'), {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + token },
+  });
+  return readResponse<{ payment: { amount: number; paidAt: string; paymentDueDate: string } }>(response);
+};
+
+export interface MembershipPaymentRecord {
+  amount: number;
+  coveredDueDate: string;
+  paidAt: string;
+}
+
+export const getMemberPaymentsRequest = async (
+  token: string,
+  memberId: string,
+): Promise<MembershipPaymentRecord[]> => {
+  const response = await fetch(endpoint('/members/' + encodeURIComponent(memberId) + '/payments'), {
+    headers: { Authorization: 'Bearer ' + token },
+  });
+  const data = await readResponse<{ payments: MembershipPaymentRecord[] }>(response);
+  return Array.isArray(data.payments) ? data.payments : [];
+};
+
 export const getRoutineTemplatesRequest = async (token: string): Promise<RoutineTemplate[]> => {
   const response = await fetch(endpoint('/routine-templates'), { headers: { Authorization: `Bearer ${token}` } });
   const data = await readResponse<{ templates: RoutineTemplate[] }>(response);
@@ -158,6 +228,16 @@ export interface AiProviderSettings {
   configured: boolean;
   updatedAt: string | null;
 }
+
+export interface WhatsAppReminderSettings {
+  configured: boolean;
+  templateName: string | null;
+}
+
+export const getWhatsAppReminderSettingsRequest = async (token: string): Promise<WhatsAppReminderSettings> => {
+  const response = await fetch(endpoint('/admin/whatsapp-settings'), { headers: { Authorization: `Bearer ${token}` } });
+  return readResponse<WhatsAppReminderSettings>(response);
+};
 
 export const getAiProviderSettingsRequest = async (token: string): Promise<AiProviderSettings> => {
   const response = await fetch(endpoint('/admin/ai-settings'), { headers: { Authorization: `Bearer ${token}` } });

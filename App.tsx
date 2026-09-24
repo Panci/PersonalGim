@@ -6,6 +6,7 @@ import {
   StatusBar,
   ActivityIndicator,
   Platform,
+  Text,
   TouchableOpacity,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -57,6 +58,7 @@ function AppShell() {
   const [isLoading, setIsLoading] = useState(true);
   const [showRoutineDetail, setShowRoutineDetail] = useState(false);
   const [showAccountSettings, setShowAccountSettings] = useState(false);
+  const isAdminInMemberMode = session?.user.role === 'admin' && currentRole === 'member';
 
   // Config modal state
   const [configModal, setConfigModal] = useState<{
@@ -167,7 +169,7 @@ function AppShell() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {session && currentRole === 'member' && (activeTab !== 'entreno' || showRoutineDetail) && !isWorkoutActive && (
+      {session && currentRole === 'member' && (activeTab !== 'entreno' || showRoutineDetail) && !isWorkoutActive && !isAdminInMemberMode && (
         <TouchableOpacity
           style={styles.accountButton}
           onPress={() => setShowAccountSettings(true)}
@@ -175,6 +177,33 @@ function AppShell() {
         >
           <Ionicons name="person-circle-outline" size={25} color={COLORS.primary} />
         </TouchableOpacity>
+      )}
+
+      {isAdminInMemberMode && !isWorkoutActive && (
+        <View style={styles.adminReturnBar}>
+          <TouchableOpacity
+            style={styles.adminReturnButton}
+            onPress={() => setCurrentRole('admin')}
+            accessibilityRole="button"
+            accessibilityLabel="Volver al panel administrador"
+          >
+            <Ionicons name="arrow-back" size={16} color={COLORS.primary} />
+            <Ionicons name="settings-outline" size={16} color={COLORS.primary} />
+            <View>
+              <Text style={styles.adminReturnTitle}>Panel administrador</Text>
+              <Text style={styles.adminReturnSubtitle}>Volver a gestión de socios</Text>
+            </View>
+          </TouchableOpacity>
+          {(activeTab !== 'entreno' || showRoutineDetail) && (
+            <TouchableOpacity
+              style={styles.adminBarAccountButton}
+              onPress={() => setShowAccountSettings(true)}
+              accessibilityLabel="Mi cuenta"
+            >
+              <Ionicons name="person-circle-outline" size={22} color={COLORS.primary} />
+            </TouchableOpacity>
+          )}
+        </View>
       )}
 
       {/* Active screen. Reserve space so it is never hidden by the fixed tabs. */}
@@ -252,6 +281,48 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(28,28,30,0.92)',
     borderWidth: 1,
     borderColor: '#3A3A40',
+  },
+  adminReturnBar: {
+    minHeight: 50,
+    paddingHorizontal: 14,
+    paddingTop: 8,
+    paddingBottom: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#000000',
+  },
+  adminReturnButton: {
+    minHeight: 38,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(22, 201, 91, 0.38)',
+    backgroundColor: 'rgba(22, 201, 91, 0.10)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+  },
+  adminBarAccountButton: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(28,28,30,0.92)',
+    borderWidth: 1,
+    borderColor: '#3A3A40',
+  },
+  adminReturnTitle: {
+    color: COLORS.primary,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  adminReturnSubtitle: {
+    color: '#A1A1A6',
+    fontSize: 10,
+    marginTop: 1,
   },
   loadingContainer: {
     flex: 1,
