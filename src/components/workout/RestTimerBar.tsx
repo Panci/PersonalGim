@@ -38,7 +38,7 @@ export const primeRestTimerAudio = (): void => {
   } catch {}
 };
 
-const playBeep = (freq = 880, duration = 0.12, delay = 0) => {
+const playBeep = (freq = 880, duration = 0.12, delay = 0, volume = 0.65) => {
   const ctx = getWebAudioContext();
   if (!ctx) return;
 
@@ -46,10 +46,13 @@ const playBeep = (freq = 880, duration = 0.12, delay = 0) => {
     const scheduleTone = () => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.type = 'sine';
+      // A square tone cuts through music more clearly than the old quiet sine.
+      osc.type = 'square';
       const startAt = ctx.currentTime + delay;
       osc.frequency.setValueAtTime(freq, startAt);
-      gain.gain.setValueAtTime(0.2, startAt);
+      gain.gain.setValueAtTime(0.001, startAt);
+      gain.gain.linearRampToValueAtTime(volume, startAt + 0.008);
+      gain.gain.setValueAtTime(volume, startAt + duration - 0.025);
       gain.gain.exponentialRampToValueAtTime(0.001, startAt + duration);
       osc.connect(gain);
       gain.connect(ctx.destination);
@@ -67,9 +70,9 @@ const playBeep = (freq = 880, duration = 0.12, delay = 0) => {
 
 const playFinishAlert = () => {
   // A three-tone signal is easier to hear on a phone than one long beep.
-  playBeep(880, 0.18, 0);
-  playBeep(1_100, 0.18, 0.24);
-  playBeep(880, 0.4, 0.48);
+  playBeep(1_000, 0.2, 0, 0.85);
+  playBeep(1_300, 0.2, 0.26, 0.85);
+  playBeep(1_000, 0.5, 0.52, 0.85);
 
   // Add haptic feedback where the browser or native runtime exposes it.
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
@@ -131,7 +134,7 @@ export const RestTimerBar: React.FC = () => {
       lastBeepedSecondRef.current !== restSecondsLeft
     ) {
       lastBeepedSecondRef.current = restSecondsLeft;
-      playBeep(restSecondsLeft === 1 ? 760 : 560, 0.12);
+      playBeep(restSecondsLeft === 1 ? 1_000 : 750, 0.16);
     }
 
     if (previousSeconds === 1 && restSecondsLeft === 0 && !skippedTimerRef.current) {

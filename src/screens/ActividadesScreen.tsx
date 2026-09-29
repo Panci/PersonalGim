@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -60,7 +60,13 @@ export const ActividadesScreen: React.FC = () => {
     history,
     setActiveTab,
     startQuickWorkout,
+    syncWorkouts,
+    workoutSyncStatus,
   } = useWorkoutStore();
+
+  useEffect(() => {
+    void syncWorkouts();
+  }, [syncWorkouts]);
 
   const [selectedSessionDetail, setSelectedSessionDetail] = useState<WorkoutSession | null>(null);
 
@@ -155,6 +161,12 @@ export const ActividadesScreen: React.FC = () => {
       </View>
 
       <ScrollView style={styles.scrollArea} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        {workoutSyncStatus === 'error' && (
+          <TouchableOpacity onPress={() => void syncWorkouts()} accessibilityRole="button"
+            style={{ marginBottom: 14, padding: 14, borderRadius: 12, backgroundColor: '#33221F' }}>
+            <Text style={{ color: '#FFFFFF', fontWeight: '700' }}>No se pudo sincronizar el historial. Toca para reintentar.</Text>
+          </TouchableOpacity>
+        )}
         {/* Resumen de la rutina recién terminada */}
         {latestSession && (
           <TouchableOpacity

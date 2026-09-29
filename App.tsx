@@ -51,6 +51,7 @@ function AppShell() {
     setCurrentRole,
     isWorkoutActive,
     loadSharedGymData,
+    syncWorkouts,
   } = useWorkoutStore();
   const { session, isRestoring } = useAuth();
 
@@ -85,13 +86,14 @@ function AppShell() {
   }, []);
 
   useEffect(() => {
-    if (!session) return;
+    if (!session || isLoading) return;
     setCurrentRole(session.user.role === 'user' ? 'member' : session.user.role);
     void syncRoutines().catch((error) => console.warn('Error synchronizing routines:', error));
+    void syncWorkouts();
     if (session.user.role === 'admin' || session.user.role === 'monitor') {
       void loadSharedGymData().catch((error) => console.warn('Error loading shared gym data:', error));
     }
-  }, [session, setCurrentRole, syncRoutines, loadSharedGymData]);
+  }, [session, isLoading, setCurrentRole, syncRoutines, syncWorkouts, loadSharedGymData]);
 
   if (isLoading || isRestoring) {
     return (

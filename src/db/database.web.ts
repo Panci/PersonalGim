@@ -6,11 +6,13 @@ import {
   INITIAL_EXERCISES,
 } from './initialData';
 import { withExerciseGuidance } from '../data/exerciseGuidance';
+import { summarizeRoutineSets } from '../utils/routineProgress';
 
 type LocalState = {
   version: 2 | 3;
   exercises: Exercise[];
   collections: RoutineCollection[];
+  routineSyncPending?: boolean;
   workouts: WorkoutSession[];
   measurements: BodyMeasurementRecord[];
   targetWeightKg: number | null;
@@ -28,6 +30,7 @@ const defaults = (): LocalState => ({
   version: 3,
   exercises: clone(INITIAL_EXERCISES),
   collections: [],
+  routineSyncPending: false,
   workouts: [],
   measurements: [],
   targetWeightKg: null,
@@ -106,6 +109,8 @@ export const toggleFavoriteInDb = (exerciseId: string): boolean => {
 export const addCustomExerciseToDb = (exercise: Exercise): void => { load(); state.exercises = replaceById(state.exercises, exercise); persist(); };
 
 export const getCollectionsFromDb = (): RoutineCollection[] => { load(); return clone(state.collections); };
+export const getRoutineSyncPendingFromDb = (): boolean => { load(); return state.routineSyncPending === true; };
+export const setRoutineSyncPendingInDb = (pending: boolean): void => { load(); state.routineSyncPending = pending; persist(); };
 export const replaceCollectionsInDb = (collections: RoutineCollection[]): void => {
   load();
   state.collections = clone(collections);
@@ -127,7 +132,10 @@ export const updateRoutineDayExerciseSets = (dayId: string, routineExerciseId: s
   const day = state.collections.flatMap(collection => collection.days).find(item => item.id === dayId);
   const exercise = day?.exercises.find(item => item.id === routineExerciseId);
   if (!exercise) { console.warn('Routine exercise does not belong to the provided day'); return; }
-  exercise.defaultSets = clone(newSets); exercise.targetSets = newSets.length; exercise.targetRestSeconds = restSeconds;
+  exercise.defaultSets = clone(newSets.map((set) => ({ ...set, isCompleted: false })));
+  exercise.targetSets = newSets.length;
+  Object.assign(exercise, summarizeRoutineSets(newSets));
+  exercise.targetRestSeconds = restSeconds;
   persist();
 };
 

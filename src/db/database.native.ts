@@ -8,11 +8,13 @@ import {
   INITIAL_EXERCISES,
 } from './initialData';
 import { withExerciseGuidance } from '../data/exerciseGuidance';
+import { summarizeRoutineSets } from '../utils/routineProgress';
 
 let db: SQLite.SQLiteDatabase | null = null;
 const clone = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 let fallbackExercises: Exercise[] = clone(INITIAL_EXERCISES);
 let fallbackCollections: RoutineCollection[] = [];
+let fallbackRoutineSyncPending = false;
 let fallbackWorkouts: WorkoutSession[] = [];
 let fallbackBodyMeasurements: BodyMeasurementRecord[] = [];
 let fallbackTargetWeightKg: number | null = null;
@@ -152,6 +154,19 @@ export const getCollectionsFromDb = (): RoutineCollection[] => {
   const database = getDb(); if (!database) return clone(fallbackCollections);
   try { return database.getAllSync<any>('SELECT * FROM routine_collections ORDER BY rowid DESC').map(row => ({ id: row.id, title: row.title, subtitle: row.subtitle || undefined, imageUrl: row.imageUrl || undefined, days: database.getAllSync<any>('SELECT * FROM routine_days WHERE collectionId = ? ORDER BY rowid', [row.id]).map(day => readRoutineDay(database, day)) })); } catch (error) { console.warn('Unable to read routines', error); return []; }
 };
+export const getRoutineSyncPendingFromDb = (): boolean => {
+  const database = getDb();
+  if (!database) return fallbackRoutineSyncPending;
+  try { return database.getFirstSync<{ value: string }>('SELECT value FROM user_preferences WHERE key = ?', ['routineSyncPending'])?.value === 'true'; }
+  catch (error) { console.warn('Unable to read routine sync state', error); return fallbackRoutineSyncPending; }
+};
+export const setRoutineSyncPendingInDb = (pending: boolean): void => {
+  fallbackRoutineSyncPending = pending;
+  const database = getDb();
+  if (!database) return;
+  try { database.runSync('INSERT OR REPLACE INTO user_preferences (key, value) VALUES (?, ?)', ['routineSyncPending', String(pending)]); }
+  catch (error) { console.warn('Unable to save routine sync state', error); }
+};
 export const replaceCollectionsInDb = (collections: RoutineCollection[]): void => {
   const database = getDb();
   if (!database) { fallbackCollections = clone(collections); return; }
@@ -188,8 +203,10 @@ export const updateRoutineDayNameInDb = (dayId: string, name: string): void => {
 };
 export const updateRoutineDayExerciseSets = (dayId: string, routineExerciseId: string, newSets: ExerciseSet[], restSeconds: number): void => {
   const database = getDb();
-  if (!database) { for (const collection of fallbackCollections) { const item = collection.days.find(day => day.id === dayId)?.exercises.find(exercise => exercise.id === routineExerciseId); if (item) { item.defaultSets = clone(newSets); item.targetSets = newSets.length; item.targetRestSeconds = restSeconds; } } return; }
-  try { database.withTransactionSync(() => { const found = database.getFirstSync<{ id: string }>('SELECT id FROM routine_exercises WHERE id = ? AND routineDayId = ?', [routineExerciseId, dayId]); if (!found) throw new Error('Routine exercise does not belong to day'); database.runSync('UPDATE routine_exercises SET targetSets = ?, targetRestSeconds = ? WHERE id = ?', [newSets.length, restSeconds, routineExerciseId]); database.runSync('DELETE FROM routine_exercise_sets WHERE routineExerciseId = ?', [routineExerciseId]); for (const set of newSets) database.runSync('INSERT INTO routine_exercise_sets (id, routineExerciseId, sourceSetId, setNumber, type, reps, weightKg, rpe, isCompleted, restSeconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [setStorageId(routineExerciseId, set), routineExerciseId, set.id, set.setNumber, set.type, set.reps, set.weightKg, nullable(set.rpe), set.isCompleted ? 1 : 0, nullable(set.restSeconds)]); }); } catch (error) { console.warn('Unable to update routine sets', error); }
+  const targets = summarizeRoutineSets(newSets);
+  const plannedSets = newSets.map((set) => ({ ...set, isCompleted: false }));
+  if (!database) { for (const collection of fallbackCollections) { const item = collection.days.find(day => day.id === dayId)?.exercises.find(exercise => exercise.id === routineExerciseId); if (item) { item.defaultSets = clone(plannedSets); item.targetSets = plannedSets.length; item.targetRepRange = targets.targetRepRange; item.targetWeightRange = targets.targetWeightRange; item.targetRestSeconds = restSeconds; } } return; }
+  try { database.withTransactionSync(() => { const found = database.getFirstSync<{ id: string }>('SELECT id FROM routine_exercises WHERE id = ? AND routineDayId = ?', [routineExerciseId, dayId]); if (!found) throw new Error('Routine exercise does not belong to day'); database.runSync('UPDATE routine_exercises SET targetSets = ?, targetRepRange = ?, targetWeightRange = ?, targetRestSeconds = ? WHERE id = ?', [plannedSets.length, targets.targetRepRange, targets.targetWeightRange, restSeconds, routineExerciseId]); database.runSync('DELETE FROM routine_exercise_sets WHERE routineExerciseId = ?', [routineExerciseId]); for (const set of plannedSets) database.runSync('INSERT INTO routine_exercise_sets (id, routineExerciseId, sourceSetId, setNumber, type, reps, weightKg, rpe, isCompleted, restSeconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [setStorageId(routineExerciseId, set), routineExerciseId, set.id, set.setNumber, set.type, set.reps, set.weightKg, nullable(set.rpe), 0, nullable(set.restSeconds)]); }); } catch (error) { console.warn('Unable to update routine sets', error); }
 };
 
 export const updateRoutineDayExerciseOrderInDb = (dayId: string, orderedExerciseIds: string[]): boolean => {
@@ -230,7 +247,26 @@ export const getWorkoutStatsFromDb = (range: StatsTimeRange): WorkoutStats => {
   return { trainingTimeFormatted: `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m`, trainingTimeSeconds: totalTimeSeconds, totalKcal, totalExercises: exercises.length, totalSets: sets.length, totalReps: sets.reduce((sum, set) => sum + set.reps, 0), totalVolumeKg, completedWorkoutsCount: workouts.length, muscleFrequency };
 };
 
-export const saveCustomRoutineToDb = (collection: RoutineCollection): void => { const database = getDb(); if (!database) { fallbackCollections = [clone(collection), ...fallbackCollections.filter(item => item.id !== collection.id)]; return; } try { database.withTransactionSync(() => saveRoutine(database, collection)); } catch (error) { console.warn('Unable to save routine', error); } };
+export const saveCustomRoutineToDb = (collection: RoutineCollection): void => {
+  const database = getDb();
+  if (!database) {
+    fallbackCollections = [clone(collection), ...fallbackCollections.filter(item => item.id !== collection.id)];
+    return;
+  }
+  try {
+    database.withTransactionSync(() => {
+      const dayIds = database.getAllSync<{ id: string }>('SELECT id FROM routine_days WHERE collectionId = ?', [collection.id]).map((row) => row.id);
+      for (const dayId of dayIds) {
+        const exerciseIds = database.getAllSync<{ id: string }>('SELECT id FROM routine_exercises WHERE routineDayId = ?', [dayId]).map((row) => row.id);
+        for (const exerciseId of exerciseIds) database.runSync('DELETE FROM routine_exercise_sets WHERE routineExerciseId = ?', [exerciseId]);
+        database.runSync('DELETE FROM routine_exercises WHERE routineDayId = ?', [dayId]);
+      }
+      database.runSync('DELETE FROM routine_days WHERE collectionId = ?', [collection.id]);
+      database.runSync('DELETE FROM routine_collections WHERE id = ?', [collection.id]);
+      saveRoutine(database, collection);
+    });
+  } catch (error) { console.warn('Unable to save routine', error); }
+};
 export const updateRoutineCollectionDetailsInDb = (collectionId: string, title: string, subtitle?: string): void => {
   const database = getDb();
   if (!database) {

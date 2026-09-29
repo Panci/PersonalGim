@@ -180,6 +180,8 @@ const runMigrations = async () => {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `);
+  await pool.query('ALTER TABLE workout_sessions ADD COLUMN IF NOT EXISTS client_id TEXT');
+  await pool.query('CREATE UNIQUE INDEX IF NOT EXISTS workout_sessions_user_client_idx ON workout_sessions (user_id, client_id) WHERE client_id IS NOT NULL');
   await pool.query(`
     ALTER TABLE gym_members
       ADD COLUMN IF NOT EXISTS assigned_routine_id TEXT,
@@ -784,7 +786,7 @@ app.post('/api/members/:memberId/assign-routine', authenticate, authorize('admin
 
 app.get('/api/workouts', authenticate, async (req, res) => {
   const { rows } = await pool.query(
-    'SELECT * FROM workout_sessions WHERE user_id = $1 ORDER BY started_at DESC LIMIT 100',
+    'SELECT * FROM workout_sessions WHERE user_id = $1 ORDER BY started_at DESC',
     [req.user.id],
   );
   res.json({ workouts: rows });
@@ -816,17 +818,21 @@ app.put('/api/routines', authenticate, async (req, res) => {
 
 app.post('/api/workouts', authenticate, async (req, res) => {
   const body = req.body || {};
+  const clientId = typeof body.clientId === 'string' ? body.clientId.trim() : '';
+  if (clientId.length > 200) return res.status(400).json({ error: 'Identificador de entrenamiento no válido.' });
   const name = String(body.name || '').trim();
   const startedAt = new Date(body.startedAt);
   if (!name || Number.isNaN(startedAt.getTime())) return res.status(400).json({ error: 'Entrenamiento no válido.' });
 
   const { rows } = await pool.query(
     `INSERT INTO workout_sessions
-      (user_id, routine_id, name, started_at, finished_at, duration_seconds, total_kcal, total_volume_kg, exercises)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      (user_id, client_id, routine_id, name, started_at, finished_at, duration_seconds, total_kcal, total_volume_kg, exercises)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+     ON CONFLICT (user_id, client_id) WHERE client_id IS NOT NULL DO NOTHING
      RETURNING *`,
     [
       req.user.id,
+      clientId || null,
       body.routineId || null,
       name,
       startedAt.toISOString(),
@@ -837,7 +843,12 @@ app.post('/api/workouts', authenticate, async (req, res) => {
       Array.isArray(body.exercises) ? body.exercises : [],
     ],
   );
-  res.status(201).json({ workout: rows[0] });
+  if (rows[0]) return res.status(201).json({ workout: rows[0] });
+  const existing = await pool.query(
+    'SELECT * FROM workout_sessions WHERE user_id = $1 AND client_id = $2',
+    [req.user.id, clientId],
+  );
+  res.json({ workout: existing.rows[0] });
 });
 
 const processMembershipReminders = async () => {

@@ -614,13 +614,16 @@ app.put('/api/routines', authenticate, async (req, res) => {
 app.get('/api/workouts', authenticate, (req, res) => {
   const workouts = state.workouts
     .filter((workout) => workout.userId === req.user.id)
-    .sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime())
-    .slice(0, 100);
+    .sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
   res.json({ workouts });
 });
 
 app.post('/api/workouts', authenticate, async (req, res) => {
   const body = req.body || {};
+  const clientId = typeof body.clientId === 'string' ? body.clientId.trim() : '';
+  if (clientId.length > 200) return res.status(400).json({ error: 'Identificador de entrenamiento no válido.' });
+  const existing = clientId && state.workouts.find((workout) => workout.userId === req.user.id && workout.clientId === clientId);
+  if (existing) return res.json({ workout: existing });
   const name = String(body.name || '').trim();
   const startedAt = new Date(body.startedAt);
   if (!name || Number.isNaN(startedAt.getTime())) return res.status(400).json({ error: 'Entrenamiento no válido.' });
@@ -628,6 +631,7 @@ app.post('/api/workouts', authenticate, async (req, res) => {
   const workout = {
     id: crypto.randomUUID(),
     userId: req.user.id,
+    clientId: clientId || null,
     routineId: body.routineId || null,
     name,
     startedAt: startedAt.toISOString(),

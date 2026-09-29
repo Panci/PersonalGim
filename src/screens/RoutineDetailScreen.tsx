@@ -36,6 +36,8 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
     addExerciseToRoutineDay,
     removeExerciseFromRoutineDay,
     moveExerciseInRoutineDay,
+    routineSyncStatus,
+    syncRoutines,
   } = useWorkoutStore();
 
   const collection = selectedCollection;
@@ -107,6 +109,12 @@ export const RoutineDetailScreen: React.FC<RoutineDetailScreenProps> = ({
         </View>
 
         <ScrollView style={styles.scrollArea} contentContainerStyle={styles.dayScrollContent}>
+          {routineSyncStatus === 'error' && (
+            <TouchableOpacity onPress={() => void syncRoutines().catch(() => undefined)}
+              accessibilityRole="button" style={{ padding: 12, borderRadius: 10, backgroundColor: '#33221F', marginBottom: 12 }}>
+              <Text style={{ color: '#FFFFFF', fontWeight: '700' }}>Cambios guardados en este dispositivo. Toca para sincronizar.</Text>
+            </TouchableOpacity>
+          )}
           {/* Day Title & Badge */}
           <View style={styles.dayTitleRow}>
             <View style={[styles.dayBadgePill, { backgroundColor: badgeColor }]}>

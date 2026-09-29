@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS membership_reminders (
 CREATE TABLE IF NOT EXISTS workout_sessions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  client_id TEXT,
   routine_id TEXT,
   name TEXT NOT NULL,
   started_at TIMESTAMPTZ NOT NULL,
@@ -82,6 +83,8 @@ CREATE TABLE IF NOT EXISTS workout_sessions (
 
 CREATE INDEX IF NOT EXISTS workout_sessions_user_started_idx
   ON workout_sessions (user_id, started_at DESC);
+CREATE UNIQUE INDEX IF NOT EXISTS workout_sessions_user_client_idx
+  ON workout_sessions (user_id, client_id) WHERE client_id IS NOT NULL;
 
 -- Routines belong to the signed-in user rather than to a browser. Keeping the
 -- complete routine document in JSONB lets the mobile and web clients evolve

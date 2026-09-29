@@ -79,6 +79,7 @@ export const saveWorkoutRequest = async (token: string, workout: WorkoutSession)
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
+      clientId: workout.id,
       routineId: workout.routineId,
       name: workout.name,
       startedAt: workout.startTime,
@@ -90,6 +91,45 @@ export const saveWorkoutRequest = async (token: string, workout: WorkoutSession)
     }),
   });
   await readResponse<{ workout: unknown }>(response);
+};
+
+type ServerWorkout = {
+  id: string;
+  clientId?: string | null;
+  client_id?: string | null;
+  routineId?: string | null;
+  routine_id?: string | null;
+  name: string;
+  startedAt?: string;
+  started_at?: string;
+  finishedAt?: string | null;
+  finished_at?: string | null;
+  durationSeconds?: number | string;
+  duration_seconds?: number | string;
+  totalKcal?: number | string;
+  total_kcal?: number | string;
+  totalVolumeKg?: number | string;
+  total_volume_kg?: number | string;
+  exercises: WorkoutSession['exercises'];
+};
+
+export const getWorkoutsRequest = async (token: string): Promise<WorkoutSession[]> => {
+  const response = await fetch(endpoint('/workouts'), {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await readResponse<{ workouts: ServerWorkout[] }>(response);
+  return (data.workouts || []).map((workout) => ({
+    id: workout.clientId || workout.client_id || workout.id,
+    routineId: workout.routineId || workout.routine_id || undefined,
+    name: workout.name,
+    startTime: workout.startedAt || workout.started_at || '',
+    endTime: workout.finishedAt || workout.finished_at || undefined,
+    durationSeconds: Number(workout.durationSeconds ?? workout.duration_seconds ?? 0),
+    totalKcal: Number(workout.totalKcal ?? workout.total_kcal ?? 0),
+    totalVolumeKg: Number(workout.totalVolumeKg ?? workout.total_volume_kg ?? 0),
+    exercises: Array.isArray(workout.exercises) ? workout.exercises : [],
+    isCompleted: Boolean(workout.finishedAt || workout.finished_at),
+  }));
 };
 
 export const getRoutinesRequest = async (token: string): Promise<RoutineCollection[]> => {

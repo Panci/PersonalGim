@@ -25,6 +25,8 @@ import {
   toggleFavoriteInDb,
   addCustomExerciseToDb,
   getCollectionsFromDb,
+  getRoutineSyncPendingFromDb,
+  setRoutineSyncPendingInDb,
   replaceCollectionsInDb,
   getRoutineDayDetailFromDb,
   updateRoutineDayNameInDb,
@@ -50,6 +52,7 @@ import {
 import { createId } from '../utils/ids';
 import { isMembershipPaymentBlocked } from '../utils/membershipBilling';
 import { withExerciseGuidance } from '../data/exerciseGuidance';
+import { applyWorkoutToRoutine } from '../utils/routineProgress';
 import { getAuthToken } from '../auth/authStorage';
 import {
   assignRoutineTemplateRequest,
@@ -57,6 +60,7 @@ import {
   getGymMembersRequest,
   getRoutineTemplatesRequest,
   getRoutinesRequest,
+  getWorkoutsRequest,
   saveRoutinesRequest,
   saveWorkoutRequest,
 } from '../auth/api';
@@ -88,15 +92,27 @@ const isValidSetValue = (value: number, max: number): boolean =>
 // session, mirror the whole routine catalogue to their account as well so a
 // browser restart, a cleared cache, or another device cannot lose it.
 let routineSyncChain: Promise<void> = Promise.resolve();
+let workoutSyncInFlight = false;
+let workoutSyncQueued = false;
 const syncCollectionsToServer = (): void => {
+  setRoutineSyncPendingInDb(true);
+  useWorkoutStore.setState({ routineSyncStatus: 'syncing' });
   routineSyncChain = routineSyncChain
     .catch(() => undefined)
     .then(async () => {
-    const token = await getAuthToken();
-    if (!token) return;
-    await saveRoutinesRequest(token, getCollectionsFromDb());
+      const token = await getAuthToken();
+      if (!token) throw new Error('Inicia sesión para sincronizar la rutina.');
+      const snapshot = getCollectionsFromDb();
+      await saveRoutinesRequest(token, snapshot);
+      if (JSON.stringify(snapshot) === JSON.stringify(getCollectionsFromDb())) {
+        setRoutineSyncPendingInDb(false);
+      }
+      useWorkoutStore.setState({ routineSyncStatus: getRoutineSyncPendingFromDb() ? 'syncing' : 'idle' });
     });
-  void routineSyncChain.catch((error) => console.warn('Unable to sync routines to the server', error));
+  void routineSyncChain.catch((error) => {
+    console.warn('Unable to sync routines to the server', error);
+    useWorkoutStore.setState({ routineSyncStatus: 'error' });
+  });
 };
 
 
@@ -144,6 +160,7 @@ interface WorkoutStoreState {
   setShowCreateRoutineModal: (show: boolean) => void;
   saveNewCustomRoutine: (routine: RoutineCollection) => void;
   syncRoutines: () => Promise<void>;
+  routineSyncStatus: 'idle' | 'syncing' | 'error';
   updateRoutineCollectionDetails: (routineId: string, title: string, subtitle?: string) => void;
   deleteCustomRoutine: (routineId: string) => void;
   routineTemplates: RoutineTemplate[];
@@ -223,6 +240,8 @@ interface WorkoutStoreState {
   setStatsRange: (range: StatsTimeRange) => void;
   stats: WorkoutStats;
   history: WorkoutSession[];
+  workoutSyncStatus: 'idle' | 'syncing' | 'error';
+  syncWorkouts: () => Promise<void>;
   loadInitialData: () => Promise<void>;
 }
 
@@ -454,6 +473,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     syncCollectionsToServer();
   },
   routineTemplates: [],
+  routineSyncStatus: 'idle',
   loadSharedGymData: async () => {
     const token = await getAuthToken();
     if (!token) return;
@@ -485,32 +505,29 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     }));
   },
   syncRoutines: async () => {
-    const token = await getAuthToken();
-    if (!token) return;
-
-    const remoteCollections = await getRoutinesRequest(token);
-    const localCollections = getCollectionsFromDb();
-
-    if (remoteCollections.length === 0) {
-      if (localCollections.length > 0) await saveRoutinesRequest(token, localCollections);
-      return;
-    }
-
-    // Retain any unsynced local routine while preferring its newer local
-    // version for the same id. This safely migrates routines created before
-    // this server-backed storage was introduced.
-    const remoteById = new Map(remoteCollections.map((routine) => [routine.id, routine]));
-    const mergedCollections = [
-      ...localCollections,
-      ...remoteCollections.filter((routine) => !localCollections.some((local) => local.id === routine.id)),
-    ];
-    const hasLocalChanges = localCollections.some(
-      (routine) => JSON.stringify(remoteById.get(routine.id)) !== JSON.stringify(routine)
-    );
-    replaceCollectionsInDb(mergedCollections);
-    set({ collections: [...mergedCollections] });
-    if (hasLocalChanges || mergedCollections.length !== remoteCollections.length) {
-      await saveRoutinesRequest(token, mergedCollections);
+    set({ routineSyncStatus: 'syncing' });
+    try {
+      const token = await getAuthToken();
+      if (!token) throw new Error('Inicia sesión para sincronizar las rutinas.');
+      await routineSyncChain.catch(() => undefined);
+      const remoteCollections = await getRoutinesRequest(token);
+      const localCollections = getCollectionsFromDb();
+      if (getRoutineSyncPendingFromDb()) {
+        await saveRoutinesRequest(token, localCollections);
+        setRoutineSyncPendingInDb(false);
+        set({ collections: localCollections, routineSyncStatus: 'idle' });
+        return;
+      }
+      if (remoteCollections.length === 0) {
+        if (localCollections.length > 0) await saveRoutinesRequest(token, localCollections);
+        set({ routineSyncStatus: 'idle' });
+        return;
+      }
+      replaceCollectionsInDb(remoteCollections);
+      set({ collections: getCollectionsFromDb(), routineSyncStatus: 'idle' });
+    } catch (error) {
+      set({ routineSyncStatus: 'error' });
+      throw error;
     }
   },
 
@@ -657,9 +674,10 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
   activeWorkout: null,
   isWorkoutActive: false,
   startWorkoutFromDay: (day) => {
+    const routineDay = getRoutineDayDetailFromDb(day.id) || day;
     const exercisesList = get().exercises;
     const workoutId = createId('workout');
-    const workoutExercises: WorkoutExerciseLog[] = day.exercises.map((re, idx) => {
+    const workoutExercises: WorkoutExerciseLog[] = routineDay.exercises.map((re, idx) => {
       const exObj = exercisesList.find((e) => e.id === re.exerciseId);
       return {
         id: createId('w-log'),
@@ -682,11 +700,11 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
 
     const session: WorkoutSession = {
       id: workoutId,
-      routineId: day.id,
-      name: day.name,
+      routineId: routineDay.id,
+      name: routineDay.name,
       startTime: new Date().toISOString(),
       durationSeconds: 0,
-      totalKcal: day.estimatedCalories || 400,
+      totalKcal: routineDay.estimatedCalories || 400,
       totalVolumeKg: 0,
       exercises: workoutExercises,
       isCompleted: false,
@@ -889,16 +907,18 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     };
 
     saveWorkoutLogToDb(completedSession);
-    // Local persistence keeps the app usable offline; when signed in, the same
-    // completed session is also sent to PostgreSQL for the user's history.
-    void (async () => {
-      try {
-        const token = await getAuthToken();
-        if (token) await saveWorkoutRequest(token, completedSession);
-      } catch (error) {
-        console.warn('No se pudo sincronizar el entrenamiento con el servidor.', error);
-      }
-    })();
+    const collectionsBefore = getCollectionsFromDb();
+    if (collectionsBefore.some((collection) => collection.days.some((day) => day.id === completedSession.routineId))) {
+      const nextCollections = applyWorkoutToRoutine(collectionsBefore, completedSession);
+      replaceCollectionsInDb(nextCollections);
+      const savedCollections = getCollectionsFromDb();
+      const selectedId = get().selectedCollection?.id;
+      set({
+        collections: savedCollections,
+        selectedCollection: savedCollections.find((collection) => collection.id === selectedId) || null,
+      });
+      syncCollectionsToServer();
+    }
     const updatedStats = getWorkoutStatsFromDb(get().statsRange);
     const updatedHistory = getWorkoutHistoryFromDb();
 
@@ -910,6 +930,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       activeTab: 'actividades',
     });
     get().stopRestTimer();
+    void get().syncWorkouts();
   },
   cancelActiveWorkout: () => {
     set({
@@ -963,6 +984,55 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
   },
   stats: getWorkoutStatsFromDb('7d'),
   history: [],
+  workoutSyncStatus: 'idle',
+  syncWorkouts: async () => {
+    if (workoutSyncInFlight) {
+      workoutSyncQueued = true;
+      return;
+    }
+    workoutSyncInFlight = true;
+    set({ workoutSyncStatus: 'syncing' });
+    try {
+      const token = await getAuthToken();
+      if (!token) {
+        set({ workoutSyncStatus: 'idle' });
+        return;
+      }
+      const remote = await getWorkoutsRequest(token);
+      const local = getWorkoutHistoryFromDb().filter((workout) => workout.isCompleted);
+      const sameWorkout = (first: WorkoutSession, second: WorkoutSession) =>
+        first.id === second.id || (first.startTime === second.startTime && first.name === second.name);
+
+      // A completed workout may have been kept only on this device while it was
+      // offline. Upload it before importing the server history.
+      for (const workout of local) {
+        if (!remote.some((item) => sameWorkout(item, workout))) {
+          await saveWorkoutRequest(token, workout);
+        }
+      }
+      const synced = await getWorkoutsRequest(token);
+      const currentLocal = getWorkoutHistoryFromDb();
+      for (const workout of synced) {
+        if (!currentLocal.some((item) => sameWorkout(item, workout))) {
+          saveWorkoutLogToDb(workout);
+        }
+      }
+      set({
+        history: getWorkoutHistoryFromDb(),
+        stats: getWorkoutStatsFromDb(get().statsRange),
+        workoutSyncStatus: 'idle',
+      });
+    } catch (error) {
+      console.warn('No se pudo sincronizar el historial de entrenamientos.', error);
+      set({ workoutSyncStatus: 'error' });
+    } finally {
+      workoutSyncInFlight = false;
+      if (workoutSyncQueued) {
+        workoutSyncQueued = false;
+        void get().syncWorkouts();
+      }
+    }
+  },
 
   // Initial loader
   loadInitialData: async () => {

@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
   TextInput,
+  AppState,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
@@ -41,6 +42,7 @@ export const ActiveWorkoutModal: React.FC = () => {
   const [showPlateCalc, setShowPlateCalc] = useState(false);
   const [calcWeight, setCalcWeight] = useState(60);
   const [showExercisePicker, setShowExercisePicker] = useState(false);
+  const [showFinishConfirmation, setShowFinishConfirmation] = useState(false);
   const [exerciseQuery, setExerciseQuery] = useState('');
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [showExerciseVideo, setShowExerciseVideo] = useState(false);
@@ -83,8 +85,22 @@ export const ActiveWorkoutModal: React.FC = () => {
 
     void enableKeepAwake();
 
+    // Browsers release the screen wake lock when another app or tab takes
+    // focus. Request a fresh lock when this workout becomes visible again.
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') void enableKeepAwake();
+    };
+    if (Platform.OS === 'web') {
+      document.addEventListener('visibilitychange', onVisibilityChange);
+    }
+    const appStateSubscription = Platform.OS === 'web' ? null : AppState.addEventListener('change', (state) => {
+      if (state === 'active') void enableKeepAwake();
+    });
+
     return () => {
       disposed = true;
+      if (Platform.OS === 'web') document.removeEventListener('visibilitychange', onVisibilityChange);
+      appStateSubscription?.remove();
       void deactivateKeepAwake(KEEP_AWAKE_TAG).catch(() => undefined);
     };
   }, [isWorkoutActive]);
@@ -100,6 +116,12 @@ export const ActiveWorkoutModal: React.FC = () => {
   };
 
   const handleFinish = () => {
+    commitCellEdit();
+    setShowFinishConfirmation(true);
+  };
+
+  const confirmFinish = () => {
+    setShowFinishConfirmation(false);
     finishActiveWorkout();
   };
 
@@ -315,8 +337,7 @@ export const ActiveWorkoutModal: React.FC = () => {
                 <Text style={[styles.colLabel, { width: 36, textAlign: 'center' }]}>SERIE</Text>
                 <Text style={[styles.colLabel, { flex: 1, textAlign: 'center' }]}>PESO (KG)</Text>
                 <Text style={[styles.colLabel, { flex: 1, textAlign: 'center' }]}>REPETICIONES</Text>
-                <Text style={[styles.colLabel, { width: 44, textAlign: 'center' }]}>EST. 1RM</Text>
-                <Text style={[styles.colLabel, { width: 48, textAlign: 'center' }]}>LISTO</Text>
+                <Text style={[styles.colLabel, { width: 70, textAlign: 'center' }]}>LISTO</Text>
                 <View style={{ width: 28 }} />
               </View>
 
@@ -329,21 +350,15 @@ export const ActiveWorkoutModal: React.FC = () => {
                     key={s.id}
                     style={[styles.setRow, s.isCompleted && styles.setRowCompleted]}
                   >
+                    <View style={styles.setRowMain}>
                     {/* Set Number */}
                     <View style={styles.setNumBadge}>
                       <Text style={styles.setNumText}>{s.setNumber}</Text>
                     </View>
 
-                    {/* Weight Stepper */}
-                    <View style={styles.miniStepper}>
-                      <TouchableOpacity
-                        style={styles.miniStepBtn}
-                        onPress={() => updateSetValues(exIndex, sIndex, s.reps, Math.max(0, s.weightKg - 2.5))}
-                      >
-                        <Ionicons name="remove" size={14} color="#8E8E93" />
-                      </TouchableOpacity>
+                    {/* Direct keyboard entry for weight and repetitions. */}
                       <TextInput
-                        style={styles.miniValueInput}
+                        style={[styles.setValueInput, editingCell?.exerciseIndex === exIndex && editingCell.setIndex === sIndex && editingCell.field === 'weight' && styles.setValueInputFocused]}
                         value={
                           editingCell?.exerciseIndex === exIndex &&
                           editingCell.setIndex === sIndex &&
@@ -364,24 +379,8 @@ export const ActiveWorkoutModal: React.FC = () => {
                         selectionColor={COLORS.primary}
                         accessibilityLabel={`Peso de la serie ${s.setNumber}`}
                       />
-                      <TouchableOpacity
-                        style={styles.miniStepBtn}
-                        onPress={() => updateSetValues(exIndex, sIndex, s.reps, s.weightKg + 2.5)}
-                      >
-                        <Ionicons name="add" size={14} color="#8E8E93" />
-                      </TouchableOpacity>
-                    </View>
-
-                    {/* Reps Stepper */}
-                    <View style={styles.miniStepper}>
-                      <TouchableOpacity
-                        style={styles.miniStepBtn}
-                        onPress={() => updateSetValues(exIndex, sIndex, Math.max(1, s.reps - 1), s.weightKg)}
-                      >
-                        <Ionicons name="remove" size={14} color="#8E8E93" />
-                      </TouchableOpacity>
                       <TextInput
-                        style={styles.miniValueInput}
+                        style={[styles.setValueInput, editingCell?.exerciseIndex === exIndex && editingCell.setIndex === sIndex && editingCell.field === 'reps' && styles.setValueInputFocused]}
                         value={
                           editingCell?.exerciseIndex === exIndex &&
                           editingCell.setIndex === sIndex &&
@@ -402,18 +401,6 @@ export const ActiveWorkoutModal: React.FC = () => {
                         selectionColor={COLORS.primary}
                         accessibilityLabel={`Repeticiones de la serie ${s.setNumber}`}
                       />
-                      <TouchableOpacity
-                        style={styles.miniStepBtn}
-                        onPress={() => updateSetValues(exIndex, sIndex, s.reps + 1, s.weightKg)}
-                      >
-                        <Ionicons name="add" size={14} color="#8E8E93" />
-                      </TouchableOpacity>
-                    </View>
-
-                    {/* Estimated 1RM */}
-                    <View style={{ width: 44, alignItems: 'center' }}>
-                      <Text style={styles.est1RMText}>{est1RM}</Text>
-                    </View>
 
                     {/* Complete Checkbox */}
                     <TouchableOpacity
@@ -440,6 +427,8 @@ export const ActiveWorkoutModal: React.FC = () => {
                     >
                       <Ionicons name="remove-circle-outline" size={18} color="#FF6961" />
                     </TouchableOpacity>
+                    </View>
+                    <Text style={styles.est1RMText}>1RM estimado: {est1RM} kg</Text>
                   </View>
                 );
               })}
@@ -465,11 +454,35 @@ export const ActiveWorkoutModal: React.FC = () => {
             style={styles.finishBtn}
             onPress={handleFinish}
             activeOpacity={0.85}
+            accessibilityRole="button"
+            accessibilityLabel="Finalizar entrenamiento"
           >
-            <Ionicons name="checkmark-done" size={22} color="#FFFFFF" style={{ marginRight: 8 }} />
+            <Ionicons name="checkmark-done" size={22} color="#111111" style={{ marginRight: 8 }} />
             <Text style={styles.finishBtnText}>Finalizar Entrenamiento</Text>
           </TouchableOpacity>
         </View>
+
+        <Modal visible={showFinishConfirmation} transparent animationType="fade"
+          onRequestClose={() => setShowFinishConfirmation(false)}>
+          <View style={styles.finishConfirmationOverlay}>
+            <View style={styles.finishConfirmationCard}>
+              <Text style={styles.finishConfirmationTitle}>¿Finalizar entrenamiento?</Text>
+              <Text style={styles.finishConfirmationBody}>
+                Se guardarán las series, repeticiones y pesos de esta sesión para tu próxima rutina.
+              </Text>
+              <View style={styles.finishConfirmationActions}>
+                <TouchableOpacity style={styles.finishConfirmationCancel}
+                  onPress={() => setShowFinishConfirmation(false)} accessibilityRole="button">
+                  <Text style={styles.finishConfirmationCancelText}>Seguir entrenando</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.finishConfirmationAccept}
+                  onPress={confirmFinish} accessibilityRole="button">
+                  <Text style={styles.finishConfirmationAcceptText}>Sí, finalizar</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
 
         {/* Exercise picker */}
         <Modal
@@ -918,11 +931,13 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   setRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 9,
     borderBottomWidth: 1,
     borderBottomColor: '#222226',
+  },
+  setRowMain: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   setRowCompleted: {
     backgroundColor: 'rgba(52, 199, 89, 0.08)',
@@ -937,35 +952,34 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
   },
-  miniStepper: {
+  setValueInput: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#242428',
-    borderRadius: 8,
-    marginHorizontal: 4,
-    paddingVertical: 6,
-  },
-  miniStepBtn: {
-    padding: 4,
-  },
-  miniValueInput: {
+    minWidth: 0,
+    height: 48,
+    backgroundColor: '#111114',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#4A4A52',
+    marginHorizontal: 3,
+    paddingHorizontal: 4,
     color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '700',
-    minWidth: 42,
-    paddingVertical: 0,
-    paddingHorizontal: 0,
+    fontSize: 21,
+    fontWeight: '800',
     textAlign: 'center',
+  },
+  setValueInputFocused: {
+    borderColor: '#F97316',
+    borderWidth: 2,
   },
   est1RMText: {
     color: '#8E8E93',
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '600',
+    marginLeft: 42,
+    marginTop: 3,
   },
   checkbox: {
-    width: 82,
+    width: 70,
     height: 40,
     borderRadius: 12,
     borderWidth: 2,
@@ -1025,21 +1039,83 @@ const styles = StyleSheet.create({
   },
   finishBtn: {
     flexDirection: 'row',
-    backgroundColor: COLORS.primary,
+    backgroundColor: '#F97316',
     paddingVertical: 16,
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: COLORS.primary,
+    shadowColor: '#F97316',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
     shadowRadius: 10,
     elevation: 8,
   },
   finishBtnText: {
-    color: '#FFFFFF',
+    color: '#111111',
     fontSize: 16,
     fontWeight: '800',
+  },
+  finishConfirmationOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.78)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  finishConfirmationCard: {
+    width: '100%',
+    maxWidth: 380,
+    backgroundColor: '#242426',
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: '#49494F',
+    padding: 22,
+  },
+  finishConfirmationTitle: {
+    color: '#FFFFFF',
+    fontSize: 21,
+    fontWeight: '800',
+    marginBottom: 9,
+  },
+  finishConfirmationBody: {
+    color: '#D1D1D6',
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  finishConfirmationActions: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 22,
+  },
+  finishConfirmationCancel: {
+    flex: 1,
+    minHeight: 46,
+    borderRadius: 11,
+    backgroundColor: '#3A3A40',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 7,
+  },
+  finishConfirmationCancelText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  finishConfirmationAccept: {
+    flex: 1,
+    minHeight: 46,
+    borderRadius: 11,
+    backgroundColor: '#F97316',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 7,
+  },
+  finishConfirmationAcceptText: {
+    color: '#111111',
+    fontSize: 14,
+    fontWeight: '800',
+    textAlign: 'center',
   },
   exerciseInfoOverlay: {
     flex: 1,
