@@ -12,6 +12,14 @@ PostgreSQL no publica ningún puerto hacia Internet. Solo el contenedor `api` pu
 
 Las imágenes y vídeos de los ejercicios se sirven desde una carpeta persistente de la VPS, montada en `web` en modo lectura. No forman parte del contexto Docker ni de la exportación web. Las URLs existentes `/exercise-library/media/...` no cambian. El manifiesto y el catálogo de texto sí permanecen en Git.
 
+## Estado de producción — 1 de octubre de 2026
+
+La separación está activada en `https://personalgim.eu/` con el cambio `8c682be`. La carpeta `/opt/personalgim/exercise-library` ya contiene los 3209 recursos del catálogo y su manifiesto. La copia inicial se realizó desde la imagen web anterior mediante un Compose temporal de Dokploy, sin subir de nuevo la librería. Todos los recursos y el manifiesto se verificaron con SHA-256; el archivo `SHA256SUMS` queda en la carpeta persistente. El manifiesto coincide con el versionado (`39785b75c38d2a51e03a5d25d7a4de110f3566ef7b4467a03e9404bd250b53d8`).
+
+El entorno del servicio incluye `EXERCISE_LIBRARY_PATH=/opt/personalgim/exercise-library`. El contenedor web monta la librería en `/srv/exercise-library` en modo lectura y ya no contiene `exercise-library` dentro de `/usr/share/nginx/html`. Nginx pasó su comprobación de configuración. El código enviado al constructor Docker fue de 13,58 MB y la web exportada ocupa 10,9 MiB según `du`.
+
+Se verificaron en producción la carga de imágenes (`200`, `image/jpeg`), el vídeo (`206`, `video/mp4`, rango de 1024 bytes), un recurso inexistente (`404`) y `/health` (`200`, `status: ok`). La ficha «Cruce de Poleas Alto» cargó su imagen y reprodujo el vídeo desde la URL existente. Los cambios visuales de la prueba roja siguen siendo locales. Para los siguientes despliegues usa el procedimiento habitual; la preparación inicial siguiente solo es necesaria en otro servidor o si se restaura el almacenamiento.
+
 ## Primera separación de la librería (antes del siguiente despliegue)
 
 Haz esta preparación mientras sigue funcionando la versión actual. La nueva web exige que estén presentes todos los recursos del manifiesto y no arranca si falta alguno. No despliegues el nuevo Compose hasta completar esta copia.
