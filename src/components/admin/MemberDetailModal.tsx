@@ -147,7 +147,7 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
               <View style={styles.codeRow}>
                 <Text style={styles.codeBadge}>{member.membershipNumber}</Text>
                 <View style={[styles.statusBadge, isActive ? styles.statusActive : styles.statusInactive]}>
-                  <Text style={[styles.statusText, { color: isActive ? '#34C759' : '#FF453A' }]}>
+                  <Text style={[styles.statusText, { color: isActive ? COLORS.success : '#FF453A' }]}>
                     {member.status.toUpperCase()}
                   </Text>
                 </View>
@@ -175,7 +175,7 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
               </View>
 
               <View style={styles.kpiCard}>
-                <Ionicons name="calendar-outline" size={20} color="#34C759" />
+                <Ionicons name="calendar-outline" size={20} color={COLORS.success} />
                 <Text style={styles.kpiNum}>
                   {new Date(member.enrollmentDate).toLocaleDateString('es-ES', { month: 'short', year: '2-digit' })}
                 </Text>
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontSize: 12,
     fontWeight: '800',
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   statusActive: {
-    backgroundColor: 'rgba(52, 199, 89, 0.15)',
+    backgroundColor: COLORS.successTint(0.15),
   },
   statusInactive: {
     backgroundColor: 'rgba(255, 69, 58, 0.15)',
@@ -520,9 +520,9 @@ const styles = StyleSheet.create({
     gap: 4,
     paddingHorizontal: 10,
     borderRadius: 9,
-    backgroundColor: 'rgba(22, 201, 91, 0.12)',
+    backgroundColor: COLORS.primaryTint(0.12),
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.28)',
+    borderColor: COLORS.primaryTint(0.28),
   },
   editMemberBtnText: {
     color: COLORS.primary,
@@ -583,7 +583,7 @@ const styles = StyleSheet.create({
     borderColor: '#3A3A40',
   },
   chipActive: {
-    backgroundColor: 'rgba(22, 201, 91, 0.17)',
+    backgroundColor: COLORS.primaryTint(0.17),
     borderColor: COLORS.primary,
   },
   chipText: {
@@ -683,12 +683,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   changeRoutineBtn: {
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.3)',
+    borderColor: COLORS.primaryTint(0.3),
   },
   changeRoutineBtnText: {
     color: COLORS.primary,
@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
   btnSuccess: {
     backgroundColor: '#172C1E',
     borderWidth: 1,
-    borderColor: '#34C759',
+    borderColor: COLORS.success,
   },
   statusToggleBtnText: {
     color: '#FFFFFF',

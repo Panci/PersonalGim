@@ -149,9 +149,9 @@ export const BodyMetricsView: React.FC = () => {
               <Ionicons
                 name={weightDelta.positive ? 'arrow-up' : 'arrow-down'}
                 size={12}
-                color={weightDelta.positive ? '#34C759' : '#0A84FF'}
+                color={weightDelta.positive ? COLORS.success : '#0A84FF'}
               />
-              <Text style={[styles.deltaText, { color: weightDelta.positive ? '#34C759' : '#0A84FF' }]}>
+              <Text style={[styles.deltaText, { color: weightDelta.positive ? COLORS.success : '#0A84FF' }]}>
                 {weightDelta.text}
               </Text>
             </View>
@@ -250,7 +250,7 @@ export const BodyMetricsView: React.FC = () => {
           {(() => {
             const d = formatDelta(latest?.armRightCm, previous?.armRightCm);
             return d ? (
-              <Text style={[styles.cardDelta, { color: d.positive ? '#34C759' : '#8E8E93' }]}>
+              <Text style={[styles.cardDelta, { color: d.positive ? COLORS.success : '#8E8E93' }]}>
                 {d.isZero ? 'Estable' : `${d.text} últ. toma`}
               </Text>
             ) : null;
@@ -260,14 +260,14 @@ export const BodyMetricsView: React.FC = () => {
         {/* Card 2: Pecho */}
         <View style={styles.gridCard}>
           <View style={styles.cardTopRow}>
-            <MaterialCommunityIcons name="human" size={22} color="#4BE77C" />
+            <MaterialCommunityIcons name="human" size={22} color={COLORS.primaryLight} />
             <Text style={styles.cardLabel}>Pecho</Text>
           </View>
           <Text style={styles.cardValue}>{latest?.chestCm || '--'} <Text style={styles.cardUnit}>cm</Text></Text>
           {(() => {
             const d = formatDelta(latest?.chestCm, previous?.chestCm);
             return d ? (
-              <Text style={[styles.cardDelta, { color: d.positive ? '#34C759' : '#8E8E93' }]}>
+              <Text style={[styles.cardDelta, { color: d.positive ? COLORS.success : '#8E8E93' }]}>
                 {d.isZero ? 'Estable' : `${d.text} últ. toma`}
               </Text>
             ) : null;
@@ -284,7 +284,7 @@ export const BodyMetricsView: React.FC = () => {
           {(() => {
             const d = formatDelta(latest?.waistCm, previous?.waistCm);
             return d ? (
-              <Text style={[styles.cardDelta, { color: !d.positive ? '#34C759' : '#FF9500' }]}>
+              <Text style={[styles.cardDelta, { color: !d.positive ? COLORS.success : '#FF9500' }]}>
                 {d.isZero ? 'Estable' : `${d.text} últ. toma`}
               </Text>
             ) : null;
@@ -301,7 +301,7 @@ export const BodyMetricsView: React.FC = () => {
           {(() => {
             const d = formatDelta(latest?.thighRightCm, previous?.thighRightCm);
             return d ? (
-              <Text style={[styles.cardDelta, { color: d.positive ? '#34C759' : '#8E8E93' }]}>
+              <Text style={[styles.cardDelta, { color: d.positive ? COLORS.success : '#8E8E93' }]}>
                 {d.isZero ? 'Estable' : `${d.text} últ. toma`}
               </Text>
             ) : null;
@@ -351,7 +351,7 @@ export const BodyMetricsView: React.FC = () => {
         const comparisonColor = comparison?.direction === 'up'
           ? '#FF9500'
           : comparison?.direction === 'down'
-            ? '#34C759'
+            ? COLORS.success
             : '#8E8E93';
 
         return (
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   heroTag: {
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 6,
@@ -491,7 +491,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   deltaUp: {
-    backgroundColor: 'rgba(52, 199, 89, 0.15)',
+    backgroundColor: COLORS.successTint(0.15),
   },
   deltaDown: {
     backgroundColor: 'rgba(10, 132, 255, 0.15)',
@@ -557,7 +557,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   targetReached: {
-    color: '#34C759',
+    color: COLORS.success,
   },
   targetProgressTrack: {
     height: 6,
@@ -768,7 +768,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 149, 0, 0.14)',
   },
   historyDeltaDown: {
-    backgroundColor: 'rgba(52, 199, 89, 0.14)',
+    backgroundColor: COLORS.successTint(0.14),
   },
   historyDeltaSame: {
     backgroundColor: 'rgba(142, 142, 147, 0.14)',

@@ -6,7 +6,9 @@ RUN npm ci
 
 COPY . .
 ARG EXPO_PUBLIC_API_URL=/api
+ARG EXPO_PUBLIC_BRAND_THEME=red
 ENV EXPO_PUBLIC_API_URL=$EXPO_PUBLIC_API_URL
+ENV EXPO_PUBLIC_BRAND_THEME=$EXPO_PUBLIC_BRAND_THEME
 RUN npm run build:web
 RUN node scripts/exercise-library.mjs requirements /app/exercise-library-required.txt
 

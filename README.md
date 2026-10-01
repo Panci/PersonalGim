@@ -2,11 +2,25 @@
 
 Aplicación personal de gimnasio desarrollada con Expo.
 
+## Web y librería de ejercicios independientes
+
+`npm run build:web` exporta la aplicación sin copiar los vídeos e imágenes de `public/exercise-library/media/`. Docker también excluye estos archivos del contexto de construcción. El catálogo de ejercicios sigue incluido en la aplicación; las URLs `/exercise-library/media/...` se conservan.
+
+La librería se mantiene en `/opt/personalgim/exercise-library` en la VPS y se monta en Nginx en modo lectura. Se instala una vez y se actualiza únicamente cuando cambian los recursos, sin volver a construir la web. `npm run library:check` valida la copia local y `npm run library:pack` prepara un paquete independiente con comprobaciones SHA-256. Consulta [DEPLOYMENT.md](DEPLOYMENT.md) para la primera migración y las actualizaciones.
+
+Los recursos locales están ignorados por Git y siguen disponibles con `npm run web`. En un clon nuevo, restaura `media/` desde el paquete de la librería antes de probar ejercicios en local. El manifiesto y el catálogo de texto siguen versionados; no se reescribe el historial anterior de Git.
+
+## Marca roja
+
+La compilación Docker publica por defecto el rojo de referencia (`#FF0000`) y el logo adaptado `assets/personalgim-logo-red.png`. «Realizar», «Finalizar Entrenamiento» y su confirmación aparecen en rojo con texto blanco; «Realizada» y el fondo de su fila mantienen el verde. El peso y las repeticiones completadas usan el naranja de referencia (`#FF7E00`), y el aviso de descanso suena a cinco segundos. `EXPO_PUBLIC_BRAND_THEME=green` permite recuperar la marca verde al volver a compilar. Para desarrollo con Expo, configura `EXPO_PUBLIC_BRAND_THEME=red` en `.env.local`; ese archivo permanece ignorado.
+
 ## Historial y valores personales de las rutinas
 
 Los pesos, repeticiones y series se conservan al confirmar la edición de una serie durante el entrenamiento. La siguiente sesión utiliza esos valores con las series pendientes de realizar. Los entrenamientos finalizados se guardan en el dispositivo y se sincronizan con la cuenta; si falla la conexión, se reintenta al volver a la aplicación, recuperar la conexión web o tocar el aviso del historial. Las peticiones repetidas no duplican sesiones.
 
-El descanso emite un pitido cuando quedan diez segundos y dos pitidos al finalizar la cuenta atrás. Pausar y reanudar no repite el aviso de diez segundos; omitir el descanso no activa el aviso final.
+Durante el entrenamiento, el botón «Realizar» aparece en rojo y pasa a verde al completar la serie. Los campos de peso y repeticiones de las series completadas tienen el fondo naranja de referencia (`#FF7E00`).
+
+El descanso emite un pitido cuando quedan cinco segundos y dos pitidos al finalizar la cuenta atrás. Pausar y reanudar no repite el aviso de cinco segundos; omitir el descanso no activa el aviso final.
 
 El almacenamiento local se separa por cuenta. La primera cuenta que utiliza esta actualización conserva la copia local anterior, incluidos los entrenamientos pendientes de sincronizar. El catálogo integrado se reconstruye desde la aplicación; solo se guardan sus favoritos y los ejercicios personalizados, para dejar espacio al historial.
 

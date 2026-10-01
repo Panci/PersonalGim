@@ -6,6 +6,51 @@ const vm = require('node:vm');
 const { DatabaseSync } = require('node:sqlite');
 const ts = require('typescript');
 
+test('SQLite refreshes built-in muscle classifications without changing favorites, custom entries or routine references', async () => {
+  const connection = new DatabaseSync(':memory:');
+  const catalogue = [{ id: 'curl', name: 'Curl', primaryMuscle: 'pantorrillas', secondaryMuscles: [], equipment: 'maquina', isFavorite: false, isCustom: false }];
+  const scope = { exports: {} };
+  const warnings = [];
+  const source = ts.transpileModule(fs.readFileSync(path.join(__dirname, 'database.native.ts'), 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS },
+  }).outputText;
+  vm.runInNewContext(source, { module: scope, exports: scope.exports,
+    console: { warn: (...args) => warnings.push(args) },
+    require: (name) => {
+      if (name === 'expo-sqlite') return { openDatabaseSync: () => ({
+        execSync: (sql) => connection.exec(sql),
+        runSync: (sql, params = []) => connection.prepare(sql).run(...params),
+        getFirstSync: (sql, params = []) => connection.prepare(sql).get(...params),
+        getAllSync: (sql, params = []) => connection.prepare(sql).all(...params),
+        withTransactionSync: (callback) => { connection.exec('BEGIN'); try { callback(); connection.exec('COMMIT'); } catch (error) { connection.exec('ROLLBACK'); throw error; } },
+      }) };
+      if (name === './initialData') return { INITIAL_EXERCISES: catalogue };
+      if (name === '../data/exerciseGuidance') return { withExerciseGuidance: (exercise) => exercise };
+      if (name === '../utils/routineProgress') return {};
+      throw new Error(`Unexpected import: ${name}`);
+    },
+  });
+  try {
+    const db = scope.exports;
+    await db.initDatabase();
+    db.toggleFavoriteInDb('curl');
+    db.addCustomExerciseToDb({ ...catalogue[0], id: 'custom', isCustom: true });
+    db.saveCustomRoutineToDb({ id: 'routine', title: 'Piernas', days: [{ id: 'day', name: 'Piernas', dayBadge: 'lun', estimatedMinutes: 30, estimatedCalories: 100, exercises: [{
+      id: 'planned', routineId: 'day', exerciseId: 'curl', orderIndex: 0, targetSets: 1, targetRepRange: '10', targetWeightRange: '20', targetRestSeconds: 60, defaultSets: [],
+    }] }] });
+    catalogue[0].primaryMuscle = 'isquiotibiales';
+    catalogue[0].secondaryMuscles = ['pantorrillas'];
+    await db.initDatabase();
+    const updated = db.getExercisesFromDb().find((exercise) => exercise.id === 'curl');
+    assert.equal(updated.primaryMuscle, 'isquiotibiales');
+    assert.deepEqual(Array.from(updated.secondaryMuscles), ['pantorrillas']);
+    assert.equal(updated.isFavorite, true);
+    assert.equal(db.getExercisesFromDb().find((exercise) => exercise.id === 'custom').primaryMuscle, 'pantorrillas');
+    assert.equal(db.getRoutineDayDetailFromDb('day').exercises[0].exerciseId, 'curl');
+    assert.deepEqual(warnings, []);
+  } finally { connection.close(); }
+});
+
 test('SQLite keeps routines and pending workouts per account while preserving the previous device database', async () => {
   const databases = new Map();
   const connections = new Map();

@@ -35,6 +35,23 @@ const loadDatabase = (initialExercises = []) => {
   return scope.exports;
 };
 
+test('catalogue classification updates preserve web favorites, custom exercises and routine links', async () => {
+  saved.clear();
+  const oldExercise = { id: 'curl', name: 'Curl', primaryMuscle: 'pantorrillas', secondaryMuscles: [], equipment: 'maquina', isFavorite: false, isCustom: false };
+  const old = loadDatabase([oldExercise]);
+  await old.initDatabase();
+  old.toggleFavoriteInDb('curl');
+  old.addCustomExerciseToDb({ ...oldExercise, id: 'custom', isCustom: true });
+  old.saveCustomRoutineToDb({ id: 'routine', title: 'Mis piernas', days: [] });
+  const updated = loadDatabase([{ ...oldExercise, primaryMuscle: 'isquiotibiales', secondaryMuscles: ['pantorrillas'] }]);
+  await updated.initDatabase();
+  const exercises = updated.getExercisesFromDb();
+  assert.equal(exercises.find((exercise) => exercise.id === 'curl').primaryMuscle, 'isquiotibiales');
+  assert.equal(exercises.find((exercise) => exercise.id === 'curl').isFavorite, true);
+  assert.equal(exercises.find((exercise) => exercise.id === 'custom').primaryMuscle, 'pantorrillas');
+  assert.equal(updated.getCollectionsFromDb()[0].title, 'Mis piernas');
+});
+
 test('routine exercise edits persist after a web app restart', async () => {
   const first = loadDatabase();
   await first.initDatabase();

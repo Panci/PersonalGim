@@ -113,8 +113,8 @@ export const DigitalPassModal: React.FC = () => {
                   </View>
                 </View>
                 <View style={styles.statusBadge}>
-                  <View style={[styles.statusDot, { backgroundColor: member.status === 'activo' ? '#34C759' : '#FF453A' }]} />
-                  <Text style={[styles.statusText, { color: member.status === 'activo' ? '#34C759' : '#FF453A' }]}>
+                  <View style={[styles.statusDot, { backgroundColor: member.status === 'activo' ? COLORS.success : '#FF453A' }]} />
+                  <Text style={[styles.statusText, { color: member.status === 'activo' ? COLORS.success : '#FF453A' }]}>
                     {member.status.toUpperCase()}
                   </Text>
                 </View>
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   actionBtnSuccess: {
-    backgroundColor: '#34C759',
+    backgroundColor: COLORS.success,
   },
   actionBtnBlocked: {
     backgroundColor: '#FF453A',

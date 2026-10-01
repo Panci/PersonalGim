@@ -62,10 +62,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-04bb3bb4-e60d-4122-b1a6-771c2a4a5b59",
     "name": "Flexión Completa de Muñeca",
-    "primaryMuscle": "pectoral",
+    "primaryMuscle": "antebrazo",
     "secondaryMuscles": [
+      "pectoral",
       "triceps",
-      "antebrazo",
       "hombros",
       "abdomen",
       "oblicuos"
@@ -124,8 +124,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Press de Banca en el Suelo",
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "triceps",
-      "antebrazo"
+      "antebrazo",
+      "triceps"
     ],
     "equipment": "barra",
     "instructions": "Acuéstate de espaldas en el suelo con las piernas dobladas y los pies planos. Coloca la barra sobre tu pecho, agarrándola un poco más ancha que el ancho de los hombros. Activa tu núcleo y presiona la parte superior de tu espalda contra el suelo. Baja la barra hasta que la parte superior de tus brazos toque el suelo, manteniendo los codos a un ángulo de 45 grados con respecto a tu cuerpo. Haz una pausa breve, luego presiona la barra de nuevo hacia la posición inicial extendiendo tus brazos. Repite para el número deseado de repeticiones.",
@@ -297,8 +297,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "secondaryMuscles": [
       "triceps",
       "dorsales",
-      "hombros",
       "abdomen",
+      "hombros",
       "oblicuos"
     ],
     "equipment": "peso_corporal",
@@ -350,8 +350,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Fondos Coreanos",
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "triceps",
-      "hombros"
+      "hombros",
+      "triceps"
     ],
     "equipment": "barra",
     "instructions": "Comienza posicionándote entre barras paralelas, agarrándolas firmemente con las palmas hacia adentro. Levanta tu cuerpo del suelo enderezando los brazos, asegurándote de que tus hombros estén directamente sobre tus muñecas. Baja tu cuerpo doblando los codos hasta que tus brazos superiores estén paralelos al suelo. Al llegar al fondo de la inmersión, inclínate hacia adelante y extiende tus piernas detrás de ti, pasando a una posición horizontal. Mantén esta posición brevemente, activando tu núcleo y manteniendo una línea recta desde la cabeza hasta los talones. Regresa a la posición inicial invirtiendo el movimiento, llevando tus piernas de nuevo debajo de ti y empujando hacia arriba a través de tus brazos.",
@@ -578,8 +578,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Cruce de Poleas Alto de Rodillas",
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "triceps",
-      "hombros"
+      "hombros",
+      "triceps"
     ],
     "equipment": "polea",
     "instructions": "Coloca las poleas de una máquina de cables en una posición alta. Acopla manijas a los cables y arrodíllate en el centro de la máquina. Sujeta una manija en cada mano con los brazos extendidos hacia los lados, palmas hacia adelante. Mantén la espalda recta y el núcleo comprometido durante todo el ejercicio. Lentamente lleva tus manos juntas frente a tu pecho en un arco amplio, manteniendo una ligera flexión en los codos. Pausa brevemente cuando tus manos se encuentren, apretando los músculos del pecho. Vuelve lentamente a la posición inicial, controlando el movimiento. Repite para el número deseado de repeticiones.",
@@ -694,10 +694,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "secondaryMuscles": [
       "triceps",
       "hombros",
-      "gluteos",
+      "abductores",
       "abdomen",
-      "pantorrillas",
-      "oblicuos"
+      "gluteos",
+      "oblicuos",
+      "pantorrillas"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en una posición de plancha alta con las manos colocadas un poco más anchas que el ancho de los hombros y los pies juntos. Activa tu núcleo y mantén tu cuerpo en una línea recta desde la cabeza hasta los talones. Baja tu pecho hacia el suelo doblando los codos, manteniéndolos en un ángulo de aproximadamente 45 grados con respecto a tu cuerpo. Mientras te empujas de nuevo a la posición inicial, salta con los pies hacia los lados, más anchos que el ancho de las caderas. Inmediatamente junta los pies de nuevo mientras bajas en la siguiente repetición de flexiones. Continúa alternando entre flexiones y movimientos de jumping jack durante el número deseado de repeticiones.",
@@ -749,14 +750,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-2a1d3932-f562-437a-a7d4-96539dff07a5",
     "name": "Boxeo con saco de boxeo",
-    "primaryMuscle": "pectoral",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
-      "triceps",
+      "pectoral",
       "hombros",
-      "dorsales",
-      "abdomen",
+      "triceps",
       "oblicuos",
+      "trapecio",
+      "abdomen",
       "pantorrillas",
+      "dorsales",
       "lumbares"
     ],
     "equipment": "otro",
@@ -879,15 +882,17 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Fondos en Plancha",
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "triceps",
-      "dorsales",
-      "biceps",
       "hombros",
-      "antebrazo",
-      "abdomen",
+      "triceps",
       "lumbares",
+      "antebrazo",
+      "biceps",
+      "dorsales",
+      "abdomen",
+      "trapecio",
+      "gluteos",
       "oblicuos",
-      "gluteos"
+      "isquiotibiales"
     ],
     "equipment": "barra",
     "instructions": "Comienza en una posición de planche con las manos en el suelo, los brazos rectos y el cuerpo paralelo al suelo. Activa tu core y mantén una posición de cuerpo hueco para mantener tu cuerpo estable. Dobla lentamente los codos para bajar tu cuerpo hacia el suelo mientras mantienes las piernas elevadas y rectas. Haz una pausa breve en la parte inferior del movimiento, asegurándote de que tus codos no se abran excesivamente. Presiona con las palmas para enderezar los brazos y regresar a la posición inicial de planche. Repite el número deseado de repeticiones mientras mantienes el control durante todo el movimiento.",
@@ -1163,7 +1168,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Flexión de Escápulas",
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en una posición de plancha alta con las manos directamente debajo de los hombros y el cuerpo formando una línea recta desde la cabeza hasta los talones. Mantén los brazos rectos y activa tu núcleo para mantener la estabilidad. Sin doblar los codos, retrae las escápulas juntándolas, permitiendo que el pecho baje ligeramente. Protrae las escápulas empujándolas hacia afuera, redondeando la parte superior de la espalda y volviendo a la posición inicial. Repite el movimiento el número deseado de repeticiones, manteniendo el control en todo momento.",
@@ -1821,9 +1826,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-62df860b-c893-4883-a66c-9b7be6a6bd63",
     "name": "Pullover con Barra",
-    "primaryMuscle": "pectoral",
+    "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "dorsales",
+      "hombros",
+      "pectoral",
       "triceps"
     ],
     "equipment": "barra",
@@ -2487,9 +2493,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-73fe2fc2-e53c-4fbc-b137-1d02540c56ee",
     "name": "Estiramiento dinámico de hombros con banda elástica",
-    "primaryMuscle": "pectoral",
+    "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "hombros"
+      "pectoral"
     ],
     "equipment": "otro",
     "instructions": "Párate con los pies separados al ancho de los hombros, sosteniendo una banda de resistencia con ambas manos frente a ti. Extiende los brazos rectos frente a ti a la altura de los hombros, manteniendo una ligera tensión en la banda. Lentamente levanta los brazos por encima de la cabeza mientras mantienes la tensión en la banda, asegurándote de que los codos permanezcan ligeramente doblados. Una vez que tus brazos estén completamente extendidos por encima de la cabeza, tira suavemente de la banda para aumentar el estiramiento en los hombros. Mantén el estiramiento por un momento, luego regresa lentamente a la posición inicial bajando los brazos frente a ti. Repite el movimiento de 10 a 15 repeticiones, enfocándote en un movimiento controlado y una tensión constante.",
@@ -2711,7 +2717,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
       "lumbares",
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "otro",
     "instructions": "Comienza arrodillándote en el suelo con las rodillas separadas al ancho de las caderas Siéntate sobre tus talones para estabilizar la parte inferior de tu cuerpo. Coloca tu mano derecha detrás de la cabeza, manteniendo el codo apuntando hacia el lado. Extiende tu brazo izquierdo hacia adelante, apoyándolo en el suelo para soporte. Inhala profundamente, luego exhala mientras giras la parte superior de tu cuerpo hacia la derecha, llevando tu codo derecho hacia el techo. Mantén el estiramiento por un momento, sintiendo la rotación en la parte superior de tu espalda. Inhala mientras regresas a la posición inicial, luego repite en el lado opuesto. Realiza de 5 a 10 repeticiones en cada lado, enfocándote en movimientos suaves y controlados.",
@@ -3050,7 +3056,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Estiramiento Global",
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "dorsales",
+      "hombros",
+      "trapecio",
       "lumbares"
     ],
     "equipment": "otro",
@@ -3546,8 +3553,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Press Inclinado Convergente",
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "triceps",
-      "hombros"
+      "hombros",
+      "triceps"
     ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 30-45 grados. Siéntate en el banco con los pies planos en el suelo y la espalda firmemente contra el banco. Sujeta una mancuerna en cada mano con un agarre neutral, palmas enfrentadas. Coloca las mancuernas a la altura de los hombros, con los codos doblados aproximadamente a 90 grados. Presiona las mancuernas hacia arriba hasta que tus brazos estén completamente extendidos, manteniendo las muñecas rectas. Haz una pausa breve en la parte superior del movimiento, asegurándote de no bloquear los codos. Baja lentamente las mancuernas de nuevo a la posición inicial, manteniendo el control. Repite para el número deseado de repeticiones.",
@@ -3603,13 +3610,13 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Plancha inclinada",
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
+      "hombros",
       "triceps",
       "biceps",
-      "hombros",
       "abdomen",
-      "dorsales",
-      "antebrazo",
       "lumbares",
+      "antebrazo",
+      "dorsales",
       "oblicuos"
     ],
     "equipment": "peso_corporal",
@@ -3926,9 +3933,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "pectoral",
     "secondaryMuscles": [
       "hombros",
-      "triceps",
       "abdomen",
-      "oblicuos"
+      "oblicuos",
+      "triceps"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en una posición de plancha alta con las manos directamente debajo de los hombros y el cuerpo formando una línea recta desde la cabeza hasta los talones. Activa tu núcleo para estabilizar tu cuerpo y evitar que las caderas se balanceen. Levanta tu mano derecha del suelo y toca tu hombro izquierdo, manteniendo el cuerpo lo más quieto posible. Regresa tu mano derecha a la posición inicial e inmediatamente levanta tu mano izquierda para tocar tu hombro derecho. Continúa alternando los toques durante el número deseado de repeticiones o tiempo.",
@@ -5488,9 +5495,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-fc730971-57d7-458f-bc9a-6217c728fd83",
     "name": "Laterales Poliquin",
-    "primaryMuscle": "pectoral",
+    "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "hombros"
+      "pectoral"
     ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 30-45 grados. Siéntate en el banco y sujeta una mancuerna en cada mano con un agarre neutral (palmas enfrentadas). Recuéstate en el banco, manteniendo los pies planos en el suelo y la espalda presionada contra el banco. Extiende los brazos por encima del pecho con una ligera flexión en los codos. Baja las mancuernas lentamente en un movimiento en arco hacia los lados hasta que sientas un estiramiento en el pecho. Pausa brevemente en la parte inferior del movimiento, asegurando que la tensión permanezca en el pecho. Lleva las mancuernas de vuelta a la posición inicial apretando los músculos del pecho. Repite para el número deseado de repeticiones.",
@@ -5658,6 +5665,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
+      "trapecio",
       "triceps"
     ],
     "equipment": "polea",
@@ -5714,9 +5722,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
+      "trapecio",
+      "hombros",
       "triceps",
-      "hombros"
+      "antebrazo",
+      "biceps"
     ],
     "equipment": "barra",
     "instructions": "Párate debajo de una barra de dominadas y alcánzala con un agarre por encima, con las manos un poco más anchas que el ancho de los hombros. Activa tu núcleo y mantén tu cuerpo recto mientras cuelgas de la barra con los brazos completamente extendidos. Inicia el movimiento tirando de tus omóplatos hacia abajo y hacia atrás, luego tira de tu cuerpo hacia arriba doblando los codos. Continúa tirando hasta que tu barbilla esté por encima de la barra, manteniendo el pecho abierto y los hombros alejados de las orejas. Pausa brevemente en la parte superior del movimiento, luego baja lentamente a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -5771,6 +5781,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
+      "trapecio",
       "triceps"
     ],
     "equipment": "barra",
@@ -5827,7 +5838,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-081d6aee-e878-4d7e-adda-925768ebf2bc",
     "name": "Remo con Mancuerna a un Brazo Inclinado para Escápula",
     "primaryMuscle": "dorsales",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "trapecio"
+    ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies separados al ancho de los hombros, sosteniendo una mancuerna en una mano. Dobla ligeramente las rodillas y flexiona las caderas para inclinarte hacia adelante, manteniendo la espalda recta y el núcleo comprometido. Deja que el brazo que sostiene la mancuerna cuelgue recto desde tu hombro. Retrae tu escápula tirando de tu omóplato hacia tu columna mientras mantienes el brazo recto. Pausa brevemente en la parte superior del movimiento, asegurando una retracción completa de la escápula. Libera lentamente la escápula de nuevo a la posición inicial. Repite el número deseado de repeticiones antes de cambiar al otro brazo.",
     "description": "El Remo con Mancuerna a un Brazo Inclinado para Escápulas se enfoca en los músculos de la parte superior de la espalda, especialmente en los retractores y estabilizadores de las escápulas. Este ejercicio ayuda a mejorar la postura y la estabilidad de los hombros al centrarse en el movimiento de las escápulas. Se realiza con un brazo a la vez, lo que permite una mayor concentración en cada lado del cuerpo.",
@@ -5881,8 +5894,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas con agarre estrecho",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
       "hombros",
+      "trapecio",
+      "biceps",
+      "antebrazo",
       "triceps"
     ],
     "equipment": "barra",
@@ -5937,9 +5952,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo con barra inclinado",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros",
-      "lumbares",
       "antebrazo",
+      "lumbares",
       "triceps"
     ],
     "equipment": "barra",
@@ -5993,6 +6009,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Bajo Unilateral en Polea",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "hombros",
       "biceps",
       "lumbares"
     ],
@@ -6053,6 +6071,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo sentado con cable y agarre ancho",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros",
       "lumbares",
       "antebrazo"
@@ -6110,7 +6129,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo en Polea Sentado",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros",
+      "antebrazo",
       "biceps"
     ],
     "equipment": "polea",
@@ -6228,6 +6249,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón en polea con agarre ancho detrás de la nuca",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "antebrazo",
+      "hombros",
       "biceps"
     ],
     "equipment": "polea",
@@ -6284,9 +6308,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas con agarre ancho hacia atrás",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
+      "hombros",
+      "trapecio",
       "triceps",
-      "hombros"
+      "antebrazo",
+      "biceps"
     ],
     "equipment": "barra",
     "instructions": "Párate debajo de una barra de dominadas y agárrala con un agarre por encima, con las manos colocadas más anchas que el ancho de los hombros. Activa tu núcleo y retrae tus omóplatos para estabilizar la parte superior de tu cuerpo. Comienza el movimiento tirando de tu pecho hacia la barra, liderando con los codos y manteniéndolos apuntando hacia afuera. Continúa tirando hasta que tu barbilla esté por encima de la barra, asegurándote de que los músculos de tu espalda estén completamente comprometidos. Pausa brevemente en la parte superior del movimiento, luego baja lentamente de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -6340,8 +6366,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas supinas",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "hombros",
+      "trapecio",
       "biceps",
-      "hombros"
+      "antebrazo"
     ],
     "equipment": "barra",
     "instructions": "Párate debajo de una barra de dominadas y agárrala con un agarre en supinación, palmas hacia ti, manos a la altura de los hombros. Cuelga de la barra con los brazos completamente extendidos y los pies fuera del suelo Activa tu núcleo y mantén el cuerpo recto. Inicia el movimiento tirando de tus omóplatos hacia abajo y hacia atrás, luego lleva tu pecho hacia la barra doblando los codos. Continúa tirando hasta que tu barbilla esté por encima de la barra Haz una breve pausa en la parte superior del movimiento. Baja de nuevo a la posición inicial de manera controlada, extendiendo completamente los brazos. Repite para el número deseado de repeticiones.",
@@ -6397,9 +6425,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas con agarre ancho",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "hombros",
       "antebrazo",
-      "biceps",
-      "triceps"
+      "triceps",
+      "biceps"
     ],
     "equipment": "barra",
     "instructions": "Párate debajo de una barra de dominadas y extiende los brazos para agarrarla con un agarre por encima, con las manos colocadas más anchas que el ancho de los hombros. Activa tu núcleo y tira de tus omóplatos hacia abajo y hacia atrás para estabilizar la parte superior de tu cuerpo. Inicia la tracción llevando los codos hacia abajo hacia tus costados, levantando tu cuerpo hasta que tu barbilla esté por encima de la barra. Pausa brevemente en la parte superior del movimiento, asegurando la contracción completa de los músculos de la espalda. Baja de manera controlada de nuevo a la posición inicial con los brazos completamente extendidos. Repite para el número deseado de repeticiones.",
@@ -6453,7 +6483,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
-      "biceps"
+      "trapecio",
+      "biceps",
+      "antebrazo"
     ],
     "equipment": "peso_corporal",
     "instructions": "Ajusta las correas de suspensión para que cuelguen a la altura de la cintura. Párate frente al punto de anclaje y agarra las manijas con un agarre por encima. Inclínate hacia atrás hasta que tu cuerpo esté en un ángulo, manteniendo los pies a la altura de los hombros. Activa tu núcleo y mantén una línea recta desde la cabeza hasta los talones. Tira de tu pecho hacia las manijas retrayendo los omóplatos y doblando los codos. Pausa brevemente en la parte superior del movimiento, apretando los omóplatos juntos. Extiende lentamente los brazos para volver a la posición inicial. Repite durante el número deseado de repeticiones.",
@@ -6512,6 +6544,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Inclinado con Barra desde Pin",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "hombros",
       "lumbares"
     ],
     "equipment": "barra",
@@ -6571,6 +6605,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
+      "trapecio",
       "triceps"
     ],
     "equipment": "polea",
@@ -6624,7 +6659,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-23aaf86c-d27a-4464-88d0-e3f88bb1ba4c",
     "name": "Encogimientos de hombros Kelso con mancuernas",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 30-45 grados. Acuéstate boca abajo en el banco con el pecho apoyado y los pies firmemente en el suelo. Sujeta una mancuerna en cada mano con un agarre neutral, brazos colgando rectos hacia abajo. Activa tu core y mantén el cuello en una posición neutral. Exhala mientras retraes las escápulas, levantando las mancuernas hacia tus caderas. Pausa brevemente en la parte superior del movimiento, asegurando la contracción completa de los músculos trapecios. Inhala mientras bajas lentamente las mancuernas de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -6677,7 +6712,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-245a9e25-296f-4330-9fb6-82de62ebfaca",
     "name": "Remo en máquina con soporte para pecho a un brazo",
     "primaryMuscle": "dorsales",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "hombros",
+      "trapecio"
+    ],
     "equipment": "maquina",
     "instructions": "Ajusta el asiento y la almohadilla para el pecho de la máquina de remo para adaptarse a tu tamaño corporal, asegurando que tu pecho esté firmemente apoyado. Siéntate en la máquina con los pies planos en el suelo y el pecho contra la almohadilla. Agarra el mango con una mano, manteniendo el brazo completamente extendido. Activa tu núcleo y tira del mango hacia tu torso retrayendo el omóplato y doblando el codo. Pausa brevemente cuando el mango esté cerca de tu cuerpo, asegurando la máxima contracción en los músculos de la espalda. Extiende lentamente tu brazo de nuevo a la posición inicial de manera controlada. Repite el número deseado de repeticiones antes de cambiar al otro brazo.",
     "description": "La Máquina de Remo con Soporte para el Pecho con un Brazo es un ejercicio de entrenamiento de fuerza que se enfoca en los músculos de la parte superior de la espalda, particularmente el dorsal ancho, los romboides y el trapecio. Este ejercicio implica el uso de una máquina con un soporte para el pecho, permitiendo movimientos de remo aislados con un brazo a la vez. Ayuda a mejorar el equilibrio muscular y la coordinación mientras minimiza la tensión en la parte baja de la espalda.",
@@ -6733,6 +6771,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
+      "trapecio",
+      "antebrazo",
       "biceps"
     ],
     "equipment": "polea",
@@ -6791,6 +6831,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo sentado en polea baja a una mano",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros",
       "biceps"
     ],
@@ -6849,14 +6890,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominada en palanca frontal",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
       "hombros",
+      "trapecio",
       "antebrazo",
-      "abdomen",
-      "triceps",
+      "biceps",
       "oblicuos",
+      "abdomen",
       "cuadriceps",
-      "lumbares"
+      "lumbares",
+      "triceps"
     ],
     "equipment": "barra",
     "instructions": "Comienza colgándote de una barra de dominadas con un agarre al ancho de los hombros, palmas hacia adelante. Activa tu núcleo y dorsales para levantar tus piernas y torso a una posición horizontal, paralela al suelo. Una vez en la posición de front lever, inicia la dominada doblando los codos y llevando tu pecho hacia la barra. Baja de nuevo a la posición inicial de front lever con control. Repite el número deseado de repeticiones mientras mantienes la posición de front lever.",
@@ -6906,7 +6948,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-291593e2-7736-4028-9bf2-77192645930b",
     "name": "Estiramiento Lateral del Cuello",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Siéntate o párate con la espalda recta y los hombros relajados. Inclina suavemente la cabeza hacia un lado, llevando la oreja hacia el hombro sin levantar el hombro. Mantén el estiramiento durante 15-30 segundos, sintiendo un tirón suave a lo largo del lado de tu cuello. Regresa la cabeza a la posición neutral y repite en el lado opuesto. Realiza 2-3 series en cada lado.",
@@ -6957,6 +6999,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón de Dorsales en Polea",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "hombros",
+      "antebrazo",
+      "trapecio",
       "biceps"
     ],
     "equipment": "polea",
@@ -7001,10 +7046,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo con Kettlebell Inclinado",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros",
-      "biceps",
-      "triceps",
       "antebrazo",
+      "triceps",
+      "biceps",
       "lumbares"
     ],
     "equipment": "otro",
@@ -7063,7 +7109,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-2e701c8a-581a-4505-b4ba-c906102609e0",
     "name": "Encogimientos en Máquina",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento de la máquina de encogimientos para que las almohadillas descansen cómodamente sobre tus hombros. Párate con los pies al ancho de los hombros y agarra las manijas firmemente. Mantén la espalda recta y el núcleo comprometido durante todo el ejercicio. Levanta los hombros directamente hacia las orejas en un movimiento de encogimiento, apretando los trapecios en la parte superior del movimiento. Mantén la contracción por un momento, luego baja lentamente los hombros de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -7115,7 +7161,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo con Apoyo en el Pecho y Agarre Amplio",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "trapecio"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta el banco a una inclinación de aproximadamente 30-45 grados. Acuéstate boca abajo en el banco con el pecho apoyado y los pies firmemente en el suelo. Agarra las manijas o la barra con un agarre amplio por encima, con las manos un poco más anchas que el ancho de los hombros. Activa tu núcleo y mantén tu cuerpo estable durante todo el movimiento. Exhala mientras tiras del peso hacia tu pecho, juntando los omóplatos en la parte superior del movimiento. Inhala mientras bajas lentamente el peso de nuevo a la posición inicial, manteniendo el control. Repite para el número deseado de repeticiones.",
@@ -7170,8 +7217,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo de Gorila",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "hombros",
+      "trapecio",
       "biceps",
-      "hombros"
+      "antebrazo"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo una mancuerna en cada mano. Dobla ligeramente las rodillas y flexiona las caderas para bajar el torso hasta que esté casi paralelo al suelo. Mantén la espalda recta y activa el núcleo durante todo el movimiento. Deja que tus brazos cuelguen rectos desde los hombros con las palmas enfrentándose entre sí. Remo una mancuerna hacia tu cadera doblando el codo y apretando el omóplato hacia la columna. Baja la mancuerna de nuevo a la posición inicial y repite con el brazo opuesto. Continúa alternando los brazos para el número deseado de repeticiones.",
@@ -7228,7 +7277,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón de Espalda con Banda Inclinado",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "trapecio"
     ],
     "equipment": "otro",
     "instructions": "Asegura una banda de resistencia a un punto de anclaje estable por encima de la altura de la cabeza. Párate con los pies al ancho de los hombros y sujeta las asas de la banda con un agarre por encima. Inclínate en las caderas, manteniendo la espalda recta y las rodillas ligeramente flexionadas, hasta que tu torso esté casi paralelo al suelo. Extiende completamente los brazos frente a ti, manteniendo la tensión en la banda. Tira de la banda hacia tus caderas llevando los codos hacia atrás y juntando los omóplatos. Haz una pausa breve en la parte inferior del movimiento, asegurando la máxima contracción en los dorsales. Vuelve lentamente a la posición inicial con un movimiento controlado. Repite para el número deseado de repeticiones.",
@@ -7286,7 +7336,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Invertido en Suspensión",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "trapecio"
     ],
     "equipment": "peso_corporal",
     "instructions": "Asegura las correas de suspensión a un punto de anclaje seguro por encima de la altura de la cabeza. Ajusta las correas para que las asas estén a la altura de la cintura. Párate frente al punto de anclaje y agarra las asas con un agarre por encima. Camina hacia adelante con los pies hasta que tu cuerpo esté en el ángulo deseado, manteniendo una línea recta desde la cabeza hasta los talones. Activa tu núcleo y mantén tu cuerpo rígido. Lleva tu pecho hacia las asas conduciendo los codos hacia atrás y juntando los omóplatos. Haz una pausa breve en la parte superior del movimiento. Extiende lentamente los brazos para volver a la posición inicial. Repite el número deseado de repeticiones.",
@@ -7345,7 +7396,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo con barra en T inclinado",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros",
+      "antebrazo",
       "biceps"
     ],
     "equipment": "barra",
@@ -7404,7 +7457,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo ancho con mancuernas en banco inclinado",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 30-45 grados. Sujeta una mancuerna en cada mano con un agarre neutral (palmas enfrentadas). Acuéstate boca abajo en el banco con el pecho apoyado y los pies firmemente en el suelo. Extiende tus brazos rectos hacia el suelo. Activa tu núcleo y mantén la espalda recta durante todo el movimiento. Tira de las mancuernas hacia tus lados retrayendo las escápulas y doblando los codos. Pausa brevemente en la parte superior del movimiento, apretando las escápulas juntas. Baja lentamente las mancuernas de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -7460,7 +7514,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-49d5a7b1-678a-4e88-848b-a6468864bf2d",
     "name": "Encogimiento con Barra Detrás de la Espalda",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "barra",
     "instructions": "Párate con los pies separados al ancho de los hombros y sostén una barra detrás de tu espalda con un agarre por encima. Mantén los brazos extendidos hacia abajo y conserva una ligera flexión en los codos. Activa tu núcleo y mantén la espalda recta durante todo el movimiento. Levanta los hombros lo más alto posible hacia las orejas en un movimiento de encogimiento. Pausa brevemente en la parte superior del movimiento, apretando los músculos trapecios. Baja lentamente los hombros de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -7516,7 +7570,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Inclinado con Mancuernas",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros",
+      "antebrazo",
       "triceps"
     ],
     "equipment": "mancuerna",
@@ -7573,9 +7629,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Pullover en máquina",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "pectoral",
+      "hombros",
       "triceps",
-      "hombros"
+      "trapecio",
+      "pectoral"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento para que tus hombros se alineen con el punto de pivote de la máquina. Siéntate en la máquina con la espalda firmemente contra el respaldo y los pies planos en el suelo. Agarra las manijas con un agarre por encima, manteniendo los codos ligeramente doblados. Activa tu núcleo y tira de las manijas hacia abajo en un movimiento en arco hasta que estén cerca de tus muslos. Pausa brevemente en la parte inferior del movimiento, asegurando la contracción completa de los músculos de la espalda. Vuelve lentamente a la posición inicial de manera controlada, manteniendo la tensión en los músculos. Repite para el número deseado de repeticiones.",
@@ -7632,6 +7689,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo en T con Soporte para Pecho",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros"
     ],
     "equipment": "maquina",
@@ -7688,9 +7746,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
-      "biceps",
+      "antebrazo",
+      "trapecio",
       "triceps",
-      "antebrazo"
+      "biceps"
     ],
     "equipment": "polea",
     "instructions": "Siéntate en la máquina de jalón de dorsales y ajusta la almohadilla para las rodillas para que quede ajustada contra tus muslos y evite que tu cuerpo se levante durante el ejercicio. Agarra la barra con un agarre por encima, con las manos colocadas más anchas que el ancho de los hombros. Inclínate ligeramente hacia atrás en un ángulo de aproximadamente 30 grados mientras mantienes el pecho hacia arriba y el núcleo comprometido. Tira de la barra hacia tu pecho superior apretando los omóplatos juntos y llevando los codos hacia abajo y hacia atrás. Pausa brevemente en la parte inferior del movimiento, asegurando la máxima contracción en los dorsales. Suelta lentamente la barra de nuevo a la posición inicial con un movimiento controlado, extendiendo completamente los brazos.",
@@ -7733,6 +7792,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo con Mancuernas en Banco Plano",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros"
     ],
     "equipment": "mancuerna",
@@ -7787,7 +7847,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-61fb6b76-1d67-48f8-abba-bca2c60db1f9",
     "name": "Encogimientos de Hombros con Mancuernas",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "mancuerna",
     "instructions": "Párate erguido con los pies separados al ancho de los hombros, sosteniendo una mancuerna en cada mano a los lados. Mantén los brazos rectos y deja que las mancuernas cuelguen naturalmente. Inhala profundamente, luego exhala mientras levantas los hombros directamente hacia las orejas. Mantén la contracción en la parte superior por un momento, asegurándote de sentir la tensión en los músculos trapecios. Baja lentamente los hombros de regreso a la posición inicial mientras inhalas. Repite para el número deseado de repeticiones.",
@@ -7830,9 +7890,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominada en L",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
+      "hombros",
+      "trapecio",
       "triceps",
-      "hombros"
+      "antebrazo",
+      "biceps"
     ],
     "equipment": "barra",
     "instructions": "Comienza colgándote de una barra de dominadas con un agarre por encima, manos a la altura de los hombros. Activa tu núcleo y levanta tus piernas para formar un ángulo de 90 grados en las caderas, creando una forma de 'L' con tu cuerpo. Mantén las piernas rectas y paralelas al suelo durante todo el movimiento. Tira de ti mismo hacia arriba activando tu espalda y bíceps hasta que tu barbilla esté por encima de la barra. Baja de nuevo a la posición inicial de manera controlada mientras mantienes la posición de L-sit. Repite para el número deseado de repeticiones.",
@@ -7884,7 +7946,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-66a6068b-f1aa-40b8-9f56-0359cc0573b1",
     "name": "Encogimientos de hombros con mancuernas sentado",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "mancuerna",
     "instructions": "Siéntate en un banco con los pies planos en el suelo, separados al ancho de los hombros. Sujeta una mancuerna en cada mano con un agarre neutral, brazos completamente extendidos a los lados. Mantén la espalda recta y el núcleo comprometido durante todo el ejercicio. Levanta los hombros directamente hacia las orejas lo más alto posible. Pausa brevemente en la parte superior del movimiento, apretando los músculos trapecios. Baja lentamente los hombros de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -7988,7 +8050,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-67f6aae7-5674-4e6e-9b39-1e4a0c956e5c",
     "name": "Tirón alrededor",
     "primaryMuscle": "dorsales",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "trapecio",
+      "hombros"
+    ],
     "equipment": "polea",
     "instructions": "Coloca un mango individual en una polea baja de una máquina de cables. Párate de lado a la máquina, sosteniendo el mango con la mano más alejada de la máquina. Aléjate de la máquina para crear tensión en el cable, manteniendo los pies a la anchura de los hombros. Comienza con el brazo extendido a través de tu cuerpo, con la palma hacia abajo. Tira del mango en un arco a través de tu cuerpo y hacia arriba, manteniendo el brazo ligeramente doblado. Concéntrate en apretar tus dorsales mientras tiras, deteniéndote cuando tu mano alcance la altura del hombro. Vuelve lentamente a la posición inicial, manteniendo el control durante todo el movimiento. Repite el número deseado de repeticiones antes de cambiar de lado.",
     "description": "El Pull Around es un ejercicio de aislamiento que se enfoca principalmente en el dorsal ancho, con un compromiso secundario de los deltoides posteriores y los romboides. Se realiza con una máquina de cables y un accesorio de manija única, enfatizando un amplio rango de movimiento para estirar y contraer eficazmente los dorsales.",
@@ -8039,11 +8104,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo de Kayak en Polea",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "pectoral",
-      "oblicuos",
-      "abdomen",
       "hombros",
-      "triceps"
+      "oblicuos",
+      "pectoral",
+      "triceps",
+      "abdomen",
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Acopla una barra recta a una polea baja en una máquina de cables. Párate frente a la máquina con los pies al ancho de los hombros. Agarra la barra con un agarre por encima, manos ligeramente más anchas que el ancho de los hombros. Da un paso atrás ligeramente para crear tensión en el cable, manteniendo los brazos extendidos. Inclínate ligeramente hacia adelante en las caderas mientras mantienes una columna neutral. Tira de la barra hacia tu abdomen conduciendo los codos hacia atrás y hacia abajo, apretando los omóplatos juntos. Pausa brevemente en la contracción máxima, asegurándote de que los codos estén cerca de tu cuerpo. Extiende lentamente los brazos de regreso a la posición inicial, manteniendo el control del peso. Repite para el número deseado de repeticiones.",
@@ -8100,6 +8166,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
+      "trapecio",
       "lumbares",
       "antebrazo"
     ],
@@ -8157,7 +8224,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón al pecho con cable a una mano en posición de medio arrodillado",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "antebrazo",
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Coloca la máquina de cables en una posición alta y adjunta un mango individual. Arrodíllate sobre una rodilla con el pie opuesto plano en el suelo, asegurando que tu torso esté erguido. Agarra el mango con el brazo completamente extendido sobre la cabeza, con la palma hacia adelante. Activa tu núcleo y tira del mango hacia tu hombro, manteniendo el codo cerca de tu cuerpo. Haz una pausa breve en la parte inferior del movimiento, sintiendo la contracción en tu dorsal. Vuelve lentamente a la posición inicial, manteniendo el control en todo momento. Completa el número deseado de repeticiones antes de cambiar de lado.",
@@ -8214,6 +8283,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón de dorsales con banda a un brazo",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros"
     ],
     "equipment": "otro",
@@ -8272,8 +8342,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Invertido con Agarre Supino",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
       "hombros",
+      "trapecio",
+      "biceps",
+      "antebrazo",
       "lumbares"
     ],
     "equipment": "barra",
@@ -8332,6 +8404,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
+      "trapecio",
       "biceps"
     ],
     "equipment": "maquina",
@@ -8390,6 +8463,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas con Agarre Neutro",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "hombros",
       "biceps",
       "antebrazo"
     ],
@@ -8444,10 +8519,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-73178ef7-4fe8-47df-9cb0-991d33cc66bf",
     "name": "Nadador en posición prona",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [
-      "lumbares",
-      "hombros"
+      "dorsales",
+      "hombros",
+      "lumbares"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate boca abajo en el suelo con los brazos extendidos rectos por encima de la cabeza y las piernas completamente extendidas. Mantén la frente suavemente apoyada en el suelo para mantener una posición neutral del cuello. Activa los músculos del core para estabilizar el torso durante todo el movimiento. Simultáneamente levanta el brazo derecho y la pierna izquierda del suelo, manteniéndolos rectos. Bájalos de nuevo a la posición inicial e inmediatamente levanta el brazo izquierdo y la pierna derecha. Continúa alternando lados de manera controlada, simulando un movimiento de natación. Realiza el ejercicio durante un número determinado de repeticiones o durante un tiempo específico.",
@@ -8502,7 +8578,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-759db4cc-b963-4f53-b512-aadcfe301c4f",
     "name": "Encogimiento de Hombros en Máquina Smith",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "maquina",
     "instructions": "Ajusta la barra de la máquina Smith a una altura justo por debajo de tu cintura. Párate con los pies separados al ancho de los hombros, posicionándote debajo de la barra. Agarra la barra con un agarre por encima, con las manos un poco más anchas que el ancho de los hombros. Desbloquea la barra girándola hacia adelante, manteniendo los brazos rectos. Levanta los hombros hacia las orejas en un movimiento de encogimiento, apretando los músculos trapecios en la parte superior. Mantén la contracción brevemente, luego baja lentamente los hombros de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -8554,7 +8630,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-75add5d1-1906-4d70-b23a-998b632ce324",
     "name": "Encogimientos en Fondos",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [
       "pectoral"
     ],
@@ -8609,8 +8685,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
-      "biceps",
-      "antebrazo"
+      "trapecio",
+      "antebrazo",
+      "biceps"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento para que tu pecho esté cómodamente apoyado contra el cojín y tus pies estén planos en el suelo. Selecciona un peso apropiado en la pila de pesas de la máquina. Agarra las manijas con un agarre neutral o por encima, dependiendo del diseño de la máquina. Mantén tu pecho firmemente contra el cojín y tu espalda recta durante todo el ejercicio. Tira de las manijas hacia tu torso retrayendo tus omóplatos y doblando tus codos. Pausa brevemente en la contracción máxima, asegurando el pleno compromiso de los músculos de tu espalda. Extiende lentamente tus brazos para volver a la posición inicial, manteniendo el control del peso. Repite para el número deseado de repeticiones.",
@@ -8656,7 +8733,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-773ab473-077f-4ddb-baae-fff41adeb0f0",
     "name": "Jalón con Banda Detrás del Cuello",
     "primaryMuscle": "dorsales",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "trapecio",
+      "hombros"
+    ],
     "equipment": "otro",
     "instructions": "Asegura una banda de resistencia a un punto de anclaje alto. Párate o siéntate frente al punto de anclaje con los pies separados al ancho de los hombros. Agarra la banda con ambas manos, palmas hacia adelante y brazos extendidos sobre la cabeza. Activa tu núcleo y mantén la espalda recta. Tira de la banda hacia abajo detrás de tu cuello doblando los codos y juntando los omóplatos. Pausa brevemente en la parte inferior del movimiento, asegurando tensión en los músculos de la espalda. Vuelve lentamente a la posición inicial con control. Repite para el número deseado de repeticiones.",
     "description": "El ejercicio 'Jalón con Banda Detrás del Cuello' se enfoca en los músculos de la parte superior de la espalda, particularmente el dorsal ancho, los romboides y el trapecio. Consiste en tirar de una banda de resistencia hacia abajo detrás del cuello mientras se mantiene una postura adecuada y control. Este ejercicio ayuda a mejorar la movilidad de los hombros y la fuerza de la parte superior de la espalda.",
@@ -8711,12 +8791,13 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas en anillas",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
-      "abdomen",
       "hombros",
+      "trapecio",
+      "biceps",
       "antebrazo",
-      "oblicuos",
       "lumbares",
+      "abdomen",
+      "oblicuos",
       "triceps"
     ],
     "equipment": "peso_corporal",
@@ -8770,17 +8851,21 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-7ce5e3ff-7276-41cd-8a14-41e33ab76ddc",
     "name": "Máquina de Remo",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
-      "biceps",
-      "cuadriceps",
-      "gluteos",
+      "dorsales",
+      "trapecio",
       "hombros",
-      "abdomen",
+      "cuadriceps",
+      "biceps",
       "oblicuos",
       "lumbares",
+      "abductores",
+      "gluteos",
+      "triceps",
+      "abdomen",
       "antebrazo",
-      "triceps"
+      "isquiotibiales"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta los reposapiés para que las correas estén seguras sobre las bolas de tus pies. Siéntate en el asiento deslizante y agarra el mango con ambas manos usando un agarre por encima. Comienza con las rodillas dobladas y las espinillas verticales, inclinándote ligeramente hacia adelante en las caderas. Empuja con las piernas mientras mantienes los brazos rectos hasta que estén completamente extendidos. Una vez que tus piernas estén rectas, inclínate ligeramente hacia atrás y tira del mango hacia tus costillas inferiores. Invierte el movimiento extendiendo primero los brazos, luego doblando las rodillas para volver a la posición inicial.",
@@ -8836,7 +8921,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo en Banco Prono",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros",
+      "antebrazo",
       "biceps"
     ],
     "equipment": "barra",
@@ -8894,13 +8981,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
+      "trapecio",
       "abdomen",
-      "pectoral",
       "cuadriceps",
+      "pectoral",
+      "lumbares",
+      "abductores",
       "biceps",
       "gluteos",
       "oblicuos",
-      "lumbares",
       "antebrazo"
     ],
     "equipment": "mancuerna",
@@ -8957,6 +9046,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Alto Unilateral en Polea",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "hombros",
+      "trapecio",
       "lumbares"
     ],
     "equipment": "polea",
@@ -9013,7 +9104,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-8ce2c948-a992-4ce9-b562-2e0ff86679c7",
     "name": "Flexión de Cuello",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Acuéstate de espaldas en un banco plano con la cabeza colgando del borde. Coloca un disco de peso pequeño o una banda de resistencia sobre tu frente. Mantén los hombros relajados y el cuerpo estable durante todo el ejercicio. Lentamente lleva la barbilla hacia el pecho flexionando el cuello. Pausa brevemente en la parte superior del movimiento, asegurando la contracción completa de los músculos del cuello. Regresa lentamente a la posición inicial con control, evitando movimientos bruscos. Repite el número deseado de repeticiones.",
@@ -9065,12 +9156,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-8e408345-f873-4f50-82aa-65f99cd78af9",
     "name": "Ergómetro de Esquí",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
       "triceps",
-      "abdomen",
+      "dorsales",
+      "trapecio",
+      "hombros",
       "lumbares",
-      "hombros"
+      "abdomen"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta el nivel de resistencia en el SkiErg para que coincida con tu nivel de condición física. Párate con los pies separados al ancho de los hombros, frente a la máquina. Agarra las manijas firmemente con ambas manos, manteniendo los brazos extendidos por encima de la cabeza. Activa tu núcleo y dobla ligeramente las rodillas. Tira de las manijas hacia abajo en un movimiento suave, doblando las caderas y las rodillas mientras mantienes la espalda recta. Impulsa con tus caderas y piernas mientras tiras de las manijas hacia abajo más allá de tus muslos. Regresa a la posición inicial extendiendo los brazos por encima de la cabeza mientras mantienes el control. Repite el movimiento durante el número deseado de repeticiones o duración de tiempo.",
@@ -9128,7 +9221,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo inclinado con mancuernas agarre neutro",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 30-45 grados. Sujeta una mancuerna en cada mano con un agarre neutral (palmas enfrentadas). Acuéstate boca abajo en el banco, asegurando que tu pecho esté apoyado y los pies firmemente plantados en el suelo. Extiende completamente los brazos hacia abajo, permitiendo que las mancuernas cuelguen de manera natural. Activa tu núcleo y mantén la espalda recta durante todo el movimiento. Tira de las mancuernas hacia tu torso retrayendo las escápulas y doblando los codos. Pausa brevemente en la parte superior del movimiento, apretando las escápulas juntas. Baja lentamente las mancuernas de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -9176,6 +9270,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón al Pecho con Agarre Cerrado en Polea",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "hombros",
+      "antebrazo",
       "biceps"
     ],
     "equipment": "polea",
@@ -9229,7 +9326,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-963e4937-5b35-480d-e91e-f8f53b2cc64e",
     "name": "Encogimiento de Hombros con Barra",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "barra",
     "instructions": "Párate con los pies separados al ancho de los hombros, sosteniendo una barra con un agarre por encima frente a tus muslos. Mantén los brazos completamente extendidos y la espalda recta durante todo el movimiento. Levanta los hombros directamente hacia tus orejas lo más alto posible, apretando los músculos trapecios en la parte superior del movimiento. Mantén la contracción por un breve momento antes de bajar lentamente los hombros de regreso a la posición inicial. Repite para el número deseado de repeticiones, manteniendo el control y evitando cualquier movimiento brusco.",
@@ -9278,17 +9375,20 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-9d9a38ee-21ac-40ad-ad39-0cb2c09a4b88",
     "name": "Bandera",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "triceps",
-      "pectoral",
-      "oblicuos",
-      "abdomen",
-      "antebrazo",
+      "dorsales",
       "hombros",
+      "trapecio",
       "lumbares",
-      "gluteos",
-      "biceps"
+      "abductores",
+      "triceps",
+      "antebrazo",
+      "pectoral",
+      "abdomen",
+      "adductores",
+      "biceps",
+      "gluteos"
     ],
     "equipment": "barra",
     "instructions": "Encuentra un poste vertical resistente o una estructura similar que pueda soportar tu peso. Coloca tu mano inferior en un agarre por encima a la altura de la cintura en el poste. Coloca tu mano superior en un agarre por debajo por encima de tu cabeza en el poste. Activa tu núcleo y tira con tu mano superior mientras empujas con tu mano inferior para levantar tu cuerpo del suelo. Mantén tu cuerpo recto y horizontal al suelo, manteniendo la tensión en todo tu núcleo y piernas. Mantén la posición el mayor tiempo posible, luego baja lentamente de nuevo a la posición inicial.",
@@ -9343,8 +9443,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Inclinado con Barra y Agarre Invertido",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
+      "trapecio",
       "hombros",
+      "biceps",
       "lumbares",
       "triceps"
     ],
@@ -9399,10 +9500,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Máquina de Jalón de Espalda",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
-      "antebrazo",
       "hombros",
-      "triceps"
+      "trapecio",
+      "antebrazo",
+      "triceps",
+      "biceps"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento para que tus pies estén planos en el suelo y tus muslos estén asegurados bajo las almohadillas para muslos. Selecciona un peso adecuado en la máquina. Agarra la barra con un agarre ancho por encima, ligeramente más ancho que el ancho de los hombros. Siéntate con la espalda recta y el pecho hacia arriba, colocándote directamente debajo de la barra. Tira de la barra hacia abajo hacia tu pecho superior mientras mantienes los codos apuntando hacia abajo y hacia atrás. Pausa brevemente en la parte inferior del movimiento, asegurando una contracción completa de los dorsales. Suelta lentamente la barra de nuevo a la posición inicial con un movimiento controlado. Repite para el número deseado de repeticiones.",
@@ -9457,6 +9559,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Amplio con Banda Anclada en Alto",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros"
     ],
     "equipment": "otro",
@@ -9514,8 +9617,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón en Polea con Agarre Invertido",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
       "hombros",
+      "trapecio",
+      "biceps",
       "antebrazo"
     ],
     "equipment": "polea",
@@ -9570,6 +9674,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
+      "trapecio",
       "antebrazo",
       "triceps"
     ],
@@ -9630,11 +9735,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo renegado con kettlebell",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "hombros",
+      "trapecio",
       "abdomen",
-      "triceps",
       "oblicuos",
-      "pectoral",
       "lumbares",
+      "triceps",
+      "pectoral",
+      "abductores",
       "gluteos"
     ],
     "equipment": "mancuerna",
@@ -9687,6 +9795,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas Asistidas",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "hombros",
       "antebrazo",
       "biceps"
     ],
@@ -9746,9 +9855,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-b4eb0459-9ad3-4a47-8add-4c80872785b7",
     "name": "Remo con barra para deltoides posteriores",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "hombros"
+      "trapecio",
+      "dorsales"
     ],
     "equipment": "barra",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo una barra con un agarre por encima. Dobla ligeramente las rodillas y flexiona las caderas para inclinarte hacia adelante, manteniendo la espalda recta y el torso casi paralelo al suelo. Deja que la barra cuelgue a la longitud de los brazos frente a ti, manteniendo los brazos perpendiculares al suelo. Activa tu núcleo y tira de la barra hacia tu pecho inferior apretando los omóplatos juntos. Haz una pausa breve en la parte superior del movimiento, asegurando la máxima contracción en los deltoides posteriores. Baja la barra de nuevo a la posición inicial de manera controlada. Repite para el número deseado de repeticiones.",
@@ -9805,7 +9915,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo sentado con cable agarre neutro",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "trapecio",
+      "hombros",
+      "antebrazo"
     ],
     "equipment": "polea",
     "instructions": "Siéntate en la máquina de remo con cable con los pies firmemente colocados en la plataforma para pies y las rodillas ligeramente dobladas. Agarra el mango de agarre neutral con ambas manos, con las palmas enfrentadas. Mantén la espalda recta y el pecho hacia arriba mientras te inclinas ligeramente hacia adelante para extender completamente los brazos. Tira del mango hacia tu torso retrayendo las escápulas y doblando los codos. Pausa brevemente cuando el mango llegue a tu abdomen, asegurándote de que tu espalda permanezca recta. Extiende lentamente los brazos de nuevo a la posición inicial mientras mantienes el control del peso. Repite para el número deseado de repeticiones.",
@@ -9860,8 +9972,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo de Cable a Una Mano",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
       "hombros",
+      "trapecio",
+      "biceps",
       "lumbares"
     ],
     "equipment": "polea",
@@ -9918,7 +10031,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Alto en Palanca",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "trapecio"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento para que las manijas estén a la altura de los hombros cuando estés sentado. Siéntate en la máquina con el pecho contra el cojín y los pies planos en el suelo. Agarra las manijas con un agarre por encima, manteniendo los brazos completamente extendidos. Activa tu núcleo y mantén la espalda recta durante todo el movimiento. Tira de las manijas hacia tu pecho retrayendo los omóplatos y doblando los codos. Pausa brevemente en la parte superior del movimiento, apretando los omóplatos juntos. Vuelve lentamente a la posición inicial extendiendo completamente los brazos. Repite para el número deseado de repeticiones.",
@@ -9974,7 +10088,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-ba67a5a7-7a06-49c2-92eb-9cf8dc8b9419",
     "name": "Encogimientos con barra hexagonal",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "barra",
     "instructions": "Párate dentro de la barra trampa con los pies al ancho de los hombros. Dobla ligeramente las rodillas y agarra las manijas con un agarre neutral. Mantén la espalda recta y el pecho hacia arriba mientras te pones de pie con la barra trampa. Activa tu núcleo y lleva tus hombros hacia tus orejas en un movimiento de encogimiento. Mantén la contracción en la parte superior por un momento, luego baja lentamente los hombros. Repite para el número deseado de repeticiones.",
@@ -10028,8 +10142,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Invertido (Australiano)",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
-      "hombros"
+      "hombros",
+      "trapecio",
+      "antebrazo",
+      "biceps"
     ],
     "equipment": "barra",
     "instructions": "Coloca una barra en un soporte a la altura de la cintura o utiliza una barra de máquina Smith. Acuéstate debajo de la barra con el pecho directamente debajo de ella y extiende las piernas completamente. Agarra la barra con un agarre por encima, con las manos un poco más anchas que el ancho de los hombros. Activa tu núcleo y glúteos para mantener tu cuerpo en una línea recta desde la cabeza hasta los talones. Tira de tu pecho hacia la barra retrayendo los omóplatos y doblando los codos. Haz una pausa en la parte superior cuando tu pecho casi toque la barra. Baja de nuevo a la posición inicial de manera controlada. Repite para el número deseado de repeticiones.",
@@ -10088,9 +10204,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "hombros",
+      "trapecio",
       "lumbares",
-      "biceps",
-      "antebrazo"
+      "antebrazo",
+      "biceps"
     ],
     "equipment": "barra",
     "instructions": "Párate con los pies al ancho de los hombros y coloca una barra cargada en el suelo frente a ti. Dobla las caderas y las rodillas para bajar el torso hasta que esté casi paralelo al suelo, manteniendo una columna neutral. Agarra la barra con un agarre por encima, ligeramente más ancho que el ancho de los hombros. Activa tu núcleo y retrae las escápulas. Levanta la barra explosivamente desde el suelo hasta la parte inferior del pecho, manteniendo los codos cerca del cuerpo. Pausa brevemente en la parte superior del movimiento, luego baja la barra de nuevo al suelo bajo control. Reajusta tu posición y repite para el número deseado de repeticiones.",
@@ -10146,7 +10263,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo bajo en polea sentado con agarre neutro",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "trapecio",
+      "antebrazo"
     ],
     "equipment": "polea",
     "instructions": "Siéntate en el banco de una máquina de remo con cable con los pies firmemente colocados en la plataforma para pies. Agarra la barra de agarre cerrado con ambas manos, con las palmas enfrentadas. Mantén la espalda recta e inclínate ligeramente hacia atrás en las caderas mientras mantienes una columna neutral. Tira de la barra hacia tu abdomen inferior retrayendo los omóplatos y doblando los codos. Pausa brevemente cuando la barra llegue a tu cuerpo, asegurando una contracción máxima en los músculos de la espalda. Extiende lentamente los brazos para volver a la posición inicial, manteniendo el control durante todo el movimiento. Repite para el número deseado de repeticiones.",
@@ -10199,9 +10318,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c6fffa71-d76e-44b7-bc35-1aa2a90bdc69",
     "name": "Extensión de Espalda en Máquina",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "lumbares",
     "secondaryMuscles": [
-      "lumbares",
       "gluteos"
     ],
     "equipment": "maquina",
@@ -10260,7 +10378,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "pectoral",
-      "triceps"
+      "hombros",
+      "triceps",
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Acuéstate de espaldas en un banco, asegurándote de que tu cabeza y cuello estén apoyados. Levanta las piernas de manera que estén perpendiculares al suelo, manteniéndolas rectas y juntas. Sujeta una mancuerna con ambas manos, brazos extendidos sobre tu pecho Tus palmas deben estar hacia arriba, agarrando la mancuerna de manera segura. Inhala profundamente y baja lentamente la mancuerna en un arco detrás de tu cabeza hasta que sientas un estiramiento en el pecho y los dorsales. Mantén los codos ligeramente doblados durante todo el movimiento para reducir la tensión en las articulaciones. Exhala y lleva la mancuerna de regreso a la posición inicial usando los músculos del pecho y los dorsales. Repite el número deseado de repeticiones mientras mantienes el control y la forma.",
@@ -10316,8 +10436,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Sentado con Agarre Supino en Polea",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "hombros",
+      "trapecio",
       "biceps",
-      "hombros"
+      "antebrazo"
     ],
     "equipment": "polea",
     "instructions": "Siéntate en la máquina de remo con cable con los pies colocados de manera segura en la plataforma para pies y las rodillas ligeramente dobladas. Agarra el accesorio de barra recta con un agarre supino, manos a la altura de los hombros. Mantén la espalda recta y el pecho hacia arriba mientras te inclinas ligeramente hacia adelante en las caderas. Tira de la barra hacia tu abdomen inferior retrayendo los omóplatos y doblando los codos. Pausa brevemente cuando la barra llegue a tu torso, asegurando la contracción completa de los músculos de la espalda. Extiende lentamente los brazos para volver a la posición inicial, manteniendo el control del peso. Repite para el número deseado de repeticiones.",
@@ -10372,8 +10494,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón de dorsales con brazos rectos",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "triceps",
-      "hombros"
+      "trapecio",
+      "hombros",
+      "triceps"
     ],
     "equipment": "polea",
     "instructions": "Coloca una barra recta en la polea alta de una máquina de cables. Párate frente a la máquina con los pies al ancho de los hombros. Agarra la barra con un agarre por encima, manos ligeramente más anchas que el ancho de los hombros. Da un paso atrás ligeramente para crear tensión en el cable, manteniendo los brazos rectos y los codos ligeramente doblados. Activa tu núcleo y tira de la barra hacia tus muslos, manteniendo los brazos rectos. Concéntrate en apretar tus dorsales mientras tiras hacia abajo. Vuelve lentamente a la posición inicial con control, manteniendo la tensión en tus dorsales. Repite para el número deseado de repeticiones.",
@@ -10430,9 +10553,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón en polea con agarre neutro",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "hombros",
       "triceps",
-      "biceps",
-      "hombros"
+      "antebrazo",
+      "biceps"
     ],
     "equipment": "polea",
     "instructions": "Ajusta la altura del asiento de la máquina de cables para que tus pies estén planos en el suelo y tus muslos estén asegurados bajo las almohadillas. Acopla una barra en V a la polea alta de la máquina de cables. Siéntate frente a la máquina y agarra la barra en V con un agarre neutral (palmas enfrentadas). Inclínate ligeramente hacia atrás en un ángulo de aproximadamente 70 grados mientras mantienes la espalda recta y el pecho hacia arriba. Comienza el movimiento tirando de la barra en V hacia tu pecho superior, juntando los omóplatos. Pausa brevemente en la parte inferior del movimiento, asegurando una contracción completa de los dorsales. Vuelve lentamente a la posición inicial con un movimiento controlado, extendiendo completamente los brazos por encima de la cabeza. Repite para el número deseado de repeticiones.",
@@ -10489,6 +10614,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón de Espalda en Polea de Rodillas",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "hombros",
       "antebrazo"
     ],
     "equipment": "polea",
@@ -10545,8 +10672,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas australianas con agarre estrecho en anillas",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
-      "hombros"
+      "trapecio",
+      "hombros",
+      "biceps"
     ],
     "equipment": "peso_corporal",
     "instructions": "Coloca un par de anillas de gimnasia a la altura de la cintura. Párate frente a las anillas y agárralas con un agarre estrecho y neutral, con las palmas enfrentadas. Camina hacia adelante con los pies hasta que tu cuerpo esté en línea recta desde la cabeza hasta los talones, inclinándote hacia atrás con los brazos completamente extendidos. Activa tu núcleo y glúteos para mantener una posición corporal recta. Tira de tu pecho hacia las anillas doblando los codos y juntando los omóplatos. Haz una pausa breve en la parte superior del movimiento cuando tu pecho esté cerca de las anillas. Baja lentamente de nuevo a la posición inicial con control, extendiendo completamente los brazos. Repite para el número deseado de repeticiones.",
@@ -10603,6 +10731,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo con Barra T en Agarre Cerrado",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "hombros",
       "lumbares"
     ],
     "equipment": "barra",
@@ -10661,12 +10791,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Palanca Inversa",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "pectoral",
       "hombros",
+      "trapecio",
+      "lumbares",
+      "pectoral",
+      "isquiotibiales",
+      "abductores",
       "gluteos",
       "abdomen",
-      "lumbares",
-      "biceps",
       "oblicuos"
     ],
     "equipment": "barra",
@@ -10721,7 +10853,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo sentado a una mano",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "trapecio"
     ],
     "equipment": "maquina",
     "instructions": "Siéntate en el banco de una máquina de remo con cable con los pies firmemente plantados en los reposapiés. Agarra el accesorio de mango único con una mano, manteniendo el brazo extendido y la palma hacia adentro. Activa tu núcleo y mantén la espalda recta durante todo el movimiento. Tira del mango hacia tu torso retrayendo el omóplato y doblando el codo, manteniendo el codo cerca de tu cuerpo. Pausa brevemente cuando el mango llegue a tu lado, asegurando la máxima contracción de los músculos de la espalda. Extiende lentamente el brazo de nuevo a la posición inicial de manera controlada. Repite el número deseado de repeticiones antes de cambiar al otro brazo.",
@@ -10774,7 +10907,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-d919d4f3-6cb0-4e11-b70a-3788dcc0a371",
     "name": "Encogimiento con Cable",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [],
     "equipment": "polea",
     "instructions": "Párate frente a una máquina de polea baja con los pies separados al ancho de los hombros. Acopla una barra recta o un mango de cuerda a la polea baja. Agarra el mango con ambas manos, usando un agarre por encima, y ponte de pie con los brazos completamente extendidos. Mantén la espalda recta y el núcleo comprometido durante todo el ejercicio. Levanta los hombros hacia las orejas en un movimiento de encogimiento, apretando los músculos trapecios en la parte superior del movimiento. Mantén la contracción por un momento antes de bajar lentamente los hombros de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -10827,6 +10960,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo con Barra en Banco Inclinado con Agarre Ancho",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros"
     ],
     "equipment": "barra",
@@ -10882,6 +11016,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominadas Asistidas con Banda",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
+      "hombros",
       "biceps",
       "antebrazo"
     ],
@@ -10937,15 +11073,17 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e29321c6-7817-48a4-b1af-1cec66a5adb3",
     "name": "Encogimiento Invertido",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [
       "antebrazo",
-      "hombros",
       "pectoral",
+      "lumbares",
       "abdomen",
-      "gluteos",
+      "hombros",
       "oblicuos",
-      "lumbares"
+      "dorsales",
+      "abductores",
+      "gluteos"
     ],
     "equipment": "barra",
     "instructions": "Comienza colgándote de una barra de dominadas con un agarre por encima, manos a la altura de los hombros. Activa tu núcleo y mantén tu cuerpo recto, evitando cualquier balanceo. Deprime tus hombros tirándolos hacia abajo, alejándolos de tus orejas, levantando ligeramente tu cuerpo hacia arriba. Mantén la posición superior por un momento, enfocándote en apretar los músculos del trapecio inferior. Relaja lentamente tus hombros de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -10998,7 +11136,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
       "pectoral",
-      "triceps"
+      "triceps",
+      "hombros"
     ],
     "equipment": "mancuerna",
     "instructions": "Acuéstate plano en un banco, asegurándote de que tu parte superior de la espalda y hombros estén apoyados, con los pies firmemente plantados en el suelo. Sujeta una mancuerna con ambas manos, palmas hacia arriba, y extiende tus brazos directamente sobre tu pecho. Mantén una ligera flexión en los codos para reducir la tensión en las articulaciones. Inhala profundamente y baja lentamente la mancuerna en un arco detrás de tu cabeza hasta que sientas un estiramiento en tu pecho y dorsales. Pausa brevemente en la parte inferior del movimiento. Exhala mientras inviertes el movimiento, llevando la mancuerna de regreso a la posición inicial sobre tu pecho. Repite para el número deseado de repeticiones, manteniendo el control durante todo el ejercicio.",
@@ -11051,9 +11190,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e6a23c03-6fd4-41b7-8540-dac14e681294",
     "name": "Elevaciones laterales inclinadas con apoyo en el pecho con mancuernas",
-    "primaryMuscle": "dorsales",
+    "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "hombros"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 30-45 grados. Sujeta una mancuerna en cada mano con un agarre neutral (palmas enfrentadas). Acuéstate boca abajo en el banco con el pecho apoyado y los pies firmemente plantados en el suelo. Extiende tus brazos hacia el suelo, manteniendo una ligera flexión en los codos. Activa tu núcleo y levanta las mancuernas hacia los lados hasta que tus brazos estén paralelos al suelo. Haz una pausa breve en la parte superior del movimiento, enfocándote en apretar tus omóplatos juntos. Baja lentamente las mancuernas de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -11111,12 +11250,13 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Front Lever: Palanca Frontal",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "abdomen",
       "hombros",
-      "oblicuos",
+      "trapecio",
+      "abdomen",
       "cuadriceps",
-      "biceps",
-      "lumbares"
+      "oblicuos",
+      "lumbares",
+      "biceps"
     ],
     "equipment": "barra",
     "instructions": "Comienza colgándote de una barra de dominadas con un agarre por encima, manos a la altura de los hombros. Activa tu núcleo y dorsales para levantar tus piernas y torso hasta que tu cuerpo esté paralelo al suelo. Mantén los brazos rectos y una posición de cuerpo hueco con los hombros retraídos. Mantén la posición el mayor tiempo posible mientras mantienes el control y la forma adecuada. Baja lentamente tu cuerpo de nuevo a la posición inicial.",
@@ -11167,7 +11307,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón de Dorsales con Cable a Una Mano en Medio Arrodillado",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "hombros"
+      "hombros",
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Coloca la máquina de cables en una posición alta y acopla un mango individual. Arrodíllate sobre una rodilla con el pie opuesto plano en el suelo, asegurando que tu torso esté erguido. Agarra el mango con el brazo opuesto a la pierna arrodillada, con la palma hacia adelante. Activa tu núcleo y tira del mango hacia abajo hacia tu hombro, manteniendo el codo cerca de tu cuerpo. Haz una pausa breve en la parte inferior del movimiento, sintiendo la contracción en tu dorsal ancho. Vuelve lentamente a la posición inicial, manteniendo el control en todo momento. Completa el número deseado de repeticiones antes de cambiar de lado.",
@@ -11211,6 +11352,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Alto con Palanca a un Brazo",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros"
     ],
     "equipment": "maquina",
@@ -11267,8 +11409,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dominada negativa",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "biceps",
-      "hombros"
+      "hombros",
+      "trapecio",
+      "biceps"
     ],
     "equipment": "barra",
     "instructions": "Comienza usando una caja o escalón para posicionarte en la parte superior de una barra de dominadas con la barbilla por encima de la barra. Agarra la barra con las manos separadas al ancho de los hombros, usando un agarre por encima. Activa tu núcleo y mantén una alineación corporal recta. Baja lentamente de manera controlada, tardando de 3 a 5 segundos en descender hasta que tus brazos estén completamente extendidos. Vuelve a subir a la caja o escalón y repite el número deseado de repeticiones.",
@@ -11319,7 +11462,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo inclinado en Multipower",
     "primaryMuscle": "dorsales",
     "secondaryMuscles": [
+      "trapecio",
       "hombros",
+      "antebrazo",
       "biceps"
     ],
     "equipment": "maquina",
@@ -11436,9 +11581,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
       "cuadriceps",
-      "triceps",
       "abdomen",
-      "dorsales",
+      "triceps",
+      "abductores",
       "gluteos",
       "oblicuos"
     ],
@@ -11876,12 +12021,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
       "cuadriceps",
-      "pantorrillas",
-      "dorsales",
       "pectoral",
+      "pantorrillas",
+      "abductores",
       "gluteos",
-      "triceps",
       "abdomen",
+      "triceps",
       "oblicuos"
     ],
     "equipment": "barra",
@@ -11941,15 +12086,18 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Plancha Abierta",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales",
       "pectoral",
-      "triceps",
-      "biceps",
       "abdomen",
       "antebrazo",
-      "gluteos",
+      "biceps",
+      "dorsales",
       "oblicuos",
-      "lumbares"
+      "triceps",
+      "lumbares",
+      "gluteos",
+      "trapecio",
+      "abductores",
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en una posición de flexión con las manos separadas al ancho de los hombros. Desplaza tu peso hacia adelante sobre tus manos, manteniendo los brazos rectos. Activa tu núcleo y levanta las piernas del suelo, separándolas en una posición de apertura. Mantén una línea recta desde la cabeza hasta los dedos de los pies, manteniendo el cuerpo paralelo al suelo. Mantén la posición el mayor tiempo posible mientras mantienes la forma adecuada. Baja lentamente las piernas al suelo para volver a la posición inicial.",
@@ -12004,7 +12152,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Press Cubano Sentado",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Siéntate en un banco con la espalda recta y los pies planos en el suelo. Sujeta una mancuerna en cada mano con un agarre prono (palmas hacia abajo) y los codos doblados a 90 grados. Coloca tus brazos superiores paralelos al suelo, con los antebrazos apuntando hacia adelante. Rota tus hombros externamente para levantar las mancuernas, alineando tus antebrazos verticalmente. Presiona las mancuernas por encima de la cabeza extendiendo completamente los brazos. Baja las mancuernas de nuevo a la posición inicial invirtiendo el movimiento. Repite para el número deseado de repeticiones.",
@@ -12169,7 +12317,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación Lateral con Mancuernas Inclinado",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies al ancho de los hombros y sostén una mancuerna en cada mano. Inclínate en las caderas, manteniendo la espalda recta y las rodillas ligeramente flexionadas, hasta que tu torso esté casi paralelo al suelo. Deja que las mancuernas cuelguen directamente debajo de tus hombros con las palmas enfrentándose entre sí. Activa tu núcleo y mantén el cuello alineado con la columna. Levanta las mancuernas hacia los lados hasta que tus brazos estén paralelos al suelo, manteniendo una ligera flexión en los codos. Pausa brevemente en la parte superior del movimiento, luego baja lentamente las pesas de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -12393,7 +12541,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Vertical con Agarre Estrecho en Polea",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Conecta una barra recta o un mango de agarre estrecho a la polea baja de una máquina de cables. Párate frente a la máquina con los pies separados al ancho de los hombros, las rodillas ligeramente flexionadas. Agarra el mango con un agarre por encima, manos juntas, y deja que los brazos cuelguen rectos hacia abajo. Activa tu núcleo y mantén la espalda recta durante todo el movimiento. Tira del mango hacia arriba a lo largo de tu cuerpo, liderando con los codos hasta que estén a la altura de los hombros. Pausa brevemente en la parte superior del movimiento, asegurándote de que tus codos estén más altos que tus muñecas. Baja lentamente el mango de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -12501,7 +12649,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación en T con Mancuernas en Banco Inclinado",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 30-45 grados. Acuéstate boca abajo en el banco con el pecho apoyado y los pies firmemente en el suelo. Sujeta una mancuerna en cada mano con un agarre neutral (palmas enfrentadas). Extiende tus brazos rectos hacia el suelo. Activa tu núcleo y mantén la cabeza en una posición neutral. Levanta tus brazos hacia los lados hasta que estén paralelos al suelo, formando una forma de 'T'. Aprieta tus omóplatos juntos en la parte superior del movimiento. Baja lentamente las mancuernas de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -12560,7 +12708,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón de Cara con Cable en Supinación",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales",
+      "trapecio",
       "biceps"
     ],
     "equipment": "polea",
@@ -12620,9 +12768,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-3ba7a9b4-88ba-4390-9593-de658b6668e6",
     "name": "Rotación Cubana con Mancuernas",
     "primaryMuscle": "hombros",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies separados al ancho de los hombros, sosteniendo una mancuerna en cada mano con un agarre prono. Levanta los brazos a la altura de los hombros, manteniendo los codos doblados a 90 grados y los brazos superiores paralelos al suelo. Rota los antebrazos hacia arriba rotando externamente los hombros, manteniendo los codos estacionarios. Haz una pausa breve en la parte superior del movimiento, asegurándote de que los antebrazos estén verticales. Baja lentamente las mancuernas de nuevo a la posición inicial invirtiendo la rotación. Repite para el número deseado de repeticiones.",
     "description": "La Rotación Cubana con Mancuernas es un ejercicio que se enfoca en los músculos del manguito rotador, mejorando la estabilidad y movilidad del hombro. Involucra una combinación de rotación externa y elevación lateral, lo que lo hace efectivo para mejorar la salud del hombro y prevenir lesiones.",
@@ -12673,7 +12819,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón al Rostro Sentado",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Coloca la máquina de cables en una posición de polea alta y adjunta un mango de cuerda. Siéntate en un banco frente a la máquina de cables con los pies planos en el suelo. Agarra la cuerda con ambas manos usando un agarre por encima, con las palmas hacia abajo. Inclínate ligeramente hacia atrás y asegúrate de que tu espalda esté recta y el núcleo comprometido. Tira de la cuerda hacia tu cara, liderando con los codos y manteniéndolos altos. Aprieta tus omóplatos juntos en el pico del movimiento. Extiende lentamente tus brazos de regreso a la posición inicial, manteniendo el control. Repite para el número deseado de repeticiones.",
@@ -12727,7 +12873,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Rotación con Kettlebell Alrededor de la Cabeza",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales",
+      "trapecio",
       "pectoral"
     ],
     "equipment": "otro",
@@ -12838,7 +12984,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón de cara con cable acostado",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Coloca la polea del cable en una posición baja y adjunta un mango de cuerda. Acuéstate en un banco mirando hacia la máquina de cables, asegurándote de que tus pies estén planos en el suelo. Agarra los extremos de la cuerda con un agarre por encima, palmas hacia abajo. Comienza con los brazos extendidos frente a ti, manteniendo una ligera flexión en los codos. Tira de la cuerda hacia tu cara retrayendo las escápulas y doblando los codos hacia afuera. Pausa brevemente cuando tus manos estén cerca de tu cara, asegurando la máxima contracción en los deltoides posteriores. Extiende lentamente tus brazos de nuevo a la posición inicial, manteniendo el control del peso. Repite para el número deseado de repeticiones.",
@@ -12893,15 +13039,17 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Plancha Completa",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "triceps",
-      "pectoral",
-      "biceps",
-      "dorsales",
-      "abdomen",
       "oblicuos",
-      "antebrazo",
+      "biceps",
+      "abdomen",
+      "triceps",
       "lumbares",
-      "gluteos"
+      "pectoral",
+      "antebrazo",
+      "gluteos",
+      "dorsales",
+      "isquiotibiales",
+      "trapecio"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en una posición de plancha con las manos separadas al ancho de los hombros y los dedos apuntando hacia adelante. Activa tu núcleo y glúteos para mantener tu cuerpo en línea recta. Desplaza tu peso hacia adelante sobre tus manos mientras mantienes los brazos rectos. Levanta los pies del suelo activando tus músculos del núcleo y la parte baja de la espalda. Mantén una posición paralela al suelo con las piernas completamente extendidas. Mantén la posición el mayor tiempo posible mientras mantienes la forma. Para salir, baja lentamente los pies de nuevo al suelo y regresa a una posición de plancha.",
@@ -13068,7 +13216,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón de Cara con Cable",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Coloca una cuerda en una polea alta de la máquina de cables. Párate frente a la máquina con los pies al ancho de los hombros. Agarra la cuerda con un agarre por encima, palmas hacia abajo. Da un paso atrás hasta que tus brazos estén completamente extendidos y haya tensión en el cable. Activa tu núcleo y mantén la espalda recta. Tira de la cuerda hacia tu cara, abriendo los codos hacia los lados. Aprieta tus omóplatos juntos en el punto máximo del movimiento. Extiende lentamente tus brazos de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -13227,7 +13375,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Aperturas Inversas en Máquina",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento para que las manijas estén a la altura de los hombros cuando estés sentado. Siéntate en la máquina con el pecho contra el cojín y los pies planos en el suelo. Agarra las manijas con un agarre neutral, palmas enfrentadas. Mantén los codos ligeramente doblados y conserva este ángulo durante todo el movimiento. Exhala y tira de las manijas hacia afuera y hacia atrás en un movimiento en arco hasta que tus brazos estén en línea con tus hombros. Aprieta los omóplatos juntos en el punto máximo del movimiento. Inhala y regresa lentamente a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -13488,8 +13636,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Press de hombros en máquina",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "triceps",
-      "pectoral"
+      "pectoral",
+      "triceps"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento para que las manijas estén a la altura de los hombros o ligeramente por debajo cuando estés sentado. Siéntate con la espalda firmemente contra el respaldo y los pies planos en el suelo. Agarra las manijas con un agarre por encima, palmas hacia adelante. Activa tu núcleo y mantén el pecho hacia arriba durante todo el ejercicio. Presiona las manijas hacia arriba hasta que tus brazos estén completamente extendidos pero no bloqueados. Baja lentamente las manijas de nuevo a la posición inicial, manteniendo el control. Repite para el número deseado de repeticiones.",
@@ -13597,9 +13745,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-70322856-de83-4f89-b6ab-71c40159d7ed",
     "name": "Corte de Leñador con Peso",
-    "primaryMuscle": "hombros",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
+      "hombros",
       "abdomen"
     ],
     "equipment": "mancuerna",
@@ -13656,7 +13804,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo con mancuernas de pie",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo una mancuerna en cada mano con un agarre por encima. Deja que las mancuernas cuelguen a la longitud de tus brazos frente a ti, con las palmas hacia tu cuerpo. Mantén la espalda recta, el pecho hacia arriba y el núcleo comprometido durante todo el movimiento. Levanta las mancuernas verticalmente doblando los codos, manteniéndolos más altos que tus antebrazos. Continúa levantando hasta que las mancuernas alcancen el nivel del pecho o ligeramente por debajo de la barbilla. Pausa brevemente en la parte superior del movimiento, asegurándote de que tus codos apunten hacia afuera. Baja las mancuernas de nuevo a la posición inicial de manera controlada. Repite para el número deseado de repeticiones.",
@@ -13761,8 +13909,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-7405282a-c2f6-480a-bf83-5c97dc70cb99",
     "name": "Plancha Frontal Estática",
-    "primaryMuscle": "hombros",
+    "primaryMuscle": "abdomen",
     "secondaryMuscles": [
+      "hombros",
       "triceps",
       "pectoral"
     ],
@@ -13817,13 +13966,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales",
-      "biceps",
-      "abdomen",
-      "lumbares",
       "gluteos",
+      "lumbares",
+      "isquiotibiales",
+      "abdomen",
       "pectoral",
       "oblicuos",
+      "trapecio",
+      "dorsales",
+      "biceps",
       "pantorrillas",
       "antebrazo"
     ],
@@ -14098,7 +14249,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón facial con anillas",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "peso_corporal",
     "instructions": "Ajusta los anillos de gimnasia a la altura del pecho. Párate frente a los anillos con los pies al ancho de los hombros. Agarra los anillos con un agarre neutral (palmas enfrentadas). Da un paso atrás para que tu cuerpo esté en un ángulo, manteniendo tensión en los anillos. Activa tu núcleo y mantén una línea recta desde la cabeza hasta los talones. Tira de los anillos hacia tu cara llevando los codos hacia afuera y hacia atrás. Aprieta los omóplatos juntos en la parte superior del movimiento. Extiende lentamente los brazos para volver a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -14156,8 +14307,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Press tras nuca en Multipower sentado",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "triceps",
-      "pectoral"
+      "pectoral",
+      "triceps"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento de la máquina Smith para que la barra esté a la altura de los hombros cuando estés sentado. Siéntate en el banco con la espalda recta y los pies planos en el suelo. Agarra la barra un poco más ancho que el ancho de los hombros con las palmas hacia adelante. Desengancha la barra empujándola ligeramente hacia arriba y moviéndola hacia adelante para despejar los ganchos. Baja la barra lentamente detrás de tu cabeza hasta que esté justo por encima de tus hombros. Presiona la barra de nuevo a la posición inicial, extendiendo completamente los brazos pero evitando bloquear los codos. Repite para el número deseado de repeticiones.",
@@ -14214,7 +14365,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación Powell en Inclinación",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 30-45 grados. Acuéstate boca abajo en el banco con el pecho y el estómago apoyados, los pies firmemente plantados en el suelo. Sujeta una mancuerna en cada mano con un agarre neutral (palmas enfrentadas). Extiende tus brazos hacia abajo en dirección al suelo, manteniendo una ligera flexión en los codos. Levanta las mancuernas hacia afuera y hacia arriba en un arco amplio hasta que tus brazos estén paralelos al suelo. Haz una pausa breve en la parte superior del movimiento, apretando los omóplatos juntos. Baja lentamente las mancuernas de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -14271,9 +14422,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Press Cubano de Pie",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "triceps",
+      "antebrazo",
       "biceps",
-      "dorsales"
+      "triceps",
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo un par de mancuernas con un agarre por encima. Comienza con los brazos colgando frente a ti, codos doblados a 90 grados y palmas hacia tu cuerpo. Levanta las mancuernas rotando externamente los hombros hasta que tus antebrazos estén paralelos al suelo. Desde esta posición, presiona las mancuernas por encima de la cabeza extendiendo completamente los brazos. Invierte lentamente el movimiento llevando las mancuernas de regreso a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -14326,7 +14478,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Vertical con Barra y Agarre de Hombros",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "biceps"
+      "biceps",
+      "antebrazo"
     ],
     "equipment": "barra",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo una barra con un agarre por encima al ancho de los hombros. Mantén la espalda recta y el núcleo comprometido durante todo el movimiento. Levanta la barra verticalmente liderando con los codos, manteniéndola cerca de tu cuerpo. Eleva la barra hasta que llegue justo debajo de tu barbilla, asegurándote de que los codos estén más altos que las muñecas. Haz una pausa breve en la parte superior del movimiento, luego baja lentamente la barra de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -14379,7 +14532,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Apertura posterior de deltoides con un brazo",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "maquina",
     "instructions": "Párate con los pies separados al ancho de los hombros, sosteniendo una mancuerna en una mano con un agarre neutral. Dobla ligeramente las rodillas e inclínate hacia adelante en las caderas, manteniendo la espalda recta y el núcleo comprometido. Deja que el brazo que sostiene la mancuerna cuelgue naturalmente, perpendicular al suelo. Con una ligera flexión en el codo, levanta el brazo hacia un lado hasta que esté paralelo al suelo. Haz una pausa breve en la parte superior del movimiento, enfocándote en apretar los omóplatos juntos. Baja lentamente la mancuerna de regreso a la posición inicial bajo control. Completa el número deseado de repeticiones antes de cambiar al otro brazo.",
@@ -14434,7 +14587,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Apertura Inversa en Polea para Deltoides Posterior",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Coloca la máquina de cables en una posición baja y acopla manijas individuales a cada lado. Párate en el centro de la máquina con los pies separados al ancho de los hombros, de espaldas a la máquina. Agarra cada manija con las manos opuestas, cruzándolas frente a tu cuerpo. Con una ligera flexión en los codos, tira de las manijas hacia afuera y hacia atrás en un movimiento en arco hasta que tus brazos estén paralelos al suelo. Aprieta los omóplatos juntos en el punto máximo del movimiento. Vuelve lentamente a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -14532,6 +14685,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Alto Inclinado Sentado con Mancuernas",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
+      "trapecio",
       "dorsales"
     ],
     "equipment": "mancuerna",
@@ -14587,7 +14741,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación lateral inclinado con cable a un brazo",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Ajusta la máquina de cables a una posición de polea baja y coloca un mango individual. Párate con los pies separados al ancho de los hombros, de espaldas a la máquina. Inclínate en las caderas hasta que tu torso esté casi paralelo al suelo, manteniendo la espalda recta. Agarra el mango con una mano, permitiendo que tu brazo cuelgue recto hacia abajo. Activa tu núcleo y mantén las rodillas ligeramente flexionadas para mayor estabilidad. Levanta tu brazo hacia un lado hasta que esté paralelo al suelo, manteniendo una ligera flexión en el codo. Haz una pausa breve en la parte superior del movimiento, concentrándote en apretar el omóplato. Baja lentamente el brazo de regreso a la posición inicial, manteniendo el control. Repite el número deseado de repeticiones antes de cambiar de brazo.",
@@ -14907,8 +15061,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación Lateral con Barra T en Suelo",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales",
-      "pectoral"
+      "pectoral",
+      "trapecio"
     ],
     "equipment": "barra",
     "instructions": "Coloca una barra en un accesorio de landmine o asegura un extremo en una esquina. Párate perpendicular a la barra con los pies al ancho de los hombros. Agarra el extremo de la barra con una mano, manteniendo el brazo recto y al costado. Activa tu núcleo y mantén una ligera flexión en las rodillas. Levanta la barra lateralmente levantando el brazo a la altura del hombro, manteniendo el codo ligeramente doblado. Haz una pausa breve en la parte superior del movimiento, asegurando control y estabilidad. Baja lentamente la barra de nuevo a la posición inicial. Repite el número deseado de repeticiones antes de cambiar al otro brazo.",
@@ -14962,7 +15116,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Jalón facial con banda",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "otro",
     "instructions": "Asegura una banda de resistencia a un punto de anclaje estable a la altura del pecho. Párate frente al punto de anclaje con los pies separados al ancho de los hombros. Sujeta los extremos de la banda con un agarre por encima, palmas hacia abajo. Da un paso atrás hasta que haya tensión en la banda, con los brazos extendidos frente a ti. Activa tu núcleo y mantén la espalda recta. Tira de la banda hacia tu cara, liderando con los codos y manteniéndolos altos. Aprieta tus omóplatos juntos al final del movimiento. Vuelve lentamente a la posición inicial, manteniendo la tensión en la banda. Repite para el número deseado de repeticiones.",
@@ -15018,10 +15172,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
       "triceps",
-      "abdomen",
-      "oblicuos",
       "dorsales",
-      "pectoral"
+      "oblicuos",
+      "pectoral",
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza colocándote en una parada de manos contra una pared, con las manos separadas al ancho de los hombros y los dedos extendidos para mayor estabilidad. Asegúrate de que tu cuerpo esté en línea recta desde la cabeza hasta los talones, activando tu núcleo para mantener el equilibrio. Baja lentamente tu cuerpo doblando los codos, manteniéndolos cerca de tu cuerpo, hasta que tu cabeza casi toque el suelo. Presiona con las palmas para extender los brazos y regresar a la posición inicial. Mantén el control durante todo el movimiento y concéntrate en usar los músculos de los hombros y tríceps.",
@@ -15073,7 +15227,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Apertura Inclinada con Mancuernas Alterna",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies separados al ancho de los hombros, sosteniendo una mancuerna en cada mano con un agarre neutral. Inclínate en las caderas para doblarte hacia adelante hasta que tu torso esté casi paralelo al suelo, manteniendo la espalda recta y las rodillas ligeramente flexionadas. Deja que tus brazos cuelguen naturalmente con una ligera flexión en los codos. Activa tu núcleo y levanta una mancuerna hacia un lado, manteniendo el codo ligeramente doblado, hasta que alcance la altura del hombro. Baja la mancuerna de nuevo a la posición inicial mientras simultáneamente levantas la mancuerna opuesta. Continúa alternando lados durante el número deseado de repeticiones.",
@@ -15128,7 +15282,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación lateral con mancuerna a un brazo inclinado con apoyo",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Comienza de pie junto a un banco o superficie estable con los pies separados al ancho de los hombros. Sujeta una mancuerna en una mano con un agarre neutral, con la palma hacia adentro. Inclínate en las caderas hasta que tu torso esté casi paralelo al suelo, manteniendo la espalda recta. Coloca tu mano no activa en el banco para apoyo. Con una ligera flexión en el codo, levanta la mancuerna lateralmente hasta la altura del hombro. Pausa brevemente en la parte superior del movimiento, luego baja lentamente la mancuerna de nuevo a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de brazo.",
@@ -15183,7 +15337,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación en Y con Cable en Inclinación con Soporte de Espalda",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Coloca un banco inclinado a un ángulo de 30-45 grados y posiciónalo entre dos poleas bajas. Acopla asas individuales a cada polea de cable. Siéntate en el banco mirando hacia los cables, con el pecho apoyado contra el cojín inclinado. Agarra cada asa con un agarre neutral (palmas enfrentadas). Comienza con los brazos extendidos hacia abajo frente a ti, manteniendo una ligera flexión en los codos. Levanta los brazos hacia arriba y hacia afuera en forma de Y hasta que estén en línea con tu cuerpo. Aprieta los omóplatos juntos en la parte superior del movimiento. Baja lentamente las asas de nuevo a la posición inicial bajo control. Repite para el número deseado de repeticiones.",
@@ -15294,6 +15448,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación Lateral con Mancuernas Inclinado Sentado",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
+      "trapecio",
       "dorsales"
     ],
     "equipment": "mancuerna",
@@ -15445,9 +15600,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-ac39bb5d-d66c-4660-85ac-3a4255acc5e7",
     "name": "Elevación en Y para Trapecio",
-    "primaryMuscle": "hombros",
+    "primaryMuscle": "trapecio",
     "secondaryMuscles": [
-      "dorsales"
+      "hombros"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies separados al ancho de los hombros, sosteniendo un par de mancuernas ligeras en cada mano. Inclínate ligeramente en las caderas y las rodillas, manteniendo la espalda recta y el pecho hacia arriba. Deja que tus brazos cuelguen naturalmente con las palmas enfrentándose entre sí. Activa tu núcleo y levanta los brazos en forma de Y hasta que estén en línea con tus oídos. Pausa brevemente en la parte superior, apretando los omóplatos juntos. Baja lentamente las pesas de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -15608,7 +15763,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevaciones Laterales con Mancuernas",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies separados al ancho de los hombros, sosteniendo una mancuerna en cada mano con un agarre neutral. Mantén los brazos rectos pero no bloqueados, y coloca las mancuernas frente a tus muslos. Activa tu núcleo y mantén una ligera flexión en las rodillas. Levanta las mancuernas lateralmente hasta la altura de los hombros, manteniendo los codos ligeramente doblados. Haz una pausa breve en la parte superior del movimiento, asegurándote de que tus hombros estén comprometidos. Baja las mancuernas de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -15666,6 +15821,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
       "biceps",
+      "antebrazo",
       "triceps"
     ],
     "equipment": "mancuerna",
@@ -15718,6 +15874,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación lateral posterior sentado con cable",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
+      "trapecio",
       "dorsales"
     ],
     "equipment": "polea",
@@ -15825,15 +15982,18 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Arrancada con mancuerna",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales",
       "cuadriceps",
+      "abductores",
       "gluteos",
-      "biceps",
+      "isquiotibiales",
       "lumbares",
-      "abdomen",
+      "trapecio",
       "pectoral",
-      "antebrazo",
+      "dorsales",
+      "abdomen",
       "oblicuos",
+      "adductores",
+      "antebrazo",
       "pantorrillas"
     ],
     "equipment": "mancuerna",
@@ -15887,7 +16047,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-bbf7d889-640a-4032-ad12-7edceed931d3",
     "name": "Remo al mentón en máquina Smith",
     "primaryMuscle": "hombros",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "maquina",
     "instructions": "Ajusta la barra de la máquina Smith a la altura adecuada, justo debajo de tus muslos. Párate con los pies al ancho de los hombros, agarra la barra con un agarre por encima ligeramente más estrecho que el ancho de los hombros. Desbloquea la barra de los seguros y déjala colgar frente a tus muslos. Mantén la espalda recta, el pecho hacia arriba y el núcleo comprometido durante todo el movimiento. Levanta la barra verticalmente a lo largo de tu cuerpo impulsando los codos hacia arriba y hacia afuera. Continúa levantando hasta que tus codos estén a la altura de los hombros o ligeramente por encima. Haz una pausa breve en la parte superior del movimiento, asegurándote de que tus codos estén más altos que tus muñecas. Baja la barra de nuevo a la posición inicial de manera controlada. Repite para el número deseado de repeticiones.",
     "description": "El Remo Vertical en Máquina Smith es un ejercicio compuesto que se enfoca en los hombros y la parte superior de la espalda. Consiste en levantar una barra verticalmente a lo largo del cuerpo utilizando una máquina Smith, que proporciona estabilidad y control. Este ejercicio involucra principalmente los deltoides, el trapecio y los bíceps.",
@@ -15946,7 +16108,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación Lateral con Mancuerna a un Brazo",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales",
+      "trapecio",
       "antebrazo"
     ],
     "equipment": "mancuerna",
@@ -16003,7 +16165,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación Lateral en T con Soporte para Pecho",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo mayor de 45 grados. Acuéstate boca abajo en el banco con el pecho apoyado y los pies firmemente plantados en el suelo. Sujeta una mancuerna en cada mano con un agarre neutral, brazos colgando rectos hacia abajo. Activa tu núcleo y retrae ligeramente las escápulas. Levanta los brazos hacia los lados hasta que estén paralelos al suelo, formando una forma de 'T' con tu cuerpo. Haz una pausa breve en la parte superior del movimiento, concentrándote en apretar los deltoides posteriores. Baja lentamente las mancuernas de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -16167,14 +16329,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales",
       "gluteos",
       "antebrazo",
-      "abdomen",
-      "pectoral",
-      "triceps",
       "oblicuos",
-      "biceps"
+      "pectoral",
+      "trapecio",
+      "abdomen",
+      "abductores",
+      "adductores",
+      "isquiotibiales",
+      "triceps"
     ],
     "equipment": "mancuerna",
     "instructions": "Acuéstate de espaldas con la pierna derecha doblada y el pie plano en el suelo Extiende la pierna izquierda completamente. Sujeta una pesa rusa en tu mano derecha con el brazo extendido hacia el techo Mantén la vista en la pesa rusa durante todo el movimiento. Presiona con tu pie derecho y rueda sobre tu cadera e antebrazo izquierdo. Empuja hacia arriba sobre tu mano izquierda, manteniendo la pesa rusa estable sobre la cabeza. Levanta tus caderas del suelo presionando con tu pie derecho y mano izquierda. Desliza tu pierna izquierda hacia atrás en una posición de rodillas debajo de tu cuerpo. Alinea tu torso erguido ajustando tu posición de rodillas. Ponte de pie impulsándote con tu pie derecho para llegar a una posición de pie con la pesa rusa sobre la cabeza. Invierte los pasos para volver a la posición inicial.",
@@ -16347,8 +16511,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Press de barra en T",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "triceps",
-      "pectoral"
+      "pectoral",
+      "triceps"
     ],
     "equipment": "barra",
     "instructions": "Coloca un extremo de una barra en un accesorio de landmine o en la esquina de una habitación. Párate con los pies separados al ancho de los hombros, mirando el extremo libre de la barra. Agarra la barra con una mano, colocándola a la altura del hombro con el codo doblado. Activa tu núcleo y mantén la espalda recta. Presiona la barra hacia arriba y ligeramente hacia adelante hasta que tu brazo esté completamente extendido. Baja lentamente la barra de nuevo a la posición inicial. Repite el número deseado de repeticiones, luego cambia de brazo.",
@@ -16457,7 +16621,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación de Powell",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Comienza acostándote de lado en un banco, con la parte superior del cuerpo apoyada y la parte inferior colgando del borde. Sujeta una mancuerna en la mano superior con un agarre neutral (palma hacia abajo) y déjala colgar directamente desde tu hombro. Mantén el núcleo comprometido y el cuerpo estable durante todo el movimiento. Levanta lentamente la mancuerna hacia arriba en un arco hasta que tu brazo esté paralelo al suelo, manteniendo una ligera flexión en el codo. Haz una pausa breve en la parte superior del movimiento, asegurándote de sentir la contracción en tu deltoide posterior. Baja la mancuerna de nuevo a la posición inicial de manera controlada. Repite el número deseado de repeticiones antes de cambiar de lado.",
@@ -16512,7 +16676,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Apertura Posterior de Deltoides en Polea con un Brazo",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Coloca la polea del cable a la altura del hombro y adjunta un mango individual. Párate de lado a la máquina de cables con los pies separados al ancho de los hombros. Agarra el mango con tu mano exterior, manteniendo el brazo ligeramente doblado. Aléjate de la máquina para crear tensión en el cable. Activa tu núcleo y mantén el torso estable durante todo el movimiento. Tira del mango a través de tu cuerpo en un movimiento de vuelo inverso, enfocándote en apretar tu deltoide posterior. Haz una pausa breve en la parte superior del movimiento, asegurando la contracción completa del deltoide posterior. Vuelve lentamente a la posición inicial con control. Completa el número deseado de repeticiones antes de cambiar de brazo.",
@@ -16726,7 +16890,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Remo Posterior para Deltoides con Mancuernas",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo una mancuerna en cada mano con un agarre neutral. Dobla ligeramente las rodillas y flexiona las caderas para inclinarte hacia adelante, manteniendo la espalda recta y el pecho hacia arriba. Deja que tus brazos cuelguen naturalmente, perpendiculares al suelo. Activa tu núcleo y retrae tus omóplatos. Tira de las mancuernas hacia tu caja torácica, enfocándote en apretar tus omóplatos juntos. Haz una pausa breve en la parte superior del movimiento, asegurando la máxima contracción en los deltoides posteriores. Baja lentamente las mancuernas de regreso a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -16782,7 +16946,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación Lateral Posterior en T con Mancuernas en Banco Inclinado",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco a una inclinación de 30-45 grados. Sujeta una mancuerna en cada mano con un agarre neutral, palmas enfrentadas. Acuéstate boca abajo en el banco con el pecho apoyado y los pies firmemente en el suelo. Extiende los brazos hacia abajo, permitiendo que cuelguen naturalmente con una ligera flexión en los codos. Activa tu núcleo y mantén la cabeza alineada con la columna. Levanta las mancuernas hacia los lados en un arco amplio, juntando los omóplatos en la parte superior del movimiento. Baja las mancuernas de nuevo a la posición inicial de manera controlada. Repite para el número deseado de repeticiones.",
@@ -16840,8 +17004,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Press de Hombros Sentado en Máquina Smith",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "triceps",
-      "pectoral"
+      "pectoral",
+      "triceps"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta el banco a una posición vertical y colócalo debajo de la barra de la máquina Smith. Siéntate en el banco con la espalda firmemente contra el respaldo y los pies planos en el suelo. Agarra la barra un poco más ancho que el ancho de los hombros con un agarre por encima. Desbloquea la barra girándola hacia adelante y colócala justo por encima de tu pecho superior. Inhala y presiona la barra hacia arriba hasta que tus brazos estén completamente extendidos pero no bloqueados. Exhala mientras bajas la barra de nuevo a la posición inicial, justo por encima de tu pecho superior. Repite para el número deseado de repeticiones.",
@@ -16896,14 +17060,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-effc2800-2625-404d-8a56-3c42c67fa439",
     "name": "Molino con Kettlebell",
-    "primaryMuscle": "hombros",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
-      "triceps",
+      "hombros",
       "lumbares",
-      "abdomen",
-      "biceps",
-      "gluteos"
+      "gluteos",
+      "isquiotibiales",
+      "triceps",
+      "abdomen"
     ],
     "equipment": "otro",
     "instructions": "Comienza de pie con los pies un poco más anchos que el ancho de los hombros Sostén una kettlebell en una mano y presiónala por encima de la cabeza, manteniendo el brazo recto. Gira tus pies aproximadamente 45 grados alejándolos del brazo que sostiene la kettlebell. Desplaza tu peso hacia la pierna opuesta a la kettlebell y empuja tu cadera hacia un lado. Manteniendo la vista en la kettlebell, baja lentamente el torso doblándote por las caderas Tu mano libre debe deslizarse por tu pierna hacia el suelo. Continúa bajando hasta que sientas un estiramiento en los isquiotibiales o hasta que tu mano llegue al suelo. Haz una pausa breve en la posición inferior, luego activa tu núcleo y glúteos para regresar a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de lado.",
@@ -16960,7 +17124,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación en Y con Cable",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "polea",
     "instructions": "Coloca la máquina de cables en una posición de polea baja y acopla manijas individuales a cada lado. Párate frente a la máquina con los pies separados al ancho de los hombros, sosteniendo una manija en cada mano. Da un paso atrás ligeramente para crear tensión en los cables, manteniendo los brazos rectos y a los lados. Activa tu núcleo y mantén una ligera flexión en las rodillas. Levanta los brazos diagonalmente hacia arriba y hacia afuera en forma de Y hasta que estén a la altura de los hombros. Pausa brevemente en la parte superior del movimiento mientras aprietas los omóplatos juntos. Baja lentamente las manijas de regreso a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -17076,7 +17240,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación posterior del deltoides con barra",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "barra",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo una barra con un agarre por encima. Dobla ligeramente las rodillas e inclínate hacia adelante en las caderas, manteniendo la espalda recta y el pecho hacia arriba. Deja que la barra cuelgue frente a ti con los brazos extendidos de manera natural. Levanta la barra hacia los lados hasta que tus brazos estén paralelos al suelo, manteniendo una ligera flexión en los codos. Haz una pausa en la parte superior del movimiento, apretando los omóplatos juntos. Baja la barra de nuevo a la posición inicial de manera controlada. Repite para el número deseado de repeticiones.",
@@ -17129,17 +17293,18 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-f5269fe9-4c03-44b9-a57c-25649650d382",
     "name": "Plancha de Perro de Caza",
-    "primaryMuscle": "hombros",
+    "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "dorsales",
+      "hombros",
       "triceps",
-      "pectoral",
-      "abdomen",
-      "cuadriceps",
       "gluteos",
+      "trapecio",
+      "cuadriceps",
       "oblicuos",
       "lumbares",
-      "biceps"
+      "pectoral",
+      "isquiotibiales",
+      "abductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en una posición de plancha alta con las manos directamente debajo de los hombros y el cuerpo formando una línea recta desde la cabeza hasta los talones. Activa los músculos del core para mantener la estabilidad. Simultáneamente levanta el brazo derecho y la pierna izquierda, manteniéndolos rectos y paralelos al suelo. Mantén esta posición durante unos segundos mientras mantienes el equilibrio. Regresa el brazo derecho y la pierna izquierda a la posición inicial. Repite el movimiento con el brazo izquierdo y la pierna derecha. Continúa alternando lados para el número deseado de repeticiones.",
@@ -17193,8 +17358,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Press de hombros con barra sentado",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "triceps",
       "pectoral",
+      "triceps",
       "abdomen",
       "oblicuos"
     ],
@@ -17250,7 +17415,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
       "pectoral",
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "peso_corporal",
     "instructions": "Párate con la espalda contra una pared, los pies separados al ancho de los hombros y los talones a unas 6 pulgadas de la pared. Asegúrate de que la parte baja de tu espalda esté plana contra la pared contrayendo tu core y metiendo ligeramente la pelvis. Levanta los brazos a la altura de los hombros y dobla los codos a 90 grados, manteniendo la parte superior de los brazos paralela al suelo. Presiona todo tu brazo, desde las yemas de los dedos hasta los codos, contra la pared. Desliza lentamente los brazos hacia arriba a lo largo de la pared mientras mantienes el contacto con la pared Detente cuando sientas alguna incomodidad o si tus brazos pierden contacto con la pared. Haz una pausa breve en la parte superior, luego desliza lentamente los brazos hacia abajo hasta la posición inicial. Repite el número deseado de repeticiones, enfocándote en mantener la forma adecuada durante todo el ejercicio.",
@@ -17306,11 +17471,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sostén en Parada de Manos",
     "primaryMuscle": "hombros",
     "secondaryMuscles": [
-      "dorsales",
+      "trapecio",
       "triceps",
-      "oblicuos",
       "abdomen",
       "biceps",
+      "oblicuos",
       "gluteos"
     ],
     "equipment": "peso_corporal",
@@ -17366,13 +17531,13 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-01259ee3-bdff-47c4-b7dc-e5283ea89e01",
     "name": "Curl de piernas deslizante",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps",
-      "abdomen",
-      "oblicuos",
+      "gluteos",
       "pantorrillas",
-      "lumbares"
+      "abdomen",
+      "lumbares",
+      "oblicuos"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate de espaldas con las rodillas dobladas y los pies planos sobre una superficie lisa. Coloca tus brazos a los lados con las palmas hacia abajo para mayor estabilidad. Levanta tus caderas del suelo para formar una línea recta desde los hombros hasta las rodillas, activando el core y los glúteos. Desliza lentamente tus pies alejándolos de tu cuerpo, extendiendo las piernas mientras mantienes las caderas elevadas. Pausa brevemente cuando las piernas estén completamente extendidas, luego desliza los pies de regreso hacia tu cuerpo para volver a la posición inicial. Repite el número deseado de repeticiones mientras mantienes el control y la forma.",
@@ -17422,9 +17587,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-02be3155-246f-4620-be93-dbd682d3fbca",
     "name": "Estiramiento de Media Rana Balanceante",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "adductores",
     "secondaryMuscles": [
-      "biceps"
+      "isquiotibiales",
+      "gluteos"
     ],
     "equipment": "otro",
     "instructions": "Comienza en cuatro patas en una posición de mesa con las manos directamente debajo de los hombros y las rodillas debajo de las caderas. Extiende una pierna hacia atrás mientras mantienes la otra rodilla doblada en un ángulo de 90 grados, con el pie girado hacia afuera. Lentamente balancea tus caderas hacia atrás hacia tus talones, sintiendo un estiramiento en el muslo interno de la pierna doblada. Mantén el estiramiento por un momento, luego balancea hacia adelante para volver a la posición inicial. Repite el movimiento de balanceo el número deseado de repeticiones antes de cambiar de lado.",
@@ -17473,7 +17639,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-034b85f8-5cf8-4696-9351-f6c4a62f1880",
     "name": "Elevación de tibial anterior de pie",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "pantorrillas",
     "secondaryMuscles": [],
     "equipment": "peso_corporal",
     "instructions": "Párate erguido con los pies separados al ancho de las caderas, cerca de una pared u objeto resistente para apoyo si es necesario. Mantén las rodillas ligeramente flexionadas y el núcleo comprometido durante todo el ejercicio. Levanta los dedos de los pies del suelo lo más alto posible mientras mantienes los talones firmemente plantados en el suelo. Mantén la posición superior por un momento, sintiendo la contracción en la parte delantera de tus piernas inferiores. Baja lentamente los dedos de los pies de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -17523,15 +17689,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-03b44dbb-7517-432a-8906-17069ed494b2",
     "name": "Sentadilla Anderson",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "abdomen",
+      "gluteos",
+      "adductores",
       "lumbares",
+      "abductores",
       "oblicuos",
-      "biceps",
-      "pantorrillas"
+      "isquiotibiales",
+      "pantorrillas",
+      "abdomen"
     ],
     "equipment": "barra",
     "instructions": "Coloca los pasadores de seguridad en una jaula de potencia a una altura donde tus muslos estén paralelos al suelo cuando estés en la posición inferior de la sentadilla. Coloca la barra en los pasadores de seguridad y cárgala con un peso adecuado. Ponte debajo de la barra, colocándola sobre la parte superior de tu espalda, y coloca tus pies al ancho de los hombros. Activa tu núcleo y agarra la barra firmemente con ambas manos. Impulsa a través de tus talones para levantar la barra de los pasadores, extendiendo tus caderas y rodillas hasta alcanzar una posición de pie. Pausa brevemente en la parte superior, luego baja la barra de nuevo a los pasadores con control. Reajusta tu posición y repite para el número deseado de repeticiones.",
@@ -17587,8 +17754,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
-      "biceps",
+      "adductores",
+      "isquiotibiales",
+      "abductores",
       "pantorrillas"
     ],
     "equipment": "peso_corporal",
@@ -17645,11 +17813,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Sissy con Peso Adicional",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
-      "abdomen",
+      "abductores",
       "gluteos",
-      "pantorrillas",
-      "oblicuos"
+      "abdomen",
+      "oblicuos",
+      "adductores",
+      "pantorrillas"
     ],
     "equipment": "mancuerna",
     "instructions": "Comienza de pie con los pies separados al ancho de los hombros Sostén un disco de pesas o una mancuerna cerca de tu pecho. Activa tu núcleo y mantén una línea recta desde tu cabeza hasta tus rodillas. Dobla lentamente las rodillas e inclínate hacia atrás, manteniendo las caderas extendidas y el torso erguido. Baja hasta que tus rodillas estén completamente flexionadas, asegurándote de que tus talones permanezcan en el suelo. Haz una pausa breve en la parte inferior del movimiento, luego empuja a través de tus talones para volver a la posición inicial.",
@@ -17701,9 +17870,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Prensa de piernas a 45 grados con postura estrecha",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
+      "abductores",
       "gluteos",
-      "dorsales",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "maquina",
     "instructions": "Siéntate en la máquina de prensa de piernas con la espalda y la cabeza firmemente apoyadas contra el soporte acolchado. Coloca tus pies juntos en el centro de la plataforma, aproximadamente al ancho de las caderas. Asegúrate de que tus rodillas estén alineadas con tus dedos de los pies y no se inclinen hacia adentro. Agarra las manijas a los lados del asiento para estabilizar la parte superior de tu cuerpo. Desbloquea el mecanismo de seguridad presionando ligeramente con tus piernas. Baja la plataforma doblando las rodillas hasta que formen un ángulo de aproximadamente 90 grados, manteniendo los pies planos en la plataforma. Presiona con los talones para extender las piernas de regreso a la posición inicial sin bloquear las rodillas. Repite durante el número deseado de repeticiones.",
@@ -17811,10 +17980,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-085df570-92e9-46b5-ad8c-fd6650a4a498",
     "name": "Estiramiento de isquiotibiales con una pierna sentado",
-    "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "biceps"
-    ],
+    "primaryMuscle": "isquiotibiales",
+    "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Siéntate en el suelo con las piernas extendidas rectas frente a ti. Dobla la rodilla derecha y coloca la planta del pie derecho contra el muslo interno de la pierna izquierda. Mantén la pierna izquierda recta y los dedos del pie apuntando hacia el techo. Inhala profundamente, luego exhala lentamente mientras te inclinas hacia adelante desde las caderas, alcanzando el pie izquierdo con ambas manos. Mantén la espalda recta y evita redondear los hombros mientras te estiras. Mantén el estiramiento durante 15-30 segundos, sintiendo un tirón suave a lo largo de la parte posterior del muslo izquierdo. Vuelve lentamente a la posición inicial y cambia de pierna para repetir en el otro lado.",
     "description": "El Estiramiento de Isquiotibiales de Pierna Única Sentado es un ejercicio de flexibilidad que se enfoca en los músculos isquiotibiales ubicados en la parte posterior del muslo. Este estiramiento ayuda a mejorar la flexibilidad, reducir la tensión muscular y mejorar la movilidad general del tren inferior. Es particularmente beneficioso para atletas e individuos que realizan actividades que requieren piernas fuertes y flexibles.",
@@ -17866,11 +18033,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Media Sentadilla",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos",
-      "abdomen",
-      "biceps",
+      "isquiotibiales",
+      "adductores",
       "lumbares",
+      "abdomen",
       "oblicuos"
     ],
     "equipment": "barra",
@@ -17930,12 +18097,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales",
       "lumbares",
-      "biceps",
-      "antebrazo",
-      "abdomen",
+      "isquiotibiales",
+      "abductores",
       "pantorrillas",
+      "antebrazo",
+      "trapecio",
+      "adductores",
+      "abdomen",
       "oblicuos",
       "hombros"
     ],
@@ -18044,11 +18213,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla en Silla con Máquina Smith",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos",
-      "abdomen",
-      "biceps",
+      "isquiotibiales",
+      "adductores",
       "lumbares",
+      "abdomen",
       "oblicuos"
     ],
     "equipment": "maquina",
@@ -18106,7 +18275,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-142bd4e5-6755-42e2-83ad-cbfcf6388dab",
     "name": "Aducción de Cadera Sentado",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "adductores",
     "secondaryMuscles": [],
     "equipment": "maquina",
     "instructions": "Ajusta el asiento y el respaldo de la máquina de aducción de cadera para asegurar comodidad y alineación adecuada. Siéntate en la máquina con la espalda firmemente contra el respaldo y los pies colocados en los reposapiés. Coloca tus piernas separadas, posicionando tus rodillas contra las palancas acolchadas. Agarra las manijas a cada lado del asiento para estabilidad. Exhala y lleva lentamente tus rodillas juntas contrayendo los músculos internos del muslo. Pausa brevemente en el punto de contracción máxima, asegurando un rango completo de movimiento. Inhala y regresa gradualmente a la posición inicial, controlando la resistencia en todo momento. Repite el número deseado de repeticiones.",
@@ -18151,15 +18320,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-145b65df-1575-4204-852c-0e3f24b29139",
     "name": "Sentadilla con barra",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "abdomen",
+      "gluteos",
+      "adductores",
       "lumbares",
+      "abductores",
       "oblicuos",
-      "biceps",
-      "pantorrillas"
+      "isquiotibiales",
+      "pantorrillas",
+      "abdomen"
     ],
     "equipment": "barra",
     "instructions": "Coloca la barra en un soporte para sentadillas a la altura de los hombros. Pasa por debajo de la barra y colócala sobre la parte superior de tu espalda, asegurándote de que descanse cómodamente sobre tus músculos trapecios. Agarra la barra con ambas manos un poco más anchas que el ancho de los hombros. Levanta la barra del soporte enderezando las piernas y retrocediendo con cuidado. Párate con los pies al ancho de los hombros, con los dedos ligeramente apuntando hacia afuera. Activa tu núcleo y mantén el pecho hacia arriba durante todo el movimiento. Comienza la sentadilla doblando las caderas y las rodillas, bajando el cuerpo hasta que los muslos estén paralelos al suelo o un poco más abajo. Asegúrate de que tus rodillas sigan la línea de tus dedos sin inclinarse hacia adentro. Empuja a través de tus talones para volver a la posición de pie, extendiendo completamente las caderas y las rodillas. Repite para el número deseado de repeticiones.",
@@ -18217,15 +18387,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-17325fc8-61c6-4697-9fe1-17e7ece44254",
     "name": "Sentadilla en Rack",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "abdomen",
+      "gluteos",
+      "adductores",
       "lumbares",
+      "abductores",
       "oblicuos",
-      "biceps",
-      "pantorrillas"
+      "isquiotibiales",
+      "pantorrillas",
+      "abdomen"
     ],
     "equipment": "barra",
     "instructions": "Coloca los pasadores de seguridad en un rack de potencia a la altura deseada, típicamente a la altura de tu profundidad de sentadilla o justo por debajo. Posiciona la barra en los pasadores y cárgala con un peso adecuado. Párate debajo de la barra con los pies al ancho de los hombros y colócala sobre la parte superior de tu espalda, asegurándote de que esté centrada. Agarra la barra firmemente con las manos un poco más anchas que el ancho de los hombros. Activa tu núcleo, retrae tus omóplatos y mantén una columna neutral. Levanta la barra de los pasadores impulsando con los talones y extendiendo tus caderas y rodillas simultáneamente. Haz una pausa breve en la parte superior, luego baja la barra de nuevo a los pasadores doblando tus caderas y rodillas, manteniendo el control en todo momento. Asegúrate de que cada repetición comience desde un punto muerto en los pasadores para maximizar la efectividad.",
@@ -18279,10 +18450,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-183cf14a-3214-4b69-8047-c5ddb4fa0f08",
     "name": "Flexión Adelante de Pie",
-    "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "biceps"
-    ],
+    "primaryMuscle": "isquiotibiales",
+    "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Párate con los pies al ancho de las caderas y los brazos a los lados. Inhala profundamente, luego exhala mientras te inclinas desde las caderas para doblarte hacia adelante. Mantén las rodillas ligeramente flexionadas si es necesario para evitar tensar la parte baja de la espalda. Deja que tu cabeza cuelgue pesada y relaja el cuello. Coloca tus manos en el suelo, en bloques, o agarra los codos opuestos. Mantén la posición durante 15-30 segundos, respirando profundamente. Para subir, activa tu núcleo y sube lentamente vértebra por vértebra.",
     "description": "La Flexión hacia Adelante de Pie, también conocida como Uttanasana en yoga, es un ejercicio fundamental que estira los isquiotibiales, las pantorrillas y las caderas mientras fortalece los muslos y las rodillas. También ayuda a mejorar la flexibilidad de la columna vertebral y promueve la relajación.",
@@ -18391,15 +18560,18 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Arrancada",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
+      "isquiotibiales",
+      "abductores",
       "gluteos",
       "hombros",
-      "biceps",
       "lumbares",
-      "abdomen",
+      "trapecio",
       "pectoral",
-      "antebrazo",
+      "dorsales",
+      "abdomen",
       "oblicuos",
+      "adductores",
+      "antebrazo",
       "pantorrillas"
     ],
     "equipment": "barra",
@@ -18457,11 +18629,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-1f8d0b3c-4924-403e-aea7-4ba4dd085553",
     "name": "Bicicleta estática",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
+      "cuadriceps",
+      "abductores",
       "gluteos",
-      "dorsales",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Ajusta la altura del asiento para que tus piernas estén ligeramente dobladas en la parte inferior del pedaleo. Siéntate en la bicicleta con la espalda recta y las manos descansando en el manillar. Comienza a pedalear lentamente para calentar, aumentando gradualmente tu velocidad. Ajusta el nivel de resistencia a una configuración cómoda para tus objetivos de entrenamiento. Mantén un ritmo constante y mantén tu núcleo comprometido durante toda la sesión. Enfría reduciendo gradualmente tu velocidad y resistencia antes de detenerte.",
@@ -18515,7 +18688,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-1fcb8c2c-1f5c-4623-91b4-5f2f946ade06",
     "name": "Postura de Mariposa Acostada",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "adductores",
     "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Acuéstate boca arriba sobre una colchoneta con las piernas extendidas. Dobla las rodillas y junta las plantas de los pies, permitiendo que las rodillas se abran hacia los lados. Coloca los talones cómodamente cerca de tu pelvis. Descansa los brazos a lo largo de tu cuerpo con las palmas hacia arriba o colócalos sobre tu abdomen. Cierra los ojos y respira lenta y profundamente, permitiendo que tu cuerpo se relaje en la postura. Mantén la posición durante 3-5 minutos o el tiempo que te resulte cómodo.",
@@ -18567,12 +18740,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales",
       "lumbares",
-      "biceps",
       "antebrazo",
-      "abdomen",
+      "isquiotibiales",
+      "abductores",
       "pantorrillas",
+      "trapecio",
+      "adductores",
+      "abdomen",
       "oblicuos",
       "hombros"
     ],
@@ -18632,9 +18807,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-214c92ad-dfe0-40a9-a697-d492de526d44",
     "name": "Paso al Frente con Barra",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "barra",
     "instructions": "Comienza configurando una plataforma estable o un banco a la altura de la rodilla. Carga una barra con un peso apropiado y colócala sobre la parte superior de tu espalda, sujetándola firmemente con ambas manos. Ponte de pie con los pies separados al ancho de los hombros frente a la plataforma. Sube a la plataforma con el pie derecho, presionando a través del talón para levantar tu cuerpo hacia arriba. Lleva tu pie izquierdo hacia arriba para encontrarse con tu pie derecho en la plataforma. Baja de nuevo con tu pie izquierdo primero, seguido por tu pie derecho para volver a la posición inicial. Repite el movimiento comenzando con el pie izquierdo para realizar repeticiones iguales en cada lado.",
     "description": "La subida al cajón con barra es un ejercicio compuesto para la parte inferior del cuerpo que trabaja los cuádriceps, isquiotibiales, glúteos y pantorrillas. Consiste en subir a una plataforma elevada con una barra colocada sobre la parte superior de la espalda, requiriendo equilibrio y coordinación.",
@@ -18738,15 +18911,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-21d66377-bf72-4789-a246-c2e721e7d55c",
     "name": "Sentadilla con barra baja",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "abdomen",
+      "gluteos",
+      "adductores",
       "lumbares",
+      "abductores",
       "oblicuos",
-      "biceps",
-      "pantorrillas"
+      "isquiotibiales",
+      "pantorrillas",
+      "abdomen"
     ],
     "equipment": "barra",
     "instructions": "Coloca una barra en un soporte de sentadillas a la altura del pecho. Posiciónate debajo de la barra, colocándola a través de tus deltoides posteriores justo debajo de la espina de tu escápula. Agarra la barra con las manos un poco más anchas que el ancho de los hombros, manteniendo las muñecas rectas. Retrocede del soporte con los pies al ancho de los hombros y los dedos ligeramente apuntando hacia afuera. Toma una respiración profunda, activa tu núcleo y comienza la sentadilla empujando tus caderas hacia atrás y doblando tus rodillas. Baja hasta que el pliegue de tu cadera esté por debajo del nivel de tus rodillas mientras mantienes una columna neutral. Impulsa a través de tus talones para regresar a la posición inicial, extendiendo tus caderas y rodillas simultáneamente. Exhala en la parte superior del movimiento y repite para las repeticiones deseadas.",
@@ -18806,8 +18980,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla en máquina con cinturón",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "maquina",
     "instructions": "Comienza ajustando la máquina a tu altura y asegurando el cinturón alrededor de tus caderas. Párate en la plataforma con los pies separados al ancho de los hombros y los dedos ligeramente apuntando hacia afuera. Activa tu núcleo y mantén el torso erguido durante todo el movimiento. Baja tu cuerpo doblando las caderas y las rodillas, manteniendo el pecho hacia arriba y las rodillas alineadas con los dedos de los pies. Desciende hasta que tus muslos estén paralelos al suelo o hasta donde tu movilidad lo permita. Empuja a través de tus talones para regresar a la posición inicial, extendiendo completamente tus caderas y rodillas. Repite por el número deseado de repeticiones.",
@@ -18862,7 +19036,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Estiramiento de Rodilla al Pecho",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "biceps"
+      "isquiotibiales",
+      "abductores"
     ],
     "equipment": "otro",
     "instructions": "Acuéstate boca arriba sobre una colchoneta con las piernas extendidas y los brazos a los lados. Dobla la rodilla derecha y tira suavemente de ella hacia tu pecho usando ambas manos. Mantén la pierna izquierda extendida en el suelo, asegurándote de que la parte baja de tu espalda permanezca en contacto con la colchoneta. Mantén el estiramiento durante 20-30 segundos mientras respiras profundamente. Suelta la rodilla derecha y vuelve a la posición inicial. Repite el estiramiento con la rodilla izquierda.",
@@ -18911,14 +19086,18 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-25157430-0a7c-4079-a00d-51a846790596",
     "name": "Arranque de potencia",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
-      "cuadriceps",
-      "abdomen",
       "lumbares",
-      "biceps",
+      "isquiotibiales",
+      "gluteos",
+      "abdomen",
+      "adductores",
       "oblicuos",
+      "trapecio",
+      "dorsales",
+      "hombros",
+      "biceps",
       "pantorrillas",
       "antebrazo"
     ],
@@ -18976,15 +19155,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-25cbefe9-8ebb-416a-8d6f-cbef5b14a585",
     "name": "Sentadilla con Barra Alta",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "abdomen",
+      "gluteos",
+      "adductores",
       "lumbares",
-      "oblicuos",
-      "biceps",
-      "pantorrillas"
+      "abductores",
+      "isquiotibiales",
+      "pantorrillas",
+      "abdomen",
+      "oblicuos"
     ],
     "equipment": "barra",
     "instructions": "Coloca una barra en un soporte de sentadillas a la altura de los hombros. Pasa por debajo de la barra y colócala sobre tus trapecios superiores, asegurándote de que esté centrada. Agarra la barra un poco más ancho que el ancho de los hombros y levanta los codos para crear una plataforma estable. Desmonta la barra poniéndote de pie y da un paso hacia atrás. Coloca tus pies al ancho de los hombros con los dedos ligeramente apuntando hacia afuera. Activa tu núcleo y mantén el pecho hacia arriba. Inicia la sentadilla doblando las caderas y las rodillas simultáneamente. Desciende hasta que tus muslos estén paralelos al suelo o un poco más abajo. Asegúrate de que tus rodillas sigan la línea de tus dedos durante todo el movimiento. Impulsa a través de tus talones para volver a la posición inicial, extendiendo tus caderas y rodillas.",
@@ -19044,11 +19224,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-27149543-dc50-48eb-86f7-022e7ab1b591",
     "name": "Subida al cajón",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "pantorrillas"
+      "gluteos",
+      "abductores",
+      "pantorrillas",
+      "adductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Párate frente a una caja o plataforma resistente con los pies separados al ancho de las caderas. Coloca firmemente tu pie derecho en la caja, asegurándote de que todo tu pie esté seguro. Empuja a través de tu talón derecho para levantar tu cuerpo sobre la caja, llevando tu pie izquierdo para encontrarse con el derecho. Párate erguido en la caja con ambos pies planos y las rodillas ligeramente dobladas. Baja con tu pie izquierdo primero, seguido por tu pie derecho para volver a la posición inicial. Repite el número deseado de repeticiones, luego cambia de pierna.",
@@ -19102,9 +19283,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-279742a1-3b38-489d-adf0-37a9290271d7",
     "name": "Estiramiento de Cuádriceps Acostado",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Acuéstate de lado sobre una superficie plana, asegurándote de que tu cuerpo esté alineado en una línea recta. Dobla la rodilla de tu pierna superior y lleva el talón hacia tus glúteos. Alcanza hacia atrás con tu mano del mismo lado para agarrar tu tobillo o pie. Tira suavemente de tu tobillo hacia tus glúteos hasta que sientas un estiramiento en la parte frontal de tu muslo. Mantén el estiramiento durante 20-30 segundos, manteniendo una respiración constante. Libera el estiramiento lentamente y cambia de lado para repetir con la otra pierna.",
     "description": "El Estiramiento de Cuádriceps Acostado es un ejercicio efectivo para aumentar la flexibilidad en los músculos cuádriceps ubicados en la parte frontal del muslo. Este estiramiento ayuda a mejorar el rango de movimiento, reducir la tensión muscular y prevenir lesiones. Es particularmente beneficioso para atletas e individuos involucrados en actividades que requieren piernas fuertes y flexibles.",
@@ -19153,9 +19332,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-2c08c473-5a61-4860-ae61-72380ac9d979",
     "name": "Sentadilla Profunda a Flexión Amplia con Sujeción del Pie",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps",
+      "pantorrillas",
       "gluteos"
     ],
     "equipment": "otro",
@@ -19214,14 +19393,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-2cc42ebe-22bc-4b27-9965-6e342ecd4c03",
     "name": "Escaladora",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
-      "pantorrillas",
+      "cuadriceps",
       "gluteos",
-      "dorsales",
-      "biceps",
-      "abdomen",
-      "oblicuos"
+      "pantorrillas",
+      "isquiotibiales",
+      "abductores",
+      "adductores",
+      "oblicuos",
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza subiendo a la máquina y sujetando firmemente los pasamanos. Selecciona tu programa de entrenamiento deseado o ajusta manualmente la velocidad y la resistencia a tu nivel de condición física. Comienza a pisar alternando la presión en cada pedal, simulando un movimiento de subir escaleras. Mantén una postura erguida con el núcleo comprometido y evita apoyarte demasiado en los pasamanos. Continúa el movimiento durante la duración deseada o hasta que alcances tu objetivo de fitness.",
@@ -19271,9 +19452,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-2daa9660-5c47-48b6-aa22-cf6e37b411b1",
     "name": "Estiramiento de Cuádriceps de Pie",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Párate erguido con los pies separados al ancho de las caderas. Desplaza tu peso hacia tu pierna izquierda. Dobla tu rodilla derecha y lleva tu talón derecho hacia tus glúteos. Alcanza hacia atrás con tu mano derecha y agarra tu tobillo o pie derecho. Mantén las rodillas juntas y párate erguido, evitando inclinarte hacia adelante. Mantén el estiramiento durante 15-30 segundos, sintiendo un tirón suave en la parte frontal de tu muslo. Suelta el estiramiento y repite con la pierna opuesta.",
     "description": "El Estiramiento de Cuádriceps de Pie es un estiramiento estático que se enfoca en los músculos cuádriceps situados en la parte frontal del muslo. Este ejercicio ayuda a mejorar la flexibilidad y el rango de movimiento en la articulación de la rodilla, lo cual es esencial para actividades que implican movimiento de las piernas.",
@@ -19324,9 +19503,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-2f4d0681-8859-4795-9266-4028c6e0171f",
     "name": "Balanceos de Piernas",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "gluteos"
     ],
     "equipment": "otro",
     "instructions": "Párate erguido con los pies separados al ancho de los hombros junto a una pared u objeto resistente para apoyo. Coloca tu mano izquierda en la pared para mantener el equilibrio. Desplaza tu peso sobre la pierna izquierda y levanta ligeramente la pierna derecha del suelo. Balancea tu pierna derecha hacia adelante y hacia atrás de manera controlada, manteniendo el torso erguido. Realiza de 10 a 15 balanceos, luego cambia de pierna y repite el movimiento con la pierna izquierda. Mantén un ritmo constante y evita movimientos bruscos para prevenir lesiones.",
@@ -19379,7 +19558,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate erguido con los pies separados al ancho de las caderas, sosteniendo una mancuerna en cada mano a los lados. Da un paso hacia adelante con un pie en posición de zancada, asegurándote de que tus pies estén escalonados y separados al ancho de las caderas. Baja la rodilla trasera hacia el suelo doblando ambas rodillas hasta que tu muslo delantero esté paralelo al piso. Asegúrate de que tu rodilla delantera esté directamente sobre tu tobillo y no se extienda más allá de tus dedos del pie. Empuja con el talón de tu pie delantero para volver a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -19434,7 +19613,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
+      "abductores",
+      "adductores",
       "pantorrillas"
     ],
     "equipment": "barra",
@@ -19493,7 +19673,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza de pie frente a una plataforma o escalón, de aproximadamente 6-12 pulgadas de altura. Coloca tu pie derecho en la plataforma, asegurándote de que tu talón esté firmemente plantado. Da un paso hacia atrás con tu pie izquierdo, posicionándolo de manera que ambas rodillas puedan doblarse cómodamente. Mantén tu torso erguido y activa tu núcleo. Baja tu cuerpo doblando ambas rodillas hasta que tu muslo derecho esté paralelo al suelo. Asegúrate de que tu rodilla derecha no se extienda más allá de tus dedos del pie. Empuja a través de tu talón derecho para volver a la posición inicial. Completa el número deseado de repeticiones antes de cambiar de pierna.",
@@ -19551,9 +19731,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Zancadas Caminando con Saco Búlgaro",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos",
-      "biceps"
+      "isquiotibiales",
+      "adductores",
+      "abductores"
     ],
     "equipment": "otro",
     "instructions": "Párate derecho con los pies separados al ancho de las caderas, sosteniendo la bolsa búlgara de manera segura sobre tus hombros. Da un paso hacia adelante con el pie derecho, bajando las caderas hasta que ambas rodillas estén dobladas a aproximadamente 90 grados. Asegúrate de que tu rodilla delantera esté directamente sobre tu tobillo y tu rodilla trasera esté justo por encima del suelo. Empuja con el talón de tu pie delantero para levantarte y lleva tu pie trasero hacia adelante para dar el siguiente paso en la estocada. Continúa alternando las piernas, manteniendo el torso erguido y un ritmo constante. Completa el número deseado de repeticiones o distancia.",
@@ -19609,8 +19790,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Prensa de Piernas con Postura Amplia",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
-      "gluteos"
+      "gluteos",
+      "abductores"
     ],
     "equipment": "maquina",
     "instructions": "Siéntate en la máquina de prensa de piernas con la espalda y la cabeza firmemente contra el respaldo del asiento. Coloca tus pies en la plataforma más anchos que el ancho de los hombros, con los dedos ligeramente apuntando hacia afuera. Agarra las manijas a cada lado del asiento para mantener la estabilidad. Desbloquea las barras de seguridad presionando ligeramente la plataforma y soltando el seguro. Baja la plataforma doblando las rodillas hasta que formen un ángulo de 90 grados o un poco más, asegurándote de que tus rodillas se alineen con tus dedos de los pies. Presiona con los talones para extender las piernas y regresar a la posición inicial sin bloquear las rodillas. Repite durante el número deseado de repeticiones.",
@@ -19662,7 +19843,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-3a1fc73a-3f12-43bb-8f88-5e5b0d1443b8",
     "name": "Rodar el Pie",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "pantorrillas",
     "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Siéntate en una silla con los pies planos en el suelo. Coloca una pelota pequeña o un rodillo de espuma debajo de un pie. Aplica una presión suave y rueda la pelota desde el talón hasta los dedos. Concéntrate en cualquier área tensa o sensible, dedicando más tiempo allí. Continúa rodando durante 1-2 minutos por pie. Cambia al otro pie y repite el proceso.",
@@ -19711,9 +19892,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-3ae8ee86-534c-0824-07b6-e9f105b97c1d",
     "name": "Curl de Piernas Sentado",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "pantorrillas"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta el asiento y el respaldo de la máquina de curl de piernas para que tus rodillas se alineen con el punto de pivote de la máquina. Siéntate en la máquina con la espalda firmemente contra el respaldo y coloca tus piernas debajo de la palanca acolchada, asegurándola justo por encima de tus tobillos. Agarra las asas o los lados del asiento para mayor estabilidad. Comienza con las piernas completamente extendidas frente a ti. Exhala y lentamente flexiona tus piernas hacia atrás doblando las rodillas, llevando tus talones lo más cerca posible de tus glúteos. Mantén la contracción por un momento en la parte inferior del movimiento. Inhala y regresa lentamente a la posición inicial con un movimiento controlado, extendiendo completamente tus piernas. Repite el número deseado de repeticiones.",
@@ -19767,9 +19948,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-3be9dd6e-2749-aa93-a291-4cc48ad59b28",
     "name": "Curl nórdico de isquiotibiales",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "pantorrillas"
     ],
     "equipment": "maquina",
     "instructions": "Arrodíllate sobre una superficie suave con los pies asegurados bajo un objeto estable o sostenidos por un compañero. Mantén tu cuerpo recto desde la cabeza hasta las rodillas. Cruza los brazos sobre el pecho o colócalos a los lados. Inclínate lentamente hacia adelante, manteniendo la espalda recta y activando el core. Baja tanto como puedas manteniendo el control, luego empuja hacia arriba para volver a la posición inicial.",
@@ -19819,9 +20000,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-3dbb26db-032a-435d-9e0b-98c587fd4568",
     "name": "Patada de Glúteos en Máquina Smith",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "maquina",
     "instructions": "Coloca la barra de la máquina Smith en una posición baja, justo por encima del suelo. Párate frente a la máquina, posicionando un pie debajo de la barra con la rodilla ligeramente doblada. Agarra el marco de la máquina para apoyo y equilibrio. Activa tu núcleo y extiende lentamente tu pierna hacia atrás, empujando la barra con tu pie. Aprieta tus glúteos en la parte superior del movimiento, asegurando una extensión completa sin arquear tu espalda. Regresa lentamente a la posición inicial, controlando el movimiento. Completa el número deseado de repeticiones antes de cambiar de pierna.",
@@ -19872,7 +20053,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-3ed15c03-1804-4a10-a975-43e21e7cb3d1",
     "name": "Aducción de Cadera con Banda de Resistencia",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "adductores",
     "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Asegura una banda de resistencia a un punto de anclaje firme a la altura del tobillo. Párate de lado al punto de anclaje y coloca el extremo libre de la banda alrededor de tu tobillo interior. Aléjate del punto de anclaje hasta que haya tensión en la banda. Párate con los pies al ancho de los hombros, manteniendo el núcleo comprometido y la espalda recta. Desplaza tu peso hacia la pierna más alejada del punto de anclaje. Lentamente lleva la pierna con la banda a través de tu cuerpo hacia la pierna de apoyo, manteniéndola recta. Haz una pausa breve en la contracción máxima, luego regresa lentamente a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -19982,8 +20163,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla con mancuernas",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo una mancuerna en cada mano a los lados. Mantén el pecho hacia arriba, los hombros hacia atrás y el núcleo comprometido durante todo el movimiento. Inicia la sentadilla doblando las caderas y las rodillas, bajando el cuerpo hasta que los muslos estén paralelos al suelo. Asegúrate de que tus rodillas sigan la línea de los dedos de los pies y no se extiendan más allá de ellos. Empuja a través de tus talones para volver a la posición inicial, enderezando las piernas y poniéndote de pie. Repite para el número deseado de repeticiones.",
@@ -20037,10 +20218,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-4054edee-6167-40a5-b385-59e588bb451d",
     "name": "Curl de Pierna de Pie",
-    "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "biceps"
-    ],
+    "primaryMuscle": "isquiotibiales",
+    "secondaryMuscles": [],
     "equipment": "maquina",
     "instructions": "Ajusta la máquina para que el cojín descanse cómodamente contra la parte posterior de tu pierna inferior, justo por encima del tobillo. Ponte de pie con el torso recto y agárrate a las asas de la máquina para obtener apoyo. Coloca tus pies a la altura de las caderas y asegúrate de que tu pierna de trabajo esté alineada con la palanca de la máquina. Activa tu núcleo y mantén la pierna de apoyo ligeramente doblada para mantener el equilibrio. Exhala mientras flexionas la rodilla para elevar tu pierna de trabajo hacia arriba, llevando el talón hacia los glúteos. Haz una pausa breve en la parte superior del movimiento, asegurando la máxima contracción en los isquiotibiales. Inhala mientras bajas lentamente la pierna de nuevo a la posición inicial de manera controlada. Repite el número deseado de repeticiones antes de cambiar a la otra pierna.",
     "description": "El Curl de Pierna de Pie es un ejercicio de aislamiento que se enfoca en los isquiotibiales. Se realiza utilizando una máquina de curl de pierna donde el usuario se mantiene erguido, activando los isquiotibiales mediante la flexión de la rodilla. Este ejercicio ayuda a fortalecer la cadena posterior y a mejorar la estabilidad de la rodilla.",
@@ -20096,9 +20275,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-4241390f-1594-40a6-b067-f30b53b5b364",
     "name": "Extensión Terminal de Rodilla",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Ancla una banda de resistencia a la altura de la rodilla y envuélvela alrededor de la parte posterior de tu rodilla. Párate con los pies al ancho de las caderas, mirando en dirección opuesta al punto de anclaje, con la banda proporcionando tensión en tu rodilla. Comienza con la rodilla ligeramente doblada, manteniendo el pie plano en el suelo. Activa tus cuádriceps para extender completamente la rodilla, enderezando la pierna contra la resistencia de la banda. Mantén la posición completamente extendida por un momento, asegurando la contracción total de los cuádriceps. Vuelve lentamente a la posición inicial con control, manteniendo la tensión en la banda. Repite el número deseado de repeticiones.",
     "description": "La Extensión Terminal de Rodilla (ETR) es un ejercicio que se enfoca en los cuádriceps, particularmente en el vasto medial oblicuo (VMO), y se utiliza a menudo para la rehabilitación y fortalecimiento de la rodilla. Consiste en extender la rodilla desde una posición ligeramente flexionada hasta la extensión completa contra resistencia, generalmente utilizando una banda de resistencia.",
@@ -20151,8 +20328,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Búlgara en Máquina Smith",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "maquina",
     "instructions": "Coloca la barra de la máquina Smith a la altura de los hombros y asegúrate de que los seguros estén en su lugar. Párate a unos dos pies frente al banco con la espalda hacia él, y coloca la barra sobre la parte superior de tu espalda. Coloca un pie en el banco detrás de ti, asegurándote de que tus dedos estén bien posicionados. Agarra la barra con ambas manos un poco más anchas que el ancho de los hombros. Activa tu núcleo y mantén el pecho hacia arriba mientras bajas la rodilla trasera hacia el suelo doblando la rodilla delantera. Baja hasta que tu muslo delantero esté paralelo al suelo o un poco más abajo, asegurándote de que tu rodilla delantera no se extienda más allá de tus dedos del pie. Presiona a través del talón de tu pie delantero para volver a la posición inicial, manteniendo el movimiento controlado. Completa el número deseado de repeticiones antes de cambiar de pierna.",
@@ -20207,7 +20384,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Prensa de pierna unilateral",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales"
+      "isquiotibiales"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta el asiento de la máquina de prensa de piernas para que tu espalda esté completamente apoyada y tus rodillas formen un ángulo de 90 grados cuando tu pie esté en la plataforma. Coloca un pie en la plataforma con los dedos apuntando ligeramente hacia afuera y asegúrate de que tu rodilla esté alineada con tu pie. Agarra las manijas laterales para estabilidad y mantén tu espalda plana contra el asiento. Empuja a través de tu talón para extender tu pierna, manteniendo una ligera flexión en la rodilla en la parte superior del movimiento para evitar bloquearla. Baja lentamente la plataforma de nuevo a la posición inicial, asegurando el control durante todo el movimiento. Completa el número deseado de repeticiones para una pierna antes de cambiar a la otra.",
@@ -20259,14 +20436,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-4479b851-d92c-4da6-b9b2-885f86680832",
     "name": "Saltar la Cuerda",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
+      "pantorrillas",
       "cuadriceps",
-      "dorsales",
-      "abdomen",
-      "gluteos",
+      "isquiotibiales",
       "oblicuos",
-      "biceps"
+      "abductores",
+      "gluteos",
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Elige una cuerda de longitud adecuada; cuando te pares en el medio de la cuerda, los mangos deben llegar a tus axilas. Sujeta los mangos con un agarre firme, manteniendo los codos cerca de tu cuerpo. Párate con los pies juntos en una superficie plana, manteniendo una postura erguida. Gira la cuerda sobre tu cabeza usando las muñecas, no los brazos. Salta del suelo lo suficiente para pasar la cuerda, aterrizando suavemente sobre las puntas de tus pies. Mantén un ritmo constante y asegúrate de que tus saltos sean consistentes en altura y velocidad.",
@@ -20320,12 +20498,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-47582674-26cc-49c2-a66f-06655b49ab34",
     "name": "Escalada en cinta de correr",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
-      "pantorrillas",
+      "cuadriceps",
       "gluteos",
-      "dorsales",
-      "biceps"
+      "isquiotibiales",
+      "pantorrillas",
+      "adductores",
+      "abductores"
     ],
     "equipment": "otro",
     "instructions": "Comienza configurando la cinta de correr a una velocidad baja y una inclinación moderada para calentar. Aumenta gradualmente la inclinación para simular la escalada Ajusta la velocidad según sea necesario para mantener un ritmo constante. Mantén una postura erguida con los hombros hacia atrás y el núcleo comprometido. Usa un balanceo natural de los brazos para ayudar a equilibrar y mantener el ritmo. Concéntrate en aterrizar suavemente sobre tus pies para reducir el impacto en las articulaciones. Continúa escalando durante la duración deseada o hasta que alcances tu frecuencia cardíaca objetivo.",
@@ -20382,10 +20562,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
       "lumbares",
+      "adductores",
+      "abductores",
+      "isquiotibiales",
       "abdomen",
-      "biceps",
       "oblicuos"
     ],
     "equipment": "barra",
@@ -20441,10 +20622,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-4a5f1411-75cd-4485-bbcb-d408f76f0a93",
     "name": "Estiramiento de Zancada",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps",
-      "dorsales"
+      "cuadriceps"
     ],
     "equipment": "otro",
     "instructions": "Comienza de pie con los pies separados al ancho de las caderas. Da un paso hacia adelante con el pie derecho, bajando las caderas hasta que ambas rodillas estén dobladas en un ángulo de aproximadamente 90 grados. Asegúrate de que tu rodilla derecha esté directamente sobre tu tobillo y que tu rodilla izquierda quede justo por encima del suelo. Mantén el torso erguido y activa tu núcleo durante todo el movimiento. Mantén el estiramiento durante unos segundos, luego impúlsate con el pie derecho para volver a la posición inicial. Repite en el lado opuesto dando un paso hacia adelante con el pie izquierdo.",
@@ -20497,7 +20677,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "maquina",
     "instructions": "Coloca la barra de la máquina Smith a la altura de los hombros. Párate debajo de la barra con los pies separados al ancho de los hombros. Coloca la barra sobre la parte superior de la espalda y los hombros, sujetándola con ambas manos un poco más anchas que el ancho de los hombros. Desbloquea la barra girándola hacia adelante y da un paso atrás ligeramente para despejar los topes de seguridad. Mantén el pecho levantado, el núcleo comprometido y la espalda recta durante todo el movimiento. Baja el cuerpo doblando las rodillas y las caderas, manteniendo las rodillas alineadas con los dedos de los pies. Desciende hasta que los muslos estén paralelos al suelo o un poco más abajo. Empuja a través de los talones para volver a la posición inicial, extendiendo las rodillas y las caderas.",
@@ -20556,7 +20736,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Estiramiento 90 a 90",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "cuadriceps"
+      "cuadriceps",
+      "adductores",
+      "abductores"
     ],
     "equipment": "otro",
     "instructions": "Siéntate en el suelo con las piernas dobladas frente a ti. Coloca tu pierna derecha frente a ti con una flexión de 90 grados en la rodilla, la espinilla paralela a tu torso. Coloca tu pierna izquierda al lado, también doblada en un ángulo de 90 grados, con la espinilla perpendicular a tu torso. Mantén la espalda recta y el pecho hacia arriba durante todo el movimiento. Gira lentamente las caderas para cambiar la posición de las piernas, llevando la pierna izquierda al frente y la pierna derecha al lado, manteniendo los ángulos de 90 grados. Continúa alternando lados de manera controlada durante el número deseado de repeticiones.",
@@ -20605,10 +20787,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-5526faf0-d734-42c9-a045-50b31aecd615",
     "name": "Perro Boca Abajo",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "gluteos",
-      "biceps"
+      "pantorrillas",
+      "abductores",
+      "gluteos"
     ],
     "equipment": "otro",
     "instructions": "Comienza en tus manos y rodillas con las muñecas alineadas debajo de tus hombros y las rodillas debajo de tus caderas. Extiende los dedos y presiona firmemente en el suelo con las palmas. Mete los dedos de los pies y levanta las rodillas del suelo, elevando las caderas hacia el techo. Endereza las piernas tanto como sea posible sin bloquear las rodillas, formando una V invertida con tu cuerpo. Mantén la cabeza entre los brazos, las orejas alineadas con los brazos superiores, y mira hacia tus pies o el ombligo. Mantén la posición durante varias respiraciones, manteniendo un patrón de respiración constante y profundo. Para liberar, baja las rodillas de nuevo al suelo y regresa a la posición inicial.",
@@ -20664,9 +20847,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-55c465c9-b72e-4a61-b8ed-d3f8502e0b79",
     "name": "Elevación de Poliquin",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "mancuerna",
     "instructions": "Párate frente a un banco o escalón con los pies separados al ancho de las caderas. Coloca un pie en el banco, asegurándote de que todo el pie esté plano y estable. Empuja a través del talón del pie en el banco para levantar tu cuerpo hacia arriba. Mantén el torso erguido y evita inclinarte hacia adelante en exceso. Lleva la pierna trasera hacia arriba para tocar ligeramente el banco sin poner peso sobre ella. Baja la pierna trasera al suelo de manera controlada. Repite el número deseado de repeticiones antes de cambiar de pierna.",
     "description": "El Poliquin Step-Up es un ejercicio para la parte inferior del cuerpo que se enfoca en los cuádriceps, glúteos y isquiotibiales. Se realiza con un enfoque en el movimiento controlado y el equilibrio, mejorando la estabilidad y la fuerza de las rodillas. Este ejercicio lleva el nombre de Charles Poliquin, un reconocido entrenador de fuerza, y es particularmente efectivo para atletas que buscan mejorar la potencia de sus piernas y la salud de sus rodillas.",
@@ -20718,8 +20899,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-57512f6d-595f-47a5-ba01-9a8e8dfca5a6",
     "name": "Toque de Rodilla Alta Saltando",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
+      "pantorrillas",
       "cuadriceps"
     ],
     "equipment": "otro",
@@ -20773,12 +20955,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales",
-      "hombros",
       "oblicuos",
-      "abdomen",
-      "biceps",
-      "pantorrillas"
+      "isquiotibiales",
+      "pantorrillas",
+      "hombros",
+      "trapecio",
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo una pesa rusa en una mano entre tus piernas. Dobla ligeramente las rodillas y flexiona las caderas para bajar la pesa rusa hacia atrás entre tus piernas. Impulsa a través de tus talones y empuja tus caderas hacia adelante para balancear la pesa rusa hasta la altura de los hombros. Mantén el brazo recto pero no bloqueado, permitiendo que el impulso lleve la pesa rusa. Controla el descenso flexionando las caderas nuevamente mientras la pesa rusa baja. Repite las repeticiones deseadas antes de cambiar de brazo.",
@@ -20832,10 +21014,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-5ba385ff-a1f8-44d4-b3a9-f988d2a3ea75",
     "name": "Peso Muerto a Una Pierna",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
       "lumbares",
-      "biceps"
+      "gluteos"
     ],
     "equipment": "barra",
     "instructions": "Ponte de pie con los pies separados al ancho de las caderas y sostén una mancuerna en tu mano derecha. Desplaza tu peso sobre tu pierna izquierda, manteniendo una ligera flexión en la rodilla. Flexiona las caderas, extendiendo tu pierna derecha recta detrás de ti mientras bajas la mancuerna hacia el suelo. Mantén la espalda recta y el núcleo comprometido durante todo el movimiento. Baja hasta que tu torso esté paralelo al suelo o hasta donde tu flexibilidad lo permita. Regresa a la posición inicial impulsando con tu talón izquierdo y llevando tu pierna derecha hacia adelante. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -20944,9 +21126,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-5bf3ca9d-6d66-49eb-be24-2fcb61b9bda5",
     "name": "Estiramiento de Cuádriceps en Medio Arrodillado",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Comienza en una posición de medio arrodillado con la rodilla derecha en el suelo y el pie izquierdo plano frente a ti, formando un ángulo de 90 grados en ambas rodillas. Mantén el torso erguido y activa los músculos del core para mantener el equilibrio. Alcanza hacia atrás con la mano derecha y agarra suavemente tu tobillo o pie derecho. Lentamente tira de tu pie derecho hacia los glúteos, sintiendo un estiramiento en la parte frontal de tu muslo derecho. Mantén el estiramiento durante 20-30 segundos, asegurándote de mantener una respiración constante. Suelta el estiramiento y cambia de lado para repetir con la pierna izquierda.",
     "description": "El Estiramiento de Cuádriceps en Medio Arrodillado es un ejercicio de flexibilidad que se enfoca en los músculos del cuádriceps. Se realiza en una posición de medio arrodillado, lo que permite un estiramiento profundo de los músculos frontales del muslo mientras también se activan los flexores de la cadera. Este estiramiento es beneficioso para mejorar la flexibilidad, reducir la rigidez muscular y mejorar la movilidad general del tren inferior.",
@@ -21050,7 +21230,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
+      "abductores",
       "pantorrillas"
     ],
     "equipment": "barra",
@@ -21107,10 +21287,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
+      "isquiotibiales",
+      "adductores",
+      "abductores",
       "pantorrillas",
-      "dorsales",
       "abdomen",
-      "biceps",
       "oblicuos"
     ],
     "equipment": "mancuerna",
@@ -21166,7 +21347,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales"
+      "abductores",
+      "adductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Párate con los pies separados al ancho de los hombros a una distancia cómoda del cajón. Activa tu núcleo y dobla ligeramente las rodillas para prepararte para el salto. Balancea tus brazos hacia atrás y luego hacia adelante mientras explotas hacia arriba, usando tus piernas para impulsarte sobre el cajón. Aterriza suavemente en el cajón con ambos pies planos y las rodillas ligeramente dobladas para absorber el impacto. Párate completamente en el cajón para completar el movimiento. Baja con cuidado un pie a la vez y prepárate para la siguiente repetición.",
@@ -21222,8 +21404,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Hack en Máquina Smith",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "maquina",
     "instructions": "Colócate debajo de la barra de la máquina Smith con los pies separados al ancho de los hombros y ligeramente delante de ti. Desengancha la barra girándola hacia adelante y colócala sobre la parte superior de tu espalda, asegurándote de que esté cómoda y segura. Mantén el pecho arriba, el núcleo comprometido y la espalda recta durante todo el movimiento. Baja tu cuerpo doblando las rodillas y las caderas, manteniendo las rodillas alineadas con los dedos de los pies. Desciende hasta que tus muslos estén paralelos al suelo o ligeramente por debajo, asegurándote de que tus talones permanezcan planos en el suelo. Empuja a través de tus talones para volver a la posición inicial, extendiendo completamente las piernas sin bloquear las rodillas. Repite para el número deseado de repeticiones.",
@@ -21331,16 +21513,17 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-642e9efb-4dc4-41a7-8e84-56dcea274c86",
     "name": "Hang Power Clean",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "biceps",
-      "dorsales",
       "lumbares",
+      "isquiotibiales",
+      "gluteos",
       "antebrazo",
       "abdomen",
-      "cuadriceps",
+      "biceps",
+      "hombros",
       "oblicuos",
-      "hombros"
+      "trapecio"
     ],
     "equipment": "barra",
     "instructions": "Comienza de pie con los pies separados al ancho de los hombros y sosteniendo una barra con un agarre por encima justo fuera de tus muslos. Dóblate ligeramente en las caderas y las rodillas, bajando la barra hasta justo por encima de tus rodillas Esta es tu posición inicial. Extiende explosivamente tus caderas y rodillas mientras tiras de la barra hacia arriba, manteniéndola cerca de tu cuerpo. A medida que la barra alcanza la altura del pecho, rota tus codos debajo de la barra y atrápala en tus hombros en una posición de cuarto de sentadilla. Ponte de pie para completar el movimiento, luego baja la barra de nuevo a la posición inicial para la siguiente repetición.",
@@ -21394,9 +21577,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Zancadas caminando",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos",
-      "biceps"
+      "isquiotibiales",
+      "adductores",
+      "abductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate erguido con los pies separados al ancho de las caderas y las manos en las caderas o sosteniendo mancuernas a los lados. Da un paso hacia adelante con el pie derecho, aterrizando primero con el talón. Baja tu cuerpo doblando ambas rodillas hasta que tu muslo derecho esté paralelo al suelo y tu rodilla izquierda casi toque el piso. Asegúrate de que tu rodilla delantera esté alineada sobre tu tobillo y no se extienda más allá de tus dedos del pie. Impulsa a través del talón de tu pie derecho para levantarte y lleva tu pie izquierdo hacia adelante para dar el siguiente paso en la zancada. Continúa alternando las piernas durante el número deseado de repeticiones o distancia.",
@@ -21452,8 +21636,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Hack con Barra",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "barra",
     "instructions": "Párate con los pies separados al ancho de los hombros y coloca una barra cargada detrás de tus piernas. Dobla las rodillas y las caderas para bajar tu cuerpo, manteniendo la espalda recta y el pecho hacia arriba. Agarra la barra con un agarre por encima, con las manos un poco más anchas que el ancho de los hombros. Activa tu núcleo y empuja con los talones para levantar la barra extendiendo las caderas y las rodillas. Mantén la barra cerca de tu cuerpo mientras te pones de pie completamente, manteniendo el torso erguido. Baja la barra de nuevo a la posición inicial de manera controlada doblando las rodillas y las caderas.",
@@ -21509,8 +21693,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Búlgara en Smith",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
+      "abductores",
       "gluteos",
-      "dorsales",
       "pantorrillas"
     ],
     "equipment": "maquina",
@@ -21565,16 +21749,18 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-69711e18-790f-475f-a845-29932f24c730",
     "name": "Tirón de Arranque",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
-      "biceps",
-      "cuadriceps",
+      "gluteos",
+      "trapecio",
+      "isquiotibiales",
       "hombros",
+      "biceps",
+      "lumbares",
       "antebrazo",
       "abdomen",
-      "lumbares",
-      "oblicuos"
+      "oblicuos",
+      "dorsales"
     ],
     "equipment": "barra",
     "instructions": "Comienza de pie con los pies separados al ancho de las caderas, con la barra sobre la mitad de tu pie. Dobla las caderas y las rodillas para agarrar la barra con un agarre ancho y por encima. Ajusta tu espalda retrayendo los omóplatos y activando tu núcleo. Inicia el levantamiento extendiendo las rodillas y las caderas simultáneamente, manteniendo la barra cerca de tu cuerpo. A medida que la barra pasa tus rodillas, extiende explosivamente tus caderas y rodillas mientras encoges los hombros hacia arriba. Mantén los brazos rectos hasta alcanzar la extensión completa, luego permite una ligera flexión mientras llevas la barra a la altura del pecho. Controla la barra de regreso a la posición inicial para la siguiente repetición.",
@@ -21633,7 +21819,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
+      "abductores",
       "pantorrillas"
     ],
     "equipment": "peso_corporal",
@@ -21691,9 +21877,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Cossack con mancuernas",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
+      "abductores",
       "gluteos",
-      "dorsales",
-      "biceps",
+      "isquiotibiales",
+      "adductores",
       "pantorrillas"
     ],
     "equipment": "mancuerna",
@@ -21749,10 +21936,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-6c607284-0e60-4b4f-a656-9cafb87f4a9d",
     "name": "Curl de Piernas Acostado con Banda",
-    "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "biceps"
-    ],
+    "primaryMuscle": "isquiotibiales",
+    "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Asegura una banda de resistencia a un punto de anclaje firme a nivel del suelo. Acuéstate boca abajo sobre una colchoneta, con las piernas extendidas y los pies cerca del punto de anclaje. Sujeta el otro extremo de la banda alrededor de tus tobillos. Mantén el núcleo comprometido y las caderas presionadas contra el suelo. Flexiona las rodillas, llevando los talones hacia los glúteos contra la resistencia de la banda. Pausa brevemente en la parte superior del movimiento, asegurando la máxima contracción en los isquiotibiales. Extiende lentamente las piernas de nuevo a la posición inicial, manteniendo el control en todo momento. Repite para el número deseado de repeticiones.",
     "description": "El Curl de Piernas Acostado con Banda es un ejercicio de aislamiento que se enfoca en los isquiotibiales. Consiste en usar una banda de resistencia para realizar curls de piernas mientras estás acostado boca abajo. Este ejercicio ayuda a fortalecer los isquiotibiales y mejorar la flexión de la rodilla.",
@@ -21807,9 +21992,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Zancadas Caminando con Mancuernas",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos",
-      "biceps"
+      "isquiotibiales",
+      "adductores",
+      "abductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate derecho con los pies separados al ancho de los hombros, sosteniendo una mancuerna en cada mano a los lados. Da un paso hacia adelante con el pie derecho, bajando las caderas hasta que ambas rodillas estén dobladas en ángulos de aproximadamente 90 grados Asegúrate de que tu rodilla delantera esté directamente sobre tu tobillo y que tu rodilla trasera quede justo por encima del suelo. Empuja con el talón de tu pie derecho para levantarte y lleva tu pie izquierdo hacia adelante, avanzando al siguiente desplante. Continúa alternando las piernas durante el número deseado de repeticiones o distancia. Mantén el torso erguido durante todo el movimiento, manteniendo el núcleo comprometido.",
@@ -21861,11 +22047,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-6ded7b8d-f4db-421f-bc3e-827bd7c9df81",
     "name": "Remo Parcial con Barra en Rack",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "lumbares",
     "secondaryMuscles": [
+      "isquiotibiales",
+      "abductores",
+      "gluteos",
+      "trapecio",
       "dorsales",
-      "lumbares",
-      "biceps"
+      "hombros"
     ],
     "equipment": "barra",
     "instructions": "Coloca una barra en un rack de potencia o bloques a la altura de las rodillas o un poco más abajo. Párate con los pies al ancho de los hombros y posiciona la barra sobre la mitad del pie. Agarra la barra con un agarre por encima o mixto, un poco más ancho que el ancho de los hombros. Activa tu núcleo y mantén la espalda recta mientras te inclinas en las caderas para bajar el torso. Levanta la barra extendiendo las caderas y las rodillas simultáneamente, manteniendo la barra cerca de tu cuerpo. Párate completamente erguido con los hombros hacia atrás y el pecho hacia arriba en la parte superior del movimiento. Baja la barra de nuevo a la posición inicial de manera controlada.",
@@ -21920,11 +22109,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-6ee19894-3651-9c16-fdd7-39bfe1c755af",
     "name": "Peso Muerto con Piernas Rectas con Barra",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps",
-      "lumbares",
+      "gluteos",
       "antebrazo",
+      "lumbares",
+      "adductores",
       "abdomen",
       "oblicuos"
     ],
@@ -21984,14 +22174,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "hombros",
-      "dorsales",
       "gluteos",
       "pantorrillas",
-      "triceps",
       "pectoral",
-      "abdomen",
-      "biceps",
+      "adductores",
+      "isquiotibiales",
       "lumbares",
+      "triceps",
+      "abdomen",
       "oblicuos",
       "antebrazo"
     ],
@@ -22099,10 +22289,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Trineo Prowler",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
+      "abductores",
       "gluteos",
-      "dorsales",
       "pantorrillas",
-      "biceps",
+      "isquiotibiales",
       "abdomen",
       "oblicuos"
     ],
@@ -22160,14 +22350,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-75f8962c-e6d5-43d3-be0f-aa9b7ba645d6",
     "name": "Kickboxing",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
-      "dorsales",
-      "abdomen",
+      "cuadriceps",
+      "adductores",
       "oblicuos",
-      "pantorrillas",
-      "biceps",
-      "lumbares"
+      "isquiotibiales",
+      "abdomen",
+      "lumbares",
+      "pantorrillas"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza con un calentamiento adecuado para preparar tus músculos y articulaciones Esto puede incluir estiramientos dinámicos y ejercicios de cardio ligero. Párate en una postura de combate con los pies separados al ancho de los hombros, un pie ligeramente hacia adelante y las rodillas ligeramente flexionadas. Mantén las manos cerca de tu cara para protegerte, con los codos cerca del cuerpo. Practica golpes básicos como jabs, cruces, ganchos y uppercuts Concéntrate en la forma y el control. Incorpora patadas como patadas frontales, patadas circulares y patadas laterales Asegúrate de mantener el equilibrio y la técnica adecuados. Combina golpes y patadas en combinaciones para mejorar la coordinación y la fluidez. Mantén un patrón de respiración constante; exhala con cada golpe o patada para obtener potencia. Enfría después de tu sesión con estiramientos estáticos para mejorar la flexibilidad y reducir el dolor muscular.",
@@ -22289,9 +22480,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
+      "antebrazo",
       "lumbares",
-      "biceps"
+      "isquiotibiales",
+      "abductores"
     ],
     "equipment": "barra",
     "instructions": "Párate en el centro de la barra hexagonal con los pies al ancho de los hombros. Dobla las caderas y las rodillas para agarrar firmemente las asas de la barra hexagonal. Mantén el pecho hacia arriba, los hombros hacia atrás y la columna neutral. Activa tu núcleo y empuja a través de tus talones para levantar la barra extendiendo las caderas y las rodillas. Ponte completamente erguido con los hombros hacia atrás y el pecho orgulloso en la parte superior del movimiento. Baja la barra de nuevo al suelo doblando las caderas y las rodillas, manteniendo una columna neutral en todo momento.",
@@ -22350,8 +22542,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
-      "biceps"
+      "abductores",
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Párate con la espalda contra la pared y los pies separados al ancho de los hombros. Deslízate lentamente por la pared hasta que tus muslos estén paralelos al suelo, formando un ángulo de 90 grados en tus rodillas. Asegúrate de que tus rodillas estén directamente sobre tus tobillos y no se extiendan más allá de tus dedos de los pies. Mantén la espalda plana contra la pared y mantén esta posición durante el tiempo deseado. Para terminar, deslízate lentamente hacia arriba por la pared hasta una posición de pie.",
@@ -22402,11 +22594,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-7bdabdd2-8124-40d5-92b7-6038a087bc9b",
     "name": "Sentadilla con mancuerna tipo copa",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "biceps",
+      "gluteos",
+      "isquiotibiales",
+      "abductores",
+      "adductores",
       "pantorrillas"
     ],
     "equipment": "mancuerna",
@@ -22465,7 +22658,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
+      "abductores",
       "pantorrillas"
     ],
     "equipment": "otro",
@@ -22519,9 +22712,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Búlgara con Barra",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos",
-      "biceps"
+      "isquiotibiales",
+      "adductores",
+      "abductores"
     ],
     "equipment": "barra",
     "instructions": "Comienza colocando una barra sobre la parte superior de tu espalda, sujetándola un poco más ancha que el ancho de los hombros. Párate con los pies al ancho de las caderas y da un paso hacia adelante con un pie en una posición escalonada. Baja las caderas doblando ambas rodillas hasta que la rodilla trasera casi toque el suelo. Asegúrate de que la rodilla delantera esté alineada sobre el tobillo y no se extienda más allá de los dedos del pie. Empuja con el talón del pie delantero para volver a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -22575,11 +22769,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-7eafba6a-d96a-4484-bc61-a6b44d2fcdeb",
     "name": "Sentadilla Búlgara",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "biceps"
+      "gluteos",
+      "isquiotibiales",
+      "adductores",
+      "abductores"
     ],
     "equipment": "barra",
     "instructions": "Párate derecho con los pies separados al ancho de las caderas. Da un paso hacia adelante con el pie derecho, manteniendo el torso erguido. Baja el cuerpo doblando ambas rodillas hasta que la rodilla izquierda casi toque el suelo. Asegúrate de que tu rodilla derecha esté alineada sobre tu tobillo derecho y no se extienda más allá de los dedos del pie. Empuja con el talón del pie derecho para volver a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -22630,10 +22825,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-7f462663-6e61-4769-b6e7-348881f9965d",
     "name": "Zancada trasera con kettlebell",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales"
+      "gluteos",
+      "abductores"
     ],
     "equipment": "otro",
     "instructions": "Párate erguido con los pies separados al ancho de las caderas, sosteniendo una pesa rusa en una mano a la altura del hombro o con ambas manos frente a tu pecho. Activa tu núcleo y mantén el pecho erguido. Da un paso hacia atrás con una pierna, bajando las caderas hasta que ambas rodillas estén dobladas a aproximadamente 90 grados La rodilla delantera debe estar directamente sobre el tobillo. Asegúrate de que la rodilla trasera quede justo por encima del suelo sin tocarlo. Empuja con el talón del pie delantero para volver a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -22687,8 +22882,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla con mancuerna en copa",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies separados al ancho de los hombros, con los dedos ligeramente apuntando hacia afuera. Sujeta una mancuerna verticalmente con ambas manos debajo del peso superior, manteniéndola cerca de tu pecho. Activa tu núcleo y mantén el pecho erguido. Inicia el movimiento empujando tus caderas hacia atrás y doblando las rodillas para bajar en una sentadilla. Desciende hasta que tus muslos estén al menos paralelos al suelo, asegurándote de que las rodillas sigan la línea de los dedos de los pies. Presiona a través de tus talones para regresar a la posición inicial, manteniendo el torso erguido durante todo el movimiento. Repite durante el número deseado de repeticiones.",
@@ -22740,14 +22935,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-8213817c-7777-4373-bbf6-654fac9db202",
     "name": "Peso muerto con mancuernas y piernas rectas",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
+      "gluteos",
       "lumbares",
-      "biceps",
-      "dorsales",
+      "abductores",
       "antebrazo",
       "abdomen",
       "oblicuos",
+      "trapecio",
       "pantorrillas"
     ],
     "equipment": "mancuerna",
@@ -22804,9 +23000,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Cossack con Peso",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
-      "biceps",
-      "gluteos"
+      "isquiotibiales",
+      "adductores",
+      "gluteos",
+      "abductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies más separados que el ancho de los hombros, con los dedos apuntando ligeramente hacia afuera. Sujeta una mancuerna o kettlebell con ambas manos cerca de tu pecho. Desplaza tu peso hacia tu pierna derecha, doblando la rodilla y empujando tus caderas hacia atrás mientras bajas en una sentadilla. Mantén tu pierna izquierda recta con el pie plano en el suelo o con el talón ligeramente levantado si es necesario. Baja hasta que tu muslo derecho esté paralelo al suelo o tan bajo como tu flexibilidad lo permita. Empuja a través de tu talón derecho para volver a la posición inicial. Repite el movimiento en el lado izquierdo.",
@@ -22862,8 +23059,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Zancadas Laterales con Mancuernas",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "adductores",
+      "abductores",
+      "gluteos"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate derecho con los pies separados al ancho de las caderas, sosteniendo una mancuerna en cada mano a los lados. Da un paso hacia el lado derecho con tu pie derecho, doblando la rodilla derecha mientras mantienes la pierna izquierda recta. Baja tus caderas hacia atrás y hacia abajo al hacer la zancada, asegurándote de que tu rodilla derecha no se extienda más allá de tus dedos del pie. Mantén el pecho levantado y el núcleo comprometido durante todo el movimiento. Empuja con tu pie derecho para volver a la posición inicial. Repite en el lado izquierdo, dando un paso con tu pie izquierdo. Continúa alternando lados para el número deseado de repeticiones.",
@@ -22918,11 +23116,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-86bb0542-38ab-469b-b684-77f566141bb7",
     "name": "Sentadilla Cossack",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "biceps"
+      "adductores",
+      "gluteos",
+      "isquiotibiales",
+      "abductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Párate con los pies más separados que el ancho de los hombros y los dedos ligeramente apuntando hacia afuera. Desplaza tu peso hacia tu pierna derecha, doblando la rodilla derecha mientras mantienes la pierna izquierda recta. Baja tus caderas hacia el talón derecho, manteniendo el pecho levantado y la espalda recta. Asegúrate de que tu rodilla derecha siga la línea de tu pie derecho y no se extienda más allá de los dedos del pie. Mantén el pie izquierdo plano en el suelo o permite que los dedos apunten hacia arriba mientras desciendes. Haz una pausa en la parte inferior del movimiento, luego empuja a través del talón derecho para volver a la posición inicial. Repite en el lado izquierdo desplazando tu peso hacia tu pierna izquierda.",
@@ -22977,8 +23176,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-883d8808-3994-4bdf-aef6-ef9413aee9be",
     "name": "Círculos de Cadera",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "adductores",
+    "secondaryMuscles": [
+      "abductores",
+      "gluteos"
+    ],
     "equipment": "otro",
     "instructions": "Párate con los pies separados al ancho de los hombros y coloca las manos en las caderas. Activa los músculos del core para mantener el equilibrio y la estabilidad. Comienza girando lentamente las caderas en dirección de las agujas del reloj, haciendo círculos grandes. Completa de 10 a 15 rotaciones, luego cambia a la dirección contraria a las agujas del reloj para otras 10-15 rotaciones. Mantén la parte superior del cuerpo estable y concéntrate en mover solo las caderas.",
     "description": "Los Círculos de Cadera son un ejercicio de calentamiento dinámico que se enfoca en las articulaciones de la cadera, mejorando la flexibilidad y la movilidad. Este ejercicio consiste en rotar las caderas en un movimiento circular, lo que ayuda a aflojar los músculos tensos y preparar el cuerpo para una actividad física más intensa. Es particularmente beneficioso para atletas e individuos que realizan entrenamientos de la parte inferior del cuerpo.",
@@ -23028,7 +23230,6 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Zancadas Inversas con Barra",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos",
       "pantorrillas"
     ],
@@ -23088,13 +23289,13 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Hack en Máquina",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
+      "abductores",
       "gluteos",
-      "dorsales",
       "lumbares",
+      "isquiotibiales",
+      "pantorrillas",
       "abdomen",
-      "biceps",
-      "oblicuos",
-      "pantorrillas"
+      "oblicuos"
     ],
     "equipment": "maquina",
     "instructions": "Colócate en la máquina de hack squat con la espalda contra el respaldo y los hombros bajo las almohadillas para los hombros. Coloca los pies a la altura de los hombros en la plataforma, con los dedos ligeramente apuntando hacia afuera. Suelta las manijas de seguridad y extiende las piernas para levantar el peso del soporte. Baja el cuerpo doblando las rodillas hasta que los muslos estén paralelos a la plataforma o ligeramente por debajo. Empuja con los talones para extender las piernas y regresar a la posición inicial. Repite para el número deseado de repeticiones, luego vuelve a colocar el peso de manera segura activando las manijas de seguridad.",
@@ -23150,7 +23351,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
+      "abductores",
+      "adductores",
       "pantorrillas"
     ],
     "equipment": "barra",
@@ -23206,9 +23408,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-8fd1b9d5-ad0c-8fa5-da97-dcb248588ef5",
     "name": "Extensión de Piernas en Máquina Sentado",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "maquina",
     "instructions": "Ajusta el asiento para que tus rodillas se alineen con el punto de pivote de la máquina. Siéntate contra el respaldo y coloca tus pies debajo de la barra acolchada, asegurándote de que descanse justo por encima de tus tobillos. Agarra las manijas a cada lado del asiento para mantener la estabilidad. Comienza extendiendo completamente tus piernas mientras exhalas, manteniendo tu espalda presionada contra el respaldo. Haz una pausa breve en la parte superior del movimiento con las piernas completamente extendidas. Baja lentamente el peso de regreso a la posición inicial mientras inhalas, manteniendo el control en todo momento. Repite durante el número deseado de repeticiones.",
     "description": "La Máquina de Extensión de Piernas Sentado se enfoca en los músculos cuádriceps ubicados en la parte frontal del muslo. Este ejercicio de aislamiento está diseñado para mejorar la fuerza y definición en los cuádriceps, convirtiéndolo en un elemento básico en los entrenamientos de la parte inferior del cuerpo. La máquina consta de un asiento acolchado, un respaldo y una palanca con una barra acolchada que descansa sobre las piernas inferiores, justo por encima de los tobillos.",
@@ -23253,7 +23453,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Zancada lateral pliométrica",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
+      "adductores",
       "oblicuos",
       "abdomen"
     ],
@@ -23312,15 +23512,18 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Clean con Kettlebell",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "dorsales",
-      "biceps",
       "lumbares",
+      "isquiotibiales",
       "cuadriceps",
+      "adductores",
+      "oblicuos",
+      "trapecio",
+      "antebrazo",
+      "dorsales",
       "hombros",
       "abdomen",
-      "oblicuos",
-      "pantorrillas",
-      "antebrazo"
+      "biceps",
+      "pantorrillas"
     ],
     "equipment": "otro",
     "instructions": "Párate con los pies al ancho de los hombros y coloca una kettlebell entre tus pies. Dobla las caderas y las rodillas para agarrar el mango de la kettlebell con una mano, manteniendo la espalda recta y el pecho hacia arriba. Activa tu núcleo y empuja con los talones para levantar la kettlebell del suelo. A medida que la kettlebell sube, acércala a tu cuerpo doblando el codo y rotando la muñeca. Rápidamente mete el codo hacia tu costado y permite que la kettlebell gire alrededor de tu antebrazo hasta la posición de rack. Párate erguido con la kettlebell descansando en el exterior de tu antebrazo, codo cerca de tu cuerpo. Invierte el movimiento para bajar la kettlebell de nuevo a la posición inicial.",
@@ -23374,10 +23577,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-9202e88a-111c-40f8-8464-d567a7fff830",
     "name": "Curl de Pierna Unilateral Sentado",
-    "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "biceps"
-    ],
+    "primaryMuscle": "isquiotibiales",
+    "secondaryMuscles": [],
     "equipment": "maquina",
     "instructions": "Ajusta el asiento y el respaldo de la máquina de curl de piernas para que tus rodillas se alineen con el punto de pivote de la máquina. Siéntate en la máquina con la espalda firmemente contra el respaldo y coloca una pierna debajo de la palanca acolchada, asegurándote de que tu tobillo esté justo por encima de la palanca. Asegura tu posición sujetándote a las asas laterales. Comienza flexionando tu rodilla para llevar tu talón hacia tus glúteos, manteniendo el movimiento controlado. Haz una pausa breve en la parte inferior del movimiento, asegurando una contracción completa del isquiotibial. Extiende lentamente tu pierna de regreso a la posición inicial sin bloquear la rodilla. Repite el número deseado de repeticiones antes de cambiar a la otra pierna.",
     "description": "El Curl de Pierna Unilateral Sentado es un ejercicio de aislamiento que se enfoca en los músculos isquiotibiales. Consiste en flexionar la articulación de la rodilla para llevar el talón hacia los glúteos mientras se está sentado en una máquina de curl de piernas. Este ejercicio ayuda a desarrollar la fuerza y definición muscular en los isquiotibiales, mejorando la estabilidad de la rodilla y el rendimiento general de las piernas.",
@@ -23431,8 +23632,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Caminata Monstruo hacia Adelante con Banda",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "otro",
     "instructions": "Coloca una banda de resistencia alrededor de tus piernas, justo por encima de las rodillas. Párate con los pies al ancho de los hombros y dobla ligeramente las rodillas. Activa tu núcleo y mantén el pecho erguido. Da un paso hacia adelante con el pie derecho, manteniendo la tensión en la banda. Sigue con el pie izquierdo, manteniendo la banda tensa en todo momento. Continúa caminando hacia adelante durante el número deseado de pasos o distancia. Mantén un ritmo controlado y evita que tus rodillas colapsen hacia adentro.",
@@ -23486,8 +23687,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla en Máquina Smith a Banco",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "maquina",
     "instructions": "Coloca un banco detrás de ti en la máquina Smith de manera que cuando te sientes, tus muslos estén paralelos al suelo. Ajusta la barra en la máquina Smith a la altura de los hombros Carga el peso deseado en la barra. Párate debajo de la barra con los pies a la altura de los hombros Coloca la barra sobre la parte superior de tu espalda y hombros. Desbloquea la barra girándola hacia adelante Da un paso atrás hasta que tus piernas estén alineadas con el banco. Activa tu core, mantén el pecho hacia arriba y comienza a bajar tu cuerpo doblando las caderas y las rodillas. Desciende hasta que tus glúteos toquen ligeramente el banco, asegurándote de que tus rodillas no se extiendan más allá de tus dedos de los pies. Empuja a través de tus talones para volver a la posición inicial, extendiendo completamente tus caderas y rodillas. Repite para el número deseado de repeticiones.",
@@ -23544,7 +23745,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-99704170-da3e-48e5-bb24-33f8193d2892",
     "name": "Aducción de Cadera en Polea",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "adductores",
     "secondaryMuscles": [],
     "equipment": "polea",
     "instructions": "Coloca una correa de tobillo en una polea baja de una máquina de cables. Asegura la correa alrededor de tu tobillo y párate de lado a la máquina. Colócate de manera que la pierna de trabajo esté más cerca de la máquina. Sujétate a la máquina o a una superficie estable para apoyo. Comienza con la pierna de trabajo extendida hacia un lado. Lentamente lleva tu pierna a través de tu cuerpo, manteniéndola recta. Pausa brevemente al final del movimiento, sintiendo la contracción en tu muslo interno. Regresa a la posición inicial de manera controlada. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -23603,11 +23804,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "lumbares",
-      "biceps",
-      "dorsales",
+      "isquiotibiales",
+      "abductores",
       "antebrazo",
       "abdomen",
       "oblicuos",
+      "trapecio",
       "pantorrillas"
     ],
     "equipment": "otro",
@@ -23713,12 +23915,13 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-9f0b1b6e-42e5-41a9-a210-2e324d4477dc",
     "name": "Sentadilla con barra en tierra",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
+      "gluteos",
+      "isquiotibiales",
+      "adductores",
+      "abductores",
       "abdomen",
-      "biceps",
       "oblicuos"
     ],
     "equipment": "barra",
@@ -23773,9 +23976,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-a34aa557-2803-46e5-8737-a6ff91d32045",
     "name": "Curl de pierna en cable a una pierna",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "pantorrillas"
     ],
     "equipment": "polea",
     "instructions": "Coloca una correa de tobillo en la polea baja de una máquina de cables. Asegura la correa alrededor de tu tobillo y párate frente a la máquina. Da un paso atrás para crear tensión en el cable, apoyándote en tu pierna no trabajadora para estabilidad. Mantén el torso erguido y agárrate a la máquina para apoyo si es necesario. Flexiona la rodilla de trabajo para llevar el talón hacia los glúteos, manteniendo el muslo estacionario. Haz una pausa breve en la parte superior del movimiento, asegurando una contracción máxima en los isquiotibiales. Extiende lentamente la pierna de nuevo a la posición inicial, manteniendo el control en todo momento. Completa el número deseado de repeticiones antes de cambiar de pierna.",
@@ -23828,12 +24031,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-a457f1e5-43be-459c-8ff4-506218d01411",
     "name": "Balanceo con Kettlebell",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "dorsales",
-      "gluteos",
+      "cuadriceps",
+      "pantorrillas",
       "hombros",
-      "pantorrillas"
+      "trapecio"
     ],
     "equipment": "otro",
     "instructions": "Párate con los pies al ancho de los hombros, los dedos ligeramente hacia afuera, y una pesa rusa colocada a unos treinta centímetros frente a ti. Flexiona las caderas empujando tu trasero hacia atrás mientras mantienes una ligera flexión en las rodillas Mantén la espalda recta y el pecho hacia arriba. Agarra el mango de la pesa rusa con ambas manos usando un agarre por encima. Balancea la pesa rusa hacia atrás entre tus piernas, manteniéndola cerca de la ingle. Impulsa tus caderas hacia adelante de manera explosiva para balancear la pesa rusa hasta la altura de los hombros Tus brazos deben permanecer rectos pero relajados. Deja que la pesa rusa caiga naturalmente hacia abajo mientras flexionas las caderas nuevamente para repetir el movimiento. Continúa durante el número deseado de repeticiones, manteniendo el control en todo momento.",
@@ -23891,16 +24094,20 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-a464ad90-8802-40ac-bf44-a414b1b504bd",
     "name": "Entrenador Elíptico",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
-      "dorsales",
       "cuadriceps",
-      "biceps",
-      "pectoral",
-      "hombros",
-      "triceps",
+      "gluteos",
+      "isquiotibiales",
       "pantorrillas",
+      "biceps",
+      "hombros",
+      "pectoral",
+      "triceps",
+      "trapecio",
       "abdomen",
+      "dorsales",
+      "abductores",
       "oblicuos"
     ],
     "equipment": "otro",
@@ -24010,8 +24217,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Hack Inversa en Máquina",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la máquina para que se adapte a tu altura y carga el peso deseado. Colócate frente a la máquina con los hombros bajo las almohadillas y los pies separados al ancho de los hombros en la plataforma. Mantén la espalda recta y el núcleo comprometido durante todo el movimiento. Baja lentamente el cuerpo doblando las rodillas hasta que los muslos estén paralelos a la plataforma. Empuja a través de los talones para volver a la posición inicial, asegurando la extensión completa de las rodillas sin bloquearlas. Repite para el número deseado de repeticiones.",
@@ -24066,8 +24273,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
-      "biceps",
+      "adductores",
+      "isquiotibiales",
+      "abductores",
       "pantorrillas"
     ],
     "equipment": "maquina",
@@ -24124,10 +24332,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
       "lumbares",
+      "adductores",
+      "abductores",
+      "isquiotibiales",
       "abdomen",
-      "biceps",
       "oblicuos"
     ],
     "equipment": "barra",
@@ -24183,7 +24392,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate erguido con los pies separados al ancho de los hombros, sosteniendo una mancuerna en cada mano a los lados. Colócate frente a una plataforma o banco resistente que esté aproximadamente a la altura de la rodilla. Sube a la plataforma con el pie derecho, presionando a través del talón para levantar tu cuerpo. Lleva tu pie izquierdo hacia arriba para encontrarse con tu pie derecho en la plataforma, manteniéndote erguido. Baja de nuevo con el pie izquierdo primero, seguido por el pie derecho para volver a la posición inicial. Repite el número deseado de repeticiones, luego cambia de pierna.",
@@ -24240,7 +24449,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "maquina",
     "instructions": "Coloca un banco o una superficie acolchada detrás de la barra de la máquina Smith a la altura de las rodillas. Arrodíllate en el suelo con la espalda hacia el banco y coloca tus hombros contra él. Coloca la barra de la máquina Smith sobre tus caderas, asegurándote de que esté bien bloqueada en su lugar. Agarra la barra con ambas manos para mayor estabilidad. Activa tu núcleo y glúteos, luego empuja tus caderas hacia arriba hasta que tus muslos estén paralelos al suelo. Mantén la posición superior por un momento, apretando bien los glúteos. Baja lentamente tus caderas de nuevo a la posición inicial sin apoyarlas en el suelo. Repite para el número deseado de repeticiones.",
@@ -24292,10 +24501,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-a832b1f9-ffc0-43e6-80e4-2dea898f0f21",
     "name": "Zancada Inversa",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales"
+      "gluteos",
+      "abductores"
     ],
     "equipment": "otro",
     "instructions": "Párate derecho con los pies separados al ancho de las caderas y las manos en las caderas o sosteniendo pesas a los lados. Da un paso hacia atrás con el pie derecho, aterrizando en la bola del pie y manteniendo el talón fuera del suelo. Baja las caderas hasta que ambas rodillas estén dobladas aproximadamente a 90 grados Tu rodilla delantera debe estar directamente sobre tu tobillo, y tu rodilla trasera debe quedar justo por encima del suelo. Empuja a través del talón de tu pie delantero para volver a la posición inicial. Repite el movimiento con la pierna izquierda dando un paso hacia atrás Continúa alternando las piernas durante el número deseado de repeticiones.",
@@ -24349,10 +24558,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
       "pantorrillas",
+      "isquiotibiales",
       "abdomen",
-      "biceps",
+      "abductores",
       "oblicuos"
     ],
     "equipment": "peso_corporal",
@@ -24405,12 +24614,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla de arranque",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
-      "abdomen",
       "lumbares",
-      "biceps",
+      "isquiotibiales",
       "gluteos",
+      "abdomen",
+      "adductores",
       "oblicuos",
+      "trapecio",
+      "dorsales",
+      "hombros",
+      "biceps",
       "pantorrillas",
       "antebrazo"
     ],
@@ -24470,9 +24683,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-abefa761-e360-4522-b9cb-98982266c699",
     "name": "Estiramiento de Cuádriceps Acostado de Lado",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Acuéstate de lado sobre una superficie plana, asegurándote de que tu cuerpo esté en línea recta. Sostén tu cabeza con el brazo inferior o apóyala en el suelo. Dobla la rodilla superior y lleva el talón hacia tus glúteos. Extiende la mano superior hacia atrás y agarra tu tobillo o pie. Tira suavemente de tu tobillo hacia tus glúteos hasta sentir un estiramiento en la parte frontal de tu muslo. Mantén el estiramiento durante 20-30 segundos, manteniendo una respiración constante. Suelta lentamente y cambia de lado para repetir el estiramiento en la otra pierna.",
     "description": "El Estiramiento de Cuádriceps Acostado de Lado es un ejercicio de flexibilidad que se enfoca en los músculos cuádriceps ubicados en la parte frontal del muslo. Este estiramiento se realiza mientras estás acostado de lado, permitiendo una extensión profunda y controlada de los cuádriceps, mejorando la flexibilidad y reduciendo la rigidez muscular.",
@@ -24525,11 +24736,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-ae567a85-61b5-4329-a26f-3b1894e59f6d",
     "name": "Postura del Lagarto",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "biceps",
-      "dorsales"
+      "isquiotibiales",
+      "adductores",
+      "gluteos"
     ],
     "equipment": "otro",
     "instructions": "Comienza en una posición de perro boca abajo con tus manos y pies en la colchoneta. Da un paso hacia adelante con tu pie derecho hacia el exterior de tu mano derecha, alineando tu rodilla sobre tu tobillo. Baja tu rodilla izquierda a la colchoneta y deslízala hacia atrás ligeramente para extender tu pierna. Mantén tus manos en la colchoneta o baja sobre tus antebrazos para un estiramiento más profundo. Mantén la postura durante varias respiraciones, manteniendo la mirada hacia adelante o hacia abajo. Para liberar, presiona hacia atrás en perro boca abajo y repite en el otro lado.",
@@ -24581,8 +24792,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Búlgara con Salto",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza de pie a unos pocos pies de distancia de un banco o superficie elevada Extiende una pierna hacia atrás y coloca la parte superior de tu pie en el banco. Baja tus caderas a una posición de sentadilla doblando tu rodilla delantera, asegurándote de que se alinee sobre tu tobillo Tu rodilla trasera debe bajar hacia el suelo. Explota hacia arriba empujando con el talón delantero, saltando lo más alto posible mientras mantienes el pie trasero en el banco. Aterriza suavemente sobre tu pie delantero, bajando inmediatamente de nuevo a la posición de sentadilla para prepararte para la siguiente repetición. Completa el número deseado de repeticiones en una pierna antes de cambiar a la otra.",
@@ -24634,8 +24845,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-b3e21bcc-e194-4323-a27c-7e960c617bea",
     "name": "Rana Balanceante",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "adductores",
+    "secondaryMuscles": [
+      "abductores",
+      "gluteos"
+    ],
     "equipment": "otro",
     "instructions": "Comienza arrodillándote en el suelo con las rodillas separadas y los pies juntos detrás de ti. Coloca tus manos en el suelo frente a ti, manteniendo los brazos rectos. Baja tus caderas hacia tus talones mientras mantienes la espalda recta y el pecho abierto. Balancea suavemente hacia adelante, acercando tu pecho al suelo mientras mantienes la espalda recta. Continúa balanceándote hacia adelante y hacia atrás lentamente, sintiendo el estiramiento en tus caderas e ingles. Realiza el ejercicio durante el número deseado de repeticiones o duración de tiempo.",
     "description": "La Rana Balanceante es un ejercicio de estiramiento dinámico que se enfoca en las caderas, la ingle y la parte baja de la espalda. Ayuda a mejorar la flexibilidad y la movilidad en estas áreas, siendo beneficioso para atletas e individuos que buscan mejorar su rango de movimiento.",
@@ -24685,7 +24899,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevaciones de Gemelos en Smith",
     "primaryMuscle": "pantorrillas",
     "secondaryMuscles": [
-      "dorsales"
+      "trapecio"
     ],
     "equipment": "maquina",
     "instructions": "Colócate debajo de la barra de la máquina Smith con los pies separados al ancho de los hombros y las puntas de los pies sobre una plataforma elevada o bloque. Ajusta la barra para que descanse cómodamente sobre la parte superior de tu espalda, similar a la posición de una sentadilla. Desbloquea la barra de la máquina Smith girándola hacia adelante. Levanta lentamente los talones extendiendo los tobillos, elevando tu cuerpo lo más alto posible. Haz una pausa en la parte superior del movimiento para contraer completamente los músculos de las pantorrillas. Baja los talones de nuevo a la posición inicial de manera controlada. Repite para el número deseado de repeticiones.",
@@ -24739,10 +24953,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
       "lumbares",
+      "adductores",
+      "abductores",
+      "isquiotibiales",
       "abdomen",
-      "biceps",
       "oblicuos"
     ],
     "equipment": "maquina",
@@ -24798,8 +25013,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Zercher",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "barra",
     "instructions": "Comienza colocando una barra en un soporte de sentadillas a la altura de la cintura. Colócate debajo de la barra y sostenla en el pliegue de tus codos, manteniendo los brazos doblados y las manos juntas. Ponte de pie para levantar la barra del soporte, manteniendo una postura fuerte con los pies a la altura de los hombros. Activa tu núcleo y mantén el pecho hacia arriba mientras inicias la sentadilla doblando las caderas y las rodillas. Baja tu cuerpo hasta que tus muslos estén paralelos al suelo o un poco más abajo, asegurándote de que tus rodillas sigan la línea de tus dedos de los pies. Empuja con los talones para volver a la posición inicial, manteniendo la barra segura en tus codos durante todo el movimiento. Repite para el número deseado de repeticiones.",
@@ -24854,16 +25069,18 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-ba99f018-cb2a-48e9-b48b-57046f791ba7",
     "name": "Burpee",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
+      "cuadriceps",
       "pectoral",
-      "triceps",
-      "dorsales",
       "gluteos",
-      "pantorrillas",
+      "triceps",
       "hombros",
+      "pantorrillas",
+      "abductores",
       "abdomen",
-      "oblicuos"
+      "oblicuos",
+      "adductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en una posición de pie con los pies separados al ancho de los hombros. Baja tu cuerpo a una posición de sentadilla y coloca tus manos en el suelo frente a ti. Lanza tus pies hacia atrás para asumir una posición de plancha, manteniendo tu cuerpo recto y el núcleo comprometido. Realiza una flexión bajando tu pecho al suelo y luego empujando de nuevo a la posición de plancha. Salta con tus pies hacia adelante para volver a la posición de sentadilla. Salta explosivamente en el aire, extendiendo tus brazos por encima de la cabeza. Aterriza suavemente e inmediatamente pasa a la siguiente repetición.",
@@ -24920,8 +25137,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Zercher en Máquina Smith",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "maquina",
     "instructions": "Coloca la barra de la máquina Smith a la altura de la cintura. Párate cerca de la barra y colócala en el pliegue de tus codos, con los brazos doblados y las manos juntas. Retrocede ligeramente para que tus pies estén a la altura de los hombros y los dedos ligeramente apuntando hacia afuera. Activa tu núcleo y mantén el pecho hacia arriba mientras comienzas a bajar en una sentadilla doblando las caderas y las rodillas. Desciende hasta que tus muslos estén paralelos al suelo o hasta donde tu movilidad lo permita. Empuja a través de tus talones para volver a la posición inicial, manteniendo la espalda recta y el núcleo activado durante todo el movimiento. Repite para el número deseado de repeticiones.",
@@ -24976,12 +25193,13 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-bd178421-8e50-40b1-a843-43b82b55c393",
     "name": "Superman",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "lumbares",
     "secondaryMuscles": [
-      "lumbares",
-      "dorsales",
-      "biceps",
-      "hombros"
+      "gluteos",
+      "isquiotibiales",
+      "hombros",
+      "trapecio",
+      "abductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate boca abajo en una colchoneta con los brazos extendidos frente a ti y las piernas rectas. Mantén el cuello en una posición neutral mirando al suelo. Levanta simultáneamente los brazos y las piernas del suelo, activando tu núcleo y glúteos. Mantén la posición superior por un momento mientras aprietas los músculos de la espalda. Baja lentamente los brazos y las piernas de nuevo a la posición inicial. Repite durante el número deseado de repeticiones.",
@@ -25031,7 +25249,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-bd750d56-64a0-4e9f-87c9-b1408246238e",
     "name": "Estiramiento de mariposa",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "adductores",
     "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Siéntate en el suelo con la espalda recta y las piernas extendidas frente a ti. Dobla las rodillas y junta las plantas de los pies, permitiendo que las rodillas caigan hacia los lados. Sujeta tus pies con las manos y acércalos suavemente hacia tu cuerpo. Mantén la espalda recta e inclínate ligeramente hacia adelante desde las caderas para profundizar el estiramiento. Mantén la posición durante 20-30 segundos mientras respiras profundamente. Suelta y regresa a la posición inicial.",
@@ -25081,9 +25299,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-bdfbf8c4-7d96-f9bd-f441-523c1a434312",
     "name": "Curl de Piernas en Decúbito Prono",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "pantorrillas"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la máquina de curl de piernas para que el rodillo se sitúe cómodamente justo por encima de tus talones cuando estés tumbado boca abajo. Acuéstate boca abajo en la máquina, asegurándote de que tus rodillas estén alineadas con el punto de pivote de la máquina. Agarra las asas o los lados del banco para mantener la estabilidad. Activa tu núcleo y mantén tus caderas presionadas contra el banco. Exhala y flexiona tus piernas doblando las rodillas, llevando tus talones hacia tus glúteos. Haz una pausa breve en la parte superior del movimiento, asegurando la máxima contracción en los isquiotibiales. Inhala y baja lentamente tus piernas de nuevo a la posición inicial, manteniendo el control en todo momento. Repite para el número deseado de repeticiones.",
@@ -25130,8 +25348,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Saltos Pogo",
     "primaryMuscle": "pantorrillas",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales"
+      "cuadriceps"
     ],
     "equipment": "peso_corporal",
     "instructions": "Párate derecho con los pies separados al ancho de las caderas y los brazos a los lados. Activa tu núcleo y mantén el pecho erguido. Comienza rebotando sobre las puntas de los pies, manteniendo las rodillas ligeramente flexionadas. Usa una flexión mínima de las rodillas para impulsarte rápidamente hacia arriba. Aterriza suavemente sobre las puntas de los pies e inmediatamente rebota en el siguiente salto. Mantén un ritmo constante y concéntrate en movimientos rápidos y controlados. Continúa durante el número deseado de repeticiones o duración de tiempo.",
@@ -25186,14 +25403,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-bffdb15f-d630-44a1-9a20-d4dc864d6972",
     "name": "Saltos de Tijera",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
+      "pantorrillas",
       "hombros",
       "cuadriceps",
+      "isquiotibiales",
+      "adductores",
       "abdomen",
-      "dorsales",
-      "oblicuos",
-      "biceps"
+      "oblicuos"
     ],
     "equipment": "otro",
     "instructions": "Párate derecho con los pies juntos y los brazos a los lados. Dobla ligeramente las rodillas y salta en el aire. Mientras saltas, separa las piernas al ancho de los hombros y levanta los brazos por encima de la cabeza. Aterriza suavemente sobre las puntas de los pies con las rodillas ligeramente dobladas para absorber el impacto. Rápidamente salta de nuevo a la posición inicial juntando los pies y bajando los brazos a los lados. Repite el movimiento de forma continua a un ritmo constante.",
@@ -25247,10 +25465,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Cossack con barra",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
+      "abductores",
       "gluteos",
-      "dorsales",
-      "biceps",
-      "pantorrillas"
+      "isquiotibiales",
+      "adductores"
     ],
     "equipment": "barra",
     "instructions": "Comienza de pie con los pies más anchos que el ancho de los hombros, sosteniendo una barra sobre la parte superior de la espalda con un agarre por encima. Mantén el pecho levantado y el núcleo comprometido durante todo el movimiento. Desplaza tu peso hacia una pierna, doblando la rodilla y bajando las caderas a una posición de sentadilla en ese lado mientras mantienes la pierna opuesta recta. Asegúrate de que la rodilla en sentadilla siga la línea de los dedos del pie y no se extienda más allá de ellos. Baja tanto como tu flexibilidad lo permita, tratando de mantener el talón de la pierna en sentadilla plano en el suelo. Haz una pausa breve en la parte inferior del movimiento, luego empuja a través de tu talón para volver a la posición inicial. Repite en el lado opuesto, alternando lados para el número deseado de repeticiones.",
@@ -25308,8 +25526,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
-      "biceps",
+      "adductores",
+      "isquiotibiales",
+      "abductores",
       "pantorrillas"
     ],
     "equipment": "peso_corporal",
@@ -25409,10 +25628,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c49da46d-cb8f-4a5b-b948-94208d9880e5",
     "name": "Zancada trasera en Multipower",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales"
+      "gluteos",
+      "abductores"
     ],
     "equipment": "maquina",
     "instructions": "Coloca la barra de la máquina Smith a la altura de los hombros. Párate debajo de la barra y colócala sobre la parte superior de tu espalda Agarra la barra con ambas manos un poco más anchas que el ancho de los hombros. Desbloquea la barra empujando hacia arriba y da un paso adelante con un pie. Da un paso hacia atrás con una pierna en posición de zancada, asegurándote de que tu rodilla delantera esté alineada con tu tobillo. Baja la rodilla trasera hacia el suelo sin dejar que toque, manteniendo el torso erguido. Empuja con el talón de tu pie delantero para volver a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -25469,7 +25688,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
+      "abductores",
       "pantorrillas"
     ],
     "equipment": "otro",
@@ -25530,8 +25749,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Prensa de Piernas Vertical en Máquina Smith",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "maquina",
     "instructions": "Coloca un banco plano debajo de la barra de la máquina Smith Asegúrate de que el banco esté alineado con la trayectoria de la barra. Acuéstate de espaldas en el banco, posicionando tus pies a la anchura de los hombros sobre la barra. Desbloquea la barra de la máquina Smith girándola ligeramente para liberarla de su posición bloqueada. Baja la barra lentamente hacia tu pecho doblando las rodillas, manteniendo los pies planos sobre la barra. Empuja la barra hacia arriba extendiendo completamente las piernas sin bloquear las rodillas en la parte superior. Repite el número deseado de repeticiones, luego bloquea cuidadosamente la barra de nuevo en su lugar.",
@@ -25583,9 +25802,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c72d1396-05a3-4254-a62e-dbbba9813472",
     "name": "Curl de Isquiotibiales Unilateral en Decúbito",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la máquina de curl de piernas para que se adapte a tu tamaño corporal, asegurándote de que la almohadilla del rodillo esté posicionada justo por encima de tus tobillos. Acuéstate boca abajo en la máquina con tus caderas alineadas con el punto de pivote de la máquina. Agarra las manijas o los lados del banco para mantener la estabilidad. Comienza con una pierna extendida y lentamente enróllala hacia arriba doblando la rodilla, llevando el talón hacia los glúteos. Haz una pausa breve en la parte superior del movimiento, asegurando la máxima contracción del isquiotibial. Baja lentamente la pierna de nuevo a la posición inicial de manera controlada. Completa el número deseado de repeticiones antes de cambiar a la otra pierna.",
@@ -25636,11 +25856,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-cb2d0f9b-8328-46a0-bbdb-6b13db28499d",
     "name": "Sentadilla sumo con Multipower",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "biceps",
+      "abductores",
+      "adductores",
+      "gluteos",
+      "isquiotibiales",
       "lumbares"
     ],
     "equipment": "maquina",
@@ -25701,7 +25922,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Prensa de piernas horizontal en máquina",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
+      "abductores",
       "gluteos"
     ],
     "equipment": "maquina",
@@ -25756,12 +25977,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-cd499966-2c32-4b4d-9bf6-440fcc3a84e4",
     "name": "Cardio caminando",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
-      "dorsales",
+      "cuadriceps",
+      "isquiotibiales",
       "pantorrillas",
+      "abductores",
       "gluteos",
-      "biceps"
+      "adductores"
     ],
     "equipment": "cardio",
     "instructions": "Comienza con un calentamiento caminando a un ritmo lento durante 5-10 minutos para preparar tus músculos y articulaciones. Ajusta la cinta de correr a una velocidad cómoda o elige un camino plano y seguro si caminas al aire libre. Mantén una postura erguida con los hombros relajados y el core activado. Balancea tus brazos naturalmente a los lados para ayudar a mantener el equilibrio y el ritmo. Camina a un ritmo rápido que eleve tu frecuencia cardíaca pero que aún te permita mantener una conversación. Continúa caminando durante 20-60 minutos dependiendo de tu nivel de condición física y objetivos. Enfría gradualmente disminuyendo tu ritmo durante los últimos 5-10 minutos de tu caminata.",
@@ -25821,11 +26044,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "pantorrillas",
-      "dorsales",
       "gluteos",
+      "abductores",
       "abdomen",
       "oblicuos",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Párate frente a una caja o plataforma resistente con los pies separados al ancho de las caderas. Desplaza tu peso sobre una pierna, doblando ligeramente la rodilla para prepararte para el salto. Balancea tus brazos hacia atrás para generar impulso. Salta explosivamente sobre la caja usando la fuerza de tu pierna de apoyo, balanceando tus brazos hacia adelante para obtener un impulso adicional. Aterriza suavemente en la caja con la misma pierna, asegurándote de que tu rodilla esté ligeramente doblada para absorber el impacto. Baja con cuidado con la pierna opuesta y repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -25877,8 +26100,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla búlgara con mancuernas",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "gluteos",
-      "dorsales"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate a unos pocos pies frente a un banco o plataforma con una mancuerna en cada mano, brazos colgando a los lados. Extiende una pierna hacia atrás y coloca la parte superior de tu pie en el banco. Mantén el pecho erguido y el núcleo comprometido mientras comienzas a bajar las caderas doblando la rodilla delantera. Baja hasta que tu muslo delantero esté paralelo al suelo o hasta donde tu movilidad lo permita. Empuja a través del talón de tu pie delantero para regresar a la posición inicial. Completa el número deseado de repeticiones en una pierna antes de cambiar a la otra.",
@@ -25930,10 +26153,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-d15edf28-16b7-02a1-ef0a-1273df7fbee8",
     "name": "Peso Muerto con Mancuerna a Una Pierna",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
       "lumbares",
-      "biceps"
+      "gluteos",
+      "abductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate erguido con los pies separados al ancho de las caderas, sosteniendo una mancuerna en tu mano derecha. Desplaza tu peso hacia tu pierna izquierda, manteniendo una ligera flexión en la rodilla. Inclínate en las caderas para bajar la mancuerna hacia el suelo mientras extiendes tu pierna derecha recta detrás de ti. Mantén la espalda plana y el núcleo comprometido durante todo el movimiento. Baja la mancuerna hasta que tu torso esté paralelo al suelo o hasta donde tu flexibilidad lo permita. Regresa a la posición inicial impulsando con tu talón izquierdo y llevando tu pierna derecha hacia adelante. Repite el número deseado de repeticiones antes de cambiar de lado.",
@@ -25991,8 +26215,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
-      "biceps",
+      "adductores",
+      "isquiotibiales",
+      "abductores",
       "pantorrillas"
     ],
     "equipment": "mancuerna",
@@ -26045,9 +26270,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-d455b2bc-feaa-4d9d-8d60-b8ae1ed7b109",
     "name": "Curl de piernas con balón suizo",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "abductores",
+      "gluteos"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate boca arriba con los brazos extendidos a los lados para mayor estabilidad. Coloca tus talones sobre una pelota suiza, con las piernas rectas y los pies a la anchura de las caderas. Levanta las caderas del suelo activando el núcleo y los glúteos, formando una línea recta desde los hombros hasta los talones. Dobla las rodillas y rueda la pelota hacia los glúteos contrayendo los isquiotibiales. Pausa brevemente en la parte superior del movimiento, asegurándote de que las caderas permanezcan elevadas. Extiende lentamente las piernas para rodar la pelota de regreso a la posición inicial mientras mantienes el control. Repite durante el número deseado de repeticiones.",
@@ -26101,8 +26327,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
-      "biceps",
+      "adductores",
+      "isquiotibiales",
+      "abductores",
       "pantorrillas"
     ],
     "equipment": "barra",
@@ -26159,14 +26386,17 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Arrancada y envión",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "hombros",
-      "abdomen",
-      "biceps",
       "lumbares",
       "gluteos",
+      "isquiotibiales",
+      "abdomen",
+      "adductores",
       "pectoral",
       "oblicuos",
+      "trapecio",
+      "dorsales",
+      "biceps",
       "pantorrillas",
       "antebrazo"
     ],
@@ -26233,11 +26463,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla al aire",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
+      "abductores",
       "gluteos",
-      "dorsales",
+      "isquiotibiales",
       "hombros",
-      "pantorrillas",
-      "biceps"
+      "pantorrillas"
     ],
     "equipment": "peso_corporal",
     "instructions": "Párate con los pies separados al ancho de los hombros y los dedos ligeramente apuntando hacia afuera. Activa tu núcleo y mantén el pecho hacia arriba mientras mantienes una columna neutral. Comienza el movimiento empujando tus caderas hacia atrás como si te sentaras en una silla. Dobla tus rodillas y baja tu cuerpo hasta que tus muslos estén paralelos al suelo o tan bajo como tu movilidad lo permita. Asegúrate de que tus rodillas sigan la línea de tus dedos y no se inclinen hacia adentro. Mantén tu peso distribuido uniformemente a través de tus talones y la parte media del pie. Haz una pausa breve en la parte inferior de la sentadilla. Impulsa a través de tus talones para regresar a la posición inicial, extendiendo completamente tus caderas y rodillas.",
@@ -26293,17 +26523,23 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-d8ad3cbb-b306-4f3d-8b67-4577038925b7",
     "name": "Bicicleta de aire de asalto",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
-      "dorsales",
+      "cuadriceps",
       "pectoral",
+      "isquiotibiales",
       "hombros",
-      "triceps",
+      "trapecio",
+      "abductores",
       "gluteos",
-      "biceps",
+      "dorsales",
+      "triceps",
+      "adductores",
       "pantorrillas",
-      "abdomen",
-      "oblicuos"
+      "antebrazo",
+      "biceps",
+      "oblicuos",
+      "abdomen"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento para que tus piernas estén ligeramente dobladas en la parte inferior del golpe de pedal. Siéntate en la bicicleta con los pies bien colocados en los pedales y las manos agarrando el manillar. Comienza a pedalear a un ritmo moderado para calentar, usando tanto las piernas como los brazos para mover los pedales y el manillar. Aumenta tu velocidad e intensidad pedaleando más rápido y empujando/tirando con más fuerza del manillar. Mantén un patrón de respiración constante, inhalando por la nariz y exhalando por la boca. Enfría reduciendo gradualmente tu velocidad e intensidad durante los últimos minutos de tu entrenamiento.",
@@ -26412,11 +26648,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Sissy",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
-      "abdomen",
+      "abductores",
       "gluteos",
-      "pantorrillas",
-      "oblicuos"
+      "abdomen",
+      "oblicuos",
+      "adductores",
+      "pantorrillas"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza de pie con los pies separados al ancho de los hombros Usa un banco de Sissy Squat o agárrate a una superficie estable para mantener el equilibrio. Activa tu core y mantén el torso erguido Comienza a inclinarte hacia atrás doblando las rodillas hacia adelante, manteniendo las caderas extendidas. Baja tu cuerpo permitiendo que las rodillas se desplacen hacia adelante mientras mantienes una línea recta desde las rodillas hasta los hombros. Desciende hasta que tus rodillas estén completamente dobladas y tu cuerpo forme una línea recta desde la cabeza hasta las rodillas. Empuja con las puntas de tus pies para volver a la posición inicial, extendiendo las rodillas y llevando tu cuerpo de nuevo a la posición erguida.",
@@ -26471,7 +26708,6 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla Sissy de Rodillas",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos"
     ],
     "equipment": "peso_corporal",
@@ -26524,9 +26760,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-dc912b16-ab4f-4e66-abdf-a9a07234e2a9",
     "name": "Estiramiento de Isquiotibiales de Rodillas",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "pantorrillas"
     ],
     "equipment": "otro",
     "instructions": "Comienza arrodillándote en el suelo con las rodillas separadas al ancho de las caderas. Extiende tu pierna derecha recta frente a ti, manteniendo el talón en el suelo y los dedos apuntando hacia arriba. Desplaza ligeramente tus caderas hacia atrás mientras mantienes la columna recta y el pecho levantado. Inclínate suavemente hacia adelante desde las caderas hasta que sientas un estiramiento a lo largo de la parte posterior de tu pierna extendida. Mantén el estiramiento durante 20-30 segundos, respirando profundamente y manteniendo una postura relajada. Vuelve a la posición inicial y cambia de pierna para repetir en el otro lado.",
@@ -26579,10 +26815,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
       "lumbares",
+      "adductores",
+      "abductores",
+      "isquiotibiales",
       "abdomen",
-      "biceps",
       "oblicuos"
     ],
     "equipment": "barra",
@@ -26635,14 +26872,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-de8bc2c9-e7fc-4514-b6b5-f98f3e26cfa7",
     "name": "Peso Muerto con Mancuernas Piernas Rectas",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
+      "gluteos",
       "lumbares",
-      "biceps",
-      "dorsales",
+      "abductores",
       "antebrazo",
       "abdomen",
       "oblicuos",
+      "trapecio",
       "pantorrillas"
     ],
     "equipment": "mancuerna",
@@ -26697,9 +26935,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-dfa728cb-aef6-4b05-aca6-f6a4384c0a48",
     "name": "Peso muerto rumano en cable",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps",
+      "abductores",
+      "gluteos",
       "lumbares"
     ],
     "equipment": "polea",
@@ -26755,9 +26994,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-dfc3bc3e-7669-43ae-9462-06084ccc46d0",
     "name": "Flexión hacia adelante sentado",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "pantorrillas"
     ],
     "equipment": "otro",
     "instructions": "Siéntate en el suelo con las piernas extendidas rectas frente a ti. Flexiona los pies de manera que los dedos apunten hacia arriba y los talones presionen contra el suelo. Inhala profundamente, alargando la columna hacia arriba. Al exhalar, inclínate hacia adelante desde las caderas, manteniendo la espalda recta. Alcanza tus pies con las manos, tratando de sostener tus pies o tobillos Si esto es difícil, coloca tus manos en las espinillas o usa una correa alrededor de tus pies. Mantén el cuello relajado y la mirada suavemente hacia tus piernas. Mantén la posición durante 20-30 segundos mientras respiras profundamente. Para liberar, inhala y levanta suavemente el torso de nuevo a una posición erguida.",
@@ -26812,10 +27051,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e0a530e6-e194-45dd-9d0e-e5334a6e5d32",
     "name": "Curl de Jefferson",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps",
-      "lumbares"
+      "gluteos",
+      "lumbares",
+      "abductores"
     ],
     "equipment": "barra",
     "instructions": "Comienza de pie sobre una superficie elevada con los pies separados al ancho de las caderas, sosteniendo una barra ligera o una mancuerna con ambas manos. Mantén los brazos rectos y deja que el peso cuelgue frente a ti. Lentamente mete la barbilla hacia el pecho y comienza a rodar hacia abajo a través de tu columna, vértebra por vértebra. Permite que la parte superior de tu espalda se redondee mientras continúas bajando el peso hacia el suelo. Mantén las rodillas ligeramente flexionadas y concéntrate en mantener el control durante todo el movimiento. Una vez que alcances tu rango máximo de movimiento cómodo, haz una pausa breve. Invierte el movimiento rodando lentamente hacia arriba a través de tu columna, vértebra por vértebra, hasta que regreses a la posición inicial.",
@@ -26869,8 +27109,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e0ef2970-5221-4b13-a4e6-b56a0af148f1",
     "name": "Balanceos Laterales de Pierna",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "adductores",
+    "secondaryMuscles": [
+      "abductores",
+      "gluteos"
+    ],
     "equipment": "otro",
     "instructions": "Párate derecho con los pies separados al ancho de los hombros y agárrate a un objeto estable como una pared o un poste para apoyo. Desplaza tu peso sobre tu pierna izquierda y levanta ligeramente tu pierna derecha del suelo. Balancea suavemente tu pierna derecha a través de tu cuerpo hacia la izquierda, luego hacia el lado derecho de manera controlada. Mantén el torso erguido y activa tu núcleo para mantener el equilibrio. Realiza de 10 a 15 balanceos con una pierna antes de cambiar a la otra pierna.",
     "description": "Los Balanceos Laterales de Piernas son un ejercicio de estiramiento dinámico que se enfoca en los flexores de la cadera, abductores y aductores. Este movimiento ayuda a mejorar la flexibilidad, el equilibrio y prepara la parte inferior del cuerpo para actividades físicas más intensas.",
@@ -26921,7 +27164,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "maquina",
     "instructions": "Siéntate en la máquina de prensa de piernas con la espalda y la cabeza apoyadas cómodamente contra el soporte acolchado. Coloca tus pies a la altura de los hombros en la plataforma, asegurándote de que tus talones estén planos y los dedos ligeramente hacia afuera. Ajusta el asiento para que tus rodillas estén en un ángulo de 90 grados al comenzar. Agarra las manijas a cada lado del asiento para estabilizar la parte superior de tu cuerpo. Presiona la plataforma alejándola extendiendo tus piernas, manteniendo los pies planos y empujando a través de tus talones. No bloquees tus rodillas en la parte superior del movimiento; mantén una ligera flexión. Baja lentamente la plataforma de nuevo a la posición inicial doblando tus rodillas, asegurándote de que no colapsen hacia adentro. Repite para el número deseado de repeticiones.",
@@ -26976,13 +27219,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla de Ciclista",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos",
-      "abdomen",
-      "oblicuos",
-      "pantorrillas",
+      "adductores",
+      "abductores",
       "lumbares",
-      "biceps"
+      "oblicuos",
+      "isquiotibiales",
+      "pantorrillas",
+      "abdomen"
     ],
     "equipment": "barra",
     "instructions": "Comienza de pie con los pies separados al ancho de las caderas y coloca un disco de pesas o una cuña debajo de tus talones para elevarlos ligeramente. Coloca tus pies más juntos que en una sentadilla estándar, con los dedos apuntando hacia adelante. Sujeta una barra sobre la parte superior de tu espalda usando un agarre por encima, o mantén las manos a los lados si realizas la versión con el peso corporal. Activa tu núcleo y mantén el pecho erguido mientras comienzas a bajar en una sentadilla doblando las rodillas. Desciende hasta que tus muslos estén paralelos al suelo o ligeramente por debajo, asegurándote de que tus rodillas sigan la línea de tus dedos. Haz una pausa breve en la parte inferior del movimiento, luego impulsa a través de tus talones para volver a la posición inicial. Repite el número deseado de repeticiones, manteniendo el control durante todo el movimiento.",
@@ -27035,13 +27279,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e657a4e4-a3b5-49da-95d5-a6a41db1272c",
     "name": "Peso Muerto Rumano en Posición B",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps",
+      "gluteos",
       "lumbares",
       "cuadriceps",
       "abdomen",
-      "dorsales",
       "oblicuos"
     ],
     "equipment": "mancuerna",
@@ -27100,9 +27343,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e7a9f02b-6012-4ada-bf59-16ab85ee6b6d",
     "name": "Curl de Piernas Acostado con Mancuernas",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "pantorrillas"
     ],
     "equipment": "mancuerna",
     "instructions": "Acuéstate boca abajo en un banco plano con las piernas completamente extendidas fuera del extremo. Coloca una mancuerna de manera segura entre tus pies, sosteniéndola con los arcos. Mantén las caderas presionadas contra el banco y el núcleo comprometido. Lentamente, eleva la mancuerna doblando las rodillas, llevando los talones hacia los glúteos. Haz una pausa en la parte superior del movimiento, asegurando la máxima contracción en los isquiotibiales. Baja la mancuerna de nuevo a la posición inicial de manera controlada. Repite para el número deseado de repeticiones.",
@@ -27155,14 +27398,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e9c8793b-9ae2-4428-a9af-24ce91ce8c99",
     "name": "Carrera en Cinta",
-    "primaryMuscle": "pantorrillas",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
+      "pantorrillas",
       "cuadriceps",
-      "abdomen",
-      "dorsales",
       "oblicuos",
+      "abdomen",
+      "abductores",
       "gluteos",
-      "biceps"
+      "isquiotibiales",
+      "adductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza de pie en la cinta de correr con los pies en los rieles laterales. Coloca el clip de seguridad en tu ropa para asegurar que la cinta se detenga si es necesario. Configura la cinta a una velocidad baja para comenzar y pisa la banda con cuidado. Aumenta gradualmente la velocidad hasta alcanzar tu ritmo de carrera deseado. Mantén una postura erguida con la cabeza levantada y los hombros relajados. Mantén los brazos doblados en un ángulo de 90 grados, balanceándolos naturalmente con cada paso. Concéntrate en aterrizar suavemente en la parte media del pie y rodar hacia los dedos. Ajusta la inclinación para simular condiciones de carrera al aire libre si lo deseas. Enfría reduciendo gradualmente la velocidad antes de bajarte de la cinta.",
@@ -27222,13 +27467,14 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-ea0437ea-81fe-4d5e-aa72-cf592ae1c11d",
     "name": "Peso Muerto Rumano con Mancuernas",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
       "lumbares",
-      "biceps",
+      "gluteos",
+      "antebrazo",
+      "abductores",
       "cuadriceps",
       "abdomen",
-      "dorsales",
       "oblicuos"
     ],
     "equipment": "mancuerna",
@@ -27283,11 +27529,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-eafc5a02-9cd9-4494-aca9-247ca14f87ee",
     "name": "Sentadilla Sumo desde Stepbox",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "cuadriceps",
-      "biceps",
-      "dorsales"
+      "isquiotibiales",
+      "adductores",
+      "abductores",
+      "gluteos"
     ],
     "equipment": "otro",
     "instructions": "Coloca una caja de step de manera segura en el suelo. Párate con los pies más anchos que el ancho de los hombros sobre la caja de step, con los dedos de los pies apuntando ligeramente hacia afuera. Mantén el pecho levantado, los hombros hacia atrás y el núcleo comprometido. Baja tu cuerpo doblando las caderas y las rodillas, manteniendo la espalda recta. Desciende hasta que tus muslos estén paralelos al suelo o ligeramente por debajo. Empuja a través de tus talones para volver a la posición inicial.",
@@ -27342,7 +27589,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate derecho con los pies separados al ancho de las caderas, sosteniendo una mancuerna en cada mano a los lados. Da un paso hacia adelante con el pie derecho, manteniendo el torso erguido y el núcleo comprometido. Baja el cuerpo doblando ambas rodillas hasta que el muslo delantero esté paralelo al suelo y la rodilla trasera esté justo por encima del suelo. Asegúrate de que la rodilla delantera esté alineada sobre el tobillo y no se extienda más allá de los dedos del pie. Empuja con el talón del pie delantero para regresar a la posición inicial. Repite el movimiento con la pierna izquierda para completar una repetición completa.",
@@ -27396,10 +27643,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-eccb443f-5efd-46ae-b522-a4b8a4066ce2",
     "name": "Peso Muerto Rumano en Máquina Smith",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps",
+      "gluteos",
+      "antebrazo",
       "lumbares",
+      "abductores",
       "abdomen",
       "oblicuos"
     ],
@@ -27459,10 +27708,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Zancadas",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos",
       "pantorrillas",
-      "biceps"
+      "isquiotibiales",
+      "adductores",
+      "abductores"
     ],
     "equipment": "otro",
     "instructions": "Párate erguido con los pies separados al ancho de las caderas y las manos en las caderas o sosteniendo pesas a los lados. Da un paso hacia adelante con el pie derecho, bajando las caderas hasta que ambas rodillas estén dobladas en un ángulo de aproximadamente 90 grados. Asegúrate de que tu rodilla delantera esté directamente sobre tu tobillo y tu rodilla trasera quede justo por encima del suelo. Empuja con el talón de tu pie delantero para volver a la posición inicial. Repite el movimiento con tu pierna izquierda para completar una repetición completa.",
@@ -27515,7 +27765,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales"
+      "adductores"
     ],
     "equipment": "polea",
     "instructions": "Coloca un mango en la polea baja de una máquina de cables. Párate frente a la máquina con los pies separados al ancho de las caderas. Sujeta el mango con una mano y da un paso atrás para crear tensión en el cable. Coloca un pie en una plataforma elevada o escalón, asegurándote de que tu rodilla esté alineada sobre tu tobillo. Empuja a través del talón del pie en la plataforma para levantar tu cuerpo hacia arriba. Lleva tu pierna trasera hacia arriba para encontrarse con la pierna delantera en la plataforma. Baja lentamente la pierna trasera de nuevo a la posición inicial, manteniendo el control. Completa el número deseado de repeticiones antes de cambiar de pierna.",
@@ -27623,7 +27873,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "lumbares",
-      "biceps"
+      "isquiotibiales",
+      "abductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies al ancho de las caderas y coloca un par de mancuernas en el suelo frente a ti. Dobla las caderas y las rodillas para bajar el cuerpo y agarra las mancuernas con un agarre por encima. Mantén la espalda recta, el pecho hacia arriba y los hombros hacia atrás mientras activas el núcleo. Impulsa con los talones para levantar las mancuernas extendiendo las caderas y las rodillas para ponerte de pie. En la parte superior del movimiento, asegúrate de que tu cuerpo esté completamente erguido con los hombros hacia atrás y el pecho abierto. Baja las mancuernas de nuevo al suelo empujando las caderas hacia atrás y doblando las rodillas, manteniendo la columna neutral. Repite para el número deseado de repeticiones.",
@@ -27681,9 +27932,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-f509cfcd-6baf-4b6e-8210-1bf2b574efa5",
     "name": "Extensión de pierna unilateral",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "maquina",
     "instructions": "Ajusta el asiento y el respaldo de la máquina de extensión de piernas para que tus rodillas estén alineadas con el punto de pivote de la máquina. Siéntate en la máquina con la espalda firmemente contra el respaldo y los pies debajo de la palanca acolchada. Selecciona un peso apropiado en la pila de pesas de la máquina. Agarra las manijas o los lados del asiento para estabilizar la parte superior de tu cuerpo. Extiende una pierna empujando contra la palanca acolchada hasta que tu pierna esté completamente extendida, manteniendo el pie flexionado. Haz una pausa breve en la parte superior del movimiento, asegurando la contracción completa de los cuádriceps. Baja lentamente la pierna de nuevo a la posición inicial sin dejar que las pesas se toquen. Repite el número deseado de repeticiones antes de cambiar a la otra pierna.",
     "description": "La Extensión de Pierna Unilateral Sentado es un ejercicio de aislamiento que se enfoca en los músculos cuádriceps ubicados en la parte frontal del muslo. Se realiza utilizando una máquina de extensión de piernas, que permite un movimiento controlado y una focalización precisa de los cuádriceps. Este ejercicio es beneficioso para desarrollar fuerza y definición muscular en las piernas.",
@@ -27738,9 +27987,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-f6468090-67cf-4fdc-ab45-49b41b28037b",
     "name": "Postura del bebé feliz",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "adductores",
     "secondaryMuscles": [
-      "biceps"
+      "isquiotibiales",
+      "gluteos"
     ],
     "equipment": "otro",
     "instructions": "Acuéstate de espaldas con la cabeza apoyada en el suelo. Dobla las rodillas hacia el pecho, manteniendo los pies flexionados. Lleva tus manos a los bordes exteriores de tus pies. Abre las rodillas más anchas que tu torso y llévalas hacia tus axilas. Asegúrate de que tus tobillos estén directamente sobre tus rodillas, creando un ángulo de 90 grados en la articulación de la rodilla. Presiona suavemente el coxis hacia el suelo mientras mantienes la cabeza y los hombros relajados. Mantén la postura durante 30 segundos a 1 minuto, respirando profundamente.",
@@ -27790,9 +28040,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-f8415c81-7b41-4102-9a98-5fadaabded3d",
     "name": "Curl de Piernas en Anillas",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps"
+      "gluteos"
     ],
     "equipment": "peso_corporal",
     "instructions": "Ajusta los anillos de gimnasia a una altura baja, justo por encima del suelo. Acuéstate de espaldas con los talones colocados en los anillos, las piernas extendidas y los brazos a los lados para mantener el equilibrio. Activa tu core y glúteos, luego levanta tus caderas del suelo hacia una posición de puente. Dobla las rodillas para llevar los talones hacia los glúteos, manteniendo las caderas elevadas. Pausa brevemente en la parte superior del movimiento, asegurando la máxima contracción de los isquiotibiales. Extiende lentamente las piernas de nuevo a la posición inicial mientras mantienes el control. Repite durante el número deseado de repeticiones.",
@@ -27847,7 +28097,6 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Extensión Terminal de Rodilla en Polea",
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
-      "dorsales",
       "gluteos"
     ],
     "equipment": "polea",
@@ -27956,8 +28205,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-fa63a3e9-9bb3-41be-89d3-f37d22d9eebf",
     "name": "Estiramiento de Mariposa Inclinada hacia Adelante",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "adductores",
     "secondaryMuscles": [
+      "gluteos",
       "lumbares"
     ],
     "equipment": "otro",
@@ -28008,14 +28258,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-fb42b833-a9f4-4a13-8e57-78a95dc184c8",
     "name": "Correr",
-    "primaryMuscle": "cuadriceps",
+    "primaryMuscle": "cardio",
     "secondaryMuscles": [
-      "dorsales",
+      "cuadriceps",
       "pantorrillas",
       "gluteos",
-      "abdomen",
       "oblicuos",
-      "biceps",
+      "abductores",
+      "abdomen",
+      "isquiotibiales",
+      "adductores",
       "lumbares"
     ],
     "equipment": "peso_corporal",
@@ -28071,9 +28323,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-fd6bf4b3-3d1e-4036-b4c0-e6fded490b43",
     "name": "Sentadilla de barra por encima de la cabeza",
     "primaryMuscle": "cuadriceps",
-    "secondaryMuscles": [
-      "dorsales"
-    ],
+    "secondaryMuscles": [],
     "equipment": "barra",
     "instructions": "Comienza de pie con los pies separados al ancho de los hombros, con los dedos ligeramente apuntando hacia afuera. Agarra la barra con un agarre ancho por encima y presiónala sobre la cabeza hasta que tus brazos estén completamente extendidos. Activa tu núcleo y asegúrate de que tus codos estén bloqueados con la barra directamente sobre tu cabeza. Inicia la sentadilla empujando tus caderas hacia atrás y doblando tus rodillas, manteniendo el pecho hacia arriba y la espalda recta. Bájate hasta que tus muslos estén al menos paralelos al suelo, manteniendo la posición de la barra sobre la cabeza. Empuja a través de tus talones para volver a la posición inicial, asegurándote de que la barra permanezca estable sobre la cabeza durante todo el movimiento.",
     "description": "La Sentadilla con Barra por Encima de la Cabeza es un ejercicio compuesto que trabaja todo el cuerpo, con énfasis en los hombros, el core y la parte inferior del cuerpo. Requiere estabilidad, movilidad y fuerza, lo que lo convierte en un movimiento avanzado adecuado para levantadores experimentados. El ejercicio consiste en sostener una barra por encima de la cabeza mientras se realiza una sentadilla, exigiendo coordinación y equilibrio.",
@@ -28129,8 +28379,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "cuadriceps",
     "secondaryMuscles": [
       "gluteos",
-      "dorsales",
-      "biceps",
+      "adductores",
+      "abductores",
+      "isquiotibiales",
       "pantorrillas"
     ],
     "equipment": "otro",
@@ -28183,11 +28434,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Empuje de Cadera Unilateral con Mancuerna",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
+      "oblicuos",
       "cuadriceps",
       "abdomen",
-      "oblicuos",
-      "dorsales",
-      "biceps",
+      "isquiotibiales",
       "lumbares"
     ],
     "equipment": "mancuerna",
@@ -28245,7 +28496,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Patada de glúteos con banda",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "biceps"
+      "isquiotibiales",
+      "abductores"
     ],
     "equipment": "otro",
     "instructions": "Comienza en posición de cuatro patas con las manos directamente debajo de los hombros y las rodillas debajo de las caderas. Coloca una banda de resistencia alrededor del arco de tu pie derecho y ancla la banda debajo de tu rodilla izquierda. Activa tu núcleo para mantener una columna neutral durante todo el movimiento. Extiende tu pierna derecha hacia atrás, manteniendo el pie flexionado y empujando con el talón. Aprieta los glúteos en la parte superior del movimiento, asegurando una extensión completa sin arquear la parte baja de la espalda. Vuelve lentamente a la posición inicial, manteniendo la tensión en la banda. Completa el número deseado de repeticiones antes de cambiar a la otra pierna.",
@@ -28299,9 +28551,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Zancada inversa con mancuernas desde escalón",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
       "cuadriceps",
-      "dorsales",
-      "biceps",
+      "isquiotibiales",
       "pantorrillas"
     ],
     "equipment": "mancuerna",
@@ -28353,8 +28605,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-245e0727-1c35-4965-aa28-0456d8969828",
     "name": "Abducción de cadera con cable",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "abductores",
+    "secondaryMuscles": [
+      "gluteos"
+    ],
     "equipment": "polea",
     "instructions": "Coloca una correa de tobillo en una polea baja de una máquina de cables. Asegura la correa alrededor de tu tobillo. Párate de lado a la máquina con la pierna con correa más alejada de ella. Agárrate a la máquina o a una superficie estable para apoyo. Mantén el torso erguido y activa tu núcleo. Abduce lentamente tu pierna alejándola de tu cuerpo, manteniéndola recta. Pausa brevemente en la parte superior del movimiento para una contracción máxima. Regresa a la posición inicial de manera controlada. Repite el número deseado de repeticiones y luego cambia de pierna.",
     "description": "La Abducción de Cadera con Cable es un ejercicio de aislamiento que se enfoca en los músculos glúteo medio y mínimo. Consiste en mover la pierna alejándola de la línea media del cuerpo utilizando una máquina de cables, mejorando la estabilidad y fuerza de la cadera.",
@@ -28411,10 +28665,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-2811badd-ff6d-946b-c36f-aae77cd6fa38",
     "name": "Buenos Días con Barra",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
+      "gluteos",
       "lumbares",
-      "biceps"
+      "abductores"
     ],
     "equipment": "barra",
     "instructions": "Comienza colocando una barra en un soporte a la altura de los hombros. Colócate debajo de la barra, apoyándola sobre la parte superior de tu espalda y hombros Agarra la barra un poco más ancho que el ancho de los hombros. Levanta la barra del soporte extendiendo las piernas y retrocede para despejar el soporte. Párate con los pies al ancho de los hombros, con los dedos de los pies apuntando ligeramente hacia afuera. Activa tu núcleo y mantén el pecho hacia arriba Mantén una ligera flexión en las rodillas. Flexiona en las caderas empujándolas hacia atrás mientras mantienes la espalda recta y el pecho hacia arriba. Baja el torso hasta que esté casi paralelo al suelo o hasta donde tu flexibilidad lo permita sin redondear la espalda. Invierte el movimiento empujando con los talones y extendiendo las caderas para regresar a la posición inicial.",
@@ -28474,9 +28729,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Puente de glúteos con banda elástica mini",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "biceps"
+      "abductores",
+      "isquiotibiales",
+      "cuadriceps"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate de espaldas con las rodillas dobladas y los pies planos en el suelo, separados al ancho de las caderas Coloca una banda de resistencia mini justo por encima de las rodillas. Activa tu núcleo y presiona tu espalda baja contra el suelo. Empuja a través de tus talones para levantar tus caderas hacia el techo, apretando tus glúteos en la parte superior del movimiento. Asegúrate de que tu cuerpo forme una línea recta desde los hombros hasta las rodillas en el punto máximo del puente. Mantén la posición por un momento en la parte superior, luego baja lentamente tus caderas de regreso a la posición inicial sin dejar que toquen el suelo. Repite el número deseado de repeticiones.",
@@ -28530,10 +28785,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-2d2291cc-8340-4667-80db-becf8e594b1b",
     "name": "Buenos días en Multipower",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
+      "gluteos",
       "lumbares",
-      "biceps"
+      "abductores"
     ],
     "equipment": "maquina",
     "instructions": "Coloca la barra de la máquina Smith a la altura de los hombros y posiciónate debajo de ella, apoyando la barra sobre tus trapecios superiores. Párate con los pies al ancho de los hombros, con los dedos apuntando ligeramente hacia afuera. Desbloquea la barra girándola hacia adelante y da un paso atrás para despejar los topes de seguridad. Mantén el pecho hacia arriba y el núcleo comprometido mientras flexionas las caderas, empujándolas hacia atrás. Baja el torso hasta que esté casi paralelo al suelo, manteniendo una ligera flexión en las rodillas. Invierte el movimiento impulsándote con los talones y extendiendo las caderas para volver a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -28589,8 +28845,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-38938cf9-f0b8-4894-9393-ce7ed9a4e28e",
     "name": "Abducción de cadera con banda sentado",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "abductores",
+    "secondaryMuscles": [
+      "gluteos"
+    ],
     "equipment": "otro",
     "instructions": "Siéntate en un banco o silla con los pies planos en el suelo, separados al ancho de las caderas. Coloca una banda de resistencia alrededor de tus piernas, justo por encima de las rodillas. Mantén la espalda recta y activa los músculos del core. Empuja lentamente las rodillas hacia afuera contra la resistencia de la banda, manteniendo los pies estacionarios. Mantén la posición por un momento, luego regresa lentamente a la posición inicial. Repite el número deseado de repeticiones.",
     "description": "La Abducción de Cadera Sentado con Banda es un ejercicio que se enfoca en los músculos glúteo medio y mínimo. Implica el uso de una banda de resistencia para proporcionar tensión, ayudando a fortalecer y estabilizar las caderas. Este ejercicio es beneficioso para mejorar la movilidad de la cadera, aumentar el rendimiento atlético y prevenir lesiones.",
@@ -28640,7 +28898,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-38c5072e-3103-4399-8006-ae63d52110e5",
     "name": "Patada de Burro",
     "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "abductores"
+    ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en cuatro patas con las manos directamente debajo de los hombros y las rodillas debajo de las caderas. Activa tu núcleo para mantener una columna neutral durante el movimiento. Levanta una pierna, manteniendo la rodilla doblada a 90 grados, y lleva la planta del pie hacia el techo. Aprieta los glúteos en la parte superior del movimiento y mantén por un breve momento. Baja la pierna de nuevo a la posición inicial con control. Repite el número deseado de repeticiones antes de cambiar a la otra pierna.",
     "description": "La Patada de Burro es un ejercicio para la parte inferior del cuerpo que se enfoca en el glúteo mayor, diseñado para mejorar la fuerza, estabilidad y tono muscular. Principalmente activa los glúteos mientras también involucra el núcleo y los isquiotibiales. Este ejercicio se realiza a cuatro patas, lo que lo hace accesible para varios niveles de condición física.",
@@ -28691,9 +28951,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla dividida con pie delantero elevado",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
       "cuadriceps",
-      "dorsales",
-      "biceps"
+      "isquiotibiales",
+      "adductores"
     ],
     "equipment": "barra",
     "instructions": "Párate frente a una plataforma o escalón, de aproximadamente 6-12 pulgadas de alto. Coloca tu pie derecho en la plataforma, asegurándote de que tu talón esté seguro. Da un paso hacia atrás con tu pie izquierdo en una posición de zancada, manteniendo los pies a la altura de las caderas. Activa tu núcleo y mantén el torso erguido durante todo el movimiento. Baja tu cuerpo doblando ambas rodillas hasta que tu muslo derecho esté paralelo al suelo. Asegúrate de que tu rodilla derecha no se extienda más allá de tus dedos del pie y que tu rodilla izquierda quede justo por encima del suelo. Empuja con el talón de tu pie derecho para volver a la posición inicial. Completa el número deseado de repeticiones antes de cambiar de pierna.",
@@ -28751,12 +29012,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Empuje de Cadera en Máquina Smith",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
       "cuadriceps",
       "abdomen",
-      "dorsales",
-      "oblicuos",
-      "biceps",
-      "lumbares"
+      "isquiotibiales",
+      "lumbares",
+      "oblicuos"
     ],
     "equipment": "maquina",
     "instructions": "Coloca un banco perpendicular a la máquina Smith Siéntate en el suelo con la parte superior de la espalda contra el banco. Rueda la barra de la máquina Smith para que descanse sobre tus caderas Usa un cojín o toalla para mayor comodidad si es necesario. Planta tus pies planos en el suelo, a la altura de los hombros, con las rodillas dobladas aproximadamente a 90 grados. Activa tu núcleo y empuja con los talones para levantar las caderas hacia arriba, extendiéndolas completamente mientras mantienes la parte superior de la espalda en contacto con el banco. Aprieta los glúteos en la parte superior del movimiento, asegurándote de que tu cuerpo forme una línea recta desde los hombros hasta las rodillas. Baja lentamente las caderas de nuevo a la posición inicial sin tocar el suelo. Repite durante el número deseado de repeticiones.",
@@ -28810,9 +29071,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-45c3ad61-7849-4169-9f03-de68c12aa4b9",
     "name": "Peso Muerto Rumano a Una Pierna",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
-      "biceps",
+      "gluteos",
+      "antebrazo",
+      "abductores",
       "lumbares",
       "abdomen",
       "oblicuos"
@@ -28872,10 +29135,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-4cb4b1c0-7e5d-e804-d5ef-0fbe23f53914",
     "name": "Extensión de Espalda con Peso",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "lumbares",
     "secondaryMuscles": [
-      "lumbares",
-      "biceps"
+      "gluteos",
+      "isquiotibiales",
+      "abductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Colócate boca abajo en un banco de hiperextensión, asegurando tus pies bajo las almohadillas para pies. Alinea tus caderas con el borde de la almohadilla para permitir un rango completo de movimiento. Sujeta un disco de pesas o una mancuerna cerca de tu pecho con ambas manos. Comienza con tu cuerpo en línea recta desde la cabeza hasta los talones. Baja lentamente la parte superior de tu cuerpo hacia el suelo doblando las caderas, manteniendo la espalda recta. Haz una pausa breve en la parte inferior del movimiento, luego activa la parte baja de tu espalda y los glúteos para elevar tu torso de regreso a la posición inicial. Repite durante el número deseado de repeticiones.",
@@ -28928,7 +29192,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-4ec535de-1f4a-451a-9dc5-dab2920b51f4",
     "name": "Estiramiento de Figura 4 Sentado",
     "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "abductores"
+    ],
     "equipment": "otro",
     "instructions": "Siéntate en el suelo con las piernas extendidas rectas frente a ti. Dobla la rodilla derecha y coloca el tobillo derecho sobre la rodilla izquierda, formando una figura en '4' con las piernas. Mantén la espalda recta e inclínate suavemente hacia adelante desde las caderas, llevando el pecho hacia las piernas. Mantén el estiramiento durante 20-30 segundos, sintiendo el estiramiento en la cadera y el glúteo derecho. Cambia de pierna y repite el estiramiento en el lado opuesto.",
     "description": "El Estiramiento en Figura 4 Sentado es un ejercicio de flexibilidad que se enfoca en los músculos de la cadera y los glúteos. Ayuda a mejorar la movilidad de la cadera y puede aliviar la tensión en la parte baja de la espalda. Este estiramiento se realiza sentado, lo que lo hace accesible y fácil de integrar en una rutina de ejercicios.",
@@ -28977,7 +29243,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-4f000517-83d7-4c0c-81b3-1af736e0f91c",
     "name": "Patada de Glúteo con Banda de Resistencia en Equilibrio de Pie",
     "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "abductores"
+    ],
     "equipment": "otro",
     "instructions": "Asegura una banda de resistencia alrededor de tus tobillos. Párate erguido con los pies separados al ancho de las caderas y activa tu núcleo. Desplaza tu peso sobre tu pierna izquierda y dobla ligeramente la rodilla. Levanta tu pie derecho del suelo y extiéndelo hacia atrás, manteniendo la pierna recta. Aprieta tus glúteos en la parte superior del movimiento. Vuelve lentamente a la posición inicial sin tocar el suelo. Completa el número deseado de repeticiones, luego cambia de pierna.",
     "description": "La Patada Trasera de Glúteos con Banda de Pie en Equilibrio es un ejercicio para la parte inferior del cuerpo que se enfoca en el glúteo mayor y mejora el equilibrio y la estabilidad del núcleo. Consiste en extender una pierna hacia atrás contra la resistencia de una banda mientras se mantiene una postura erguida.",
@@ -29034,7 +29302,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "barra",
     "instructions": "Comienza de pie con los pies separados al ancho de los hombros, sosteniendo una barra sobre la parte superior de la espalda con un agarre por encima. Coloca un escalón o plataforma detrás de ti a una distancia cómoda. Activa tu núcleo y mantén el torso erguido durante todo el movimiento. Da un paso hacia atrás con una pierna sobre el escalón, bajando las caderas hasta que ambas rodillas estén dobladas aproximadamente a 90 grados. Asegúrate de que tu rodilla delantera esté alineada sobre tu tobillo y no se extienda más allá de tus dedos del pie. Empuja con el talón de tu pie delantero para volver a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -29087,7 +29355,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-51f6c2dd-f5ef-49ed-b10c-8538ac8330ac",
     "name": "Estiramiento de figura 4 en silla",
     "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "abductores"
+    ],
     "equipment": "otro",
     "instructions": "Siéntate erguido en una silla resistente con los pies planos en el suelo, a la altura de las caderas. Levanta tu pie derecho y coloca tu tobillo derecho sobre tu rodilla izquierda, formando una figura de '4' con tus piernas. Mantén la espalda recta e inclínate suavemente hacia adelante desde las caderas hasta que sientas un estiramiento en tu cadera y glúteo derecho. Mantén el estiramiento durante 20-30 segundos, respirando profundamente y manteniendo una postura relajada. Vuelve a la posición inicial y repite en el lado opuesto.",
     "description": "El Estiramiento en Figura 4 en Silla es un ejercicio sentado diseñado para mejorar la flexibilidad en las caderas, glúteos y parte baja de la espalda. Es especialmente beneficioso para personas que pasan largas horas sentadas, ya que ayuda a aliviar la tensión y mejorar la movilidad en estas áreas.",
@@ -29136,11 +29406,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación de cadera con barra",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "isquiotibiales",
       "lumbares",
-      "cuadriceps",
-      "biceps",
+      "abductores",
       "abdomen",
-      "dorsales",
+      "cuadriceps",
       "oblicuos"
     ],
     "equipment": "barra",
@@ -29182,9 +29452,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-59c152a9-7463-4c6d-888b-4a989399242e",
     "name": "Plancha Lateral con Abducción de Cadera",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "abductores",
     "secondaryMuscles": [
-      "oblicuos"
+      "oblicuos",
+      "gluteos"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza acostándote de lado con las piernas extendidas y apiladas una sobre la otra. Coloca tu codo directamente debajo de tu hombro para apoyar la parte superior de tu cuerpo. Activa tu núcleo y levanta tus caderas del suelo, formando una línea recta desde la cabeza hasta los talones. Una vez en la posición de plancha lateral, levanta tu pierna superior lo más alto posible sin comprometer la forma. Mantén la posición brevemente, luego baja lentamente tu pierna de nuevo a la posición inicial. Mantén un núcleo estable durante todo el movimiento y evita que tus caderas caigan. Repite el número deseado de repeticiones antes de cambiar de lado.",
@@ -29241,9 +29512,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Puente de Glúteos",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "cuadriceps",
-      "biceps",
-      "dorsales"
+      "abductores",
+      "isquiotibiales",
+      "cuadriceps"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate boca arriba con las rodillas dobladas y los pies planos en el suelo, separados al ancho de las caderas. Coloca tus brazos a los lados con las palmas hacia abajo. Activa tu núcleo y aprieta los glúteos mientras levantas las caderas del suelo. Levanta hasta que tu cuerpo forme una línea recta desde los hombros hasta las rodillas. Mantén la posición por un momento, luego baja lentamente las caderas de nuevo a la posición inicial. Repite durante el número deseado de repeticiones.",
@@ -29299,7 +29570,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Patada de Glúteos en Polea",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "polea",
     "instructions": "Coloca una correa de tobillo en una máquina de polea baja y asegúrala alrededor de tu tobillo. Párate de frente a la máquina, sosteniéndote del marco para apoyo. Desplaza tu peso hacia la pierna que no está trabajando y dobla ligeramente la rodilla. Con una ligera flexión en la rodilla de la pierna que trabaja, extiende la pierna hacia atrás en un movimiento controlado. Aprieta los glúteos en la parte superior del movimiento, asegurándote de que tu espalda permanezca recta. Vuelve lentamente a la posición inicial sin dejar que la pila de pesas toque. Completa el número deseado de repeticiones antes de cambiar de pierna.",
@@ -29356,9 +29627,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Puente de glúteos con peso",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
       "cuadriceps",
-      "dorsales",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "barra",
     "instructions": "Acuéstate de espaldas con las rodillas dobladas y los pies planos en el suelo, a la altura de las caderas. Coloca un peso, como una barra o una mancuerna, sobre tu pelvis Sujétalo firmemente con ambas manos. Activa tu núcleo y aprieta tus glúteos. Presiona a través de tus talones para levantar tus caderas hacia el techo hasta que tu cuerpo forme una línea recta desde los hombros hasta las rodillas. Mantén la posición superior por un momento, asegurándote de que tus glúteos estén completamente contraídos. Baja lentamente tus caderas de nuevo a la posición inicial sin dejar que toquen el suelo. Repite durante el número deseado de repeticiones.",
@@ -29414,8 +29685,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-793e9f35-ce3c-4d2d-87b8-5b6955ac5279",
     "name": "Abducción de cadera en decúbito lateral",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "abductores",
+    "secondaryMuscles": [
+      "gluteos"
+    ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate de lado en una colchoneta, manteniendo tu cuerpo en línea recta desde la cabeza hasta los pies. Apoya tu cabeza en tu brazo inferior y coloca tu mano superior en tu cadera o delante de ti para mantener el equilibrio. Coloca tus piernas una encima de la otra con las rodillas rectas. Activa tu núcleo para estabilizar tu torso. Levanta lentamente la pierna superior hacia arriba, manteniéndola recta, hasta que sientas tensión en la parte externa de la cadera. Haz una pausa breve en la parte superior del movimiento, asegurándote de no girar las caderas hacia adelante o hacia atrás. Baja la pierna de nuevo a la posición inicial con control. Repite el número deseado de repeticiones y luego cambia de lado.",
     "description": "La Abducción de Cadera Acostado de Lado es un ejercicio de aislamiento que se enfoca en los músculos glúteo medio y mínimo. Se realiza acostándose de lado y levantando la pierna superior alejándola de la línea media del cuerpo, concentrándose en la abducción de la cadera.",
@@ -29471,7 +29744,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "barra",
     "instructions": "Comienza sentándote en el suelo con la parte superior de la espalda apoyada contra un banco y los pies planos en el suelo, a la altura de las caderas. Rueda una barra sobre tus piernas hasta que esté posicionada directamente sobre tus caderas Usa un cojín para proteger tus caderas si es necesario. Activa tu núcleo y aprieta tus glúteos mientras empujas con los talones para levantar tus caderas hacia el techo. Asegúrate de que tu cuerpo forme una línea recta desde los hombros hasta las rodillas en la parte superior del movimiento. Pausa brevemente en la parte superior, luego baja lentamente tus caderas de nuevo a la posición inicial sin tocar el suelo. Repite para el número deseado de repeticiones.",
@@ -29525,12 +29798,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación de cadera",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
       "cuadriceps",
       "abdomen",
-      "dorsales",
-      "oblicuos",
-      "biceps",
-      "lumbares"
+      "isquiotibiales",
+      "lumbares",
+      "oblicuos"
     ],
     "equipment": "barra",
     "instructions": "Siéntate en el suelo con la parte superior de la espalda apoyada en un banco y los pies planos en el suelo, a la anchura de las caderas. Rueda una barra sobre tus piernas hasta que esté directamente sobre tus caderas. Activa tu núcleo y empuja con los talones para levantar las caderas hacia arriba, extendiéndolas completamente mientras mantienes la barbilla recogida. Aprieta los glúteos en la parte superior del movimiento y mantén la posición por un momento. Baja las caderas de manera controlada para volver a la posición inicial.",
@@ -29582,14 +29855,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Peso muerto sumo",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales",
-      "biceps",
+      "adductores",
+      "antebrazo",
       "lumbares",
+      "abductores",
+      "isquiotibiales",
+      "cuadriceps",
+      "trapecio",
       "abdomen",
-      "pantorrillas",
-      "oblicuos",
-      "antebrazo"
+      "oblicuos"
     ],
     "equipment": "barra",
     "instructions": "Párate con los pies más separados que el ancho de los hombros, con los dedos de los pies apuntando ligeramente hacia afuera. Colócate cerca de la barra de modo que esté sobre la mitad de tus pies. Dobla las caderas y las rodillas para bajar tu cuerpo, manteniendo el pecho hacia arriba y la espalda recta. Agarra la barra con ambas manos dentro de tus rodillas, usando un agarre doble por encima o mixto. Activa tu núcleo y lleva los hombros hacia atrás antes de iniciar el levantamiento. Empuja a través de tus talones y extiende tus caderas y rodillas para levantar la barra, manteniéndola cerca de tu cuerpo. Párate completamente erguido con los hombros hacia atrás en la parte superior del levantamiento. Baja la barra de nuevo al suelo de manera controlada doblando las caderas y las rodillas.",
@@ -29648,8 +29922,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Postura de la Paloma",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales"
+      "abductores",
+      "cuadriceps"
     ],
     "equipment": "otro",
     "instructions": "Comienza en una posición de mesa sobre tus manos y rodillas. Lleva tu rodilla derecha hacia tu muñeca derecha Angula tu espinilla derecha debajo de tu torso y lleva tu pie derecho al frente de tu rodilla izquierda. Desliza tu pierna izquierda hacia atrás, enderezando la rodilla y bajando la parte frontal del muslo al suelo. Cuadra tus caderas hacia la esterilla, asegurándote de que no estén inclinadas hacia un lado. Inhala para alargar tu columna, y al exhalar, inclínate hacia adelante sobre tu pierna derecha, descansando sobre tus antebrazos o extendiendo tus brazos hacia adelante. Mantén la posición de 30 segundos a 2 minutos, respirando profundamente. Para liberar, empuja hacia atrás con las manos y levanta tus caderas, regresando a una posición de mesa. Repite en el lado opuesto.",
@@ -29756,8 +30030,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-85c89a46-37b2-422a-b2bf-c3a5588463de",
     "name": "Abducción de Cadera de Pie",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "abductores",
+    "secondaryMuscles": [
+      "gluteos"
+    ],
     "equipment": "otro",
     "instructions": "Párate erguido con los pies separados al ancho de las caderas Puedes sostenerte de una superficie estable como una pared o una silla para mantener el equilibrio. Desplaza tu peso hacia la pierna izquierda, manteniéndola ligeramente doblada. Levanta la pierna derecha hacia un lado tan alto como puedas sin inclinar el torso Mantén los dedos del pie apuntando hacia adelante. Haz una pausa en la parte superior del movimiento, luego baja lentamente la pierna de nuevo a la posición inicial. Completa el número deseado de repeticiones y luego cambia a la otra pierna.",
     "description": "La Abducción de Cadera de Pie es un ejercicio que se enfoca en los músculos glúteo medio y mínimo, así como en el tensor de la fascia lata. Ayuda a mejorar la estabilidad y la fuerza de la cadera, lo cual es esencial para diversas actividades atléticas y movimientos diarios.",
@@ -29807,10 +30083,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-873096f4-e814-47bf-9e4a-02ac68f3ade5",
     "name": "Extensión de Espalda",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "lumbares",
     "secondaryMuscles": [
-      "lumbares",
-      "biceps"
+      "gluteos",
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Colócate boca abajo en un banco de hiperextensión con las caderas alineadas con el borde del cojín. Asegura tus pies bajo las almohadillas para mantener la estabilidad. Cruza los brazos sobre el pecho o coloca las manos detrás de la cabeza. Comienza con el cuerpo en una línea recta desde la cabeza hasta los talones. Baja lentamente la parte superior del cuerpo hacia el suelo doblándote por las caderas, manteniendo la espalda recta. Desciende hasta sentir un ligero estiramiento en los isquiotibiales o hasta que tu torso esté aproximadamente perpendicular al suelo. Activa los músculos de la parte baja de la espalda y los glúteos para elevar el torso de nuevo a la posición inicial. Evita hiperextender la espalda en la parte superior del movimiento.",
@@ -29871,7 +30147,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate erguido con los pies separados al ancho de las caderas, sosteniendo una mancuerna en cada mano a los lados. Activa tu núcleo y mantén el pecho hacia arriba mientras das un paso hacia atrás con el pie derecho. Baja las caderas hasta que ambas rodillas estén dobladas aproximadamente a 90 grados Tu rodilla delantera debe estar directamente sobre tu tobillo. Empuja con el talón de tu pie izquierdo para volver a la posición inicial. Repite el movimiento con tu pierna izquierda dando un paso hacia atrás para completar una repetición completa. Continúa alternando las piernas durante el número deseado de repeticiones.",
@@ -29927,7 +30203,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "lumbares",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "polea",
     "instructions": "Ajusta la máquina de cable a la posición más baja y coloca una cuerda como mango. Párate de espaldas a la máquina, con el cable entre las piernas y los pies separados al ancho de los hombros. Agarra la cuerda con ambas manos entre tus piernas, con las palmas enfrentadas. Da un paso hacia adelante para crear tensión en el cable, manteniendo los brazos rectos. Flexiona las caderas, empujando los glúteos hacia atrás mientras mantienes una ligera flexión en las rodillas. Mantén la espalda recta y el pecho hacia arriba mientras bajas el torso hasta sentir un estiramiento en los isquiotibiales. Impulsa con los talones y extiende las caderas hacia adelante para volver a la posición inicial. Aprieta los glúteos en la parte superior del movimiento sin hiperextender la parte baja de la espalda.",
@@ -29983,7 +30259,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-98e32b35-8efa-4e40-bff6-d414f8297dd1",
     "name": "Patada de Glúteos en Máquina",
     "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "abductores"
+    ],
     "equipment": "maquina",
     "instructions": "Ajusta la configuración de la máquina para adaptarla a tu altura y asegura la correa del tobillo alrededor de tu pierna inferior. Párate frente a la máquina, sujetando las manijas para apoyo. Coloca un pie en la plataforma o almohadilla, asegurándote de que tu rodilla esté ligeramente doblada. Activa tu núcleo y mantén una postura recta durante todo el movimiento. Extiende tu pierna hacia atrás en un movimiento controlado, apretando los glúteos en la parte superior del movimiento. Vuelve lentamente a la posición inicial sin dejar que la pila de pesas toque completamente. Completa el número deseado de repeticiones antes de cambiar a la otra pierna.",
     "description": "La Patada en Máquina para Glúteos es un ejercicio de aislamiento que se enfoca en el glúteo mayor. Consiste en extender la pierna hacia atrás contra resistencia, centrándose en fortalecer y tonificar los glúteos. Este ejercicio se realiza generalmente utilizando una máquina especializada diseñada para proporcionar resistencia controlada.",
@@ -30086,9 +30364,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Puente de Glúteos KAS",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
       "cuadriceps",
-      "dorsales",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "barra",
     "instructions": "Siéntate en el suelo con la espalda contra un banco o superficie elevada, rodillas dobladas, pies planos en el suelo. Coloca una barra sobre tus caderas, sosteniéndola con ambas manos. Activa tus glúteos y levanta tus caderas hacia arriba hasta que tu cuerpo forme una línea recta desde los hombros hasta las rodillas. Pausa en la parte superior por un momento, enfocándote en apretar tus glúteos. Baja lentamente tus caderas de nuevo a la posición inicial, controlando el movimiento.",
@@ -30142,13 +30420,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
-      "dorsales",
+      "isquiotibiales",
+      "adductores",
+      "abductores",
       "lumbares",
+      "trapecio",
       "abdomen",
-      "biceps",
-      "pantorrillas",
       "antebrazo",
-      "oblicuos"
+      "oblicuos",
+      "pantorrillas"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies más anchos que el ancho de los hombros, con los dedos de los pies apuntando ligeramente hacia afuera. Sujeta una mancuerna con ambas manos, dejándola colgar entre tus piernas. Mantén el pecho erguido, los hombros hacia atrás y el núcleo comprometido. Dobla las rodillas y empuja las caderas hacia atrás para bajar en una sentadilla hasta que tus muslos estén paralelos al suelo. Asegúrate de que tus rodillas sigan la línea de tus dedos de los pies y no se extiendan más allá de ellos. Presiona a través de tus talones para regresar a la posición inicial. Repite durante el número deseado de repeticiones.",
@@ -30204,9 +30484,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Puente de glúteos en banco",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "biceps",
-      "cuadriceps",
-      "dorsales"
+      "isquiotibiales",
+      "abductores",
+      "cuadriceps"
     ],
     "equipment": "otro",
     "instructions": "Siéntate en el suelo con la parte superior de la espalda apoyada en un banco, las rodillas dobladas y los pies planos en el suelo. Coloca los pies a la altura de las caderas y posiciónalos de manera que tus espinillas estén verticales cuando levantes las caderas. Apoya los brazos en el banco para mayor estabilidad o crúzalos sobre el pecho. Activa tu núcleo y aprieta los glúteos mientras levantas las caderas hacia el techo hasta que tu cuerpo forme una línea recta desde los hombros hasta las rodillas. Mantén la posición superior por un momento, asegurando la máxima contracción en los glúteos. Baja lentamente las caderas de nuevo a la posición inicial sin dejar que toquen el suelo. Repite el número deseado de repeticiones.",
@@ -30261,9 +30541,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Puente de Glúteos con Peso a una Pierna",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
       "cuadriceps",
-      "dorsales",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "mancuerna",
     "instructions": "Acuéstate de espaldas con las rodillas dobladas y los pies planos en el suelo, a la altura de las caderas. Coloca un peso, como una mancuerna o un disco, sobre tu pelvis, sujetándolo firmemente con ambas manos. Extiende una pierna recta, manteniéndola en línea con tu muslo opuesto. Activa tu núcleo y presiona con el talón del pie apoyado para levantar tus caderas hacia el techo. Aprieta tus glúteos en la parte superior del movimiento, asegurándote de que tu cuerpo forme una línea recta desde los hombros hasta las rodillas. Mantén la posición de puente por un momento antes de bajar lentamente tus caderas de nuevo a la posición inicial. Completa el número deseado de repeticiones en un lado antes de cambiar a la otra pierna.",
@@ -30318,7 +30598,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-b805ce84-2b5c-4cd1-8bb3-a8cc53c44b49",
     "name": "Bisagra de Cadera",
     "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "abductores"
+    ],
     "equipment": "barra",
     "instructions": "Párate con los pies al ancho de las caderas, con los dedos apuntando hacia adelante. Activa tu núcleo para estabilizar tu columna vertebral. Comienza el movimiento empujando tus caderas hacia atrás como si las estuvieras alcanzando hacia una pared detrás de ti. Mantén las rodillas ligeramente flexionadas y una columna neutral durante todo el movimiento. Baja tu torso hasta que sientas un estiramiento en los isquiotibiales, manteniendo el pecho abierto y los hombros hacia atrás. Invierte el movimiento impulsando con los talones y extendiendo tus caderas para volver a la posición inicial.",
     "description": "La bisagra de cadera es un patrón de movimiento fundamental esencial para ejercicios como el peso muerto y los balanceos con kettlebell. Implica doblarse en las caderas mientras se mantiene una columna neutral, permitiendo una transferencia de carga eficiente y minimizando el estrés en la parte baja de la espalda.",
@@ -30369,10 +30651,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-bd67f53b-0829-458b-8368-3bd89972ebe0",
     "name": "Extensión de Espalda con Mancuerna",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "lumbares",
     "secondaryMuscles": [
-      "lumbares",
-      "biceps"
+      "gluteos",
+      "isquiotibiales"
     ],
     "equipment": "mancuerna",
     "instructions": "Comienza acostándote boca abajo en un banco de hiperextensión, asegurando tus pies debajo de las almohadillas para pies. Sujeta una mancuerna con ambas manos contra tu pecho. Asegúrate de que tu cuerpo forme una línea recta desde la cabeza hasta los talones. Baja lentamente la parte superior de tu cuerpo hacia el suelo doblando las caderas, manteniendo la espalda recta. Haz una pausa breve en la parte inferior del movimiento. Activa los músculos de la parte baja de la espalda para levantar tu torso de regreso a la posición inicial. Repite durante el número deseado de repeticiones.",
@@ -30424,15 +30706,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-bde8a221-1dd3-40ec-bf89-b26d8e991b77",
     "name": "Peso Muerto Rumano",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "isquiotibiales",
     "secondaryMuscles": [
+      "gluteos",
       "lumbares",
-      "dorsales",
-      "biceps",
+      "antebrazo",
+      "abductores",
       "cuadriceps",
       "abdomen",
-      "antebrazo",
-      "oblicuos"
+      "oblicuos",
+      "trapecio"
     ],
     "equipment": "barra",
     "instructions": "Párate con los pies separados al ancho de las caderas, sosteniendo una barra con un agarre por encima frente a tus muslos. Mantén el pecho hacia arriba, los hombros hacia atrás y el núcleo comprometido durante todo el movimiento. Inicia el movimiento empujando tus caderas hacia atrás mientras mantienes una ligera flexión en tus rodillas. Baja la barra a lo largo de tus piernas, manteniéndola cerca de tu cuerpo, hasta que sientas un estiramiento en tus isquiotibiales. Asegúrate de que tu espalda permanezca recta y evita redondear tus hombros. Haz una pausa breve en la parte inferior del movimiento, luego impulsa tus caderas hacia adelante para regresar a la posición inicial.",
@@ -30477,9 +30760,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Sentadilla con kettlebell en copa",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "cuadriceps",
-      "biceps",
-      "dorsales"
+      "abductores",
+      "isquiotibiales",
+      "cuadriceps"
     ],
     "equipment": "otro",
     "instructions": "Párate con los pies más anchos que el ancho de los hombros y los dedos ligeramente apuntando hacia afuera. Sujeta una pesa rusa con ambas manos frente a ti, permitiendo que cuelgue entre tus piernas. Activa tu núcleo y mantén el pecho hacia arriba mientras comienzas a bajar tu cuerpo doblando las caderas y las rodillas. Haz una sentadilla hasta que tus muslos estén paralelos al suelo o tan bajo como tu flexibilidad lo permita. Asegúrate de que tus rodillas sigan la línea de tus dedos y no se inclinen hacia adentro. Empuja a través de tus talones para regresar a la posición inicial, enderezando tus piernas y manteniendo la espalda erguida. Repite para el número deseado de repeticiones.",
@@ -30533,8 +30816,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c0d708f6-00ab-118f-9f7d-e13f27e5458b",
     "name": "Abducción de Cadera Sentado",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "abductores",
+    "secondaryMuscles": [
+      "gluteos"
+    ],
     "equipment": "maquina",
     "instructions": "Ajusta el asiento y el respaldo de la máquina para asegurar que tus rodillas estén alineadas con el punto de pivote de la máquina. Siéntate en la máquina con la espalda recta y los pies planos sobre los reposapiés. Coloca tus rodillas dentro de las palancas acolchadas, manteniéndolas juntas. Agarra las asas o los lados del asiento para estabilidad. Exhala y empuja lentamente tus rodillas hacia afuera tanto como sea cómodo, activando los abductores de la cadera. Pausa brevemente en el punto más amplio, asegurando tensión en los músculos. Inhala y regresa lentamente a la posición inicial con control. Repite para el número deseado de repeticiones.",
     "description": "El ejercicio de Abducción de Cadera Sentado se enfoca en los músculos abductores de la cadera, principalmente el glúteo medio y el menor. Se realiza utilizando una máquina especializada donde te sientas con las piernas juntas y las separas contra resistencia. Este ejercicio ayuda a mejorar la estabilidad de la cadera, el equilibrio y la fuerza general del tren inferior.",
@@ -30587,8 +30872,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c1b44da7-2220-4a21-8164-ebc2abf9ba65",
     "name": "Abducción de Cadera con Banda",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "abductores",
+    "secondaryMuscles": [
+      "gluteos"
+    ],
     "equipment": "otro",
     "instructions": "Coloca una banda de resistencia alrededor de tus piernas, justo por encima de las rodillas. Párate con los pies separados al ancho de los hombros y dobla ligeramente las rodillas. Activa tu núcleo y mantén la espalda recta. Lentamente mueve una pierna hacia un lado contra la resistencia de la banda, manteniendo los dedos de los pies apuntando hacia adelante. Haz una pausa breve en la parte superior del movimiento, asegurando la máxima tensión en la banda. Regresa tu pierna a la posición inicial con control. Repite el número deseado de repeticiones, luego cambia a la otra pierna.",
     "description": "La Abducción de Cadera con Banda es un ejercicio que se enfoca en los músculos glúteo medio y mínimo, así como en el tensor de la fascia lata. Consiste en usar una banda de resistencia para crear tensión, lo que ayuda a fortalecer y estabilizar las caderas. Este ejercicio es beneficioso para mejorar la estabilidad de la cadera, potenciar el rendimiento atlético y prevenir lesiones.",
@@ -30642,7 +30929,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Hiperextensión Inversa con Banda",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "biceps"
+      "abductores",
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Asegura una banda de resistencia a un punto de anclaje estable a nivel del suelo. Acuéstate boca abajo en un banco con las caderas en el borde y las piernas colgando. Coloca la banda de resistencia alrededor de tus tobillos. Agarra los lados del banco para mantener la estabilidad. Activa tu núcleo y glúteos, luego levanta las piernas hacia arriba extendiendo tus caderas. Levanta las piernas hasta que estén en línea con tu torso, manteniéndolas rectas. Haz una pausa breve en la parte superior del movimiento, apretando los glúteos. Baja lentamente las piernas de regreso a la posición inicial de manera controlada. Repite para el número deseado de repeticiones.",
@@ -30695,10 +30983,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c6028e5a-3df6-4a4d-b11b-13812ad4436f",
     "name": "Caminata lateral con banda",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "abductores",
     "secondaryMuscles": [
-      "cuadriceps",
-      "dorsales"
+      "gluteos",
+      "adductores",
+      "cuadriceps"
     ],
     "equipment": "otro",
     "instructions": "Coloca una banda de resistencia alrededor de tus piernas justo por encima de las rodillas. Párate con los pies al ancho de los hombros y baja a una posición de sentadilla, manteniendo el pecho hacia arriba y la espalda recta. Activa tu núcleo y mantén la tensión en la banda durante todo el movimiento. Da un paso lateral hacia la derecha con tu pie derecho, seguido por tu pie izquierdo, manteniendo la posición de sentadilla. Da de 3 a 5 pasos hacia la derecha, luego invierte el movimiento dando un paso hacia la izquierda con tu pie izquierdo, seguido por tu pie derecho. Continúa alternando lados durante el número deseado de repeticiones o tiempo.",
@@ -30750,9 +31039,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación de cadera estilo rana",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
-      "cuadriceps",
-      "biceps",
-      "dorsales"
+      "abductores",
+      "isquiotibiales",
+      "cuadriceps"
     ],
     "equipment": "mancuerna",
     "instructions": "Acuéstate de espaldas sobre una colchoneta con las rodillas dobladas y los pies planos en el suelo. Junta las plantas de tus pies, permitiendo que tus rodillas caigan hacia los lados. Coloca tus brazos a los lados con las palmas hacia abajo para mayor estabilidad. Activa tu core y aprieta tus glúteos mientras levantas las caderas del suelo. Eleva tus caderas hasta que tu cuerpo forme una línea recta desde los hombros hasta las rodillas. Mantén la posición superior por un momento, apretando bien los glúteos. Baja lentamente las caderas de nuevo a la posición inicial sin tocar el suelo. Repite durante el número deseado de repeticiones.",
@@ -30809,12 +31098,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Empuje de cadera en máquina",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
       "cuadriceps",
       "abdomen",
-      "dorsales",
-      "oblicuos",
-      "biceps",
-      "lumbares"
+      "isquiotibiales",
+      "lumbares",
+      "oblicuos"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta el asiento y el respaldo de la máquina para adaptarlos a tu tamaño corporal, asegurándote de que tus hombros estén cómodamente apoyados. Siéntate en la máquina con la espalda contra el respaldo y coloca tus pies planos sobre la plataforma, a la altura de los hombros. Asegura la almohadilla sobre tus caderas, asegurándote de que esté ajustada pero no demasiado apretada. Activa tu núcleo y empuja con los talones para levantar tus caderas hasta que tus muslos estén paralelos al suelo, apretando los glúteos en la parte superior del movimiento. Baja lentamente tus caderas de nuevo a la posición inicial, manteniendo el control durante todo el movimiento. Repite durante el número deseado de repeticiones.",
@@ -30916,15 +31205,17 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e39ba212-23da-494e-b136-42060c32e7ce",
     "name": "Peso muerto desde bloques",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "lumbares",
     "secondaryMuscles": [
+      "gluteos",
       "cuadriceps",
-      "dorsales",
-      "lumbares",
-      "biceps",
+      "isquiotibiales",
+      "abductores",
       "antebrazo",
-      "abdomen",
       "pantorrillas",
+      "trapecio",
+      "abdomen",
+      "adductores",
       "oblicuos",
       "hombros"
     ],
@@ -30981,8 +31272,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e4022ea8-2ba8-46f2-8afb-9aa0b76bc6ef",
     "name": "Concha lateral con banda elástica acostado",
-    "primaryMuscle": "gluteos",
-    "secondaryMuscles": [],
+    "primaryMuscle": "abductores",
+    "secondaryMuscles": [
+      "gluteos"
+    ],
     "equipment": "otro",
     "instructions": "Acuéstate de lado con las piernas apiladas y las rodillas dobladas en un ángulo de 90 grados. Coloca una banda de resistencia alrededor de tus muslos, justo por encima de las rodillas. Descansa tu cabeza sobre tu brazo inferior y coloca tu mano superior en el suelo frente a ti para apoyo. Mantén los pies juntos y activa tu núcleo. Levanta tu rodilla superior lo más alto posible sin mover tu pelvis ni separar los pies. Pausa en la parte superior del movimiento, luego baja lentamente la rodilla de regreso a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de lado.",
     "description": "Las Almejas Acostadas con Banda son un ejercicio de resistencia que se enfoca en el glúteo medio y los abductores de la cadera. Este ejercicio ayuda a mejorar la estabilidad de la cadera, fortalecer los glúteos y mejorar la función general del tren inferior. Se realiza acostado de lado con una banda de resistencia alrededor de los muslos, justo por encima de las rodillas.",
@@ -31032,9 +31325,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-ecd73905-fd43-458c-bc6e-288a83dafbb9",
     "name": "Buenos días sentado",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "lumbares",
     "secondaryMuscles": [
-      "lumbares"
+      "gluteos",
+      "abductores"
     ],
     "equipment": "barra",
     "instructions": "Siéntate en un banco con los pies planos en el suelo, separados al ancho de los hombros. Sujeta una barra sobre la parte superior de tu espalda, asegurándote de que no esté descansando sobre tu cuello. Activa tu núcleo y mantén el pecho hacia arriba. Inhala profundamente, luego inclínate hacia adelante desde las caderas, manteniendo la espalda recta y la cabeza alineada con la columna. Baja el torso hasta que esté casi paralelo al suelo o hasta donde tu flexibilidad lo permita. Exhala al regresar a la posición inicial contrayendo los glúteos y los isquiotibiales. Repite para el número deseado de repeticiones.",
@@ -31089,14 +31383,15 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-ed5e6c95-151e-46e2-9fbe-59ab50294ee3",
     "name": "Perro de Caza",
-    "primaryMuscle": "gluteos",
+    "primaryMuscle": "lumbares",
     "secondaryMuscles": [
-      "dorsales",
-      "triceps",
-      "lumbares",
+      "gluteos",
       "hombros",
+      "trapecio",
+      "isquiotibiales",
+      "abductores",
+      "triceps",
       "abdomen",
-      "biceps",
       "oblicuos"
     ],
     "equipment": "peso_corporal",
@@ -31151,11 +31446,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
       "cuadriceps",
+      "isquiotibiales",
+      "abductores",
       "abdomen",
-      "dorsales",
-      "biceps",
-      "oblicuos",
-      "lumbares"
+      "lumbares",
+      "oblicuos"
     ],
     "equipment": "mancuerna",
     "instructions": "Siéntate en el suelo con la parte superior de la espalda apoyada contra un banco, las rodillas dobladas y los pies planos en el suelo. Coloca una mancuerna horizontalmente sobre tus caderas, sujetándola firmemente con ambas manos. Activa tu núcleo y empuja con los talones para levantar tus caderas hacia el techo. En la parte superior del movimiento, tu cuerpo debe formar una línea recta desde los hombros hasta las rodillas. Aprieta los glúteos en la parte superior y mantén la posición por un momento. Baja lentamente las caderas de nuevo a la posición inicial sin tocar el suelo. Repite para el número deseado de repeticiones.",
@@ -31212,9 +31507,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Glute Bridge Single Leg: Puente de Glúteos a una Pierna",
     "primaryMuscle": "gluteos",
     "secondaryMuscles": [
+      "abductores",
       "cuadriceps",
-      "dorsales",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate de espaldas con las rodillas dobladas y los pies planos en el suelo, a la altura de las caderas. Extiende una pierna hacia afuera, manteniéndola en línea con el muslo opuesto. Activa tu core y presiona a través del talón del pie apoyado para levantar tus caderas hacia el techo. En la parte superior del movimiento, tu cuerpo debe formar una línea recta desde los hombros hasta las rodillas. Mantén la posición brevemente mientras aprietas los glúteos. Baja lentamente las caderas de nuevo a la posición inicial sin dejar que toquen el suelo. Repite el número deseado de repeticiones antes de cambiar de pierna.",
@@ -31269,7 +31564,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-01c5867e-2eb7-4f53-8b92-3a021d49cfea",
     "name": "Curl de Bíceps con Banda Elástica",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "otro",
     "instructions": "Párate con los pies separados al ancho de los hombros, colocando la parte media de la banda de resistencia debajo de tus pies. Sujeta las asas o los extremos de la banda con un agarre en supinación, palmas hacia adelante, y brazos completamente extendidos a los lados. Mantén los codos cerca de tu torso y una ligera flexión en las rodillas. Exhala mientras flexionas la banda hacia arriba doblando los codos, manteniendo los brazos superiores estacionarios. Continúa flexionando hasta que tus bíceps estén completamente contraídos y las asas estén a nivel de los hombros. Haz una pausa breve en la parte superior del movimiento, apretando tus bíceps. Inhala mientras bajas lentamente las asas de nuevo a la posición inicial, manteniendo el control sobre la tensión de la banda.",
     "description": "El Curl de Bíceps con Banda es un ejercicio de aislamiento que se enfoca en el bíceps braquial utilizando una banda de resistencia. Este ejercicio ayuda a desarrollar fuerza y resistencia muscular en los bíceps, ofreciendo una resistencia variable a lo largo del rango de movimiento.",
@@ -31518,7 +31815,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-174978b8-1b92-4700-96d0-98d1835628dd",
     "name": "Curl de Araña con Mancuernas",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 45 grados. Acuéstate boca abajo en el banco con el pecho y el estómago apoyados. Sujeta una mancuerna en cada mano con un agarre supino, brazos completamente extendidos hacia el suelo. Mantén los codos cerca de tu cuerpo y flexiona las mancuernas hacia arriba contrayendo los bíceps. Pausa en la parte superior del movimiento, asegurando una contracción máxima. Baja lentamente las mancuernas de nuevo a la posición inicial, manteniendo el control en todo momento. Repite para el número deseado de repeticiones.",
     "description": "El Curl de Araña con Mancuernas es un ejercicio de aislamiento que se enfoca en el bíceps braquial. Se realiza en un banco inclinado, lo que permite un rango completo de movimiento y minimiza el impulso, mejorando así la contracción y el crecimiento muscular.",
@@ -31625,7 +31924,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-221e8991-90d5-4398-b7df-09a42bc95502",
     "name": "Spider Hammer Curl: Curl Martillo en Araña",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 45 grados. Acuéstate boca abajo en el banco, asegurándote de que tu pecho esté apoyado y tus brazos cuelguen rectos hacia abajo. Sujeta una mancuerna en cada mano con un agarre neutral (palmas enfrentadas). Mantén los codos ligeramente doblados y estacionarios durante todo el movimiento. Flexiona los codos para levantar las mancuernas hacia arriba, manteniendo las muñecas rectas. Aprieta en la parte superior del movimiento, enfocándote en contraer el braquial. Baja lentamente las mancuernas de nuevo a la posición inicial. Repite para el número deseado de repeticiones.",
     "description": "El Curl Martillo Araña es un ejercicio de aislamiento que se enfoca en los músculos braquial y braquiorradial de los brazos. Consiste en levantar mancuernas con un agarre neutral mientras se inclina hacia adelante, generalmente realizado en un banco inclinado. Este ejercicio mejora el grosor de los brazos y la fuerza del antebrazo.",
@@ -31678,15 +31979,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-2463cfae-b1dc-4f38-af0a-544002d6fbc2",
     "name": "Muscle Up en Anillas",
-    "primaryMuscle": "biceps",
+    "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "dorsales",
+      "hombros",
       "pectoral",
       "triceps",
-      "hombros",
+      "biceps",
+      "trapecio",
       "antebrazo",
-      "abdomen",
-      "oblicuos"
+      "oblicuos",
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza colgándote de los anillos con un agarre falso, asegurándote de que tus muñecas estén por encima de los anillos. Activa tu núcleo y tira de ti mismo hacia arriba explosivamente, apuntando a llevar tu pecho a los anillos. Al llegar a la parte superior de la dominada, realiza la transición inclinándote hacia adelante y empujando los anillos hacia abajo. Empuja tu cuerpo hacia arriba en una posición de fondo extendiendo completamente tus brazos. Controla tu descenso de regreso a la posición inicial, manteniendo la tensión en todo tu cuerpo.",
@@ -31844,7 +32146,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-2b8538c5-03b4-4f4f-b178-11dd9b8ad4f3",
     "name": "Curl de Predicador en Máquina con un Brazo",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento de la máquina de curl predicador para que tu brazo superior descanse cómodamente en el cojín. Selecciona un peso apropiado en la máquina. Siéntate y coloca tu brazo en el cojín con la axila ajustada contra el borde superior. Agarra el mango con un agarre en supinación (palma hacia arriba). Mantén la espalda recta y los pies planos en el suelo. Lentamente levanta el mango hacia arriba contrayendo tu bíceps, manteniendo tu brazo superior estacionario. Haz una pausa breve en la parte superior del movimiento, asegurando la máxima contracción. Baja lentamente el mango de regreso a la posición inicial, extendiendo completamente tu brazo sin bloquear el codo. Repite el número deseado de repeticiones antes de cambiar de brazo.",
     "description": "El Curl de Predicador en Máquina con un Brazo es un ejercicio de aislamiento que se enfoca en el bíceps braquial. Este ejercicio se realiza utilizando una máquina de curl de predicador, lo que permite un movimiento controlado y una contracción focalizada del bíceps. Ayuda a aumentar la masa muscular y a mejorar el pico del bíceps.",
@@ -31901,7 +32205,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-38709d78-13c4-45d5-ac56-b42c86866412",
     "name": "Curl de bíceps en banco Scott con barra EZ",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "barra",
     "instructions": "Ajusta el banco de predicador para que tus brazos superiores descansen cómodamente sobre la almohadilla. Siéntate en el banco con los pies planos en el suelo y agarra la barra EZ con un agarre en supinación, manos a la altura de los hombros. Coloca tus brazos superiores en la almohadilla, asegurándote de que tus axilas estén ajustadas contra el borde superior. Comienza con los brazos completamente extendidos y la barra cerca del suelo. Riza la barra hacia arriba flexionando los codos, manteniendo los brazos superiores estacionarios contra la almohadilla. Continúa el movimiento hasta que tus antebrazos estén verticales o ligeramente más allá de la vertical, sin levantar los codos de la almohadilla. Pausa brevemente en la parte superior del movimiento, apretando los bíceps. Baja lentamente la barra de nuevo a la posición inicial, extendiendo completamente los brazos.",
     "description": "El Curl de Predicador con Barra EZ es un ejercicio de aislamiento que se enfoca en el bíceps braquial. Consiste en usar una barra EZ y un banco de predicador para concentrarse en los bíceps, minimizando la participación de otros músculos. El cojín inclinado del banco de predicador sostiene los brazos, reduciendo el impulso y enfatizando una forma estricta.",
@@ -32012,7 +32318,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-4786d67b-4ca5-40b9-8d97-488d60317e6a",
     "name": "Curl Martillo Inclinado con Mancuerna",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "mancuerna",
     "instructions": "Ajusta un banco inclinado a un ángulo de 30-45 grados. Siéntate en el banco con una mancuerna en cada mano, brazos completamente extendidos y palmas enfrentadas. Mantén los codos cerca de tu cuerpo y levanta las mancuernas flexionando los codos. Continúa levantando hasta que tus antebrazos estén verticales o ligeramente más allá de la vertical. Aprieta tus bíceps en la parte superior del movimiento. Baja lentamente las mancuernas de nuevo a la posición inicial con control. Repite para el número deseado de repeticiones.",
     "description": "El Curl de Martillo Inclinado con Mancuernas es un ejercicio para la parte superior del brazo que se enfoca en los músculos braquial y bíceps braquial. Realizado en un banco inclinado, enfatiza la cabeza larga del bíceps y mejora la fuerza del antebrazo. Esta variación utiliza un agarre neutral, reduciendo la tensión en las muñecas y comprometiendo los antebrazos de manera más efectiva.",
@@ -32120,6 +32428,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Curl de Bíceps con Cable a un Brazo",
     "primaryMuscle": "biceps",
     "secondaryMuscles": [
+      "antebrazo",
       "triceps"
     ],
     "equipment": "polea",
@@ -32290,7 +32599,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-5d3e85c7-ad6f-4fa9-8b63-984f13c3b1ac",
     "name": "Curl de martillo con banda",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "otro",
     "instructions": "Párate con los pies al ancho de los hombros, anclando la parte media de la banda de resistencia bajo tus pies. Sujeta los extremos de la banda con un agarre neutral (palmas enfrentadas) a los lados. Mantén los codos cerca de tu torso y la espalda recta. Lleva tus manos hacia los hombros doblando los codos, manteniendo las muñecas rectas. Haz una pausa breve en la parte superior del movimiento, asegurando la máxima contracción en tus brazos. Baja lentamente las manos de nuevo a la posición inicial, manteniendo el control de la tensión de la banda. Repite para el número deseado de repeticiones.",
     "description": "El Curl Martillo con Banda es un ejercicio de aislamiento que se enfoca en los músculos braquial y braquiorradial del brazo superior. Consiste en usar una banda de resistencia para realizar un movimiento de curl con un agarre neutral, lo que enfatiza los antebrazos y proporciona tensión constante durante todo el movimiento.",
@@ -32453,7 +32764,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-6b210054-5434-1bf3-923e-62e137c41216",
     "name": "Curl de Martillo con Mancuernas",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "mancuerna",
     "instructions": "Párate derecho con los pies separados al ancho de los hombros y sostén una mancuerna en cada mano con un agarre neutral, palmas enfrentadas. Mantén los codos cerca de tu torso y la espalda recta. Flexiona los pesos doblando los codos, manteniendo los brazos superiores estacionarios. Continúa levantando hasta que tus antebrazos estén verticales o ligeramente más allá de la vertical. Haz una pausa breve en la parte superior del movimiento, apretando tus bíceps. Baja lentamente las mancuernas de regreso a la posición inicial, extendiendo completamente los brazos. Repite para el número deseado de repeticiones.",
     "description": "El Curl de Martillo con Mancuernas es un ejercicio de aislamiento que se enfoca en los músculos braquial, braquiorradial y bíceps braquial. Se realiza con mancuernas y utiliza un agarre neutral, lo que enfatiza los antebrazos y la cabeza externa de los bíceps.",
@@ -32506,7 +32819,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-6f35ebb5-d31e-1ab7-310f-25b8cada0293",
     "name": "Curl de Bíceps con Barra",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "barra",
     "instructions": "Ponte de pie con los pies separados al ancho de los hombros, sosteniendo una barra con un agarre supino. Mantén los codos cerca de tu torso y la espalda recta. Exhala mientras levantas la barra hacia arriba doblando los codos, manteniéndolos estacionarios. Continúa levantando hasta que tus bíceps estén completamente contraídos y la barra esté a la altura de los hombros. Mantén la posición contraída por un breve momento mientras aprietas los bíceps. Inhala mientras bajas lentamente la barra de nuevo a la posición inicial, extendiendo completamente los brazos.",
     "description": "El Curl de Bíceps con Barra es un ejercicio fundamental que se enfoca en los músculos bíceps braquial. Consiste en levantar una barra de manera controlada para comprometer y desarrollar eficazmente los bíceps, mejorando la fuerza y el tamaño de los brazos.",
@@ -32557,7 +32872,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-71054169-cf36-c810-dca5-4413fe9a1327",
     "name": "Curl Alterno con Mancuernas en Supinación",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "mancuerna",
     "instructions": "Párate erguido con una mancuerna en cada mano, brazos completamente extendidos a los lados y palmas hacia adelante. Mantén los codos cerca de tu torso y la espalda recta durante todo el movimiento. Flexiona el codo para levantar la mancuerna derecha mientras mantienes la palma hacia arriba. Continúa levantando hasta que tu bíceps esté completamente contraído y la mancuerna esté a nivel del hombro. Haz una pausa breve en la parte superior del movimiento, apretando el bíceps. Baja lentamente la mancuerna de regreso a la posición inicial. Repite el movimiento con tu brazo izquierdo mientras mantienes el brazo derecho inmóvil. Continúa alternando los brazos para el número deseado de repeticiones.",
     "description": "El Curl Alterno Supinado con Mancuernas es un ejercicio de aislamiento que se enfoca en el bíceps braquial. Este ejercicio consiste en levantar una mancuerna con un agarre supinado (palmas hacia arriba), alternando los brazos, para mejorar la simetría muscular y la fuerza en la parte superior del brazo.",
@@ -32600,7 +32917,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-757ae740-c2ef-4a8d-9199-fd48ea06dcc9",
     "name": "Curl bayesiano en cable sentado",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "polea",
     "instructions": "Coloca la máquina de cable en una posición de polea baja y acopla una barra recta o EZ-curl. Siéntate en un banco de espaldas a la máquina de cable, asegurándote de que tu espalda esté recta y los pies planos en el suelo. Agarra la barra con un agarre en supinación, manos a la altura de los hombros. Comienza con los brazos completamente extendidos, sintiendo un ligero estiramiento en los bíceps. Flexiona los codos para llevar la barra hacia los hombros, manteniendo los brazos superiores inmóviles. Aprieta los bíceps en la parte superior del movimiento para una contracción máxima. Baja lentamente la barra de nuevo a la posición inicial, manteniendo el control en todo momento. Repite para el número deseado de repeticiones.",
     "description": "El Curl de Cable Bayesiano Sentado es un ejercicio de aislamiento que se enfoca en el bíceps braquial. Utiliza una máquina de cables para mantener una tensión constante durante el movimiento, mejorando el compromiso y el crecimiento muscular. Realizar este ejercicio sentado ayuda a estabilizar el cuerpo, permitiendo una mejor concentración en los bíceps.",
@@ -32763,11 +33082,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-78395663-8332-42cc-8aa7-d87f474bdb10",
     "name": "Dominadas con Peso",
-    "primaryMuscle": "biceps",
+    "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "dorsales",
-      "triceps",
-      "hombros"
+      "hombros",
+      "biceps",
+      "trapecio",
+      "triceps"
     ],
     "equipment": "barra",
     "instructions": "Asegura el peso deseado a un cinturón de inmersión alrededor de tu cintura. Párate debajo de una barra de dominadas y agárrala con un agarre en supinación, palmas hacia ti, a la altura de los hombros. Activa tu núcleo y lleva tus omóplatos hacia abajo y hacia atrás. Inicia el movimiento tirando de ti mismo hacia arriba hasta que tu barbilla pase la barra. Haz una pausa breve en la parte superior del movimiento, asegurando la contracción completa de los músculos de la espalda. Bájate de manera controlada hasta que tus brazos estén completamente extendidos. Repite para el número deseado de repeticiones.",
@@ -33193,7 +33513,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-9f11cb88-a5a3-49a9-b8b3-14d535803a6b",
     "name": "Curl de araña con barra EZ",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "barra",
     "instructions": "Ajusta un banco inclinado a un ángulo de aproximadamente 45 grados. Acuéstate boca abajo en el banco con el pecho apoyado y los pies firmemente plantados en el suelo. Agarra la barra EZ con un agarre en supinación (palmas hacia arriba), con las manos a la altura de los hombros. Deja que tus brazos cuelguen rectos hacia abajo, perpendiculares al suelo. Manteniendo los codos estacionarios, levanta la barra hacia arriba contrayendo los bíceps. Continúa levantando hasta que tus antebrazos estén verticales o ligeramente más allá de la vertical para una contracción máxima. Pausa brevemente en la parte superior del movimiento, apretando los bíceps. Baja lentamente la barra de nuevo a la posición inicial, extendiendo completamente los brazos. Repite para el número deseado de repeticiones.",
     "description": "El Curl de Araña con Barra EZ es un ejercicio de aislamiento que se enfoca en el bíceps braquial. Se realiza utilizando una barra EZ mientras se está acostado boca abajo en un banco inclinado, lo que permite un mayor rango de movimiento y un mayor compromiso muscular. Este ejercicio enfatiza la contracción máxima del bíceps y minimiza la participación de los hombros.",
@@ -33345,7 +33667,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-a4dfb157-1b04-4271-aa73-d122cd30acc8",
     "name": "Curl Martillo Cruzado con Mancuerna",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "mancuerna",
     "instructions": "Párate derecho con los pies separados al ancho de los hombros, sosteniendo una mancuerna en cada mano con un agarre neutral (palmas enfrentadas). Mantén los codos cerca de tu torso y los hombros relajados. Comenzando con el brazo derecho, lleva la mancuerna a través de tu cuerpo hacia el hombro izquierdo mientras mantienes el brazo superior estacionario. Aprieta los bíceps en la parte superior del movimiento y haz una breve pausa. Baja lentamente la mancuerna de regreso a la posición inicial. Repite con el brazo izquierdo, llevando la mancuerna hacia el hombro derecho. Continúa alternando los brazos para el número deseado de repeticiones.",
     "description": "El Curl Martillo Cruzado con Mancuernas es un ejercicio de aislamiento que se enfoca en los músculos braquial, braquiorradial y bíceps braquial. Esta variación enfatiza los antebrazos y la cabeza externa de los bíceps, promoviendo la fuerza del brazo y el equilibrio muscular.",
@@ -33452,7 +33776,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-b343e608-5d5f-4983-adba-b2045467c73d",
     "name": "Curl de Martillo con Cable a un Brazo",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "polea",
     "instructions": "Coloca un mango individual en una polea baja de una máquina de cables. Párate con los pies separados al ancho de los hombros, mirando hacia la máquina. Agarra el mango con una mano usando un agarre neutral (martillo), con el pulgar hacia arriba. Da un paso atrás ligeramente para crear tensión en el cable, manteniendo el brazo completamente extendido. Mantén el codo cerca de tu torso y la muñeca recta. Exhala mientras flexionas el codo para llevar el mango hacia tu hombro. Haz una pausa breve en la parte superior del movimiento, asegurando la máxima contracción de los bíceps. Inhala mientras bajas lentamente el mango de regreso a la posición inicial, manteniendo el control. Completa el número deseado de repeticiones antes de cambiar de brazo.",
     "description": "El Curl de Martillo con Cable a un Brazo es un ejercicio de aislamiento que se enfoca en el bíceps braquial, con énfasis en los músculos braquial y braquiorradial. Este ejercicio utiliza una máquina de cable para mantener una tensión constante durante el movimiento, promoviendo el crecimiento muscular y la fuerza en la parte superior del brazo.",
@@ -33565,7 +33891,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-b866a8c1-4083-403a-9a68-ba6846f85a87",
     "name": "Curl de Concentración con Martillo",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "mancuerna",
     "instructions": "Siéntate en un banco con los pies planos en el suelo, las piernas ligeramente separadas. Sujeta una mancuerna en una mano con un agarre neutral (pulgar hacia arriba). Inclínate ligeramente hacia adelante y apoya el codo del brazo que trabaja contra el muslo interno de la pierna del mismo lado. Mantén la espalda recta y el núcleo comprometido durante todo el movimiento. Lentamente flexiona el codo para levantar la mancuerna hacia arriba, manteniendo la muñeca recta. Haz una pausa breve en la parte superior del movimiento cuando tu antebrazo esté vertical o ligeramente más allá. Baja la mancuerna de nuevo a la posición inicial de manera controlada. Completa el número deseado de repeticiones antes de cambiar de brazo.",
     "description": "El Curl Martillo de Concentración es un ejercicio de aislamiento que se enfoca en los músculos braquial y braquiorradial, así como en el bíceps braquial. Se realiza con una mancuerna mientras estás sentado, concentrándote en una forma estricta y un movimiento controlado para maximizar el compromiso muscular y la hipertrofia.",
@@ -33778,7 +34106,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "id": "smartworkout-d1c79bb9-e950-43b4-82a8-9b8003140b5e",
     "name": "Curl Martillo Alterno con Mancuernas",
     "primaryMuscle": "biceps",
-    "secondaryMuscles": [],
+    "secondaryMuscles": [
+      "antebrazo"
+    ],
     "equipment": "mancuerna",
     "instructions": "Párate erguido con los pies al ancho de los hombros y sostén una mancuerna en cada mano usando un agarre neutral, con las palmas enfrentándose entre sí. Mantén los codos cerca de tu torso y una espalda recta. Flexiona la mancuerna derecha hacia arriba doblando el codo, manteniendo el brazo superior estacionario. Continúa levantando hasta que tu antebrazo esté vertical y la mancuerna a la altura del hombro. Haz una pausa breve en la parte superior del movimiento, luego baja lentamente la mancuerna de regreso a la posición inicial. Repite el movimiento con tu brazo izquierdo mientras mantienes el brazo derecho estacionario. Continúa alternando los brazos para el número deseado de repeticiones.",
     "description": "El Curl de Martillo Alterno con Mancuernas es un ejercicio de entrenamiento de fuerza que se enfoca en los bíceps y los antebrazos. Consiste en levantar mancuernas con un agarre neutral, alternando los brazos, lo que ayuda a desarrollar el tamaño y la fuerza de los brazos mientras también se activan los músculos braquial y braquiorradial.",
@@ -34943,11 +35273,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-3a5a9586-380f-4bfa-aa70-429003734604",
     "name": "Flexión cobra",
-    "primaryMuscle": "triceps",
+    "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "pectoral",
+      "triceps",
       "hombros",
-      "dorsales",
+      "trapecio",
       "abdomen",
       "oblicuos"
     ],
@@ -35099,11 +35429,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Fondos en Banco con Peso",
     "primaryMuscle": "triceps",
     "secondaryMuscles": [
-      "pectoral",
       "hombros",
+      "pectoral",
       "abdomen",
-      "oblicuos",
-      "lumbares"
+      "lumbares",
+      "oblicuos"
     ],
     "equipment": "peso_corporal",
     "instructions": "Siéntate en el borde de un banco con las manos posicionadas junto a tus caderas, dedos agarrando el borde. Coloca tus pies planos en el suelo, rodillas dobladas aproximadamente a 90 grados. Pide a un compañero que coloque un disco de pesas o una mancuerna en tu regazo para añadir resistencia. Desliza tus caderas fuera del banco, apoyando tu cuerpo con los brazos extendidos. Baja tu cuerpo doblando los codos hasta que formen un ángulo de 90 grados. Presiona con las palmas para extender tus brazos y levantar tu cuerpo de nuevo a la posición inicial. Repite el número deseado de repeticiones mientras mantienes el control durante todo el movimiento.",
@@ -35372,12 +35702,13 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-492742c2-2f9d-403c-8212-3323acb46df2",
     "name": "Flexiones en Pseudo Plancha",
-    "primaryMuscle": "triceps",
+    "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "pectoral",
       "hombros",
-      "dorsales",
+      "triceps",
       "abdomen",
+      "trapecio",
+      "dorsales",
       "oblicuos"
     ],
     "equipment": "peso_corporal",
@@ -35486,15 +35817,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-5993086a-9f98-4a7f-9ff8-c870fa693f68",
     "name": "Flexión de Brazo con Extensión de Pierna y Brazo Opuesto",
-    "primaryMuscle": "triceps",
+    "primaryMuscle": "pectoral",
     "secondaryMuscles": [
-      "pectoral",
+      "triceps",
       "hombros",
-      "dorsales",
       "gluteos",
+      "trapecio",
       "abdomen",
+      "abductores",
       "oblicuos",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en una posición de plancha alta con las manos colocadas al ancho de los hombros y el cuerpo formando una línea recta desde la cabeza hasta los talones. Realiza una flexión estándar bajando el pecho hacia el suelo, manteniendo los codos en un ángulo de 45 grados. Mientras te empujas de nuevo a la posición inicial, levanta simultáneamente el brazo derecho y la pierna izquierda del suelo, extendiéndolos rectos hacia adelante y hacia atrás respectivamente. Mantén esta posición brevemente, asegurándote de que tu cuerpo permanezca estable y alineado. Regresa el brazo y la pierna a la posición inicial mientras te preparas para la siguiente repetición. Alterna los lados con cada flexión, levantando el brazo y la pierna opuestos.",
@@ -35602,16 +35934,18 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-5e5e5c5f-0e1d-4827-b76d-c2f87d4ac410",
     "name": "Plancha de rana",
-    "primaryMuscle": "triceps",
+    "primaryMuscle": "hombros",
     "secondaryMuscles": [
       "pectoral",
-      "dorsales",
+      "triceps",
       "abdomen",
-      "hombros",
+      "dorsales",
       "oblicuos",
+      "antebrazo",
+      "abductores",
       "biceps",
       "gluteos",
-      "antebrazo",
+      "trapecio",
       "lumbares"
     ],
     "equipment": "peso_corporal",
@@ -36085,11 +36419,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Fondo de tríceps en banco sentado",
     "primaryMuscle": "triceps",
     "secondaryMuscles": [
-      "pectoral",
       "hombros",
+      "pectoral",
       "abdomen",
-      "oblicuos",
-      "lumbares"
+      "lumbares",
+      "oblicuos"
     ],
     "equipment": "otro",
     "instructions": "Siéntate en el borde de un banco o silla resistente con las manos colocadas junto a tus caderas, dedos apuntando hacia adelante. Extiende tus piernas frente a ti, manteniendo los talones en el suelo y las rodillas ligeramente dobladas. Desplaza tus caderas hacia adelante fuera del banco, soportando tu peso con tus brazos. Baja tu cuerpo doblando los codos hasta un ángulo de aproximadamente 90 grados, manteniéndolos cerca de tus costados. Empuja a través de tus palmas para extender tus codos y regresar a la posición inicial. Repite para el número deseado de repeticiones.",
@@ -36875,11 +37209,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c48d3682-7b85-45cb-bbb6-731ca86f4a08",
     "name": "Muscle-Up con Peso",
-    "primaryMuscle": "triceps",
+    "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "dorsales",
-      "pectoral",
+      "triceps",
       "hombros",
+      "trapecio",
+      "pectoral",
       "biceps"
     ],
     "equipment": "barra",
@@ -36987,11 +37322,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c7bc7acf-63e9-4749-a0e1-d130d759ed1d",
     "name": "Dominada con impulso",
-    "primaryMuscle": "triceps",
+    "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "dorsales",
-      "pectoral",
+      "triceps",
       "hombros",
+      "pectoral",
+      "trapecio",
       "biceps"
     ],
     "equipment": "barra",
@@ -37045,7 +37381,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "triceps",
     "secondaryMuscles": [
       "dorsales",
-      "pectoral"
+      "pectoral",
+      "hombros"
     ],
     "equipment": "barra",
     "instructions": "Acuéstate en un banco con los pies firmemente plantados en el suelo Agarra la barra con un agarre cerrado, ligeramente más estrecho que el ancho de los hombros. Desmonta la barra y colócala sobre tu pecho con los brazos completamente extendidos. Baja la barra hacia tu pecho manteniendo los codos cerca de tu cuerpo. A medida que la barra se acerca a tu pecho, realiza una extensión de tríceps permitiendo que tus codos se doblen más, llevando la barra hacia tu frente o ligeramente por encima. Invierte el movimiento extendiendo tus codos y presionando la barra de regreso a la posición inicial sobre tu pecho. Repite para el número deseado de repeticiones, manteniendo el control durante todo el movimiento.",
@@ -37313,14 +37650,16 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Flexión de Brazos en Plancha Completa",
     "primaryMuscle": "triceps",
     "secondaryMuscles": [
-      "pectoral",
-      "dorsales",
       "hombros",
+      "pectoral",
       "antebrazo",
-      "abdomen",
-      "biceps",
+      "dorsales",
       "lumbares",
+      "abdomen",
       "oblicuos",
+      "trapecio",
+      "isquiotibiales",
+      "biceps",
       "gluteos"
     ],
     "equipment": "peso_corporal",
@@ -37750,6 +38089,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "secondaryMuscles": [
       "pectoral",
       "hombros",
+      "antebrazo",
       "biceps",
       "abdomen",
       "oblicuos"
@@ -38113,10 +38453,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Caminata del Granjero",
     "primaryMuscle": "antebrazo",
     "secondaryMuscles": [
-      "pantorrillas",
       "cuadriceps",
+      "pantorrillas",
       "abdomen",
-      "dorsales",
       "oblicuos"
     ],
     "equipment": "barra",
@@ -38547,8 +38886,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
       "oblicuos",
       "cuadriceps",
       "pantorrillas",
-      "abdomen",
-      "dorsales"
+      "abdomen"
     ],
     "equipment": "mancuerna",
     "instructions": "Selecciona una mancuerna o kettlebell pesada y colócala a tu lado. Ponte de pie con los pies separados al ancho de las caderas y activa tu núcleo. Dobla las rodillas para recoger el peso con una mano, manteniendo la espalda recta. Sujeta el peso de manera segura a tu lado con el brazo completamente extendido. Comienza a caminar hacia adelante en línea recta, manteniendo una postura erguida. Mantén los hombros nivelados y evita inclinarte hacia un lado. Camina una distancia o tiempo determinado, luego cambia de mano y repite.",
@@ -38658,10 +38996,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Paseo del granjero con mancuernas",
     "primaryMuscle": "antebrazo",
     "secondaryMuscles": [
-      "pantorrillas",
       "cuadriceps",
+      "pantorrillas",
       "abdomen",
-      "dorsales",
       "oblicuos"
     ],
     "equipment": "mancuerna",
@@ -38822,6 +39159,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Colgado muerto",
     "primaryMuscle": "antebrazo",
     "secondaryMuscles": [
+      "hombros",
+      "trapecio",
       "dorsales"
     ],
     "equipment": "barra",
@@ -39141,9 +39480,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-d723ed09-c017-4ea4-8f63-90c1a00cbb6a",
     "name": "Dominada Scapular",
-    "primaryMuscle": "antebrazo",
+    "primaryMuscle": "dorsales",
     "secondaryMuscles": [
-      "dorsales"
+      "antebrazo",
+      "hombros",
+      "trapecio"
     ],
     "equipment": "barra",
     "instructions": "Comienza colgándote de una barra de dominadas con un agarre por encima, manos a la altura de los hombros. Activa tu núcleo y mantén tu cuerpo recto sin balancearte ni doblarte en las caderas. Inicia el movimiento retrayendo tus escápulas, tirando de tus omóplatos hacia abajo y juntos. Mantén la posición retraída por un momento, asegurando el pleno compromiso de los músculos escapulares. Libera lentamente y regresa a la posición inicial con control. Repite para el número deseado de repeticiones.",
@@ -39246,10 +39587,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "antebrazo",
     "secondaryMuscles": [
       "oblicuos",
-      "pantorrillas",
       "cuadriceps",
-      "abdomen",
-      "dorsales"
+      "pantorrillas",
+      "abdomen"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate erguido con los pies al ancho de los hombros. Levanta una mancuerna pesada o una pesa rusa con una mano, manteniendo el brazo recto a tu lado. Activa tu núcleo para mantener una postura erguida y evitar inclinarte hacia un lado. Comienza a caminar hacia adelante en línea recta, dando pasos controlados. Mantén los hombros nivelados y evita balancearte de lado a lado. Camina una distancia o tiempo determinado, luego cambia el peso a la otra mano y repite.",
@@ -39510,11 +39850,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-0a75e037-9658-4706-a497-d7efe844e10b",
     "name": "Molino de Viento con Peso Corporal",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
+      "abductores",
       "gluteos",
-      "oblicuos",
-      "biceps"
+      "abdomen",
+      "isquiotibiales"
     ],
     "equipment": "otro",
     "instructions": "Párate con los pies un poco más anchos que el ancho de los hombros y los dedos de los pies apuntando ligeramente hacia afuera. Extiende los brazos hacia los lados a la altura de los hombros, formando una T con tu cuerpo. Desplaza tu peso hacia tu pierna derecha, doblando ligeramente la rodilla derecha mientras mantienes la pierna izquierda recta. Gira tu torso hacia la derecha, bajando tu mano izquierda hacia tu pie derecho mientras mantienes el brazo derecho extendido hacia arriba. Mantén la mirada en tu mano derecha mientras te inclinas en las caderas y mantienes la espalda recta. Pausa brevemente en la parte inferior del movimiento, luego regresa a la posición inicial invirtiendo el movimiento. Repite el movimiento en el lado opuesto, desplazando el peso hacia tu pierna izquierda y bajando tu mano derecha hacia tu pie izquierdo.",
@@ -39569,9 +39910,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-0ad57432-b306-46f9-a486-635db0a1080c",
     "name": "Rotación de Tronco en Máquina",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento en la máquina de palanca para que el punto de pivote se alinee con tu sección media. Siéntate y asegura tus pies debajo de las almohadillas para pies, asegurándote de que tus rodillas estén ligeramente dobladas. Agarra las manijas firmemente con ambas manos, manteniendo los codos ligeramente doblados. Activa tus músculos del core y mantén una postura erguida durante todo el movimiento. Gira lentamente tu torso hacia un lado, usando tus músculos oblicuos para controlar el movimiento. Haz una pausa breve al final de la rotación para maximizar el compromiso muscular. Regresa a la posición inicial de manera controlada. Repite el movimiento en el lado opuesto para completar una repetición completa.",
@@ -39678,10 +40019,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-0d70c540-52d7-41d0-b32d-448e6d0033ae",
     "name": "Inclinación Lateral de Pie con Banda",
-    "primaryMuscle": "abdomen",
-    "secondaryMuscles": [
-      "oblicuos"
-    ],
+    "primaryMuscle": "oblicuos",
+    "secondaryMuscles": [],
     "equipment": "otro",
     "instructions": "Párate con los pies al ancho de los hombros, sosteniendo una banda de resistencia en ambas manos. Coloca un extremo de la banda debajo de tu pie izquierdo y sostiene el otro extremo con tu mano derecha. Mantén tu mano izquierda en la cadera o déjala colgar naturalmente a tu lado. Activa tu núcleo y mantén la espalda recta. Dobla lentamente tu torso hacia la derecha, tirando contra la resistencia de la banda. Pausa brevemente en la parte inferior del movimiento, sintiendo el estiramiento en tu oblicuo izquierdo. Regresa a la posición inicial contrayendo los músculos oblicuos izquierdos. Completa el número deseado de repeticiones antes de cambiar de lado.",
     "description": "La Inclinación Lateral de Pie con Banda es un ejercicio que se enfoca en los músculos oblicuos, que forman parte del núcleo. Consiste en inclinar el torso hacia un lado mientras se mantiene la tensión con una banda de resistencia, ayudando a mejorar la estabilidad y la fuerza del núcleo.",
@@ -39734,9 +40073,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-0e833972-04f5-c0d4-c790-2400bfd748ca",
     "name": "Giro Sentado",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Siéntate en el suelo con las rodillas dobladas y los pies planos en el suelo Inclínate ligeramente hacia atrás para activar tu núcleo. Mantén las manos juntas frente a tu pecho o agarra un peso si estás usando resistencia. Mantén la espalda recta y gira el torso hacia la derecha, llevando tus manos o el peso al lado de tu cadera. Regresa al centro y luego gira hacia la izquierda, repitiendo el movimiento. Continúa alternando lados durante el número deseado de repeticiones.",
@@ -39786,9 +40125,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-0ec75482-1934-4b86-84d2-46da9a89d67d",
     "name": "Giro con cable (horizontal)",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "polea",
     "instructions": "Ajusta la máquina de cables a la altura del pecho y coloca un solo mango. Párate de lado a la máquina con los pies separados al ancho de los hombros, agarrando el mango con ambas manos. Extiende completamente los brazos frente a ti, manteniéndolos paralelos al suelo. Activa los músculos del core y rota tu torso alejándote de la máquina, manteniendo los brazos extendidos. Rota hasta que tu torso mire en dirección opuesta a la máquina, luego regresa lentamente a la posición inicial. Realiza el número deseado de repeticiones y cambia de lado.",
@@ -39952,8 +40291,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Patadas de tijera colgado",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "antebrazo",
       "oblicuos",
+      "antebrazo",
       "cuadriceps"
     ],
     "equipment": "barra",
@@ -40065,9 +40404,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-15f450f0-f4f1-4391-b59e-c79cd37956ac",
     "name": "Puente lateral con mancuernas",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "adductores"
     ],
     "equipment": "mancuerna",
     "instructions": "Comienza acostándote de lado sobre una colchoneta de ejercicio Apila tus pies uno encima del otro y extiende completamente tus piernas. Coloca tu codo inferior directamente debajo de tu hombro, antebrazo plano en el suelo, y coloca tu mano superior en tu cadera. Sujeta una mancuerna con tu mano superior, apoyándola contra tu cadera. Activa tus músculos del core y levanta tus caderas del suelo, formando una línea recta desde la cabeza hasta los talones. Mantén esta posición mientras mantienes la mancuerna estable durante la duración deseada. Baja tus caderas de nuevo a la posición inicial de manera controlada. Repite el número especificado de repeticiones antes de cambiar de lado.",
@@ -40180,9 +40519,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-18610132-0355-4f53-82e5-73fdd3a4450e",
     "name": "Crunches de Pie con Giro con Banda",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "otro",
     "instructions": "Ancla una banda de resistencia a la altura de la cintura Párate con los pies separados al ancho de los hombros, sosteniendo la banda con ambas manos extendidas frente a ti. Activa tu núcleo y dobla ligeramente las rodillas para estabilizar tu postura. Gira tu torso hacia un lado, tirando de la banda a través de tu cuerpo mientras mantienes los brazos rectos. Regresa a la posición inicial con control, luego gira hacia el lado opuesto. Repite el número deseado de repeticiones, manteniendo la tensión en la banda durante todo el movimiento.",
@@ -40237,8 +40576,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
       "oblicuos",
-      "cuadriceps",
-      "dorsales"
+      "cuadriceps"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate boca arriba en una colchoneta con los brazos extendidos por encima de la cabeza y las piernas rectas. Activa tu núcleo llevando el ombligo hacia la columna vertebral. Levanta los hombros y las piernas del suelo simultáneamente, manteniendo la parte baja de la espalda presionada contra la colchoneta. Mantén una ligera curva en la parte baja de la espalda sin arquearla. Sostén esta posición, manteniendo los brazos y las piernas rectos y cerca del suelo sin tocarlo. Respira de manera constante durante la posición, manteniendo la tensión en tu núcleo.",
@@ -40397,9 +40735,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-265b1439-6005-4282-94f7-ab6f63e0e296",
     "name": "Giro con cable (arriba abajo)",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
+      "abductores",
+      "adductores",
+      "abdomen",
       "gluteos"
     ],
     "equipment": "polea",
@@ -40506,6 +40846,7 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación de Rodillas al Pecho en Suspensión",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
+      "adductores",
       "antebrazo",
       "oblicuos"
     ],
@@ -40723,7 +41064,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Bicho Muerto",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "oblicuos"
+      "oblicuos",
+      "adductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate boca arriba con los brazos extendidos hacia el techo y las rodillas dobladas en un ángulo de 90 grados sobre tus caderas. Activa tu núcleo llevando tu ombligo hacia la columna, asegurándote de que tu espalda baja esté presionada contra el suelo. Extiende lentamente tu brazo derecho detrás de ti mientras simultáneamente estiras tu pierna izquierda hacia el suelo, manteniéndolos ambos justo por encima del suelo. Regresa a la posición inicial llevando tu brazo y pierna de vuelta a la posición inicial. Repite el movimiento en el lado opuesto extendiendo tu brazo izquierdo y pierna derecha. Continúa alternando lados para el número deseado de repeticiones.",
@@ -40773,9 +41115,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-31e7bf28-4c5d-4833-ae1f-069bcb913bbc",
     "name": "Giro ruso con balón medicinal",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "otro",
     "instructions": "Siéntate en el suelo con las rodillas dobladas y los pies planos en el suelo. Inclínate ligeramente hacia atrás para activar tu núcleo, manteniendo la espalda recta. Levanta los pies del suelo, equilibrándote sobre tus huesos de la cadera. Sujeta una pelota medicinal con ambas manos cerca de tu pecho. Gira tu torso hacia la derecha, llevando la pelota medicinal al lado de tu cadera. Regresa al centro, luego gira hacia el lado izquierdo. Continúa alternando lados de manera controlada.",
@@ -40829,9 +41171,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-3453606c-f6b9-48b0-ac7e-c98595957a41",
     "name": "Press Pallof con banda",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
+      "abdomen",
+      "adductores",
       "pectoral"
     ],
     "equipment": "otro",
@@ -40888,9 +41231,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-37fdb10c-13ce-4832-8730-0efc5dbb0eb2",
     "name": "Giro ruso con banda",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "otro",
     "instructions": "Siéntate en el suelo con las rodillas dobladas y los pies planos Sostén una banda de resistencia con ambas manos, manteniéndola tensa. Inclínate ligeramente hacia atrás para activar tu core, manteniendo la espalda recta y evitando redondear los hombros. Ancla la banda bajo tus pies o haz que un compañero la sostenga firme para crear resistencia. Gira tu torso hacia la derecha, tirando de la banda a través de tu cuerpo mientras mantienes los brazos extendidos. Vuelve a la posición central, luego gira hacia el lado izquierdo de manera controlada. Continúa alternando lados durante el número deseado de repeticiones, manteniendo la tensión en la banda en todo momento.",
@@ -40994,9 +41337,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-412d4c49-4c4f-49c4-9d24-9cdd176000fa",
     "name": "Crunch lateral de rodillas con cable",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "polea",
     "instructions": "Coloca un mango individual en una polea baja de una máquina de cables. Arrodíllate en el suelo con tu costado hacia la máquina, manteniendo las rodillas a la altura de las caderas. Agarra el mango con la mano más cercana a la máquina y coloca la otra mano detrás de la cabeza. Activa tu núcleo y tira del mango hacia abajo doblando el torso de lado hacia la máquina. Haz una pausa breve en la parte inferior del movimiento, asegurando la máxima contracción de los oblicuos. Vuelve lentamente a la posición inicial, manteniendo el control en todo momento. Completa el número deseado de repeticiones antes de cambiar de lado.",
@@ -41098,9 +41441,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-465a9a4a-e854-4dba-be5b-51394c186eeb",
     "name": "Abdominales en bicicleta",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate boca arriba sobre una colchoneta con la parte baja de la espalda presionada contra el suelo. Coloca tus manos detrás de la cabeza, con los codos abiertos, sin tirar del cuello. Levanta tus rodillas a un ángulo de 90 grados, manteniendo los pies fuera del suelo. Activa tu núcleo y levanta los omóplatos de la colchoneta. Simultáneamente extiende tu pierna derecha mientras llevas tu codo derecho hacia tu rodilla izquierda. Cambia de lado extendiendo tu pierna izquierda y llevando tu codo izquierdo hacia tu rodilla derecha. Continúa alternando lados de manera controlada, simulando un movimiento de pedaleo. Realiza el ejercicio durante el número deseado de repeticiones o tiempo.",
@@ -41208,11 +41551,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-5170255c-cc48-41b6-9b26-a72669deab44",
     "name": "Prensa Pallof Horizontal en Polea Baja",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
+      "hombros",
       "pectoral",
-      "oblicuos",
-      "hombros"
+      "abdomen",
+      "adductores"
     ],
     "equipment": "polea",
     "instructions": "Coloca un mango en una máquina de cable de polea baja y ajusta el peso deseado. Párate de lado a la máquina con los pies separados al ancho de los hombros, sosteniendo el mango con ambas manos cerca de tu pecho. Aléjate de la máquina para crear tensión en el cable Asegúrate de que tu cuerpo esté alineado y tus rodillas ligeramente flexionadas. Activa tu núcleo y presiona el mango directamente frente a ti, manteniendo los brazos extendidos a la altura de los hombros. Mantén la posición extendida brevemente, resistiendo cualquier rotación o movimiento en tu torso. Lentamente regresa el mango a tu pecho mientras mantienes el control y repite el número deseado de repeticiones. Cambia de lado y repite el ejercicio para asegurar un desarrollo equilibrado.",
@@ -41495,9 +41839,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-56f2585b-203d-4be6-9957-c52bcd9e4d73",
     "name": "Giro de Pie con Barra",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "barra",
     "instructions": "Párate con los pies al ancho de los hombros, rodillas ligeramente flexionadas. Coloca una barra sobre la parte superior de tu espalda, sujetándola con ambas manos un poco más anchas que el ancho de los hombros. Activa tu núcleo y mantén el pecho levantado. Gira tu torso hacia la derecha, manteniendo las caderas mirando hacia adelante. Regresa a la posición inicial y luego gira hacia la izquierda. Continúa alternando lados durante el número deseado de repeticiones.",
@@ -41606,7 +41950,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
       "oblicuos",
-      "cuadriceps"
+      "cuadriceps",
+      "adductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate boca arriba sobre una colchoneta con las piernas extendidas y los brazos a los lados, con las palmas hacia abajo. Mantén las piernas rectas y juntas, luego levántalas lentamente hacia el techo mientras mantienes el núcleo comprometido. Levanta las piernas hasta que formen un ángulo de 90 grados con tu torso o tan alto como puedas sin levantar la parte baja de la espalda del suelo. Haz una pausa breve en la parte superior del movimiento, asegurándote de que tu núcleo permanezca apretado. Baja lentamente las piernas de nuevo a la posición inicial, manteniendo el control y evitando caídas repentinas. Repite durante el número deseado de repeticiones.",
@@ -41717,8 +42062,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Elevación de cadera en anillas",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "dorsales",
       "cuadriceps",
+      "adductores",
+      "dorsales",
       "oblicuos"
     ],
     "equipment": "peso_corporal",
@@ -41776,7 +42122,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Bicho muerto con balón",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "oblicuos"
+      "oblicuos",
+      "adductores"
     ],
     "equipment": "otro",
     "instructions": "Acuéstate boca arriba con los brazos extendidos hacia el techo, sosteniendo una pelota de estabilidad entre tus manos y rodillas. Activa tu núcleo llevando el ombligo hacia la columna vertebral. Simultáneamente baja tu brazo derecho y pierna izquierda hacia el suelo mientras mantienes la pelota estable entre tu mano y rodilla opuestas. Regresa a la posición inicial y repite en el lado opuesto, bajando tu brazo izquierdo y pierna derecha. Continúa alternando lados para el número deseado de repeticiones mientras mantienes el control de la pelota.",
@@ -41830,11 +42177,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "secondaryMuscles": [
       "oblicuos",
       "gluteos",
+      "hombros",
       "cuadriceps",
       "triceps",
-      "hombros",
-      "pantorrillas",
-      "dorsales"
+      "pantorrillas"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza acostándote boca abajo en el suelo. Coloca tus codos directamente debajo de tus hombros y pon tus antebrazos en el suelo. Levanta tu cuerpo del suelo activando los músculos del core, manteniendo tu cuerpo en una línea recta desde la cabeza hasta los talones. Mantén tus pies juntos y los dedos de los pies en el suelo. Sostén esta posición mientras mantienes una alineación neutral del cuello y la columna. Respira de manera constante y mantén la posición durante la duración deseada.",
@@ -41879,7 +42225,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Abdominales Circulares Inversos Sentados",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "oblicuos"
+      "oblicuos",
+      "adductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Siéntate en el borde de un banco o colchoneta con las rodillas dobladas y los pies planos en el suelo. Inclínate ligeramente hacia atrás, manteniendo la espalda recta y el core comprometido. Levanta los pies del suelo, llevando las rodillas hacia el pecho. Comienza a dibujar un círculo en el aire con las rodillas, moviéndolas en dirección de las agujas del reloj. Completa el número deseado de repeticiones, luego cambia a la dirección contraria a las agujas del reloj. Mantén una respiración controlada durante todo el ejercicio.",
@@ -41984,9 +42331,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-684999fc-af89-42cf-b915-97599db440b7",
     "name": "Giro con banda (horizontal)",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "otro",
     "instructions": "Asegura una banda de resistencia a un punto de anclaje estable a la altura del hombro. Párate de lado al punto de anclaje con los pies separados al ancho de los hombros. Sujeta el mango de la banda con ambas manos, con los brazos extendidos frente a ti. Activa tu núcleo y mantén una ligera flexión en las rodillas. Gira tu torso alejándote del punto de anclaje, manteniendo los brazos rectos. Regresa a la posición inicial con control. Realiza el número deseado de repeticiones antes de cambiar de lado.",
@@ -42097,8 +42444,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Dedos a la Barra",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "antebrazo",
-      "oblicuos"
+      "oblicuos",
+      "antebrazo"
     ],
     "equipment": "barra",
     "instructions": "Comienza colgándote de una barra de dominadas con un agarre por encima del ancho de los hombros. Activa tu núcleo e inicia el movimiento balanceando ligeramente las piernas hacia atrás. Usa los músculos del núcleo para levantar las piernas hacia arriba, apuntando a que los dedos de los pies toquen la barra. Mantén el control durante todo el movimiento, evitando un balanceo excesivo. Baja las piernas de nuevo a la posición inicial de manera controlada. Repite durante el número deseado de repeticiones.",
@@ -42211,11 +42558,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "secondaryMuscles": [
       "oblicuos",
       "gluteos",
+      "hombros",
       "cuadriceps",
       "triceps",
-      "hombros",
-      "pantorrillas",
-      "dorsales"
+      "pantorrillas"
     ],
     "equipment": "otro",
     "instructions": "Comienza en una posición de plancha estándar con los antebrazos en el suelo y los codos directamente debajo de tus hombros. Asegúrate de que tu cuerpo forme una línea recta desde la cabeza hasta los talones, activando tu núcleo y glúteos. Pide a un compañero que coloque cuidadosamente un disco de pesas en tu espalda baja, asegurándose de que esté centrado y estable. Mantén la posición de plancha, manteniendo el núcleo apretado y evitando cualquier hundimiento o arqueo de la espalda. Sostén la posición durante la duración deseada, luego pide a tu compañero que retire el peso antes de bajar las rodillas al suelo.",
@@ -42265,9 +42611,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-7359f05e-8b81-449d-a741-8a1199116860",
     "name": "Bicicleta de aire",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Ajusta la altura del asiento para que tus piernas tengan una ligera flexión en la parte inferior del pedaleo. Siéntate en la bicicleta con los pies firmemente en los pedales y las manos agarrando los manillares. Comienza a pedalear con las piernas mientras simultáneamente empujas y tiras de los manillares con los brazos. Mantén un ritmo constante, asegurándote de que tus movimientos sean suaves y controlados. Mantén el núcleo comprometido y la espalda recta durante todo el ejercicio. Para aumentar la intensidad, pedalea más rápido y empuja más fuerte con los brazos.",
@@ -42324,9 +42670,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "secondaryMuscles": [
       "oblicuos",
       "cuadriceps",
+      "abductores",
       "gluteos",
-      "dorsales",
-      "biceps",
+      "isquiotibiales",
       "lumbares"
     ],
     "equipment": "peso_corporal",
@@ -42441,9 +42787,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-76623fa9-5a18-4819-8412-a286f0846ae2",
     "name": "Abdominales inclinados con giro",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "otro",
     "instructions": "Ajusta un banco inclinado a un ángulo moderado, típicamente entre 30 a 45 grados. Siéntate en el banco y asegura tus pies bajo las almohadillas para pies. Recuéstate con las manos colocadas detrás de la cabeza o cruzadas sobre el pecho. Activa tu núcleo y levanta la parte superior del cuerpo del banco, girando el torso hacia un lado mientras asciendes. Alcanza la parte superior del movimiento con el codo apuntando hacia la rodilla opuesta. Baja lentamente de nuevo a la posición inicial de manera controlada. Repite el movimiento, alternando lados con cada repetición.",
@@ -42548,9 +42894,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-79b4b650-53d9-4e87-8bd8-7143d3f7802d",
     "name": "Círculos de Rodillas Colgantes",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
+      "abdomen",
       "antebrazo"
     ],
     "equipment": "barra",
@@ -42763,9 +43109,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-8929de5f-b029-4ffd-a773-744cfc6ef113",
     "name": "Corte de leña con banda de alta a baja",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "adductores",
+      "abdomen"
     ],
     "equipment": "otro",
     "instructions": "Ancla una banda de resistencia en un punto alto por encima de tu cabeza. Párate con los pies separados al ancho de los hombros, perpendicular al punto de anclaje. Agarra la banda con ambas manos, con los brazos completamente extendidos por encima de un hombro. Activa tu núcleo y rota tu torso mientras tiras de la banda diagonalmente a través de tu cuerpo. Termina el movimiento llevando tus manos hacia la rodilla opuesta, manteniendo los brazos rectos. Vuelve lentamente a la posición inicial con control. Repite el número deseado de repeticiones antes de cambiar de lado.",
@@ -42875,10 +43222,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-8ab5f69f-e824-4fcf-9357-4e08c225d060",
     "name": "Corte en Medio Arrodillado con Banda",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
       "dorsales",
+      "abdomen",
       "hombros"
     ],
     "equipment": "otro",
@@ -43042,9 +43389,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-8f86a994-5d86-423c-a395-55122f54de34",
     "name": "Rotación de tronco en máquina sentado",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "maquina",
     "instructions": "Ajusta la altura del asiento para que tus rodillas estén a un ángulo de 90 grados cuando estés sentado. Siéntate en la máquina con la espalda recta y los pies planos en el suelo. Coloca tus brazos cruzados sobre el pecho o agárrate de las manijas si están disponibles. Activa tus músculos del core tirando de tu ombligo hacia tu columna vertebral. Gira tu torso hacia un lado tanto como sea cómodo, manteniendo tus caderas estables. Vuelve a la posición inicial de manera controlada. Repite el movimiento hacia el lado opuesto. Realiza repeticiones iguales para ambos lados.",
@@ -43154,9 +43501,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-9a2d3693-68bc-4d44-852a-fbe16337f521",
     "name": "Crunch Lateral",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate de lado en una colchoneta con las rodillas dobladas y apiladas una sobre la otra. Coloca tu brazo inferior extendido en el suelo para apoyo y tu mano superior detrás de la cabeza. Activa tu núcleo tirando de tu ombligo hacia tu columna vertebral. Levanta la parte superior de tu cuerpo hacia tu cadera, contrayendo tus oblicuos. Mantén la contracción por un momento en la parte superior del movimiento. Baja lentamente de nuevo a la posición inicial. Repite el número deseado de repeticiones antes de cambiar de lado.",
@@ -43315,10 +43662,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-9f9a7752-0ad7-44e9-a025-d68e9ac1a419",
     "name": "Inclinación Lateral de Pie con Mancuerna",
-    "primaryMuscle": "abdomen",
-    "secondaryMuscles": [
-      "oblicuos"
-    ],
+    "primaryMuscle": "oblicuos",
+    "secondaryMuscles": [],
     "equipment": "mancuerna",
     "instructions": "Párate derecho con los pies separados al ancho de los hombros, sosteniendo una mancuerna en tu mano derecha con el brazo completamente extendido a tu lado. Coloca tu mano izquierda en la cadera o detrás de la cabeza para apoyo. Activa tu núcleo y dobla lentamente la cintura hacia el lado derecho, bajando la mancuerna hacia el suelo. Pausa brevemente en la parte inferior del movimiento, sintiendo un estiramiento en tu oblicuo izquierdo. Regresa a la posición inicial contrayendo los músculos oblicuos izquierdos. Completa el número deseado de repeticiones en un lado antes de cambiar la mancuerna a la otra mano y repetir en el lado opuesto.",
     "description": "La Inclinación Lateral de Pie con Mancuerna es un ejercicio de aislamiento que se enfoca en los músculos oblicuos a los lados del abdomen. También involucra la parte baja de la espalda y ayuda a mejorar la estabilidad y flexibilidad del core. Este ejercicio se realiza con una mancuerna en una mano mientras se está de pie.",
@@ -43371,8 +43716,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "secondaryMuscles": [
       "oblicuos",
       "gluteos",
+      "abductores",
       "cuadriceps",
-      "dorsales",
       "hombros"
     ],
     "equipment": "peso_corporal",
@@ -43424,9 +43769,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-a3da9e1f-b976-4458-92f4-4af1264793fa",
     "name": "Giro ruso con mancuerna",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "mancuerna",
     "instructions": "Siéntate en el suelo con las rodillas dobladas y los pies planos Sostén una mancuerna con ambas manos frente a tu pecho. Inclínate ligeramente hacia atrás para comprometer tu núcleo, manteniendo la espalda recta. Levanta los pies del suelo, equilibrándote sobre tus glúteos si es posible Alternativamente, mantén los pies en el suelo para mayor estabilidad. Gira tu torso hacia la derecha, llevando la mancuerna al lado de tu cadera. Regresa al centro y luego gira hacia el lado izquierdo. Continúa alternando lados de manera controlada durante el número deseado de repeticiones.",
@@ -43478,9 +43823,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-a65c12ab-688e-47bf-966c-994dcc71ec89",
     "name": "Molino de viento colgado a la mitad",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
+      "abdomen",
       "antebrazo"
     ],
     "equipment": "barra",
@@ -43588,9 +43933,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-a741580c-cf0a-49d6-a30d-5ee70ad9be0c",
     "name": "Giro ruso con peso",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "mancuerna",
     "instructions": "Siéntate en el suelo con las rodillas dobladas y los pies planos Sostén un peso con ambas manos cerca de tu pecho. Inclínate ligeramente hacia atrás, manteniendo la columna recta y el núcleo comprometido. Levanta los pies del suelo, equilibrándote sobre tus huesos de asiento Mantén esta posición durante todo el ejercicio. Gira tu torso hacia la derecha, llevando el peso al lado de tu cadera Mantén los brazos ligeramente doblados. Regresa al centro, luego gira hacia el lado izquierdo de manera controlada. Continúa alternando lados durante el número deseado de repeticiones.",
@@ -43697,9 +44042,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-aaed90b1-e560-4b16-8011-494f75522f3a",
     "name": "Plancha lateral",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate de lado con las piernas extendidas y apiladas desde la cadera hasta los pies. Coloca tu codo directamente debajo de tu hombro, asegurando que tu antebrazo esté perpendicular a tu cuerpo. Activa tu núcleo y levanta tus caderas del suelo, formando una línea recta desde la cabeza hasta los pies. Mantén tu cabeza alineada con tu columna y sostén la posición mientras respiras de manera constante. Mantén la posición durante el tiempo deseado, luego cambia de lado.",
@@ -43805,11 +44150,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "secondaryMuscles": [
       "gluteos",
       "oblicuos",
+      "hombros",
       "cuadriceps",
       "triceps",
-      "hombros",
-      "pantorrillas",
-      "dorsales"
+      "pantorrillas"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en una posición de plancha sobre los antebrazos con los codos directamente debajo de los hombros y el cuerpo en línea recta desde la cabeza hasta los talones. Activa tu núcleo y mantén una columna neutral durante todo el ejercicio. Desplaza el peso de tu cuerpo hacia adelante empujando con los dedos de los pies, moviendo los hombros más allá de los codos. Invierte el movimiento tirando hacia atrás con los dedos de los pies, llevando los hombros detrás de los codos. Continúa este movimiento de sierra durante el número deseado de repeticiones o tiempo.",
@@ -44076,11 +44420,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Plancha de oso",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "cuadriceps",
       "oblicuos",
-      "dorsales",
+      "cuadriceps",
       "gluteos",
-      "biceps"
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Comienza en cuatro patas con las manos directamente debajo de los hombros y las rodillas debajo de las caderas. Mete los dedos de los pies y levanta las rodillas del suelo, manteniéndolas dobladas en un ángulo de 90 grados. Activa tu núcleo tirando del ombligo hacia la columna vertebral. Mantén la espalda plana y una columna neutral durante todo el ejercicio. Mantén esta posición durante el tiempo deseado, asegurando una respiración constante.",
@@ -44131,9 +44474,10 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c088bc9d-94ff-46ef-9f61-110a605c49d9",
     "name": "Torsión Espinal Supina",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
+      "abdomen",
+      "abductores",
       "gluteos"
     ],
     "equipment": "otro",
@@ -44238,9 +44582,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-c7c5b6a3-7410-4ea8-9b96-98e9c00e7d46",
     "name": "Giro ruso de pie",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "mancuerna",
     "instructions": "Párate con los pies al ancho de los hombros, rodillas ligeramente flexionadas. Sujeta un peso o balón medicinal con ambas manos frente a tu pecho. Activa tu núcleo y mantén la espalda recta. Gira tu torso hacia la derecha, pivotando sobre tu pie izquierdo. Regresa a la posición inicial y luego gira hacia la izquierda, pivotando sobre tu pie derecho. Continúa alternando lados durante el número deseado de repeticiones.",
@@ -44294,16 +44638,17 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "TRX Perro de caza a una pierna",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "dorsales",
       "cuadriceps",
-      "pectoral",
-      "hombros",
-      "triceps",
+      "pantorrillas",
       "oblicuos",
+      "hombros",
+      "trapecio",
+      "pectoral",
       "gluteos",
       "lumbares",
-      "biceps",
-      "pantorrillas"
+      "triceps",
+      "abductores",
+      "isquiotibiales"
     ],
     "equipment": "peso_corporal",
     "instructions": "Asegura las correas TRX a un punto de anclaje. Ajusta las correas TRX a la longitud de media pantorrilla. Arrodíllate en el suelo con las manos directamente debajo de los hombros y las rodillas debajo de las caderas. Coloca un pie en el lazo de la correa TRX, manteniendo la rodilla doblada a 90 grados. Activa tu núcleo y extiende el brazo opuesto hacia adelante mientras simultáneamente extiendes la pierna en la correa TRX hacia atrás. Mantén la posición por un momento, asegurándote de que tu cuerpo forme una línea recta desde la mano hasta el pie. Regresa a la posición inicial con control. Repite el número deseado de repeticiones antes de cambiar de lado.",
@@ -44520,12 +44865,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-cfddb90c-e434-43a8-8b05-d8556431d7f1",
     "name": "Codo a rodilla del lado opuesto",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
+      "abdomen",
       "gluteos",
       "cuadriceps",
-      "dorsales"
+      "abductores"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate de espaldas con las rodillas dobladas y los pies planos en el suelo Coloca las manos ligeramente detrás de la cabeza, con los codos apuntando hacia afuera. Activa tu núcleo tirando del ombligo hacia la columna vertebral. Levanta la cabeza, los hombros y la parte superior de la espalda del suelo mientras simultáneamente llevas el codo derecho hacia la rodilla izquierda, girando a través del torso. Extiende la pierna derecha hacia afuera mientras llevas el codo a la rodilla. Vuelve a la posición inicial con control, luego repite en el lado opuesto llevando el codo izquierdo hacia la rodilla derecha. Continúa alternando lados durante el número deseado de repeticiones.",
@@ -44576,11 +44921,12 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-d0e78959-c1de-400c-a7fb-44c1015d5013",
     "name": "Prensa Pallof Horizontal con Cable",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos",
+      "abdomen",
+      "hombros",
       "pectoral",
-      "hombros"
+      "adductores"
     ],
     "equipment": "polea",
     "instructions": "Coloca un mango individual en una máquina de cable a la altura del pecho. Párate perpendicular a la máquina de cable con los pies al ancho de los hombros. Agarra el mango con ambas manos y aléjate de la máquina para crear tensión en el cable. Coloca tus manos en el centro de tu pecho, con los codos doblados. Activa tu core y presiona el mango directamente frente a ti, extendiendo completamente los brazos. Mantén la posición extendida brevemente, asegurándote de que tu torso permanezca estable y no gire. Regresa lentamente tus manos a la posición inicial en tu pecho. Repite el número deseado de repeticiones antes de cambiar de lado.",
@@ -44636,10 +44982,11 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-d0f8718c-b950-4960-80a5-cc057c225b84",
     "name": "Giro con barra en tierra",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
       "hombros",
-      "oblicuos"
+      "abdomen",
+      "antebrazo"
     ],
     "equipment": "barra",
     "instructions": "Asegura un extremo de una barra en un accesorio de landmine o en una esquina de la habitación. Párate con los pies al ancho de los hombros, sosteniendo el otro extremo de la barra con ambas manos a la altura del pecho. Extiende completamente los brazos frente a ti, manteniendo una ligera flexión en los codos. Activa tu núcleo y rota tu torso hacia un lado, pivotando sobre el pie opuesto. Regresa a la posición inicial rotando de nuevo al centro. Repite el movimiento hacia el otro lado, manteniendo el control en todo momento. Realiza el número deseado de repeticiones en cada lado.",
@@ -44694,9 +45041,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-d4ef05f4-fe04-46e3-bb14-d060df537e28",
     "name": "Crunches de Bicicleta con Banda",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "otro",
     "instructions": "Acuéstate boca arriba sobre una colchoneta con las piernas extendidas y una banda de resistencia alrededor de ambos pies. Coloca tus manos detrás de la cabeza con los codos abiertos, asegurándote de no tirar del cuello. Levanta los hombros de la colchoneta en posición de crunch y simultáneamente lleva la rodilla derecha hacia el pecho mientras extiendes la pierna izquierda hacia afuera. Gira el torso para llevar el codo izquierdo hacia la rodilla derecha, activando los oblicuos. Cambia de lado extendiendo la pierna derecha y llevando la rodilla izquierda hacia el pecho, girando para llevar el codo derecho hacia la rodilla izquierda. Continúa alternando lados de manera controlada durante el número deseado de repeticiones.",
@@ -44748,9 +45095,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-d53971e5-7438-4a9e-b041-0158b3142546",
     "name": "Elevación de rodillas oblicuas colgado",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "barra",
     "instructions": "Comienza agarrando una barra de dominadas con un agarre por encima, manos a la altura de los hombros. Cuelga libremente con los brazos completamente extendidos y las piernas rectas. Activa tu núcleo y levanta las rodillas hacia el pecho. Mientras levantas las rodillas, gira el torso hacia un lado para trabajar los oblicuos. Pausa brevemente en la parte superior del movimiento, asegurando la máxima contracción. Baja las piernas de nuevo a la posición inicial de manera controlada. Repite el movimiento, alternando lados con cada repetición.",
@@ -44803,9 +45150,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-e7708c1b-2f41-4e99-b4c4-6f79f4c5fa1f",
     "name": "Toques de Tobillo",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "peso_corporal",
     "instructions": "Acuéstate boca arriba con los brazos extendidos a los lados, palmas hacia abajo para estabilidad. Dobla las rodillas y levanta las piernas de manera que tus muslos estén perpendiculares al suelo y tus pantorrillas estén paralelas. Activa los músculos del core para estabilizar tu columna. Baja lentamente las piernas hacia un lado, manteniendo los hombros planos en el suelo. Haz una pausa breve cuando tus piernas estén cerca del suelo, luego regresa a la posición inicial usando los músculos del core. Repite el movimiento en el lado opuesto.",
@@ -44857,8 +45204,8 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
     "name": "Gato-Vaca",
     "primaryMuscle": "abdomen",
     "secondaryMuscles": [
-      "dorsales",
-      "lumbares"
+      "lumbares",
+      "trapecio"
     ],
     "equipment": "otro",
     "instructions": "Comienza en cuatro patas con las manos directamente debajo de los hombros y las rodillas debajo de las caderas. Inhala profundamente, arquea la espalda hacia el techo mientras metes la barbilla hacia el pecho, asemejándote a un gato estirando su espalda. Mantén la posición de 'Gato' por un momento, sintiendo el estiramiento a lo largo de tu columna. Exhala lentamente, baja el vientre hacia el suelo y levanta la cabeza y el coxis hacia arriba en la posición de 'Vaca'. Mantén la posición de 'Vaca' brevemente, permitiendo que tu columna se extienda completamente. Repite la secuencia durante 8-10 respiraciones, moviéndote fluidamente entre cada posición.",
@@ -45063,9 +45410,9 @@ export const SMARTWORKOUT_EXERCISES: Exercise[] = [
   {
     "id": "smartworkout-f840c38e-9b55-493d-9350-eab5a6d67483",
     "name": "Giro Ruso con Barra",
-    "primaryMuscle": "abdomen",
+    "primaryMuscle": "oblicuos",
     "secondaryMuscles": [
-      "oblicuos"
+      "abdomen"
     ],
     "equipment": "barra",
     "instructions": "Siéntate en el suelo con las rodillas dobladas y los pies planos en el suelo. Sujeta una barra con ambas manos, manteniendo los brazos ligeramente doblados. Inclínate ligeramente hacia atrás, activando tu core, y levanta los pies del suelo. Gira tu torso hacia la derecha, llevando la barra al lado de tu cadera. Vuelve al centro y luego gira hacia la izquierda. Continúa alternando lados de manera controlada.",

@@ -113,7 +113,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
   const objectiveBreakdown = useMemo(() => {
     const labels = {
       hipertrofia: { name: 'Hipertrofia Muscular', color: COLORS.primary },
-      fuerza: { name: 'Fuerza Máxima', color: '#34C759' },
+      fuerza: { name: 'Fuerza Máxima', color: COLORS.success },
       perdida_grasa: { name: 'Pérdida de Grasa', color: '#FF9500' },
       salud_general: { name: 'Salud y Readaptación', color: '#0A84FF' },
     } as const;
@@ -291,7 +291,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
       {/* Success Notification for Downloads */}
       {downloadSuccessMsg !== '' && (
         <View style={styles.downloadToast}>
-          <Ionicons name="checkmark-circle" size={16} color="#34C759" style={{ marginRight: 6 }} />
+          <Ionicons name="checkmark-circle" size={16} color={COLORS.success} style={{ marginRight: 6 }} />
           <Text style={styles.downloadToastText}>{downloadSuccessMsg}</Text>
         </View>
       )}
@@ -304,7 +304,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
         </View>
         <View style={styles.kpiDivider} />
         <View style={styles.kpiItem}>
-          <Text style={[styles.kpiNum, { color: '#34C759' }]}>{activeMembersCount}</Text>
+          <Text style={[styles.kpiNum, { color: COLORS.success }]}>{activeMembersCount}</Text>
           <Text style={styles.kpiLabel}>Activos</Text>
         </View>
         <View style={styles.kpiDivider} />
@@ -324,7 +324,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
         {[
           { id: 'socios', label: 'Socios', icon: 'people', tone: styles.tabBtnSocios, iconColor: COLORS.primary },
           { id: 'accesos', label: 'Tornos y Aforo', icon: 'qr-code', tone: styles.tabBtnAccesos, iconColor: '#0A84FF' },
-          { id: 'rutinas', label: 'Plantillas Rutina', icon: 'clipboard', tone: styles.tabBtnRutinas, iconColor: '#34C759' },
+          { id: 'rutinas', label: 'Plantillas Rutina', icon: 'clipboard', tone: styles.tabBtnRutinas, iconColor: COLORS.success },
           { id: 'analitica', label: 'Analítica y CSV', icon: 'bar-chart', tone: styles.tabBtnAnalitica, iconColor: '#AF52DE' },
           { id: 'cuotas', label: 'Cuotas y Pagos', icon: 'card', tone: styles.tabBtnCuotas, iconColor: '#FF9F0A' },
         ].map((t) => {
@@ -450,8 +450,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
                       </TouchableOpacity>
 
                       <View style={styles.memberStatusCol}>
-                        <View style={[styles.statusDot, { backgroundColor: isActive ? '#34C759' : '#FF453A' }]} />
-                        <Text style={[styles.statusLabel, { color: isActive ? '#34C759' : '#FF453A' }]}>
+                        <View style={[styles.statusDot, { backgroundColor: isActive ? COLORS.success : '#FF453A' }]} />
+                        <Text style={[styles.statusLabel, { color: isActive ? COLORS.success : '#FF453A' }]}>
                           {member.status}
                         </Text>
                       </View>
@@ -485,11 +485,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
                 ]}>
                   <View style={[
                     styles.pulseDot,
-                    { backgroundColor: occupancyPercentage > 75 ? '#FF453A' : occupancyPercentage > 40 ? '#FF9500' : '#34C759' }
+                    { backgroundColor: occupancyPercentage > 75 ? '#FF453A' : occupancyPercentage > 40 ? '#FF9500' : COLORS.success }
                   ]} />
                   <Text style={[
                     styles.occupancyStatusText,
-                    { color: occupancyPercentage > 75 ? '#FF453A' : occupancyPercentage > 40 ? '#FF9500' : '#34C759' }
+                    { color: occupancyPercentage > 75 ? '#FF453A' : occupancyPercentage > 40 ? '#FF9500' : COLORS.success }
                   ]}>
                     {occupancyPercentage > 75 ? 'AFORO ALTO' : occupancyPercentage > 40 ? 'AFORO MEDIO' : 'AFORO TRANQUILO'}
                   </Text>
@@ -502,7 +502,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
                   styles.occupancyBarProgress,
                   {
                     width: `${occupancyPercentage}%`,
-                    backgroundColor: occupancyPercentage > 75 ? '#FF453A' : occupancyPercentage > 40 ? '#FF9500' : '#34C759',
+                    backgroundColor: occupancyPercentage > 75 ? '#FF453A' : occupancyPercentage > 40 ? '#FF9500' : COLORS.success,
                   },
                 ]} />
               </View>
@@ -528,7 +528,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
                       ]}
                       onPress={() => setSelectedMemberForCheckIn(m.id)}
                     >
-                      <View style={[styles.miniStatusDot, { backgroundColor: isInside ? '#34C759' : '#8E8E93' }]} />
+                      <View style={[styles.miniStatusDot, { backgroundColor: isInside ? COLORS.success : '#8E8E93' }]} />
                       <Text style={styles.quickMemberName}>{m.fullName}</Text>
                       <Text style={styles.quickMemberCode}>({m.membershipNumber})</Text>
                       {isMembershipPaymentBlocked(m) && <Ionicons name="lock-closed" size={12} color="#FF6961" />}
@@ -540,7 +540,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
               {selectedMemberForCheckIn !== '' && (
                 <View style={styles.checkInActionButtonsRow}>
                   <TouchableOpacity
-                    style={[styles.checkInBtn, { backgroundColor: '#34C759' }, selectedCheckInIsBlocked && styles.checkInBtnDisabled]}
+                    style={[styles.checkInBtn, { backgroundColor: COLORS.success }, selectedCheckInIsBlocked && styles.checkInBtnDisabled]}
                     disabled={selectedCheckInIsBlocked}
                     onPress={() => handleQuickCheckIn(selectedMemberForCheckIn, 'entrada')}
                   >
@@ -572,11 +572,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onOpenAccountSet
 
                 return (
                   <View key={log.id} style={styles.attendanceLogItem}>
-                    <View style={[styles.logTypeIcon, { backgroundColor: isEntry ? 'rgba(52, 199, 89, 0.15)' : 'rgba(255, 69, 58, 0.15)' }]}>
+                    <View style={[styles.logTypeIcon, { backgroundColor: isEntry ? COLORS.successTint(0.15) : 'rgba(255, 69, 58, 0.15)' }]}>
                       <Ionicons
                         name={isEntry ? 'enter-outline' : 'exit-outline'}
                         size={18}
-                        color={isEntry ? '#34C759' : '#FF453A'}
+                        color={isEntry ? COLORS.success : '#FF453A'}
                       />
                     </View>
 
@@ -873,12 +873,12 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   adminBadge: {
-    backgroundColor: 'rgba(22, 201, 91, 0.2)',
+    backgroundColor: COLORS.primaryTint(0.2),
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.4)',
+    borderColor: COLORS.primaryTint(0.4),
   },
   adminBadgeText: {
     color: COLORS.primary,
@@ -951,9 +951,9 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 13,
-    backgroundColor: 'rgba(22, 201, 91, 0.13)',
+    backgroundColor: COLORS.primaryTint(0.13),
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.4)',
+    borderColor: COLORS.primaryTint(0.4),
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -975,7 +975,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#34C759',
+    borderColor: COLORS.success,
   },
   downloadToastText: {
     color: '#FFFFFF',
@@ -1035,16 +1035,16 @@ const styles = StyleSheet.create({
     borderColor: '#2A2A2E',
   },
   tabBtnSocios: {
-    backgroundColor: 'rgba(22, 201, 91, 0.14)',
-    borderColor: 'rgba(22, 201, 91, 0.35)',
+    backgroundColor: COLORS.primaryTint(0.14),
+    borderColor: COLORS.primaryTint(0.35),
   },
   tabBtnAccesos: {
     backgroundColor: 'rgba(10, 132, 255, 0.14)',
     borderColor: 'rgba(10, 132, 255, 0.35)',
   },
   tabBtnRutinas: {
-    backgroundColor: 'rgba(52, 199, 89, 0.14)',
-    borderColor: 'rgba(52, 199, 89, 0.35)',
+    backgroundColor: COLORS.successTint(0.14),
+    borderColor: COLORS.successTint(0.35),
   },
   tabBtnAnalitica: {
     backgroundColor: 'rgba(175, 82, 222, 0.14)',
@@ -1059,7 +1059,7 @@ const styles = StyleSheet.create({
   },
   tabBtnActive: {
     borderColor: COLORS.primary,
-    backgroundColor: 'rgba(22, 201, 91, 0.1)',
+    backgroundColor: COLORS.primaryTint(0.1),
   },
   tabText: {
     color: '#F2F2F7',
@@ -1136,8 +1136,8 @@ const styles = StyleSheet.create({
     borderColor: '#3A3A40',
   },
   statusChipActivo: {
-    backgroundColor: 'rgba(52, 199, 89, 0.16)',
-    borderColor: 'rgba(52, 199, 89, 0.4)',
+    backgroundColor: COLORS.successTint(0.16),
+    borderColor: COLORS.successTint(0.4),
   },
   statusChipInactivo: {
     backgroundColor: 'rgba(255, 69, 58, 0.16)',
@@ -1156,8 +1156,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
   },
   statusChipSelectedActivo: {
-    backgroundColor: '#34C759',
-    borderColor: '#34C759',
+    backgroundColor: COLORS.success,
+    borderColor: COLORS.success,
   },
   statusChipSelectedInactivo: {
     backgroundColor: '#FF453A',
@@ -1221,21 +1221,21 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontSize: 11,
     fontWeight: '800',
-    backgroundColor: 'rgba(22, 201, 91, 0.1)',
+    backgroundColor: COLORS.primaryTint(0.1),
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
   },
   insideGymBadge: {
-    backgroundColor: 'rgba(52, 199, 89, 0.15)',
+    backgroundColor: COLORS.successTint(0.15),
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: 'rgba(52, 199, 89, 0.4)',
+    borderColor: COLORS.successTint(0.4),
   },
   insideGymText: {
-    color: '#34C759',
+    color: COLORS.success,
     fontSize: 9,
     fontWeight: '800',
   },
@@ -1264,11 +1264,11 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 8,
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.3)',
+    borderColor: COLORS.primaryTint(0.3),
   },
   memberStatusCol: {
     flexDirection: 'row',
@@ -1339,8 +1339,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   occupancyPillGreen: {
-    backgroundColor: 'rgba(52, 199, 89, 0.12)',
-    borderColor: 'rgba(52, 199, 89, 0.4)',
+    backgroundColor: COLORS.successTint(0.12),
+    borderColor: COLORS.successTint(0.4),
   },
   occupancyPillOrange: {
     backgroundColor: 'rgba(255, 149, 0, 0.12)',
@@ -1545,7 +1545,7 @@ const styles = StyleSheet.create({
   addRoutineBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
@@ -1589,7 +1589,7 @@ const styles = StyleSheet.create({
   memberCounterBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(22, 201, 91, 0.12)',
+    backgroundColor: COLORS.primaryTint(0.12),
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 8,

@@ -85,7 +85,7 @@ export const ExerciseInfoModal: React.FC<ExerciseInfoModalProps> = ({ exercise, 
                   <Text style={styles.sectionTitle}>Indicaciones y seguridad</Text>
                   {exercise.indications.map((indication, index) => (
                     <View key={`${exercise.id}-indication-${index}`} style={styles.guidanceRow}>
-                      <Ionicons name="checkmark-circle-outline" size={18} color="#34C759" />
+                      <Ionicons name="checkmark-circle-outline" size={18} color={COLORS.success} />
                       <Text style={styles.guidanceText}>{indication}</Text>
                     </View>
                   ))}
@@ -183,10 +183,10 @@ const styles = StyleSheet.create({
   paragraph: { color: '#FFFFFF', fontSize: 14, lineHeight: 22, marginBottom: 18 },
   guidanceRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, marginBottom: 10 },
   guidanceText: { flex: 1, color: '#D1D1D6', fontSize: 13, lineHeight: 19 },
-  stepNumber: { width: 22, height: 22, borderRadius: 11, backgroundColor: 'rgba(22,201,91,0.18)', alignItems: 'center', justifyContent: 'center' },
+  stepNumber: { width: 22, height: 22, borderRadius: 11, backgroundColor: COLORS.primaryTint(0.18), alignItems: 'center', justifyContent: 'center' },
   stepNumberText: { color: COLORS.primary, fontSize: 11, fontWeight: '800' },
-  videoButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, backgroundColor: 'rgba(52,199,89,0.14)', borderWidth: 1, borderColor: 'rgba(52,199,89,0.35)', borderRadius: 14, paddingVertical: 12, marginBottom: 8 },
-  videoButtonText: { color: '#34C759', fontSize: 14, fontWeight: '800' },
+  videoButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, backgroundColor: COLORS.successTint(0.14), borderWidth: 1, borderColor: COLORS.successTint(0.35), borderRadius: 14, paddingVertical: 12, marginBottom: 8 },
+  videoButtonText: { color: COLORS.success, fontSize: 14, fontWeight: '800' },
   actionButton: { backgroundColor: COLORS.primary, borderRadius: 14, alignItems: 'center', paddingVertical: 14, marginTop: 10 },
   closeButton: { backgroundColor: '#2C2C30', borderRadius: 14, alignItems: 'center', paddingVertical: 14, marginTop: 10 },
   actionText: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },

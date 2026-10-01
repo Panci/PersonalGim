@@ -1,0 +1,1492 @@
+{
+  "04bb3bb4-e60d-4122-b1a6-771c2a4a5b59": {
+    "name": "Flexión Completa de Muñeca",
+    "primaryMuscle": "antebrazo",
+    "reason": "Variante con apoyo invertido dirigida a muñecas y antebrazos."
+  },
+  "2a1d3932-f562-437a-a7d4-96539dff07a5": {
+    "name": "Boxeo con saco de boxeo",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "73fe2fc2-e53c-4fbc-b137-1d02540c56ee": {
+    "name": "Estiramiento dinámico de hombros con banda elástica",
+    "primaryMuscle": "hombros",
+    "reason": "Movilidad y estiramiento de hombros."
+  },
+  "d5b46a95-9ed5-418d-b48e-cdea52e602b4": {
+    "name": "Almeja de Pecho Sentada",
+    "primaryMuscle": "pectoral",
+    "reason": "Apertura de pecho en máquina; no es una abducción de cadera."
+  },
+  "fc730971-57d7-458f-bc9a-6217c728fd83": {
+    "name": "Laterales Poliquin",
+    "primaryMuscle": "hombros",
+    "reason": "Elevación lateral de hombros; estaba en pecho."
+  },
+  "23aaf86c-d27a-4464-88d0-e3f88bb1ba4c": {
+    "name": "Encogimientos de hombros Kelso con mancuernas",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "2e701c8a-581a-4505-b4ba-c906102609e0": {
+    "name": "Encogimientos en Máquina",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "49d5a7b1-678a-4e88-848b-a6468864bf2d": {
+    "name": "Encogimiento con Barra Detrás de la Espalda",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "61fb6b76-1d67-48f8-abba-bca2c60db1f9": {
+    "name": "Encogimientos de Hombros con Mancuernas",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "66a6068b-f1aa-40b8-9f56-0359cc0573b1": {
+    "name": "Encogimientos de hombros con mancuernas sentado",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "759db4cc-b963-4f53-b512-aadcfe301c4f": {
+    "name": "Encogimiento de Hombros en Máquina Smith",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "75add5d1-1906-4d70-b23a-998b632ce324": {
+    "name": "Encogimientos en Fondos",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "7ce5e3ff-7276-41cd-8a14-41e33ab76ddc": {
+    "name": "Máquina de Remo",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "8e408345-f873-4f50-82aa-65f99cd78af9": {
+    "name": "Ergómetro de Esquí",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "963e4937-5b35-480d-e91e-f8f53b2cc64e": {
+    "name": "Encogimiento de Hombros con Barra",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "b4eb0459-9ad3-4a47-8add-4c80872785b7": {
+    "name": "Remo con barra para deltoides posteriores",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "ba67a5a7-7a06-49c2-92eb-9cf8dc8b9419": {
+    "name": "Encogimientos con barra hexagonal",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "c6fffa71-d76e-44b7-bc35-1aa2a90bdc69": {
+    "name": "Extensión de Espalda en Máquina",
+    "primaryMuscle": "lumbares",
+    "reason": "Extensión de espalda: erectores espinales; conservar glúteos e isquiotibiales secundarios."
+  },
+  "d919d4f3-6cb0-4e11-b70a-3788dcc0a371": {
+    "name": "Encogimiento con Cable",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "e29321c6-7817-48a4-b1af-1cec66a5adb3": {
+    "name": "Encogimiento Invertido",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación o retracción escapular de encogimientos: trapecio."
+  },
+  "3ac761ff-672b-488c-bd22-3ded2b757e13": {
+    "name": "Jalón de Cara con Cable en Supinación",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "3c28f1b2-7cb3-4c6a-9d73-64730de893e6": {
+    "name": "Jalón al Rostro Sentado",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "46527a53-629e-4e6c-b4f4-986143756493": {
+    "name": "Jalón de cara con cable acostado",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "5847de4c-699f-4a50-a7a8-3815f8ddaf49": {
+    "name": "Jalón de Cara con Cable",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "70322856-de83-4f89-b6ab-71c40159d7ed": {
+    "name": "Corte de Leñador con Peso",
+    "primaryMuscle": "oblicuos",
+    "reason": "Rotación del tronco; estaba en hombros."
+  },
+  "7405282a-c2f6-480a-bf83-5c97dc70cb99": {
+    "name": "Plancha Frontal Estática",
+    "primaryMuscle": "abdomen",
+    "reason": "Plancha para estabilidad del tronco; estaba en hombros."
+  },
+  "7f6833fb-34c3-4b13-bb42-61b8524a5c09": {
+    "name": "Jalón facial con anillas",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "876b0346-eb4e-4ca7-beda-b5825c8e622d": {
+    "name": "Apertura posterior de deltoides con un brazo",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "8829eb3f-8a44-45c4-8a1b-038acb0e257d": {
+    "name": "Apertura Inversa en Polea para Deltoides Posterior",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "9b1d4ec9-e0b9-415a-96c2-cf24f3bb9e77": {
+    "name": "Jalón facial con banda",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "ac39bb5d-d66c-4660-85ac-3a4255acc5e7": {
+    "name": "Elevación en Y para Trapecio",
+    "primaryMuscle": "trapecio",
+    "reason": "Elevación Y dirigida al trapecio."
+  },
+  "e3a29945-88d3-4cb1-83b6-955074911dc4": {
+    "name": "Apertura Posterior de Deltoides en Polea con un Brazo",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "e5cef725-3790-4842-aa23-8701fd26f543": {
+    "name": "Estiramiento del Deltoides Posterior",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "e9421df5-65a2-4fac-8dfa-bf2552e9f755": {
+    "name": "Remo Posterior para Deltoides con Mancuernas",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "effc2800-2625-404d-8a56-3c42c67fa439": {
+    "name": "Molino con Kettlebell",
+    "primaryMuscle": "oblicuos",
+    "reason": "Control lateral y rotacional del tronco."
+  },
+  "f46bcb1e-3eff-49d3-adee-000a1502fd8d": {
+    "name": "Elevación posterior del deltoides con barra",
+    "primaryMuscle": "hombros",
+    "reason": "Movimiento dirigido al deltoides posterior y estabilizadores del hombro."
+  },
+  "f5269fe9-4c03-44b9-a57c-25649650d382": {
+    "name": "Plancha de Perro de Caza",
+    "primaryMuscle": "abdomen",
+    "reason": "Estabilidad del tronco con apoyos alternos."
+  },
+  "01259ee3-bdff-47c4-b7dc-e5283ea89e01": {
+    "name": "Curl de piernas deslizante",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "03b44dbb-7517-432a-8906-17069ed494b2": {
+    "name": "Sentadilla Anderson",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "03d73a15-6288-4c26-922f-dfc877f44128": {
+    "name": "Sentadilla Pistol",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "06eba846-19b2-4802-88d2-e49c43184e13": {
+    "name": "Sentadilla Sissy con Peso Adicional",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "0bcffb2d-f78d-48b8-a3d8-3b49f166a66f": {
+    "name": "Media Sentadilla",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "13cc32dc-dbee-4e85-b1e5-ee7fecdbb845": {
+    "name": "Sentadilla en Silla con Máquina Smith",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "142bd4e5-6755-42e2-83ad-cbfcf6388dab": {
+    "name": "Aducción de Cadera Sentado",
+    "primaryMuscle": "adductores",
+    "reason": "Aducción de cadera: aductores."
+  },
+  "145b65df-1575-4204-852c-0e3f24b29139": {
+    "name": "Sentadilla con barra",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "17325fc8-61c6-4697-9fe1-17e7ece44254": {
+    "name": "Sentadilla en Rack",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "1f8d0b3c-4924-403e-aea7-4ba4dd085553": {
+    "name": "Bicicleta estática",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "214c92ad-dfe0-40a9-a697-d492de526d44": {
+    "name": "Paso al Frente con Barra",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "21d66377-bf72-4789-a246-c2e721e7d55c": {
+    "name": "Sentadilla con barra baja",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "23d2096a-5a0c-41d7-adc2-698c8e8c60e2": {
+    "name": "Sentadilla en máquina con cinturón",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "25cbefe9-8ebb-416a-8d6f-cbef5b14a585": {
+    "name": "Sentadilla con Barra Alta",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "27149543-dc50-48eb-86f7-022e7ab1b591": {
+    "name": "Subida al cajón",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "2c08c473-5a61-4860-ae61-72380ac9d979": {
+    "name": "Sentadilla Profunda a Flexión Amplia con Sujeción del Pie",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Movilidad y estiramiento en flexión anterior, con foco en isquiotibiales."
+  },
+  "2cc42ebe-22bc-4b27-9965-6e342ecd4c03": {
+    "name": "Escaladora",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "30fec8f3-59a5-4d4f-9988-972018248c9f": {
+    "name": "Sentadilla dividida con mancuerna",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "325e9215-4fa0-4fe6-b368-cf1ea2827d5b": {
+    "name": "Sentadilla Sumo con Barra",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "35cd3180-abe9-417b-aebb-816d8ff6392a": {
+    "name": "Sentadilla Búlgara con Pie Delantero Elevado",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "35fe1fbc-aff9-4328-b105-c648d3e38a1b": {
+    "name": "Zancadas Caminando con Saco Búlgaro",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "3ae8ee86-534c-0824-07b6-e9f105b97c1d": {
+    "name": "Curl de Piernas Sentado",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "3be9dd6e-2749-aa93-a291-4cc48ad59b28": {
+    "name": "Curl nórdico de isquiotibiales",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "3dbb26db-032a-435d-9e0b-98c587fd4568": {
+    "name": "Patada de Glúteos en Máquina Smith",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera dirigida a glúteos; datos de origen incompletos."
+  },
+  "3ed15c03-1804-4a10-a975-43e21e7cb3d1": {
+    "name": "Aducción de Cadera con Banda de Resistencia",
+    "primaryMuscle": "adductores",
+    "reason": "Aducción de cadera: aductores."
+  },
+  "3f65c493-34ba-40ed-9098-b9ffc5e506b2": {
+    "name": "Sentadilla con mancuernas",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "4054edee-6167-40a5-b385-59e588bb451d": {
+    "name": "Curl de Pierna de Pie",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "427c3808-4df4-4b0f-803b-de87e130a135": {
+    "name": "Sentadilla Búlgara en Máquina Smith",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "4479b851-d92c-4da6-b9b2-885f86680832": {
+    "name": "Saltar la Cuerda",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "47582674-26cc-49c2-a66f-06655b49ab34": {
+    "name": "Escalada en cinta de correr",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "49447a3b-1edb-5947-76e0-1a67e587cee5": {
+    "name": "Sentadilla Frontal",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "4abb70b5-85d7-4650-b5ab-b6e32bb37fd8": {
+    "name": "Sentadilla en Máquina Smith",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "55c465c9-b72e-4a61-b8ed-d3f8502e0b79": {
+    "name": "Elevación de Poliquin",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "57512f6d-595f-47a5-ba01-9a8e8dfca5a6": {
+    "name": "Toque de Rodilla Alta Saltando",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "5df2c7d2-f24b-4fd4-a358-6155858b088e": {
+    "name": "Zancadas Caminando con Barra",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "61242c0e-4fdf-4e41-a4c8-f94caa17f568": {
+    "name": "Sentadilla Hack en Máquina Smith",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "679a7c5d-76aa-4c2e-b43e-8e8915db63f7": {
+    "name": "Zancadas caminando",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "6910eb66-b93d-4fbe-a3ac-a50d9152ddbb": {
+    "name": "Sentadilla Hack con Barra",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "691ccaf0-29e9-433a-a849-f27b306b9bea": {
+    "name": "Sentadilla Búlgara en Smith",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "6ab50167-ffb3-bb30-1822-5de93c864367": {
+    "name": "Sentadilla",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "6b71cec6-7d3c-403f-bc1c-ed0787207ebe": {
+    "name": "Sentadilla Cossack con mancuernas",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "6c607284-0e60-4b4f-a656-9cafb87f4a9d": {
+    "name": "Curl de Piernas Acostado con Banda",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "6dd46aa0-9539-260b-8885-77d56241439b": {
+    "name": "Zancadas Caminando con Mancuernas",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "75f8962c-e6d5-43d3-be0f-aa9b7ba645d6": {
+    "name": "Kickboxing",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "7bdabdd2-8124-40d5-92b7-6038a087bc9b": {
+    "name": "Sentadilla con mancuerna tipo copa",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "7cd5b83e-c3b4-4198-9279-01a3a3df4f18": {
+    "name": "Zancadas Laterales",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "7cf8467c-4519-487c-b41e-7d874d7d3a8f": {
+    "name": "Sentadilla Búlgara con Barra",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "7eafba6a-d96a-4484-bc61-a6b44d2fcdeb": {
+    "name": "Sentadilla Búlgara",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "7f462663-6e61-4769-b6e7-348881f9965d": {
+    "name": "Zancada trasera con kettlebell",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "8081a73c-ad4d-48a6-830a-d94b5c4148bc": {
+    "name": "Sentadilla con mancuerna en copa",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "829f1936-4f5c-489f-a084-39bcba74332e": {
+    "name": "Sentadilla Cossack con Peso",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "850e7678-377e-475c-81d9-1f4f8c22d5a0": {
+    "name": "Zancadas Laterales con Mancuernas",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "86bb0542-38ab-469b-b684-77f566141bb7": {
+    "name": "Sentadilla Cossack",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "8abc41c2-862b-4c51-81df-3a8c341a03d6": {
+    "name": "Zancadas Inversas con Barra",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "8ae59cb6-8a70-4eb6-b2b3-35abe8060f0f": {
+    "name": "Sentadilla Hack en Máquina",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "8cc228e3-8daa-41c4-b1d0-cc89aee5aab6": {
+    "name": "Sentadilla Sumo",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "9194fcea-dbc9-4db8-b448-96552077dbd1": {
+    "name": "Zancada lateral pliométrica",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "9202e88a-111c-40f8-8464-d567a7fff830": {
+    "name": "Curl de Pierna Unilateral Sentado",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "930a2eec-3f54-4039-ba9b-1560f6774af0": {
+    "name": "Sentadilla en Máquina Smith a Banco",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "99704170-da3e-48e5-bb24-33f8193d2892": {
+    "name": "Aducción de Cadera en Polea",
+    "primaryMuscle": "adductores",
+    "reason": "Aducción de cadera: aductores."
+  },
+  "9f0b1b6e-42e5-41a9-a210-2e324d4477dc": {
+    "name": "Sentadilla con barra en tierra",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "a34aa557-2803-46e5-8737-a6ff91d32045": {
+    "name": "Curl de pierna en cable a una pierna",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "a464ad90-8802-40ac-bf44-a414b1b504bd": {
+    "name": "Entrenador Elíptico",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "a560bb3a-883e-444e-9a2d-bfddbfa457fc": {
+    "name": "Sentadilla Hack Inversa en Máquina",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "a5638dab-bc86-49ea-9940-f5423864f62b": {
+    "name": "Sentadilla pistol asistida",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "a62eced5-a72a-4f57-b1b2-5b0e4bf17475": {
+    "name": "Sentadilla Frontal con Pin",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "a63c8518-6ecd-44df-a7ce-20fc9957bc6a": {
+    "name": "Subida al Banco con Mancuernas",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "a73c52dc-e7cc-4775-8a59-5b2277bf9697": {
+    "name": "Elevación de cadera en Multipower de rodillas",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "a832b1f9-ffc0-43e6-80e4-2dea898f0f21": {
+    "name": "Zancada Inversa",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "ab969cd9-46c9-4a4b-aeb8-fb18b3a812d2": {
+    "name": "Sentadilla de arranque",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "b119509d-00e5-45f4-b7a5-2aa4a5da4d0f": {
+    "name": "Sentadilla Búlgara con Salto",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "b88ce237-ce60-4b9d-891d-a1d628983960": {
+    "name": "Sentadilla Frontal en Máquina Smith",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "b9fc3c2b-b68b-4c94-bd08-2b28b7359bbb": {
+    "name": "Sentadilla Zercher",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "ba99f018-cb2a-48e9-b48b-57046f791ba7": {
+    "name": "Burpee",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "baa210b0-158a-4191-acff-8d7db7928a05": {
+    "name": "Sentadilla Zercher en Máquina Smith",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "bdfbf8c4-7d96-f9bd-f441-523c1a434312": {
+    "name": "Curl de Piernas en Decúbito Prono",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "bffdb15f-d630-44a1-9a20-d4dc864d6972": {
+    "name": "Saltos de Tijera",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "c0163f74-9b9d-44f8-9ee9-78af5a3169cd": {
+    "name": "Sentadilla Cossack con barra",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "c2b72e25-1c85-43f3-9c95-5bd9431e34ac": {
+    "name": "Sentadilla Pistol en Caja",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "c49da46d-cb8f-4a5b-b948-94208d9880e5": {
+    "name": "Zancada trasera en Multipower",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "c605879b-651d-4995-ae08-8ecd85182d71": {
+    "name": "Sentadilla contra la pared con balón de estabilidad",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "cb2d0f9b-8328-46a0-bbdb-6b13db28499d": {
+    "name": "Sentadilla sumo con Multipower",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "cd499966-2c32-4b4d-9bf6-440fcc3a84e4": {
+    "name": "Cardio caminando",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "cf88eb6f-6101-49f1-a493-ef959eb12cb6": {
+    "name": "Sentadilla búlgara con mancuernas",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "d426fbe7-b7df-4671-8499-d2e4df127ec6": {
+    "name": "Sentadilla Pistol con Peso",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "d455b2bc-feaa-4d9d-8d60-b8ae1ed7b109": {
+    "name": "Curl de piernas con balón suizo",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "d5f7a5ea-8fa8-48c3-aa0d-7e539dd3ac1a": {
+    "name": "Sentadilla en caja",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "d8735b83-7498-47a4-a938-98220e625f71": {
+    "name": "Sentadilla al aire",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "d8ad3cbb-b306-4f3d-8b67-4577038925b7": {
+    "name": "Bicicleta de aire de asalto",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "da1122db-5ae7-4a78-be7b-078f92bd5dda": {
+    "name": "Sentadilla Sissy",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "dabbc3d1-7cfc-4031-8224-9836ec7725e6": {
+    "name": "Sentadilla Sissy de Rodillas",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Nordic inverso: extensión de rodilla dirigida al cuádriceps; no confundir con curl nórdico de isquiotibiales."
+  },
+  "dd3564b4-b057-4835-87ff-f87b619e07f5": {
+    "name": "Sentadilla Frontal en Banco",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "dfa728cb-aef6-4b05-aca6-f6a4384c0a48": {
+    "name": "Peso muerto rumano en cable",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "e644b489-9a5e-4824-83fb-0b448b7c6a80": {
+    "name": "Sentadilla de Ciclista",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "e657a4e4-a3b5-49da-95d5-a6a41db1272c": {
+    "name": "Peso Muerto Rumano en Posición B",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "e7a9f02b-6012-4ada-bf59-16ab85ee6b6d": {
+    "name": "Curl de Piernas Acostado con Mancuernas",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "e9c8793b-9ae2-4428-a9af-24ce91ce8c99": {
+    "name": "Carrera en Cinta",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "ea0437ea-81fe-4d5e-aa72-cf592ae1c11d": {
+    "name": "Peso Muerto Rumano con Mancuernas",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "eafc5a02-9cd9-4494-aca9-247ca14f87ee": {
+    "name": "Sentadilla Sumo desde Stepbox",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "eb59667f-202d-49ce-a517-34c0ecbc69d4": {
+    "name": "Zancadas con mancuernas",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "eccb443f-5efd-46ae-b522-a4b8a4066ce2": {
+    "name": "Peso Muerto Rumano en Máquina Smith",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "ed99f5c6-76b9-4d8b-9b29-e7e0ae3a6eb8": {
+    "name": "Zancadas",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "f138fba6-caa5-4541-b9fc-6b10b724d2d1": {
+    "name": "Paso adelante con cable",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "f8415c81-7b41-4102-9a98-5fadaabded3d": {
+    "name": "Curl de Piernas en Anillas",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Flexión de rodilla: isquiotibiales; no bíceps del brazo ni gemelos."
+  },
+  "fb42b833-a9f4-4a13-8e57-78a95dc184c8": {
+    "name": "Correr",
+    "primaryMuscle": "cardio",
+    "reason": "Actividad cardiovascular: categoría Cardio; conservar los músculos implicados como secundarios."
+  },
+  "fd6bf4b3-3d1e-4036-b4c0-e6fded490b43": {
+    "name": "Sentadilla de barra por encima de la cabeza",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "fe62e8fc-5b16-4bab-bf08-f1e70b550bee": {
+    "name": "Sentadilla con Banda",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Patrón de sentadilla, zancada o subida: cuádriceps como grupo principal; conservar glúteos y otros músculos secundarios."
+  },
+  "0b59dd85-d65d-4e28-bad1-2a74fc204504": {
+    "name": "Empuje de Cadera Unilateral con Mancuerna",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "2811badd-ff6d-946b-c36f-aae77cd6fa38": {
+    "name": "Buenos Días con Barra",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Buenos días de pie: bisagra de cadera, isquiotibiales como grupo principal."
+  },
+  "2b9833cf-064b-4d42-815b-89c58352179a": {
+    "name": "Puente de glúteos con banda elástica mini",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "2d2291cc-8340-4667-80db-becf8e594b1b": {
+    "name": "Buenos días en Multipower",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Buenos días de pie: bisagra de cadera, isquiotibiales como grupo principal."
+  },
+  "38938cf9-f0b8-4894-9393-ce7ed9a4e28e": {
+    "name": "Abducción de cadera con banda sentado",
+    "primaryMuscle": "abductores",
+    "reason": "Abducción o rotación externa de cadera: abductores."
+  },
+  "442206c2-d2f1-413e-a73f-52b5dd819eb1": {
+    "name": "Empuje de Cadera en Máquina Smith",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "45c3ad61-7849-4169-9f03-de68c12aa4b9": {
+    "name": "Peso Muerto Rumano a Una Pierna",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "4cb4b1c0-7e5d-e804-d5ef-0fbe23f53914": {
+    "name": "Extensión de Espalda con Peso",
+    "primaryMuscle": "lumbares",
+    "reason": "Extensión de espalda: erectores espinales; conservar glúteos e isquiotibiales secundarios."
+  },
+  "4ec535de-1f4a-451a-9dc5-dab2920b51f4": {
+    "name": "Estiramiento de Figura 4 Sentado",
+    "primaryMuscle": "gluteos",
+    "reason": "Estiramiento de la región glútea."
+  },
+  "51f6c2dd-f5ef-49ed-b10c-8538ac8330ac": {
+    "name": "Estiramiento de figura 4 en silla",
+    "primaryMuscle": "gluteos",
+    "reason": "Estiramiento de la región glútea."
+  },
+  "5246f266-003c-7ce5-6be0-283f2136321e": {
+    "name": "Elevación de cadera con barra",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "59c152a9-7463-4c6d-888b-4a989399242e": {
+    "name": "Plancha Lateral con Abducción de Cadera",
+    "primaryMuscle": "abductores",
+    "reason": "Abducción o rotación externa de cadera: abductores."
+  },
+  "6151909d-a462-46b8-a8dd-e418c243fba3": {
+    "name": "Puente de Glúteos",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "748a1a5b-cbb1-48b0-96bd-7558f332cb48": {
+    "name": "Puente de glúteos con peso",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "793e9f35-ce3c-4d2d-87b8-5b6955ac5279": {
+    "name": "Abducción de cadera en decúbito lateral",
+    "primaryMuscle": "abductores",
+    "reason": "Abducción o rotación externa de cadera: abductores."
+  },
+  "7bb5b691-348a-4763-ba60-2ec25faf3965": {
+    "name": "Puente de Glúteos con Barra",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "7ce01b32-14e6-4185-b499-137ba4f99177": {
+    "name": "Elevación de cadera",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "85c89a46-37b2-422a-b2bf-c3a5588463de": {
+    "name": "Abducción de Cadera de Pie",
+    "primaryMuscle": "abductores",
+    "reason": "Abducción o rotación externa de cadera: abductores."
+  },
+  "873096f4-e814-47bf-9e4a-02ac68f3ade5": {
+    "name": "Extensión de Espalda",
+    "primaryMuscle": "lumbares",
+    "reason": "Extensión de espalda: erectores espinales; conservar glúteos e isquiotibiales secundarios."
+  },
+  "9a5be8c6-af17-4585-8617-7f54f6088f01": {
+    "name": "Puente de Glúteos KAS",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "a408662a-d8a8-4d17-9544-fa2ce09356db": {
+    "name": "Puente de glúteos en banco",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "a8a21f5f-86b9-4898-b83f-b3c4bcb79a63": {
+    "name": "Puente de Glúteos con Peso a una Pierna",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "bd67f53b-0829-458b-8368-3bd89972ebe0": {
+    "name": "Extensión de Espalda con Mancuerna",
+    "primaryMuscle": "lumbares",
+    "reason": "Extensión de espalda: erectores espinales; conservar glúteos e isquiotibiales secundarios."
+  },
+  "bde8a221-1dd3-40ec-bf89-b26d8e991b77": {
+    "name": "Peso Muerto Rumano",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "c0d708f6-00ab-118f-9f7d-e13f27e5458b": {
+    "name": "Abducción de Cadera Sentado",
+    "primaryMuscle": "abductores",
+    "reason": "Abducción o rotación externa de cadera: abductores."
+  },
+  "c1b44da7-2220-4a21-8164-ebc2abf9ba65": {
+    "name": "Abducción de Cadera con Banda",
+    "primaryMuscle": "abductores",
+    "reason": "Abducción o rotación externa de cadera: abductores."
+  },
+  "c79993c0-52a1-4575-94f6-9e63c75453be": {
+    "name": "Elevación de cadera estilo rana",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "d61ba24e-4c00-4c61-9127-08db49a79c32": {
+    "name": "Empuje de cadera en máquina",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "ecd73905-fd43-458c-bc6e-288a83dafbb9": {
+    "name": "Buenos días sentado",
+    "primaryMuscle": "lumbares",
+    "reason": "Buenos días sentado: extensión del tronco; lumbares como grupo principal."
+  },
+  "ed5e6c95-151e-46e2-9fbe-59ab50294ee3": {
+    "name": "Perro de Caza",
+    "primaryMuscle": "lumbares",
+    "reason": "Estabilidad y extensión de la espalda: lumbares, con glúteos secundarios."
+  },
+  "f549f56b-96d5-4eee-807b-427a437809df": {
+    "name": "Elevación de Cadera con Mancuernas",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "fd0bc7ef-9983-4afc-b2c9-e1f9e273f566": {
+    "name": "Glute Bridge Single Leg: Puente de Glúteos a una Pierna",
+    "primaryMuscle": "gluteos",
+    "reason": "Extensión de cadera con foco glúteo."
+  },
+  "d723ed09-c017-4ea4-8f63-90c1a00cbb6a": {
+    "name": "Dominada Scapular",
+    "primaryMuscle": "dorsales",
+    "reason": "Depresión escapular: dorsales; el agarre es secundario."
+  },
+  "31e7bf28-4c5d-4833-ae1f-069bcb913bbc": {
+    "name": "Giro ruso con balón medicinal",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "3453606c-f6b9-48b0-ac7e-c98595957a41": {
+    "name": "Press Pallof con banda",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "37fdb10c-13ce-4832-8730-0efc5dbb0eb2": {
+    "name": "Giro ruso con banda",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "5170255c-cc48-41b6-9b26-a72669deab44": {
+    "name": "Prensa Pallof Horizontal en Polea Baja",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "7292151f-5551-45bd-a5ca-512ce6ca2683": {
+    "name": "Bicicleta de Aire de Pie",
+    "primaryMuscle": "abdomen",
+    "reason": "Ejercicio de core sin bicicleta; conservar oblicuos secundarios."
+  },
+  "8929de5f-b029-4ffd-a773-744cfc6ef113": {
+    "name": "Corte de leña con banda de alta a baja",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "8ea0e1cc-2f71-4868-a6eb-9a475f0ea8ae": {
+    "name": "Sujeción de Cuerpo Hueco con Peso",
+    "primaryMuscle": "abdomen",
+    "reason": "Sujeción abdominal: recto abdominal; oblicuos secundarios."
+  },
+  "a3da9e1f-b976-4458-92f4-4af1264793fa": {
+    "name": "Giro ruso con mancuerna",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "a741580c-cf0a-49d6-a30d-5ee70ad9be0c": {
+    "name": "Giro ruso con peso",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "aaed90b1-e560-4b16-8011-494f75522f3a": {
+    "name": "Plancha lateral",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "c7c5b6a3-7410-4ea8-9b96-98e9c00e7d46": {
+    "name": "Giro ruso de pie",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "d0e78959-c1de-400c-a7fb-44c1015d5013": {
+    "name": "Prensa Pallof Horizontal con Cable",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "d53971e5-7438-4a9e-b041-0158b3142546": {
+    "name": "Elevación de rodillas oblicuas colgado",
+    "primaryMuscle": "oblicuos",
+    "reason": "Flexión lateral, rotación o resistencia a la rotación del tronco: oblicuos."
+  },
+  "04035dba-efc3-4736-9b1b-bc4fd23d9695": {
+    "name": "Jalón al Pecho con un Brazo",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "04141712-a8e2-49df-9e46-ba6204ae5edf": {
+    "name": "Dominadas",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "04cc2a5a-b69d-4ef3-b6f8-3e6a6115403b": {
+    "name": "Dominadas con Lastre",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "081d6aee-e878-4d7e-adda-925768ebf2bc": {
+    "name": "Remo con Mancuerna a un Brazo Inclinado para Escápula",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "0a7f804c-c8b2-410f-aaf2-596f30494ee9": {
+    "name": "Dominadas con agarre estrecho",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "0c3e27ed-e95b-7611-a3e8-7dab63585d21": {
+    "name": "Remo con barra inclinado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "138862a9-3d34-4aa7-86f0-13e35d16e12f": {
+    "name": "Remo Bajo Unilateral en Polea",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "13a0a404-a40c-4565-b125-29a3c83a2bd6": {
+    "name": "Remo sentado con cable y agarre ancho",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "1a335136-840a-4499-9778-4ddef29a6771": {
+    "name": "Remo en Polea Sentado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "1a9dfa03-6633-4c8e-830e-1c5928b8c0d7": {
+    "name": "Jalón de dorsales con cuerda y brazos rectos",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "1b067cc9-2501-41fc-97fe-cd35e92c3098": {
+    "name": "Jalón en polea con agarre ancho detrás de la nuca",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "1ded3dfe-6517-40db-909b-dc8b4b64d932": {
+    "name": "Dominadas con agarre ancho hacia atrás",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "1df9fd37-4223-4015-865e-cd6f641f78df": {
+    "name": "Dominadas supinas",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "1f0ed45d-5c7d-7d28-1df8-5dac013c1c38": {
+    "name": "Dominadas con agarre ancho",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "21fbdca8-4263-4371-97ce-ba441356648c": {
+    "name": "Remo en suspensión",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "227db3f3-d33f-4f86-b14f-56f32f12d62b": {
+    "name": "Remo Inclinado con Barra desde Pin",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "2340824d-e207-4561-bdcd-8752070c06da": {
+    "name": "Jalón de Dorsales con Cable a un Brazo y Brazo Recto",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "245a9e25-296f-4330-9fb6-82de62ebfaca": {
+    "name": "Remo en máquina con soporte para pecho a un brazo",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "25472b18-efdc-438a-a2c2-ab72994be361": {
+    "name": "Jalón de Espalda en Polea con Agarre Neutral Ancho",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "272ee53c-baf9-4a84-a909-e7370543dd8a": {
+    "name": "Remo sentado en polea baja a una mano",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "28ad1245-c026-45e9-b1db-34c169e6b8c3": {
+    "name": "Dominada en palanca frontal",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "2ade8d6c-c91a-430f-96fc-da1d0f696526": {
+    "name": "Jalón de Dorsales en Polea",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "2d243c0b-02d2-4e67-8a63-dca09e86b55a": {
+    "name": "Remo con Kettlebell Inclinado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "337e4449-47d4-4482-9bed-47404f889db7": {
+    "name": "Remo con Apoyo en el Pecho y Agarre Amplio",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "35d975b5-dfd2-4bc1-b3f6-6cae96604d4a": {
+    "name": "Remo de Gorila",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "37f5a2d4-b453-4971-a504-90d55d0933f6": {
+    "name": "Jalón de Espalda con Banda Inclinado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "3ba44e8d-8718-47f1-ba5f-1fd046cbb7b0": {
+    "name": "Remo Invertido en Suspensión",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "4867c4b9-6939-4a7f-ba29-282550b7c7e6": {
+    "name": "Remo con barra en T inclinado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "49297ec3-9ee7-444c-b83f-74be529eda62": {
+    "name": "Remo ancho con mancuernas en banco inclinado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "4a808b86-385e-28a7-460b-aad50695af11": {
+    "name": "Remo Inclinado con Mancuernas",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "59c89f64-4dd9-4590-b70b-4dfc1d395407": {
+    "name": "Remo en T con Soporte para Pecho",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "5b5ad96b-a5d1-a271-9b57-aa0dfda9d77b": {
+    "name": "Jalón lateral con agarre amplio en polea alta",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "5d175483-a70f-418a-8ee1-b4434087df4e": {
+    "name": "Remo con Mancuernas en Banco Plano",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "6683712d-bac9-4c1d-907d-d2df12e60ee1": {
+    "name": "Dominada en L",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "6a4145f4-8ef2-43f7-a9e9-51159327623e": {
+    "name": "Remo de Kayak en Polea",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "6b58e142-6ce7-4492-ac4f-197bd74ab148": {
+    "name": "Remo con barra en T a una mano inclinado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "6f1920ff-322b-43c3-8f4f-901be5cd3679": {
+    "name": "Jalón al pecho con cable a una mano en posición de medio arrodillado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "6f9c1398-a069-4318-92b1-7233ff9f0fe7": {
+    "name": "Jalón de dorsales con banda a un brazo",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "7049688f-6c75-454f-80a7-28b0a805c6b4": {
+    "name": "Remo Invertido con Agarre Supino",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "70b49da7-8fba-4c5e-bdf2-6035e72a2411": {
+    "name": "Remo Bajo en Máquina",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "71f484d7-0e4d-4251-9000-85b2f1e51435": {
+    "name": "Dominadas con Agarre Neutro",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "763906d6-42c5-7f93-c42a-553bdcf8d6f2": {
+    "name": "Remo en Máquina con Soporte para el Pecho",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "773ab473-077f-4ddb-baae-fff41adeb0f0": {
+    "name": "Jalón con Banda Detrás del Cuello",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "7cb4fd38-5ca9-4d65-a5df-f8a0b3288fbc": {
+    "name": "Dominadas en anillas",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "7e2b3c1c-97db-405e-b9ca-e6ebdc5db673": {
+    "name": "Remo en Banco Prono",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "85a22cf8-07b5-424a-bef6-637d9c5761dc": {
+    "name": "Remo Renegado Alterno",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "86229a51-11aa-4610-9d34-f27e2b4b7eea": {
+    "name": "Remo Alto Unilateral en Polea",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "8ed82d5b-8055-474e-9d6a-38bb83be1e02": {
+    "name": "Remo inclinado con mancuernas agarre neutro",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "91df77ee-5ffe-4d59-b1e5-885862ec28c3": {
+    "name": "Jalón al Pecho con Agarre Cerrado en Polea",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "9df4db0a-a574-4f3c-b6da-6c289bd1c508": {
+    "name": "Remo Inclinado con Barra y Agarre Invertido",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "a0ef5e32-d928-45e1-b507-71bdaa06bf4c": {
+    "name": "Máquina de Jalón de Espalda",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "ab0c9102-2325-49a2-92ce-4c6ed35a119d": {
+    "name": "Remo Amplio con Banda Anclada en Alto",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "ace91b1e-8045-481d-8ab6-3a40f6593d8b": {
+    "name": "Jalón en Polea con Agarre Invertido",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "ae74e375-7d6c-41d6-9e1c-3441ab97bca2": {
+    "name": "Remo Inclinado con Barra en Banco",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "b17fec92-bc5f-480d-912b-988a936065b3": {
+    "name": "Remo renegado con kettlebell",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "b3ec93a9-729e-4e60-8944-d00b8a81f01f": {
+    "name": "Dominadas Asistidas",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "b767db5f-87e1-42cf-b4dd-25f9899e0722": {
+    "name": "Remo sentado con cable agarre neutro",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "b91720be-c6a9-4b87-b264-0e09f7e9053d": {
+    "name": "Remo de Cable a Una Mano",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "b9b09cef-24a9-103d-0981-ba6076dd0bb6": {
+    "name": "Remo Alto en Palanca",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "bb084797-5b76-4f77-98cf-0e4019b3536f": {
+    "name": "Remo Invertido (Australiano)",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "bbe9a0d9-509e-4362-b9e9-396e8b7c79c3": {
+    "name": "Remo Pendlay",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "c6c9eeca-3ee1-4a8b-b34a-496b35c5dd53": {
+    "name": "Remo bajo en polea sentado con agarre neutro",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "c9c26dea-3563-47ab-b2bb-e93a3021cea1": {
+    "name": "Remo Sentado con Agarre Supino en Polea",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "ca8fb6e9-2df5-4f97-83a0-d1595e894fba": {
+    "name": "Jalón de dorsales con brazos rectos",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "cc39d401-ea05-f723-0500-64bbe65b589d": {
+    "name": "Jalón en polea con agarre neutro",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "d1109e24-4610-4f9f-93b7-a37691e123bf": {
+    "name": "Jalón de Espalda en Polea de Rodillas",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "d41e66cc-4fff-4bd0-a15f-c83b2921c1b4": {
+    "name": "Dominadas australianas con agarre estrecho en anillas",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "d7984438-e687-43db-ab4b-273e8240438e": {
+    "name": "Remo con Barra T en Agarre Cerrado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "d8e77fb2-ebb1-4e7c-8e93-fd397a8c290b": {
+    "name": "Remo sentado a una mano",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "ddc441a1-c226-4a9d-8035-40a484173f38": {
+    "name": "Remo con Barra en Banco Inclinado con Agarre Ancho",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "e0c03699-b927-4c57-933c-79020ffb2371": {
+    "name": "Dominadas Asistidas con Banda",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "e6a23c03-6fd4-41b7-8540-dac14e681294": {
+    "name": "Elevaciones laterales inclinadas con apoyo en el pecho con mancuernas",
+    "primaryMuscle": "hombros",
+    "reason": "Elevación lateral del hombro; trapecio secundario."
+  },
+  "ed6f4b1d-e657-4a9d-993c-d06254b600e0": {
+    "name": "Jalón de Dorsales con Cable a Una Mano en Medio Arrodillado",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "eec04e96-7634-4586-8a5b-c5f333bdac6a": {
+    "name": "Remo Alto con Palanca a un Brazo",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "f904b1f5-72a6-4f15-a37e-abba285cc604": {
+    "name": "Dominada negativa",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "fcbf09e6-539f-4390-8434-d15d982d55d6": {
+    "name": "Remo inclinado en Multipower",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "890ca0c8-ff8d-4f2b-ad34-d9743118bfee": {
+    "name": "Remo Alto Inclinado Sentado con Mancuernas",
+    "primaryMuscle": "hombros",
+    "reason": "Remo alto dirigido a deltoides posteriores."
+  },
+  "02be3155-246f-4620-be93-dbd682d3fbca": {
+    "name": "Estiramiento de Media Rana Balanceante",
+    "primaryMuscle": "adductores",
+    "reason": "Movilidad de cadera con estiramiento de aductores."
+  },
+  "114ad863-9971-40c3-8108-2a983fe656ae": {
+    "name": "Peso Muerto con Déficit",
+    "primaryMuscle": "gluteos",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "20890a96-f92a-cfc8-3447-239d273136df": {
+    "name": "Peso Muerto",
+    "primaryMuscle": "gluteos",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "24c4eb14-d625-4ade-bc50-06e096df5e34": {
+    "name": "Estiramiento de Rodilla al Pecho",
+    "primaryMuscle": "gluteos",
+    "reason": "Estiramiento glúteo en flexión de cadera."
+  },
+  "25157430-0a7c-4079-a00d-51a846790596": {
+    "name": "Arranque de potencia",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Levantamiento olímpico compuesto: extensión de piernas; erectores espinales como estabilizadores secundarios."
+  },
+  "4c567ffb-4d07-417a-8142-f9d67088079e": {
+    "name": "Estiramiento 90 a 90",
+    "primaryMuscle": "gluteos",
+    "reason": "Movilidad de rotadores de cadera y glúteos."
+  },
+  "5b2ee265-06ea-46a9-8011-a1e875e8eb64": {
+    "name": "Balanceo de kettlebell con un brazo",
+    "primaryMuscle": "gluteos",
+    "reason": "Bisagra de cadera con extensión explosiva, glúteos principales."
+  },
+  "5ba385ff-a1f8-44d4-b3a9-f988d2a3ea75": {
+    "name": "Peso Muerto a Una Pierna",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "642e9efb-4dc4-41a7-8e84-56dcea274c86": {
+    "name": "Hang Power Clean",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Levantamiento olímpico compuesto: extensión de piernas; erectores espinales como estabilizadores secundarios."
+  },
+  "69711e18-790f-475f-a845-29932f24c730": {
+    "name": "Tirón de Arranque",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Levantamiento olímpico compuesto: extensión de piernas; erectores espinales como estabilizadores secundarios."
+  },
+  "6ee19894-3651-9c16-fdd7-39bfe1c755af": {
+    "name": "Peso Muerto con Piernas Rectas con Barra",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto con piernas rectas: bisagra de cadera dirigida a isquiotibiales; glúteos y lumbares secundarios."
+  },
+  "75c7819c-7c7d-4c96-b9c2-aa45e20c4956": {
+    "name": "Trineo Prowler",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Empuje compuesto con extensión de piernas; no es un remo."
+  },
+  "7a939762-896c-461e-ad6a-88e7be837e7b": {
+    "name": "Peso Muerto con Barra Hexagonal",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "8213817c-7777-4373-bbf6-654fac9db202": {
+    "name": "Peso muerto con mancuernas y piernas rectas",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto con piernas rectas: bisagra de cadera dirigida a isquiotibiales; glúteos y lumbares secundarios."
+  },
+  "9a7407e7-2e8f-41dc-b5f9-5690124b0ed2": {
+    "name": "Peso Muerto con Kettlebell",
+    "primaryMuscle": "gluteos",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "a457f1e5-43be-459c-8ff4-506218d01411": {
+    "name": "Balanceo con Kettlebell",
+    "primaryMuscle": "gluteos",
+    "reason": "Bisagra de cadera con extensión explosiva, glúteos principales."
+  },
+  "ae567a85-61b5-4329-a26f-3b1894e59f6d": {
+    "name": "Postura del Lagarto",
+    "primaryMuscle": "cuadriceps",
+    "reason": "Estiramiento de flexores de cadera y cuádriceps; isquiotibiales secundarios."
+  },
+  "d15edf28-16b7-02a1-ef0a-1273df7fbee8": {
+    "name": "Peso Muerto con Mancuerna a Una Pierna",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "de8bc2c9-e7fc-4514-b6b5-f98f3e26cfa7": {
+    "name": "Peso Muerto con Mancuernas Piernas Rectas",
+    "primaryMuscle": "isquiotibiales",
+    "reason": "Peso muerto con piernas rectas: bisagra de cadera dirigida a isquiotibiales; glúteos y lumbares secundarios."
+  },
+  "f4528ef0-35e7-49de-a5b0-d1c2d03d97b3": {
+    "name": "Peso muerto con mancuernas",
+    "primaryMuscle": "gluteos",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "f6468090-67cf-4fdc-ab45-49b41b28037b": {
+    "name": "Postura del bebé feliz",
+    "primaryMuscle": "adductores",
+    "reason": "Apertura de caderas y estiramiento de la cara interna del muslo."
+  },
+  "7f9f4a82-47b4-4aea-9cc5-1eb32ecd4bd2": {
+    "name": "Peso muerto sumo",
+    "primaryMuscle": "gluteos",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "e39ba212-23da-494e-b136-42060c32e7ce": {
+    "name": "Peso muerto desde bloques",
+    "primaryMuscle": "lumbares",
+    "reason": "Peso muerto: clasificar según la variante y conservar los otros músculos de la cadena posterior."
+  },
+  "2463cfae-b1dc-4f38-af0a-544002d6fbc2": {
+    "name": "Muscle Up en Anillas",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "78395663-8332-42cc-8aa7-d87f474bdb10": {
+    "name": "Dominadas con Peso",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "2e084eac-88a9-4dfa-bb48-594966e87f7b": {
+    "name": "Flexión de brazos en inclinación con agarre cerrado",
+    "primaryMuscle": "triceps",
+    "reason": "Flexión de brazos con agarre cerrado, dirigida a tríceps; pecho secundario."
+  },
+  "5e5e5c5f-0e1d-4827-b76d-c2f87d4ac410": {
+    "name": "Plancha de rana",
+    "primaryMuscle": "hombros",
+    "reason": "Apoyo y equilibrio sobre brazos: hombros como grupo principal; pecho, tríceps y core secundarios."
+  },
+  "c48d3682-7b85-45cb-bbb6-731ca86f4a08": {
+    "name": "Muscle-Up con Peso",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "c7bc7acf-63e9-4749-a0e1-d130d759ed1d": {
+    "name": "Dominada con impulso",
+    "primaryMuscle": "dorsales",
+    "reason": "Tracción de espalda: dorsales como grupo principal; brazos y músculos escapulares secundarios."
+  },
+  "afe0d300-093b-44d2-b258-0d2a431954e4": {
+    "name": "Plancha Serrucho",
+    "primaryMuscle": "abdomen",
+    "reason": "Estabilidad abdominal durante movimiento de plancha; glúteos secundarios."
+  },
+  "91c1d821-bfc9-480e-8aac-7a290587388d": {
+    "name": "Clean con Kettlebell",
+    "primaryMuscle": "gluteos",
+    "reason": "Cargada con kettlebell: extensión explosiva de cadera, con glúteos como grupo principal."
+  }
+}

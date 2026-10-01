@@ -149,6 +149,12 @@ export const initDatabase = async (userId?: string): Promise<void> => {
         }
       }
       for (const ex of INITIAL_EXERCISES) database.runSync('INSERT OR IGNORE INTO exercises (id, name, primaryMuscle, secondaryMuscles, equipment, instructions, imageUrl, isFavorite, isCustom, description, executionSteps, indications, tips, commonMistakes, videoUrl, localImagePath, localVideoPath, sourceUrl, sourceProvider) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [ex.id, ex.name, ex.primaryMuscle, JSON.stringify(ex.secondaryMuscles), ex.equipment, nullable(ex.instructions), nullable(ex.imageUrl), ex.isFavorite ? 1 : 0, ex.isCustom ? 1 : 0, nullable(ex.description), serializeList(ex.executionSteps), serializeList(ex.indications), serializeList(ex.tips), serializeList(ex.commonMistakes), nullable(ex.videoUrl), nullable(ex.localImagePath), nullable(ex.localVideoPath), nullable(ex.sourceUrl), nullable(ex.sourceProvider)]);
+      // Existing installations also receive catalogue classification fixes.
+      // Keep exercise ids, favorites, custom entries and routine references.
+      for (const ex of INITIAL_EXERCISES) database.runSync(
+        'UPDATE exercises SET primaryMuscle = ?, secondaryMuscles = ? WHERE id = ? AND isCustom = 0',
+        [ex.primaryMuscle, JSON.stringify(ex.secondaryMuscles), ex.id],
+      );
     });
   } catch (error) { console.warn('Unable to initialise local database', error); }
 };

@@ -74,7 +74,7 @@ export const AnatomyModel: React.FC<AnatomyModelProps> = ({
     { muscleId: 'antebrazo', label: 'Antebrazo', side: 'right', targetX: 275, targetY: 220, labelY: 175 },
     { muscleId: 'abdomen', label: 'Abdomen', side: 'right', targetX: 200, targetY: 200, labelY: 215 },
     { muscleId: 'oblicuos', label: 'Oblicuos', side: 'right', targetX: 225, targetY: 225, labelY: 255 },
-    { muscleId: 'adductores', label: 'Adductores', side: 'right', targetX: 205, targetY: 310, labelY: 315 },
+    { muscleId: 'adductores', label: 'Aductores', side: 'right', targetX: 205, targetY: 310, labelY: 315 },
   ];
 
   // Back callouts aligned with the supplied posterior reference.
@@ -131,8 +131,8 @@ export const AnatomyModel: React.FC<AnatomyModelProps> = ({
               <Stop offset="100%" stopColor="#1E1E22" />
             </LinearGradient>
             <LinearGradient id="highlightGrad" x1="0" y1="0" x2="1" y2="1">
-              <Stop offset="0%" stopColor="#35DD6E" />
-              <Stop offset="100%" stopColor="#0C9842" />
+              <Stop offset="0%" stopColor={COLORS.textOrange} />
+              <Stop offset="100%" stopColor={COLORS.primaryDark} />
             </LinearGradient>
           </Defs>
 
@@ -218,7 +218,7 @@ export const AnatomyModel: React.FC<AnatomyModelProps> = ({
               <Path
                 d="M 175 168 L 205 168 L 203 245 L 177 245 Z"
                 fill={selectedMuscleFilter === 'abdomen' ? 'url(#highlightGrad)' : '#3E3E46'}
-                stroke="#16C95B"
+                stroke={COLORS.primary}
                 strokeWidth={selectedMuscleFilter === 'abdomen' ? '2' : '0.5'}
               />
 
@@ -459,7 +459,7 @@ const styles = StyleSheet.create({
   },
   calloutBadgeActive: {
     backgroundColor: COLORS.primary,
-    borderColor: '#65EE91',
+    borderColor: COLORS.primaryHighlight,
   },
   calloutText: {
     color: '#D1D1D6',

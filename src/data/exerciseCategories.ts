@@ -1,5 +1,16 @@
 import { MuscleId } from '../types';
 
+export const MUSCLE_LABELS: Record<MuscleId, string> = {
+  pectoral: 'Pectoral', biceps: 'Bíceps', triceps: 'Tríceps', hombros: 'Hombros',
+  dorsales: 'Dorsales', cuadriceps: 'Cuádriceps', isquiotibiales: 'Isquiotibiales',
+  gluteos: 'Glúteos', pantorrillas: 'Gemelos', antebrazo: 'Antebrazo',
+  trapecio: 'Trapecio', lumbares: 'Lumbares', abdomen: 'Abdomen', oblicuos: 'Oblicuos',
+  abductores: 'Abductores', adductores: 'Aductores', cardio: 'Cardio',
+};
+
+export const MUSCLE_OPTIONS = (Object.keys(MUSCLE_LABELS) as MuscleId[])
+  .map((id) => ({ id, label: MUSCLE_LABELS[id] }));
+
 export interface ExerciseCategory {
   id: string;
   label: string;
@@ -19,4 +30,5 @@ export const EXERCISE_CATEGORIES: ExerciseCategory[] = [
   { id: 'triceps', label: 'Tríceps', description: 'Extensión y fuerza de empuje', muscleIds: ['triceps'], color: '#A6E66B', side: 'back' },
   { id: 'antebrazos', label: 'Antebrazos', description: 'Agarre y fuerza de muñeca', muscleIds: ['antebrazo'], color: '#FF9BC8', side: 'front' },
   { id: 'abdominales', label: 'Abdominales', description: 'Core, control y transferencia', muscleIds: ['abdomen', 'oblicuos'], color: '#C78BFF', side: 'front' },
+  { id: 'cardio', label: 'Cardio', description: 'Resistencia cardiovascular', muscleIds: ['cardio'], color: '#FF8A3D', side: 'front' },
 ];

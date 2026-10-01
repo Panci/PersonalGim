@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   plateMedium: {
     width: 52,
     height: 52,
-    borderColor: '#34C759',
+    borderColor: COLORS.success,
   },
   plateSmall: {
     width: 44,

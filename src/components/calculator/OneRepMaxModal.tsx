@@ -89,11 +89,11 @@ export const OneRepMaxModal: React.FC = () => {
 
   const percentageTable = [
     { pct: 100, reps: '1', label: 'Fuerza Máxima (1RM)', color: '#FF453A' },
-    { pct: 95, reps: '2', label: 'Potencia y Fuerza', color: '#16C95B' },
+    { pct: 95, reps: '2', label: 'Potencia y Fuerza', color: COLORS.primary },
     { pct: 90, reps: '3-4', label: 'Fuerza Neural', color: '#FF9500' },
     { pct: 85, reps: '5-6', label: 'Fuerza / Hipertrofia Miofibrilar', color: '#FFCC00' },
-    { pct: 80, reps: '7-8', label: 'Hipertrofia Rango Pesado', color: '#34C759' },
-    { pct: 75, reps: '9-10', label: 'Hipertrofia Óptima Estándar', color: '#30D158' },
+    { pct: 80, reps: '7-8', label: 'Hipertrofia Rango Pesado', color: COLORS.success },
+    { pct: 75, reps: '9-10', label: 'Hipertrofia Óptima Estándar', color: COLORS.successBright },
     { pct: 70, reps: '11-12', label: 'Volumen y Tensión Mecánica', color: '#0A84FF' },
     { pct: 65, reps: '13-15', label: 'Resistencia a la Fuerza / Bombeo', color: '#5E5CE6' },
     { pct: 60, reps: '16-20', label: 'Capilarización y Recuperación', color: '#BF5AF2' },
@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   musclePill: {
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -591,11 +591,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   heroResultCard: {
-    backgroundColor: 'rgba(22, 201, 91, 0.08)',
+    backgroundColor: COLORS.primaryTint(0.08),
     borderRadius: 20,
     padding: 18,
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.3)',
+    borderColor: COLORS.primaryTint(0.3),
     marginBottom: 20,
   },
   heroTopRow: {
@@ -630,11 +630,11 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.4)',
+    borderColor: COLORS.primaryTint(0.4),
   },
   ratioText: {
     color: '#FFFFFF',
@@ -846,7 +846,7 @@ const styles = StyleSheet.create({
     borderColor: '#26262B',
   },
   pickerExerciseItemActive: {
-    backgroundColor: 'rgba(22, 201, 91, 0.12)',
+    backgroundColor: COLORS.primaryTint(0.12),
     borderColor: COLORS.primary,
   },
   pickerExLeft: {
@@ -882,7 +882,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   pickerExMuscleBadge: {
-    backgroundColor: 'rgba(22, 201, 91, 0.18)',
+    backgroundColor: COLORS.primaryTint(0.18),
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,

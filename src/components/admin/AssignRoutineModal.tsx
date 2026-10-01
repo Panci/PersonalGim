@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
   routineItemActive: {
     borderColor: COLORS.primary,
-    backgroundColor: 'rgba(22, 201, 91, 0.1)',
+    backgroundColor: COLORS.primaryTint(0.1),
   },
   routineTitle: {
     color: '#FFFFFF',

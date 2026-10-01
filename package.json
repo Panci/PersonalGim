@@ -36,6 +36,7 @@
     "library:pack": "node scripts/exercise-library.mjs pack",
     "api:local": "npm --prefix server run local",
     "scrape:smartworkout": "node scripts/scrape-smartworkout.mjs",
+    "library:classify": "node scripts/classify-exercises.mjs",
     "dev:api-proxy": "node scripts/local-api-proxy.mjs"
   },
   "private": true

@@ -10,6 +10,34 @@ export const LEGACY_ORANGE_PALETTE = {
   textOrange: '#FF7A1A',
 } as const;
 
+export const GREEN_PALETTE = {
+  primary: '#16C95B',
+  primaryLight: '#4BE77C',
+  primaryDark: '#0C9842',
+  primaryHighlight: '#65EE91',
+  primaryRgb: '22, 201, 91',
+  textOrange: '#35DD6E',
+  success: '#34C759',
+  successBright: '#30D158',
+  successRgb: '52, 199, 89',
+} as const;
+
+export const RED_PALETTE = {
+  primary: '#FF0000',
+  primaryLight: '#FF4D4D',
+  primaryDark: '#B80000',
+  primaryHighlight: '#FF7373',
+  primaryRgb: '255, 0, 0',
+  textOrange: '#FF4D4D',
+  success: '#FF0000',
+  successBright: '#FF3333',
+  successRgb: '255, 0, 0',
+} as const;
+
+// Docker builds select the red brand; green remains available as a build option.
+export const IS_RED_BRAND = process.env.EXPO_PUBLIC_BRAND_THEME === 'red';
+const brand = IS_RED_BRAND ? RED_PALETTE : GREEN_PALETTE;
+
 export const COLORS = {
   // Backgrounds
   background: '#000000',      // AMOLED Pure Black
@@ -18,24 +46,25 @@ export const COLORS = {
   surfaceHighlight: '#2C2C2E',// Hover/active state on cards
   
   // Brand / Accents
-  // Neon green accent inspired by the supplied reference image. The slightly
-  // deeper tone keeps white labels readable on filled buttons and cards.
-  primary: '#16C95B',
-  primaryLight: '#4BE77C',
-  primaryDark: '#0C9842',
-  primaryMuted: 'rgba(22, 201, 91, 0.15)',
+  primary: brand.primary,
+  primaryLight: brand.primaryLight,
+  primaryDark: brand.primaryDark,
+  primaryHighlight: brand.primaryHighlight,
+  primaryMuted: `rgba(${brand.primaryRgb}, 0.15)`,
+  primaryTint: (opacity: number) => `rgba(${brand.primaryRgb}, ${opacity})`,
+  workoutOrange: '#FF7E00', // Sampled from the supplied orange reference.
 
   // Text
   text: '#FFFFFF',            // High contrast white
   textSecondary: '#A1A1A6',   // Clean medium gray for labels and metadata
   textMuted: '#636366',       // Muted gray for inactive icons and placeholders
-  textOrange: '#35DD6E',      // Green text for actions/links
+  textOrange: brand.textOrange, // Accent text for actions/links
 
   // Day Badges (from IMG_1171.PNG)
   dayBadges: {
     lun: '#DDA700',           // Amber / Gold (Lunes)
     mar: '#E91E63',           // Magenta / Red (Martes)
-    mie: '#00C853',           // Emerald Green (Miércoles)
+    mie: IS_RED_BRAND ? '#FF0000' : '#00C853', // Miércoles
     jue: '#AB47BC',           // Purple / Violet (Jueves)
     vie: '#00BCD4',           // Cyan / Sky Blue (Viernes)
     sab: '#2979FF',           // Electric Blue (Sábado)
@@ -44,14 +73,16 @@ export const COLORS = {
 
   // Set Types
   setTypes: {
-    normal: '#16C95B',
+    normal: brand.primary,
     warmup: '#F59E0B',
     drop: '#EC4899',
     failure: '#EF4444',
   },
 
   // Functional Status
-  success: '#34C759',
+  success: brand.success,
+  successBright: brand.successBright,
+  successTint: (opacity: number) => `rgba(${brand.successRgb}, ${opacity})`,
   danger: '#FF3B30',
   warning: '#FFCC00',
   info: '#0A84FF',

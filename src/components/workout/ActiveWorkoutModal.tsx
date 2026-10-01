@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
-import { COLORS } from '../../theme/colors';
+import { COLORS, GREEN_PALETTE, IS_RED_BRAND } from '../../theme/colors';
 import { Exercise } from '../../types';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { primeRestTimerAudio, RestTimerBar } from './RestTimerBar';
@@ -22,6 +22,8 @@ import { ExerciseMovementPreview } from '../exercise/ExerciseMovementPreview';
 import { ExerciseIllustration } from '../exercise/ExerciseIllustration';
 
 const KEEP_AWAKE_TAG = 'personal-gym-active-workout';
+const WORKOUT_FINISH_COLOR = IS_RED_BRAND ? COLORS.primary : COLORS.workoutOrange;
+const WORKOUT_FINISH_TEXT_COLOR = IS_RED_BRAND ? '#FFFFFF' : '#111111';
 
 export const ActiveWorkoutModal: React.FC = () => {
   const {
@@ -358,7 +360,7 @@ export const ActiveWorkoutModal: React.FC = () => {
 
                     {/* Direct keyboard entry for weight and repetitions. */}
                       <TextInput
-                        style={[styles.setValueInput, editingCell?.exerciseIndex === exIndex && editingCell.setIndex === sIndex && editingCell.field === 'weight' && styles.setValueInputFocused]}
+                        style={[styles.setValueInput, s.isCompleted && styles.setValueInputCompleted, editingCell?.exerciseIndex === exIndex && editingCell.setIndex === sIndex && editingCell.field === 'weight' && styles.setValueInputFocused]}
                         value={
                           editingCell?.exerciseIndex === exIndex &&
                           editingCell.setIndex === sIndex &&
@@ -380,7 +382,7 @@ export const ActiveWorkoutModal: React.FC = () => {
                         accessibilityLabel={`Peso de la serie ${s.setNumber}`}
                       />
                       <TextInput
-                        style={[styles.setValueInput, editingCell?.exerciseIndex === exIndex && editingCell.setIndex === sIndex && editingCell.field === 'reps' && styles.setValueInputFocused]}
+                        style={[styles.setValueInput, s.isCompleted && styles.setValueInputCompleted, editingCell?.exerciseIndex === exIndex && editingCell.setIndex === sIndex && editingCell.field === 'reps' && styles.setValueInputFocused]}
                         value={
                           editingCell?.exerciseIndex === exIndex &&
                           editingCell.setIndex === sIndex &&
@@ -413,7 +415,7 @@ export const ActiveWorkoutModal: React.FC = () => {
                       <Ionicons
                         name={s.isCompleted ? 'checkmark' : 'checkmark-circle-outline'}
                         size={17}
-                        color={s.isCompleted ? '#FFFFFF' : '#A1A1A6'}
+                        color={s.isCompleted ? '#FFFFFF' : WORKOUT_FINISH_TEXT_COLOR}
                       />
                       <Text style={[styles.checkboxLabel, s.isCompleted && styles.checkboxLabelCompleted]}>
                         {s.isCompleted ? 'Realizada' : 'Realizar'}
@@ -457,7 +459,7 @@ export const ActiveWorkoutModal: React.FC = () => {
             accessibilityRole="button"
             accessibilityLabel="Finalizar entrenamiento"
           >
-            <Ionicons name="checkmark-done" size={22} color="#111111" style={{ marginRight: 8 }} />
+            <Ionicons name="checkmark-done" size={22} color={WORKOUT_FINISH_TEXT_COLOR} style={{ marginRight: 8 }} />
             <Text style={styles.finishBtnText}>Finalizar Entrenamiento</Text>
           </TouchableOpacity>
         </View>
@@ -589,7 +591,7 @@ export const ActiveWorkoutModal: React.FC = () => {
                     </View>
                     {selectedExercise.secondaryMuscles.length > 0 && (
                       <View style={styles.exerciseInfoPill}>
-                        <Ionicons name="people-outline" size={14} color="#34C759" />
+                        <Ionicons name="people-outline" size={14} color={COLORS.success} />
                         <Text style={styles.exerciseInfoPillText}>
                           Secundarios: {selectedExercise.secondaryMuscles.join(', ')}
                         </Text>
@@ -631,7 +633,7 @@ export const ActiveWorkoutModal: React.FC = () => {
                       <View style={styles.exerciseInfoGuidanceList}>
                         {(selectedExercise.indications || []).map((indication, index) => (
                           <View key={`${selectedExercise.id}-active-indication-${index}`} style={styles.exerciseInfoGuidanceRow}>
-                            <Ionicons name="checkmark-circle-outline" size={18} color="#34C759" />
+                            <Ionicons name="checkmark-circle-outline" size={18} color={COLORS.success} />
                             <Text style={styles.exerciseInfoGuidanceText}>{indication}</Text>
                           </View>
                         ))}
@@ -861,7 +863,7 @@ const styles = StyleSheet.create({
     borderColor: '#2A2A2E',
   },
   currentExerciseCard: {
-    borderColor: 'rgba(22, 201, 91, 0.62)',
+    borderColor: COLORS.primaryTint(0.62),
     backgroundColor: '#202024',
   },
   exerciseCardHeader: {
@@ -880,7 +882,7 @@ const styles = StyleSheet.create({
     width: 144,
     height: 116,
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.5)',
+    borderColor: COLORS.primaryTint(0.5),
   },
   exerciseCardTitle: {
     flex: 1,
@@ -940,7 +942,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   setRowCompleted: {
-    backgroundColor: 'rgba(52, 199, 89, 0.08)',
+    backgroundColor: `rgba(${GREEN_PALETTE.successRgb}, 0.08)`,
     borderRadius: 10,
   },
   setNumBadge: {
@@ -967,8 +969,13 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     textAlign: 'center',
   },
+  setValueInputCompleted: {
+    backgroundColor: COLORS.workoutOrange,
+    borderColor: COLORS.workoutOrange,
+    color: '#111111',
+  },
   setValueInputFocused: {
-    borderColor: '#F97316',
+    borderColor: COLORS.workoutOrange,
     borderWidth: 2,
   },
   est1RMText: {
@@ -983,7 +990,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: '#3E3E44',
+    backgroundColor: WORKOUT_FINISH_COLOR,
+    borderColor: WORKOUT_FINISH_COLOR,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -991,11 +999,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   checkboxCompleted: {
-    backgroundColor: COLORS.success,
-    borderColor: COLORS.success,
+    backgroundColor: GREEN_PALETTE.success,
+    borderColor: GREEN_PALETTE.success,
   },
   checkboxLabel: {
-    color: '#A1A1A6',
+    color: WORKOUT_FINISH_TEXT_COLOR,
     fontSize: 10,
     fontWeight: '700',
   },
@@ -1039,19 +1047,19 @@ const styles = StyleSheet.create({
   },
   finishBtn: {
     flexDirection: 'row',
-    backgroundColor: '#F97316',
+    backgroundColor: WORKOUT_FINISH_COLOR,
     paddingVertical: 16,
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#F97316',
+    shadowColor: WORKOUT_FINISH_COLOR,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
     shadowRadius: 10,
     elevation: 8,
   },
   finishBtnText: {
-    color: '#111111',
+    color: WORKOUT_FINISH_TEXT_COLOR,
     fontSize: 16,
     fontWeight: '800',
   },
@@ -1106,13 +1114,13 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 46,
     borderRadius: 11,
-    backgroundColor: '#F97316',
+    backgroundColor: WORKOUT_FINISH_COLOR,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 7,
   },
   finishConfirmationAcceptText: {
-    color: '#111111',
+    color: WORKOUT_FINISH_TEXT_COLOR,
     fontSize: 14,
     fontWeight: '800',
     textAlign: 'center',
@@ -1211,7 +1219,7 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     borderRadius: 11,
-    backgroundColor: 'rgba(22, 201, 91, 0.18)',
+    backgroundColor: COLORS.primaryTint(0.18),
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 8,
@@ -1231,9 +1239,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(22, 201, 91, 0.16)',
+    backgroundColor: COLORS.primaryTint(0.16),
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.55)',
+    borderColor: COLORS.primaryTint(0.55),
     borderRadius: 12,
     paddingVertical: 12,
     marginTop: 18,
@@ -1364,7 +1372,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
   },
   pickerOptionName: {
     color: '#FFFFFF',

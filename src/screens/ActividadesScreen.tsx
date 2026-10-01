@@ -18,13 +18,13 @@ import { formatWorkoutTime, getCompletedRestSeconds } from '../utils/workoutMetr
 const MUSCLE_DISPLAY: Record<string, { name: string; color: string }> = {
   pectoral: { name: 'Pectorales', color: COLORS.primary },
   biceps: { name: 'Bíceps', color: '#FFA066' },
-  hombros: { name: 'Hombros', color: '#34C759' },
+  hombros: { name: 'Hombros', color: COLORS.success },
   oblicuos: { name: 'Oblicuos', color: '#AF52DE' },
   abdomen: { name: 'Abdomen', color: '#0A84FF' },
   antebrazo: { name: 'Antebrazo', color: '#64D2FF' },
   cuadriceps: { name: 'Cuádriceps', color: '#0A84FF' },
-  abductores: { name: 'Abductores', color: '#30D158' },
-  adductores: { name: 'Aductores', color: '#30D158' },
+  abductores: { name: 'Abductores', color: COLORS.successBright },
+  adductores: { name: 'Aductores', color: COLORS.successBright },
   cardio: { name: 'Cardio', color: '#FF9F0A' },
   trapecio: { name: 'Trapecio', color: '#BF5AF2' },
   triceps: { name: 'Tríceps', color: COLORS.primary },
@@ -192,7 +192,7 @@ export const ActividadesScreen: React.FC = () => {
             </Text>
             <View style={styles.latestSessionMetrics}>
               <View style={styles.latestSessionMetric}>
-                <Ionicons name="time-outline" size={15} color="#34C759" />
+                <Ionicons name="time-outline" size={15} color={COLORS.success} />
                 <Text style={styles.latestSessionMetricValue}>{formatWorkoutTime(latestSession.durationSeconds)}</Text>
                 <Text style={styles.latestSessionMetricLabel}>Duración</Text>
               </View>
@@ -249,7 +249,7 @@ export const ActividadesScreen: React.FC = () => {
           {/* Card 1: Tiempo de entrenamiento */}
           <View style={styles.kpiCard}>
             <View style={styles.kpiTopRow}>
-              <Ionicons name="time-outline" size={16} color="#34C759" />
+              <Ionicons name="time-outline" size={16} color={COLORS.success} />
               <Text style={styles.kpiLabel}>Tiempo de entrenamiento</Text>
             </View>
             <Text style={styles.kpiMainValue}>{stats.trainingTimeFormatted}</Text>
@@ -259,7 +259,7 @@ export const ActividadesScreen: React.FC = () => {
                 <Path
                   d="M 0 22 Q 25 8, 50 16 T 100 4"
                   fill="none"
-                  stroke="#34C759"
+                  stroke={COLORS.success}
                   strokeWidth="2.5"
                   strokeLinecap="round"
                 />
@@ -562,7 +562,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     padding: 16,
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.42)',
+    borderColor: COLORS.primaryTint(0.42),
     marginBottom: 20,
   },
   latestSessionHeader: {

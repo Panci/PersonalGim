@@ -13,9 +13,11 @@ import {
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '../auth/AuthProvider';
 import { isValidPin, normalizePin, PIN_LENGTH } from '../auth/pin';
-import { COLORS } from '../theme/colors';
+import { COLORS, IS_RED_BRAND } from '../theme/colors';
 
-const personalGimLogo = require('../../assets/personalgim-logo.jpeg');
+const personalGimLogo = IS_RED_BRAND
+  ? require('../../assets/personalgim-logo-red.png')
+  : require('../../assets/personalgim-logo.jpeg');
 
 const roles = [
   { role: 'Administrador', description: 'Gestiona usuarios, rutinas y analítica.', icon: 'shield-account' },

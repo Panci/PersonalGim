@@ -82,16 +82,16 @@ const timerHarness = () => {
   return { tones, render, find };
 };
 
-test('rest countdown sounds once at ten seconds and twice at zero, with silence in between', () => {
+test('rest countdown sounds once at five seconds and twice at zero, with silence in between', () => {
   const timer = timerHarness();
-  for (let seconds = 60; seconds >= 11; seconds--) timer.render(seconds);
+  for (let seconds = 60; seconds >= 6; seconds--) timer.render(seconds);
   assert.equal(timer.tones.length, 0);
-  timer.render(10);
+  timer.render(5);
   assert.equal(timer.tones.length, 1);
-  timer.render(10, false);
-  timer.render(10, true);
+  timer.render(5, false);
+  timer.render(5, true);
   assert.equal(timer.tones.length, 1, 'pause/resume must not repeat the warning');
-  for (let seconds = 9; seconds >= 1; seconds--) timer.render(seconds);
+  for (let seconds = 4; seconds >= 1; seconds--) timer.render(seconds);
   assert.equal(timer.tones.length, 1);
   timer.render(0);
   assert.equal(timer.tones.length, 3);
@@ -109,12 +109,12 @@ test('skipping the last second does not sound the completion alert', () => {
   assert.equal(timer.tones.length, 0);
 });
 
-test('a new rest or an extended rest can warn at ten seconds again', () => {
+test('a new rest or an extended rest can warn at five seconds again', () => {
   const timer = timerHarness();
-  timer.render(11); timer.render(10);
-  timer.render(40); timer.render(11); timer.render(10);
+  timer.render(6); timer.render(5);
+  timer.render(35); timer.render(6); timer.render(5);
   assert.equal(timer.tones.length, 2);
   timer.render(1); timer.render(0);
-  timer.render(11); timer.render(10);
+  timer.render(6); timer.render(5);
   assert.equal(timer.tones.length, 5);
 });

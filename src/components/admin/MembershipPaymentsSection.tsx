@@ -293,7 +293,7 @@ export const MembershipPaymentsSection: React.FC = () => {
       <Text style={styles.introText}>Asigna y edita la cuota de cada socio, activa avisos dos días antes y controla los bloqueos por impago.</Text>
 
       <View style={[styles.whatsappBanner, whatsappConfigured ? styles.whatsappReady : styles.whatsappPending]}>
-        <Ionicons name={whatsappConfigured ? 'logo-whatsapp' : 'information-circle-outline'} size={19} color={whatsappConfigured ? '#34C759' : '#FF9F0A'} />
+        <Ionicons name={whatsappConfigured ? 'logo-whatsapp' : 'information-circle-outline'} size={19} color={whatsappConfigured ? COLORS.success : '#FF9F0A'} />
         <View style={styles.whatsappBannerText}>
           <Text style={styles.whatsappBannerTitle}>{whatsappConfigured ? 'Configuración de WhatsApp detectada' : 'WhatsApp automático pendiente de conexión'}</Text>
           <Text style={styles.whatsappBannerBody}>
@@ -500,7 +500,7 @@ export const MembershipPaymentsSection: React.FC = () => {
                   value={whatsappRemindersEnabled}
                   onValueChange={setWhatsappRemindersEnabled}
                   disabled={!editingMember?.phone && !whatsappRemindersEnabled}
-                  trackColor={{ false: '#48484A', true: 'rgba(22, 201, 91, 0.55)' }}
+                  trackColor={{ false: '#48484A', true: COLORS.primaryTint(0.55) }}
                   thumbColor={whatsappRemindersEnabled ? COLORS.primary : '#E5E5EA'}
                 />
               </View>
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
   sectionHeading: { color: '#8E8E93', fontSize: 11, fontWeight: '800', letterSpacing: 1, marginBottom: 7 },
   introText: { color: '#A1A1A6', fontSize: 13, lineHeight: 19, marginBottom: 14 },
   whatsappBanner: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, padding: 12, marginBottom: 14, borderRadius: 12, borderWidth: 1 },
-  whatsappReady: { backgroundColor: 'rgba(52, 199, 89, 0.08)', borderColor: 'rgba(52, 199, 89, 0.28)' },
+  whatsappReady: { backgroundColor: COLORS.successTint(0.08), borderColor: COLORS.successTint(0.28) },
   whatsappPending: { backgroundColor: 'rgba(255, 159, 10, 0.08)', borderColor: 'rgba(255, 159, 10, 0.28)' },
   whatsappBannerText: { flex: 1 },
   whatsappBannerTitle: { color: '#FFFFFF', fontSize: 12, fontWeight: '800' },
@@ -551,14 +551,14 @@ const styles = StyleSheet.create({
   summaryCard: { flex: 1, minWidth: 0, minHeight: 72, alignItems: 'center', justifyContent: 'center', padding: 8, borderRadius: 12, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2A2A2E' },
   summaryValue: { fontSize: 19, fontWeight: '800' },
   summaryLabel: { color: '#A1A1A6', fontSize: 10, textAlign: 'center', marginTop: 3 },
-  monthlyTotal: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 12, marginBottom: 12, borderRadius: 12, backgroundColor: 'rgba(22, 201, 91, 0.08)', borderWidth: 1, borderColor: 'rgba(22, 201, 91, 0.24)' },
+  monthlyTotal: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 12, marginBottom: 12, borderRadius: 12, backgroundColor: COLORS.primaryTint(0.08), borderWidth: 1, borderColor: COLORS.primaryTint(0.24) },
   monthlyTotalLabel: { flex: 1, color: '#C7C7CC', fontSize: 12 },
   monthlyTotalValue: { color: '#FFFFFF', fontSize: 14, fontWeight: '800' },
   searchBar: { flexDirection: 'row', alignItems: 'center', height: 44, paddingHorizontal: 12, marginBottom: 10, borderRadius: 12, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2A2A2E' },
   searchInput: { flex: 1, color: '#FFFFFF', fontSize: 13, padding: 0 },
   filters: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginBottom: 12 },
   filterChip: { paddingVertical: 7, paddingHorizontal: 11, borderRadius: 18, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#333337' },
-  filterChipActive: { backgroundColor: 'rgba(22, 201, 91, 0.16)', borderColor: COLORS.primary },
+  filterChipActive: { backgroundColor: COLORS.primaryTint(0.16), borderColor: COLORS.primary },
   filterText: { color: '#A1A1A6', fontSize: 11, fontWeight: '700' },
   filterTextActive: { color: '#FFFFFF' },
   feedbackText: { color: COLORS.primary, fontSize: 12, marginBottom: 10 },
@@ -567,7 +567,7 @@ const styles = StyleSheet.create({
   memberIdentity: { flex: 1, minWidth: 0 },
   memberName: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
   memberMeta: { color: '#8E8E93', fontSize: 10, marginTop: 3 },
-  reminderEnabledText: { color: '#34C759', fontSize: 9, fontWeight: '700', marginTop: 3 },
+  reminderEnabledText: { color: COLORS.success, fontSize: 9, fontWeight: '700', marginTop: 3 },
   statusBadge: { flexDirection: 'row', alignItems: 'center', gap: 5, maxWidth: '54%', paddingHorizontal: 8, paddingVertical: 5, borderRadius: 20, borderWidth: 1 },
   statusDot: { width: 6, height: 6, borderRadius: 3 },
   statusText: { flexShrink: 1, fontSize: 10, fontWeight: '700' },
@@ -578,7 +578,7 @@ const styles = StyleSheet.create({
   infoLabel: { color: '#77777C', fontSize: 8, fontWeight: '800', letterSpacing: 0.3, marginBottom: 4 },
   infoValue: { color: '#F2F2F7', fontSize: 11, fontWeight: '700' },
   memberActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginTop: 10 },
-  configureButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, minHeight: 34, paddingHorizontal: 10, borderRadius: 9, backgroundColor: 'rgba(22, 201, 91, 0.1)', borderWidth: 1, borderColor: 'rgba(22, 201, 91, 0.3)' },
+  configureButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, minHeight: 34, paddingHorizontal: 10, borderRadius: 9, backgroundColor: COLORS.primaryTint(0.1), borderWidth: 1, borderColor: COLORS.primaryTint(0.3) },
   configureButtonText: { color: COLORS.primary, fontSize: 11, fontWeight: '700' },
   reminderButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, minHeight: 34, paddingHorizontal: 10, borderRadius: 9, backgroundColor: '#187A43' },
   reminderButtonText: { color: '#FFFFFF', fontSize: 11, fontWeight: '700' },

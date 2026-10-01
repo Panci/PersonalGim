@@ -1,6 +1,8 @@
 import { mkdir, readdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { classifyExercise } from './exercise-classification.mjs';
+import { writeExerciseData } from './exercise-catalogue.mjs';
 
 const projectRoot = join(fileURLToPath(new URL('.', import.meta.url)), '..');
 const sourceBase = 'https://smartworkout.app';
@@ -64,48 +66,6 @@ function localized(value) {
   return '';
 }
 
-const muscleForKey = (key) => {
-  const value = key.toUpperCase();
-  if (value.includes('PECTOR') || value.includes('CHEST')) return 'pectoral';
-  if (value.includes('BICEP')) return 'biceps';
-  if (value.includes('TRICEP')) return 'triceps';
-  if (value.includes('SHOULDER') || value.includes('DELTOID')) return 'hombros';
-  if (value.includes('LAT') || value.includes('DORSAL') || value.includes('BACK')) return 'dorsales';
-  if (value.includes('GLUTE')) return 'gluteos';
-  if (value.includes('HAMSTRING') || value.includes('ISCHIO')) return 'isquiotibiales';
-  if (value.includes('QUAD')) return 'cuadriceps';
-  if (value.includes('CALF') || value.includes('GASTROCNEMIUS') || value.includes('SOLEUS')) return 'pantorrillas';
-  if (value.includes('FOREARM')) return 'antebrazo';
-  if (value.includes('TRAP')) return 'trapecio';
-  if (value.includes('LUMBAR') || value.includes('ERECTOR')) return 'lumbares';
-  if (value.includes('OBLIQUE')) return 'oblicuos';
-  if (value.includes('ABS') || value.includes('ABDOM')) return 'abdomen';
-  return null;
-};
-
-function primaryMuscle(categorySlug, exerciseMuscles = {}) {
-  const category = decodeURIComponent(categorySlug);
-  const categoryDefault = {
-    pecho: 'pectoral', espalda: 'dorsales', hombros: 'hombros', glúteos: 'gluteos',
-    bíceps: 'biceps', tríceps: 'triceps', antebrazos: 'antebrazo', abdominales: 'abdomen',
-  }[category];
-  if (categoryDefault) return categoryDefault;
-  const candidates = Object.entries(exerciseMuscles)
-    .map(([key, score]) => ({ muscle: muscleForKey(key), score: Number(score) || 0 }))
-    .filter((item) => item.muscle && ['cuadriceps', 'isquiotibiales', 'gluteos', 'pantorrillas'].includes(item.muscle))
-    .sort((a, b) => b.score - a.score);
-  return candidates[0]?.muscle || 'cuadriceps';
-}
-
-function secondaryMuscles(primary, exerciseMuscles = {}) {
-  const totals = new Map();
-  for (const [key, score] of Object.entries(exerciseMuscles)) {
-    const muscle = muscleForKey(key);
-    if (muscle && muscle !== primary) totals.set(muscle, (totals.get(muscle) || 0) + (Number(score) || 0));
-  }
-  return [...totals.entries()].sort((a, b) => b[1] - a[1]).map(([muscle]) => muscle);
-}
-
 function equipmentFor(exercise) {
   const text = `${exercise.equipments || ''} ${exercise.weightType || ''} ${exercise.translations?.es || ''}`.toUpperCase();
   if (text.includes('BARBELL') || text.includes('BAR')) return 'barra';
@@ -136,8 +96,8 @@ function mediaUrls(exercise) {
   return [...new Map(entries.map(([kind, url]) => [url, { kind, url }])).values()];
 }
 
-function normalizedExercise(exercise, categorySlug, detailUrl) {
-  const primary = primaryMuscle(categorySlug, exercise.exerciseMuscles);
+function normalizedExercise(exercise, detailUrl) {
+  const classification = classifyExercise(exercise);
   const instructions = toTextList(exercise.instructions?.es ?? exercise.instructions);
   const tips = toTextList(exercise.tips?.es ?? exercise.tips);
   const commonMistakes = toTextList(exercise.commonMistakes?.es ?? exercise.commonMistakes);
@@ -148,8 +108,8 @@ function normalizedExercise(exercise, categorySlug, detailUrl) {
     sourceProvider: 'SmartWorkout',
     name: localized(exercise.translations) || exercise.name || 'Ejercicio sin nombre',
     englishName: exercise.translations?.en || undefined,
-    primaryMuscle: primary,
-    secondaryMuscles: secondaryMuscles(primary, exercise.exerciseMuscles),
+    ...classification,
+    sourceMuscles: exercise.exerciseMuscles,
     equipment: equipmentFor(exercise),
     description: localized(exercise.descriptions),
     instructions,
@@ -213,10 +173,10 @@ async function main() {
   existingAssets = new Map((await readdir(mediaDir)).map((filename) => [filename.split('.')[0], filename]));
   const links = await collectLinks();
   console.log(`[details] downloading ${links.length} exercise pages`);
-  const recordsWithDuplicates = (await mapWithConcurrency(links, 8, async ({ category, url }, index) => {
+  const recordsWithDuplicates = (await mapWithConcurrency(links, 8, async ({ url }, index) => {
     try {
       const props = pageProps(await fetchText(url));
-      const record = normalizedExercise(props.exercise, category.slug, url);
+      const record = normalizedExercise(props.exercise, url);
       if (index % 25 === 0 || index === links.length - 1) console.log(`[details] ${index + 1}/${links.length}`);
       return record;
     } catch (error) {
@@ -256,29 +216,7 @@ async function main() {
   };
   await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 
-  const tsRecords = records.map((record) => ({
-    id: `smartworkout-${record.sourceId}`,
-    name: record.name,
-    primaryMuscle: record.primaryMuscle,
-    secondaryMuscles: record.secondaryMuscles,
-    equipment: record.equipment,
-    instructions: record.instructions.join(' '),
-    description: record.description,
-    executionSteps: record.instructions,
-    indications: record.tips,
-    tips: record.tips,
-    commonMistakes: record.commonMistakes,
-    movementPattern: record.movementPattern,
-    imageUrl: record.imageUrl,
-    videoUrl: record.videoUrl,
-    localImagePath: record.localImagePath,
-    localVideoPath: record.localVideoPath,
-    sourceUrl: record.sourceUrl,
-    sourceProvider: record.sourceProvider,
-    isFavorite: false,
-    isCustom: false,
-  }));
-  await writeFile(generatedDataPath, `import { Exercise } from '../types';\n\n// Generated by scripts/scrape-smartworkout.mjs. Source: ${sourceBase}\nexport const SMARTWORKOUT_EXERCISES: Exercise[] = ${JSON.stringify(tsRecords, null, 2)};\n`, 'utf8');
+  await writeExerciseData(generatedDataPath, records);
   console.log(`[done] ${records.length} exercises and ${downloaded.length} assets written to ${outDir}`);
 }
 

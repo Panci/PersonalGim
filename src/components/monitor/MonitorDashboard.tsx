@@ -52,7 +52,7 @@ export const MonitorDashboard: React.FC = () => {
             <Text style={styles.metricLabel}>Socios activos</Text>
           </View>
           <View style={styles.metricCard}>
-            <MaterialCommunityIcons name="door-open" size={22} color="#34C759" />
+            <MaterialCommunityIcons name="door-open" size={22} color={COLORS.success} />
             <Text style={styles.metricNumber}>{currentlyTraining.size}</Text>
             <Text style={styles.metricLabel}>En sala ahora</Text>
           </View>
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   title: { color: '#FFFFFF', fontSize: 25, fontWeight: '900', maxWidth: 275, marginTop: 5, lineHeight: 31 },
   logoutButton: { width: 42, height: 42, borderRadius: 13, backgroundColor: '#28282C', alignItems: 'center', justifyContent: 'center' },
   metrics: { flexDirection: 'row', gap: 9, marginBottom: 28 },
-  libraryButton: { minHeight: 67, flexDirection: 'row', alignItems: 'center', gap: 11, marginBottom: 24, paddingHorizontal: 14, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(22,201,91,0.5)', backgroundColor: 'rgba(22,201,91,0.08)' },
+  libraryButton: { minHeight: 67, flexDirection: 'row', alignItems: 'center', gap: 11, marginBottom: 24, paddingHorizontal: 14, borderRadius: 16, borderWidth: 1, borderColor: COLORS.primaryTint(0.5), backgroundColor: COLORS.primaryTint(0.08) },
   libraryButtonTitle: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
   libraryButtonDetail: { color: '#A1A1A6', fontSize: 12, marginTop: 3 },
   metricCard: { flex: 1, minHeight: 116, borderRadius: 17, padding: 12, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#303036' },
@@ -125,14 +125,14 @@ const styles = StyleSheet.create({
   sectionTitle: { color: '#FFFFFF', fontSize: 20, fontWeight: '800', marginBottom: 12 },
   sectionHint: { color: '#8E8E93', fontSize: 12, lineHeight: 17, marginTop: -4, marginBottom: 12 },
   memberRow: { minHeight: 70, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, marginBottom: 9, backgroundColor: '#1C1C1E', borderRadius: 16, borderWidth: 1, borderColor: '#2C2C30' },
-  memberAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(22,201,91,0.18)', alignItems: 'center', justifyContent: 'center' },
+  memberAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: COLORS.primaryTint(0.18), alignItems: 'center', justifyContent: 'center' },
   memberInitial: { color: COLORS.primary, fontSize: 17, fontWeight: '800' },
   memberInfo: { flex: 1, marginLeft: 11 },
   memberName: { color: '#FFFFFF', fontSize: 14, fontWeight: '700' },
   memberDetail: { color: '#8E8E93', fontSize: 11, marginTop: 3 },
   memberRoutineAction: { flexDirection: 'row', alignItems: 'center', marginLeft: 8, gap: 2 },
   memberRoutineActionText: { color: COLORS.primary, fontSize: 11, fontWeight: '700' },
-  inGymBadge: { paddingHorizontal: 8, paddingVertical: 5, borderRadius: 7, backgroundColor: 'rgba(52,199,89,0.16)' },
-  inGymText: { color: '#34C759', fontSize: 9, fontWeight: '800' },
+  inGymBadge: { paddingHorizontal: 8, paddingVertical: 5, borderRadius: 7, backgroundColor: COLORS.successTint(0.16) },
+  inGymText: { color: COLORS.success, fontSize: 9, fontWeight: '800' },
   emptyText: { color: '#8E8E93', fontSize: 14, lineHeight: 20, paddingTop: 10 },
 });

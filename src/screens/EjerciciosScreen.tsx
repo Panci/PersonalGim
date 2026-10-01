@@ -16,7 +16,7 @@ import { Exercise, MuscleId, EquipmentType } from '../types';
 import { useWorkoutStore } from '../store/workoutStore';
 import { ExerciseIllustration } from '../components/exercise/ExerciseIllustration';
 import { AnatomyModel } from '../components/anatomy/AnatomyModel';
-import { EXERCISE_CATEGORIES, ExerciseCategory } from '../data/exerciseCategories';
+import { EXERCISE_CATEGORIES, ExerciseCategory, MUSCLE_OPTIONS } from '../data/exerciseCategories';
 
 export const EjerciciosScreen: React.FC = () => {
   const {
@@ -25,6 +25,7 @@ export const EjerciciosScreen: React.FC = () => {
     setSearchQuery,
     selectedMuscleFilter,
     setSelectedMuscleFilter,
+    selectMuscle,
     selectedEquipmentFilter,
     setSelectedEquipmentFilter,
     showFavoritesOnly,
@@ -83,22 +84,7 @@ export const EjerciciosScreen: React.FC = () => {
     return true;
   });
 
-  const muscleList: { id: MuscleId; label: string }[] = [
-    { id: 'pectoral', label: 'Pectoral' },
-    { id: 'biceps', label: 'Bíceps' },
-    { id: 'triceps', label: 'Tríceps' },
-    { id: 'hombros', label: 'Hombros' },
-    { id: 'dorsales', label: 'Espalda' },
-    { id: 'cuadriceps', label: 'Cuádriceps' },
-    { id: 'isquiotibiales', label: 'Femorales' },
-    { id: 'gluteos', label: 'Glúteos' },
-    { id: 'pantorrillas', label: 'Gemelos' },
-    { id: 'antebrazo', label: 'Antebrazo' },
-    { id: 'trapecio', label: 'Trapecio' },
-    { id: 'lumbares', label: 'Lumbares' },
-    { id: 'abdomen', label: 'Abdomen' },
-    { id: 'oblicuos', label: 'Oblicuos' },
-  ];
+  const muscleList = MUSCLE_OPTIONS;
 
   const equipmentList: { id: EquipmentType | 'todos'; label: string }[] = [
     { id: 'todos', label: 'Todos' },
@@ -107,6 +93,7 @@ export const EjerciciosScreen: React.FC = () => {
     { id: 'maquina', label: 'Máquinas' },
     { id: 'polea', label: 'Poleas' },
     { id: 'peso_corporal', label: 'Corporal' },
+    { id: 'cardio', label: 'Cardio' },
     { id: 'otro', label: 'Otro' },
   ];
 
@@ -143,6 +130,8 @@ export const EjerciciosScreen: React.FC = () => {
     setSelectedCategory(null);
     setSelectedMuscleFilter(null);
     setSelectedEquipmentFilter('todos');
+    setSearchQuery('');
+    if (showFavoritesOnly) toggleFavoritesFilter();
     setShowCategoryOverview(true);
   };
 
@@ -170,6 +159,10 @@ export const EjerciciosScreen: React.FC = () => {
             </Text>
           </View>
           <AnatomyModel showHeader={false} compact />
+          <TouchableOpacity style={styles.categoryCreateButton} onPress={() => selectMuscle('cardio')} activeOpacity={0.8}>
+            <MaterialCommunityIcons name="run-fast" size={19} color={COLORS.primary} />
+            <Text style={styles.categoryCreateText}>Ejercicios de cardio</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.categoryCreateButton} onPress={() => setShowCreateModal(true)} activeOpacity={0.8}>
             <Ionicons name="add" size={19} color={COLORS.primary} />
             <Text style={styles.categoryCreateText}>Crear ejercicio propio</Text>
@@ -262,6 +255,8 @@ export const EjerciciosScreen: React.FC = () => {
             {/* Muscle Group Indicator Pill matching IMG_1170.PNG */}
           <TouchableOpacity
             style={[styles.chip, styles.filterChipExpanded, selectedMuscleFilter !== null && styles.chipActive]}
+            accessibilityRole="button"
+            accessibilityLabel="Filtrar por grupo muscular"
             onPress={() => setShowMuscleModal(true)}
             activeOpacity={0.7}
           >
@@ -430,7 +425,7 @@ export const EjerciciosScreen: React.FC = () => {
                 </View>
                 {selectedExercise.secondaryMuscles.length > 0 && (
                   <View style={styles.detailPill}>
-                    <Ionicons name="people-outline" size={14} color="#34C759" />
+                    <Ionicons name="people-outline" size={14} color={COLORS.success} />
                     <Text style={styles.detailPillText}>
                       Secundarios: {selectedExercise.secondaryMuscles.join(', ')}
                     </Text>
@@ -465,7 +460,7 @@ export const EjerciciosScreen: React.FC = () => {
               <View style={styles.guidanceList}>
                 {(selectedExercise.indications || []).map((indication, index) => (
                   <View key={`${selectedExercise.id}-indication-${index}`} style={styles.guidanceRow}>
-                    <Ionicons name="checkmark-circle-outline" size={18} color="#34C759" />
+                    <Ionicons name="checkmark-circle-outline" size={18} color={COLORS.success} />
                     <Text style={styles.guidanceText}>{indication}</Text>
                   </View>
                 ))}
@@ -705,6 +700,8 @@ export const EjerciciosScreen: React.FC = () => {
                   <TouchableOpacity
                     key={m.id}
                     style={[styles.muscleSelectRow, isSelected && styles.muscleSelectRowActive]}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Ver ejercicios de ${m.label}`}
                     onPress={() => {
                       selectMuscleFilter(m.id);
                       setShowMuscleModal(false);
@@ -915,12 +912,12 @@ const styles = StyleSheet.create({
   createBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(22, 201, 91, 0.12)',
+    backgroundColor: COLORS.primaryTint(0.12),
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.3)',
+    borderColor: COLORS.primaryTint(0.3),
   },
   createBtnText: {
     color: COLORS.primary,
@@ -1203,7 +1200,7 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     borderRadius: 11,
-    backgroundColor: 'rgba(22, 201, 91, 0.18)',
+    backgroundColor: COLORS.primaryTint(0.18),
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1223,15 +1220,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: 'rgba(52, 199, 89, 0.14)',
+    backgroundColor: COLORS.successTint(0.14),
     paddingVertical: 12,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: 'rgba(52, 199, 89, 0.35)',
+    borderColor: COLORS.successTint(0.35),
     marginBottom: 12,
   },
   detailVideoBtnText: {
-    color: '#34C759',
+    color: COLORS.success,
     fontSize: 14,
     fontWeight: '800',
   },
@@ -1315,11 +1312,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
     paddingVertical: 12,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: 'rgba(22, 201, 91, 0.4)',
+    borderColor: COLORS.primaryTint(0.4),
     marginBottom: 10,
   },
   detailOneRmBtnText: {
@@ -1417,7 +1414,7 @@ const styles = StyleSheet.create({
     borderColor: '#323238',
   },
   muscleSelectRowActive: {
-    backgroundColor: 'rgba(22, 201, 91, 0.15)',
+    backgroundColor: COLORS.primaryTint(0.15),
     borderColor: COLORS.primary,
   },
   muscleSelectLeft: {

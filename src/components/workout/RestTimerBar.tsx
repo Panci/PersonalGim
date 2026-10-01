@@ -96,7 +96,7 @@ export const RestTimerBar: React.FC = () => {
   const [finishedBanner, setFinishedBanner] = useState(false);
   const previousSecondsRef = useRef(restSecondsLeft);
   const skippedTimerRef = useRef(false);
-  const tenSecondWarningPlayedRef = useRef(false);
+  const fiveSecondWarningPlayedRef = useRef(false);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
@@ -110,7 +110,7 @@ export const RestTimerBar: React.FC = () => {
     };
   }, [isRestTimerRunning, restSecondsLeft, tickRestTimer]);
 
-  // One warning at ten seconds, then two beeps when the countdown reaches zero.
+  // One warning at five seconds, then two beeps when the countdown reaches zero.
   useEffect(() => {
     const previousSeconds = previousSecondsRef.current;
     previousSecondsRef.current = restSecondsLeft;
@@ -118,19 +118,19 @@ export const RestTimerBar: React.FC = () => {
     // Starting/restarting a timer creates a new countdown cycle. This also
     // prevents a pause/resume from replaying the same second repeatedly.
     if (previousSeconds === 0 && restSecondsLeft > 0) {
-      tenSecondWarningPlayedRef.current = false;
+      fiveSecondWarningPlayedRef.current = false;
     }
 
-    if (restSecondsLeft > 10) {
-      tenSecondWarningPlayedRef.current = false;
+    if (restSecondsLeft > 5) {
+      fiveSecondWarningPlayedRef.current = false;
     }
 
     if (
       isRestTimerRunning &&
-      restSecondsLeft === 10 &&
-      !tenSecondWarningPlayedRef.current
+      restSecondsLeft === 5 &&
+      !fiveSecondWarningPlayedRef.current
     ) {
-      tenSecondWarningPlayedRef.current = true;
+      fiveSecondWarningPlayedRef.current = true;
       playBeep(1_000, 0.2, 0, 0.85);
     }
 
@@ -268,8 +268,8 @@ const styles = StyleSheet.create({
     shadowColor: '#FF453A',
   },
   finishedContainer: {
-    backgroundColor: '#34C759',
-    borderColor: '#34C759',
+    backgroundColor: COLORS.success,
+    borderColor: COLORS.success,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

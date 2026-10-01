@@ -63,7 +63,7 @@ export const WorkoutSessionDetailModal: React.FC<WorkoutSessionDetailModalProps>
             {/* KPI Ribbon */}
             <View style={styles.kpiRibbon}>
               <View style={styles.kpiItem}>
-                <Ionicons name="time-outline" size={16} color="#34C759" />
+                <Ionicons name="time-outline" size={16} color={COLORS.success} />
                 <Text style={styles.kpiVal}>{durationStr}</Text>
                 <Text style={styles.kpiLabel}>Duración</Text>
               </View>
@@ -137,7 +137,7 @@ export const WorkoutSessionDetailModal: React.FC<WorkoutSessionDetailModalProps>
                           <Ionicons
                             name={set.isCompleted ? 'checkmark-circle' : 'ellipse-outline'}
                             size={20}
-                            color={set.isCompleted ? '#34C759' : '#636366'}
+                            color={set.isCompleted ? COLORS.success : '#636366'}
                             style={{ alignSelf: 'center' }}
                           />
                         </View>
