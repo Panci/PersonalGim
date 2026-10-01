@@ -2,6 +2,16 @@
 
 Aplicación personal de gimnasio desarrollada con Expo.
 
+## Historial y valores personales de las rutinas
+
+Los pesos, repeticiones y series se conservan al confirmar la edición de una serie durante el entrenamiento. La siguiente sesión utiliza esos valores con las series pendientes de realizar. Los entrenamientos finalizados se guardan en el dispositivo y se sincronizan con la cuenta; si falla la conexión, se reintenta al volver a la aplicación, recuperar la conexión web o tocar el aviso del historial. Las peticiones repetidas no duplican sesiones.
+
+El descanso emite un pitido cuando quedan diez segundos y dos pitidos al finalizar la cuenta atrás. Pausar y reanudar no repite el aviso de diez segundos; omitir el descanso no activa el aviso final.
+
+El almacenamiento local se separa por cuenta. La primera cuenta que utiliza esta actualización conserva la copia local anterior, incluidos los entrenamientos pendientes de sincronizar. El catálogo integrado se reconstruye desde la aplicación; solo se guardan sus favoritos y los ejercicios personalizados, para dejar espacio al historial.
+
+Esta corrección requiere actualizar tanto la web como la API en Dokploy. Las comprobaciones locales se ejecutan con `node --test src/db/database.web.test.js src/db/database.native.test.js src/store/workoutStore.test.js src/utils/routineProgress.test.js src/components/workout/RestTimerBar.test.js server/tests/workout-sync.test.js server/tests/workout-postgres.test.js` y `npx tsc --noEmit`. La prueba de la API de producción utiliza el codificador real de PostgreSQL con una base simulada; no sustituye la comprobación posterior al despliegue contra PostgreSQL.
+
 ## Cuotas y avisos por WhatsApp
 
 La pestaña **Cuotas y Pagos** guarda una cuota y su vencimiento por socio. Al registrar un pago, se conserva el historial y el próximo vencimiento avanza un mes. Si pasan cinco días desde la fecha de vencimiento sin registrar el pago, la API bloquea el inicio de sesión y las peticiones del socio; al poner al día los pagos vencidos, el acceso se recupera.

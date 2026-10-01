@@ -69,16 +69,15 @@ const playBeep = (freq = 880, duration = 0.12, delay = 0, volume = 0.65) => {
 };
 
 const playFinishAlert = () => {
-  // A three-tone signal is easier to hear on a phone than one long beep.
+  // Two short, separated beeps announce the end of the rest period.
   playBeep(1_000, 0.2, 0, 0.85);
-  playBeep(1_300, 0.2, 0.26, 0.85);
-  playBeep(1_000, 0.5, 0.52, 0.85);
+  playBeep(1_000, 0.2, 0.32, 0.85);
 
   // Add haptic feedback where the browser or native runtime exposes it.
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
-    try { window.navigator.vibrate?.([180, 80, 260]); } catch {}
+    try { window.navigator.vibrate?.([180, 120, 180]); } catch {}
   } else {
-    try { Vibration.vibrate([0, 180, 80, 260]); } catch {}
+    try { Vibration.vibrate([0, 180, 120, 180]); } catch {}
   }
 };
 
@@ -97,7 +96,7 @@ export const RestTimerBar: React.FC = () => {
   const [finishedBanner, setFinishedBanner] = useState(false);
   const previousSecondsRef = useRef(restSecondsLeft);
   const skippedTimerRef = useRef(false);
-  const lastBeepedSecondRef = useRef<number | null>(null);
+  const tenSecondWarningPlayedRef = useRef(false);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
@@ -111,8 +110,7 @@ export const RestTimerBar: React.FC = () => {
     };
   }, [isRestTimerRunning, restSecondsLeft, tickRestTimer]);
 
-  // Sound every second in the final five seconds, followed by one long tone
-  // only when the countdown naturally reaches zero.
+  // One warning at ten seconds, then two beeps when the countdown reaches zero.
   useEffect(() => {
     const previousSeconds = previousSecondsRef.current;
     previousSecondsRef.current = restSecondsLeft;
@@ -120,21 +118,20 @@ export const RestTimerBar: React.FC = () => {
     // Starting/restarting a timer creates a new countdown cycle. This also
     // prevents a pause/resume from replaying the same second repeatedly.
     if (previousSeconds === 0 && restSecondsLeft > 0) {
-      lastBeepedSecondRef.current = null;
+      tenSecondWarningPlayedRef.current = false;
     }
 
-    if (restSecondsLeft > 5) {
-      lastBeepedSecondRef.current = null;
+    if (restSecondsLeft > 10) {
+      tenSecondWarningPlayedRef.current = false;
     }
 
     if (
       isRestTimerRunning &&
-      restSecondsLeft > 0 &&
-      restSecondsLeft <= 5 &&
-      lastBeepedSecondRef.current !== restSecondsLeft
+      restSecondsLeft === 10 &&
+      !tenSecondWarningPlayedRef.current
     ) {
-      lastBeepedSecondRef.current = restSecondsLeft;
-      playBeep(restSecondsLeft === 1 ? 1_000 : 750, 0.16);
+      tenSecondWarningPlayedRef.current = true;
+      playBeep(1_000, 0.2, 0, 0.85);
     }
 
     if (previousSeconds === 1 && restSecondsLeft === 0 && !skippedTimerRef.current) {
@@ -219,6 +216,7 @@ export const RestTimerBar: React.FC = () => {
           <TouchableOpacity
             style={styles.controlBtn}
             onPress={isRestTimerRunning ? pauseRestTimer : resumeRestTimer}
+            accessibilityLabel={isRestTimerRunning ? 'Pausar descanso' : 'Reanudar descanso'}
             activeOpacity={0.7}
           >
             <Ionicons
@@ -230,6 +228,7 @@ export const RestTimerBar: React.FC = () => {
 
           <TouchableOpacity
             style={[styles.controlBtn, styles.skipBtn]}
+            accessibilityLabel="Omitir descanso"
             onPress={() => {
               skippedTimerRef.current = true;
               stopRestTimer();

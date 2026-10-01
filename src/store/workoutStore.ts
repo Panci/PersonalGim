@@ -92,29 +92,56 @@ const isValidSetValue = (value: number, max: number): boolean =>
 // session, mirror the whole routine catalogue to their account as well so a
 // browser restart, a cleared cache, or another device cannot lose it.
 let routineSyncChain: Promise<void> = Promise.resolve();
+let routineEditTimer: ReturnType<typeof setTimeout> | undefined;
+let accountGeneration = 0;
 let workoutSyncInFlight = false;
 let workoutSyncQueued = false;
 const syncCollectionsToServer = (): void => {
+  const generation = accountGeneration;
   setRoutineSyncPendingInDb(true);
   useWorkoutStore.setState({ routineSyncStatus: 'syncing' });
   routineSyncChain = routineSyncChain
     .catch(() => undefined)
     .then(async () => {
+      if (generation !== accountGeneration) return;
       const token = await getAuthToken();
       if (!token) throw new Error('Inicia sesión para sincronizar la rutina.');
+      if (generation !== accountGeneration) return;
       const snapshot = getCollectionsFromDb();
       await saveRoutinesRequest(token, snapshot);
+      if (generation !== accountGeneration) return;
       if (JSON.stringify(snapshot) === JSON.stringify(getCollectionsFromDb())) {
         setRoutineSyncPendingInDb(false);
       }
       useWorkoutStore.setState({ routineSyncStatus: getRoutineSyncPendingFromDb() ? 'syncing' : 'idle' });
     });
   void routineSyncChain.catch((error) => {
+    if (generation !== accountGeneration) return;
     console.warn('Unable to sync routines to the server', error);
     useWorkoutStore.setState({ routineSyncStatus: 'error' });
   });
 };
 
+// Save committed inputs on the device immediately, even if the workout is
+// interrupted. Debounce only the network copy, never the local values.
+const rememberExerciseValues = (workout: WorkoutSession, exerciseIndex: number): void => {
+  if (!workout.routineId) return;
+  const log = workout.exercises[exerciseIndex];
+  const day = getRoutineDayDetailFromDb(workout.routineId);
+  const routineExercise = day?.exercises.find((item) => item.id === log?.routineExerciseId);
+  if (!day || !log || !routineExercise) return;
+  setRoutineSyncPendingInDb(true);
+  updateRoutineDayExerciseSets(day.id, routineExercise.id, log.sets, routineExercise.targetRestSeconds);
+  const collections = getCollectionsFromDb();
+  const selectedId = useWorkoutStore.getState().selectedCollection?.id;
+  useWorkoutStore.setState({
+    collections,
+    selectedCollection: collections.find((item) => item.id === selectedId) || null,
+    routineSyncStatus: 'syncing',
+  });
+  clearTimeout(routineEditTimer);
+  routineEditTimer = setTimeout(syncCollectionsToServer, 500);
+};
 
 
 interface WorkoutStoreState {
@@ -242,7 +269,7 @@ interface WorkoutStoreState {
   history: WorkoutSession[];
   workoutSyncStatus: 'idle' | 'syncing' | 'error';
   syncWorkouts: () => Promise<void>;
-  loadInitialData: () => Promise<void>;
+  loadInitialData: (userId?: string) => Promise<void>;
 }
 
 export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
@@ -505,30 +532,47 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     }));
   },
   syncRoutines: async () => {
-    set({ routineSyncStatus: 'syncing' });
-    try {
-      const token = await getAuthToken();
-      if (!token) throw new Error('Inicia sesión para sincronizar las rutinas.');
-      await routineSyncChain.catch(() => undefined);
-      const remoteCollections = await getRoutinesRequest(token);
-      const localCollections = getCollectionsFromDb();
-      if (getRoutineSyncPendingFromDb()) {
-        await saveRoutinesRequest(token, localCollections);
-        setRoutineSyncPendingInDb(false);
-        set({ collections: localCollections, routineSyncStatus: 'idle' });
-        return;
+    const generation = accountGeneration;
+    routineSyncChain = routineSyncChain.catch(() => undefined).then(async () => {
+      if (generation !== accountGeneration) return;
+      set({ routineSyncStatus: 'syncing' });
+      try {
+        const token = await getAuthToken();
+        if (!token) throw new Error('Inicia sesión para sincronizar las rutinas.');
+        if (generation !== accountGeneration) return;
+        const remoteCollections = await getRoutinesRequest(token);
+        if (generation !== accountGeneration) return;
+        const localCollections = getCollectionsFromDb();
+        if (getRoutineSyncPendingFromDb()) {
+          await saveRoutinesRequest(token, localCollections);
+          if (generation !== accountGeneration) return;
+          if (JSON.stringify(localCollections) === JSON.stringify(getCollectionsFromDb())) {
+            setRoutineSyncPendingInDb(false);
+          }
+          set({ collections: getCollectionsFromDb(), routineSyncStatus: getRoutineSyncPendingFromDb() ? 'syncing' : 'idle' });
+          return;
+        }
+        if (remoteCollections.length === 0) {
+          if (localCollections.length > 0) await saveRoutinesRequest(token, localCollections);
+          if (generation !== accountGeneration) return;
+          set({ routineSyncStatus: getRoutineSyncPendingFromDb() ? 'syncing' : 'idle' });
+          return;
+        }
+        replaceCollectionsInDb(remoteCollections);
+        const collections = getCollectionsFromDb();
+        const selectedId = get().selectedCollection?.id;
+        const selectedDayId = get().selectedDay?.id;
+        set({ collections, routineSyncStatus: 'idle',
+          selectedCollection: collections.find((item) => item.id === selectedId) || null,
+          selectedDay: collections.flatMap((item) => item.days).find((item) => item.id === selectedDayId) || null,
+        });
+      } catch (error) {
+        if (generation !== accountGeneration) return;
+        set({ routineSyncStatus: 'error' });
+        throw error;
       }
-      if (remoteCollections.length === 0) {
-        if (localCollections.length > 0) await saveRoutinesRequest(token, localCollections);
-        set({ routineSyncStatus: 'idle' });
-        return;
-      }
-      replaceCollectionsInDb(remoteCollections);
-      set({ collections: getCollectionsFromDb(), routineSyncStatus: 'idle' });
-    } catch (error) {
-      set({ routineSyncStatus: 'error' });
-      throw error;
-    }
+    });
+    await routineSyncChain;
   },
 
   // Body & Measurements
@@ -682,6 +726,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       return {
         id: createId('w-log'),
         workoutId,
+        routineExerciseId: re.id,
         exerciseId: re.exerciseId,
         exerciseName: exObj ? exObj.name : 'Ejercicio',
         primaryMuscle: exObj ? exObj.primaryMuscle : 'pectoral',
@@ -793,6 +838,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
         totalVolumeKg: calculateCompletedVolume(updatedExercises),
       },
     });
+    rememberExerciseValues({ ...active, exercises: updatedExercises }, exerciseIndex);
   },
   addExerciseToActiveWorkout: (exerciseId) => {
     const active = get().activeWorkout;
@@ -869,6 +915,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
           exercises: updatedExercises,
         },
       });
+      rememberExerciseValues({ ...active, exercises: updatedExercises }, exerciseIndex);
     }
   },
   removeSetFromExercise: (exerciseIndex, setIndex) => {
@@ -891,10 +938,12 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
         totalVolumeKg: calculateCompletedVolume(updatedExercises),
       },
     });
+    rememberExerciseValues({ ...active, exercises: updatedExercises }, exerciseIndex);
   },
   finishActiveWorkout: () => {
     const active = get().activeWorkout;
     if (!active) return;
+    clearTimeout(routineEditTimer);
 
     const completedSession: WorkoutSession = {
       ...active,
@@ -991,6 +1040,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       return;
     }
     workoutSyncInFlight = true;
+    const generation = accountGeneration;
     set({ workoutSyncStatus: 'syncing' });
     try {
       const token = await getAuthToken();
@@ -999,6 +1049,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
         return;
       }
       const remote = await getWorkoutsRequest(token);
+      if (generation !== accountGeneration) return;
       const local = getWorkoutHistoryFromDb().filter((workout) => workout.isCompleted);
       const sameWorkout = (first: WorkoutSession, second: WorkoutSession) =>
         first.id === second.id || (first.startTime === second.startTime && first.name === second.name);
@@ -1008,9 +1059,11 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
       for (const workout of local) {
         if (!remote.some((item) => sameWorkout(item, workout))) {
           await saveWorkoutRequest(token, workout);
+          if (generation !== accountGeneration) return;
         }
       }
       const synced = await getWorkoutsRequest(token);
+      if (generation !== accountGeneration) return;
       const currentLocal = getWorkoutHistoryFromDb();
       for (const workout of synced) {
         if (!currentLocal.some((item) => sameWorkout(item, workout))) {
@@ -1023,6 +1076,7 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
         workoutSyncStatus: 'idle',
       });
     } catch (error) {
+      if (generation !== accountGeneration) return;
       console.warn('No se pudo sincronizar el historial de entrenamientos.', error);
       set({ workoutSyncStatus: 'error' });
     } finally {
@@ -1035,8 +1089,11 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
   },
 
   // Initial loader
-  loadInitialData: async () => {
-    await initDatabase();
+  loadInitialData: async (userId) => {
+    const generation = ++accountGeneration;
+    clearTimeout(routineEditTimer);
+    await initDatabase(userId);
+    if (generation !== accountGeneration) return;
     const exs = getExercisesFromDb();
     const cols = getCollectionsFromDb();
     const hist = getWorkoutHistoryFromDb();
@@ -1047,6 +1104,11 @@ export const useWorkoutStore = create<WorkoutStoreState>((set, get) => ({
     const atts = getAttendanceLogsFromDb();
 
     set({
+      selectedCollection: null, selectedDay: null, selectedWeekday: null,
+      activeWorkout: null, isWorkoutActive: false,
+      editingExercise: null, selectedMemberForDetail: null, routineTemplates: [],
+      restSecondsLeft: 0, isRestTimerRunning: false, statsRange: '7d',
+      workoutSyncStatus: 'idle', routineSyncStatus: 'idle',
       exercises: exs,
       collections: cols,
       history: hist,

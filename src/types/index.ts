@@ -124,6 +124,7 @@ export interface RoutineTemplate {
 export interface WorkoutExerciseLog {
   id: string;
   workoutId: string;
+  routineExerciseId?: string;
   exerciseId: string;
   exerciseName: string;
   primaryMuscle: MuscleId;

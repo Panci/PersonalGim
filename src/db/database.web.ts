@@ -24,6 +24,8 @@ type LocalState = {
 // exercise catalog remains available, while demo members, attendance,
 // workouts, measurements and routines are not seeded into new web sessions.
 const STORAGE_KEY = 'personalgim.local-data.v3';
+const LEGACY_OWNER_KEY = `${STORAGE_KEY}.owner`;
+let accountStorageKey = STORAGE_KEY;
 const LEGACY_STORAGE_KEY = 'personalgim.local-data.v2';
 const clone = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 const defaults = (): LocalState => ({
@@ -48,13 +50,21 @@ const validState = (value: unknown): value is LocalState => {
     Array.isArray(candidate.measurements) && Array.isArray(candidate.members) &&
     Array.isArray(candidate.attendance));
 };
+// The bundled catalogue (including descriptions and guidance) is several MB.
+// Store only custom exercises and favourite flags; reconstruct built-ins from
+// the bundle so account-specific data does not exhaust localStorage's quota.
+const storageState = (value: LocalState) => ({
+  ...value,
+  exercises: value.exercises.filter((exercise) => exercise.isCustom || exercise.isFavorite)
+    .map((exercise) => exercise.isCustom ? exercise : { id: exercise.id, isFavorite: true, isCustom: false }),
+});
 const load = (): void => {
   if (loaded) return;
   loaded = true;
   if (!storageAvailable()) return;
   try {
-    const currentRaw = localStorage.getItem(STORAGE_KEY);
-    const raw = currentRaw || localStorage.getItem(LEGACY_STORAGE_KEY);
+    const currentRaw = localStorage.getItem(accountStorageKey);
+    const raw = currentRaw || (accountStorageKey === STORAGE_KEY ? localStorage.getItem(LEGACY_STORAGE_KEY) : null);
     if (!raw) return;
     const parsed: unknown = JSON.parse(raw);
     if (validState(parsed)) {
@@ -66,13 +76,13 @@ const load = (): void => {
         persist();
         return;
       }
-      const existingIds = new Set(parsed.exercises.map((exercise) => exercise.id));
-      const missingExercises = INITIAL_EXERCISES.filter((exercise) => !existingIds.has(exercise.id));
-      // Remove catalogue entries from pre-SmartWorkout builds while preserving
-      // exercises created by the user. This keeps an existing browser session
-      // in sync with the replacement library instead of appending to it.
-      const currentIds = new Set(INITIAL_EXERCISES.map((exercise) => exercise.id));
-      const retainedExercises = parsed.exercises.filter((exercise) => exercise.isCustom || currentIds.has(exercise.id));
+      const savedExercises = new Map(parsed.exercises.map((exercise) => [exercise.id, exercise]));
+      const exercises = [
+        ...INITIAL_EXERCISES.map((exercise) => withExerciseGuidance({
+          ...exercise, isFavorite: savedExercises.get(exercise.id)?.isFavorite ?? exercise.isFavorite,
+        })),
+        ...parsed.exercises.filter((exercise) => exercise.isCustom).map(withExerciseGuidance),
+      ];
       const targetWeightKg = typeof parsed.targetWeightKg === 'number' && Number.isFinite(parsed.targetWeightKg)
         ? parsed.targetWeightKg
         : null;
@@ -80,12 +90,10 @@ const load = (): void => {
         ...parsed,
         version: 3,
         targetWeightKg,
-        exercises: [...retainedExercises.map(withExerciseGuidance), ...missingExercises],
+        exercises,
       };
       if (
         parsed.version !== 3 ||
-        missingExercises.length > 0 ||
-        retainedExercises.length !== parsed.exercises.length ||
         parsed.targetWeightKg !== targetWeightKg
       ) persist();
     }
@@ -94,12 +102,35 @@ const load = (): void => {
 };
 const persist = (): void => {
   if (!storageAvailable()) return;
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  try { localStorage.setItem(accountStorageKey, JSON.stringify(storageState(state))); }
   catch (error) { console.warn('Unable to persist local PersonalGim data', error); }
 };
 const replaceById = <T extends { id: string }>(items: T[], value: T): T[] => [clone(value), ...items.filter(item => item.id !== value.id)];
 
-export const initDatabase = async (): Promise<void> => { load(); persist(); };
+export const initDatabase = async (userId?: string): Promise<void> => {
+  const nextKey = userId ? `${STORAGE_KEY}.user.${userId}` : STORAGE_KEY;
+  if (userId && storageAvailable() && !localStorage.getItem(LEGACY_OWNER_KEY)) {
+    // Claim the previous device copy once, preserving unsynced workouts.
+    // A later account starts in its own workspace rather than importing it.
+    const legacy = localStorage.getItem(STORAGE_KEY);
+    if (legacy && !localStorage.getItem(nextKey)) {
+      const parsed: unknown = JSON.parse(legacy);
+      if (validState(parsed)) {
+        const compact = JSON.stringify(storageState(parsed));
+        // Compact the existing key first to make room for the account copy.
+        localStorage.setItem(STORAGE_KEY, compact);
+        localStorage.setItem(nextKey, compact);
+      }
+    }
+    localStorage.setItem(LEGACY_OWNER_KEY, userId);
+  }
+  if (nextKey !== accountStorageKey) {
+    accountStorageKey = nextKey;
+    state = defaults();
+    loaded = false;
+  }
+  load(); persist();
+};
 export const getExercisesFromDb = (): Exercise[] => { load(); return clone(state.exercises.map(withExerciseGuidance)); };
 export const toggleFavoriteInDb = (exerciseId: string): boolean => {
   load(); const exercise = state.exercises.find(item => item.id === exerciseId);

@@ -6,6 +6,7 @@ import {
   StatusBar,
   ActivityIndicator,
   Platform,
+  AppState,
   Text,
   TouchableOpacity,
 } from 'react-native';
@@ -73,17 +74,21 @@ function AppShell() {
   });
 
   useEffect(() => {
+    if (isRestoring) return;
+    let cancelled = false;
+    setIsLoading(true);
     const init = async () => {
       try {
-        await loadInitialData();
+        await loadInitialData(session?.user.id);
       } catch (err) {
         console.error('Error initializing PersonalGim:', err);
       } finally {
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
     init();
-  }, []);
+    return () => { cancelled = true; };
+  }, [isRestoring, session?.user.id, loadInitialData]);
 
   useEffect(() => {
     if (!session || isLoading) return;
@@ -94,6 +99,22 @@ function AppShell() {
       void loadSharedGymData().catch((error) => console.warn('Error loading shared gym data:', error));
     }
   }, [session, isLoading, setCurrentRole, syncRoutines, syncWorkouts, loadSharedGymData]);
+
+  useEffect(() => {
+    if (!session || isLoading) return;
+    const retry = () => {
+      void syncRoutines().catch((error) => console.warn('Error synchronizing routines:', error));
+      void syncWorkouts();
+    };
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') retry();
+    });
+    if (Platform.OS === 'web') window.addEventListener('online', retry);
+    return () => {
+      subscription.remove();
+      if (Platform.OS === 'web') window.removeEventListener('online', retry);
+    };
+  }, [session, isLoading, syncRoutines, syncWorkouts]);
 
   if (isLoading || isRestoring) {
     return (

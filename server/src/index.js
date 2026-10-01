@@ -827,7 +827,7 @@ app.post('/api/workouts', authenticate, async (req, res) => {
   const { rows } = await pool.query(
     `INSERT INTO workout_sessions
       (user_id, client_id, routine_id, name, started_at, finished_at, duration_seconds, total_kcal, total_volume_kg, exercises)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::jsonb)
      ON CONFLICT (user_id, client_id) WHERE client_id IS NOT NULL DO NOTHING
      RETURNING *`,
     [
@@ -840,7 +840,9 @@ app.post('/api/workouts', authenticate, async (req, res) => {
       Math.max(0, Number(body.durationSeconds) || 0),
       Math.max(0, Number(body.totalKcal) || 0),
       Math.max(0, Number(body.totalVolumeKg) || 0),
-      Array.isArray(body.exercises) ? body.exercises : [],
+      // node-postgres encodes JS arrays as PostgreSQL arrays, not JSON.
+      // Serialize explicitly so JSONB receives the complete exercise logs.
+      JSON.stringify(Array.isArray(body.exercises) ? body.exercises : []),
     ],
   );
   if (rows[0]) return res.status(201).json({ workout: rows[0] });

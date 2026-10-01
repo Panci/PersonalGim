@@ -11,6 +11,7 @@ import { withExerciseGuidance } from '../data/exerciseGuidance';
 import { summarizeRoutineSets } from '../utils/routineProgress';
 
 let db: SQLite.SQLiteDatabase | null = null;
+let databaseName = 'personalgim.db';
 const clone = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 let fallbackExercises: Exercise[] = clone(INITIAL_EXERCISES);
 let fallbackCollections: RoutineCollection[] = [];
@@ -23,7 +24,7 @@ let fallbackAttendanceLogs: AttendanceRecord[] = [];
 
 export const getDb = (): SQLite.SQLiteDatabase | null => {
   if (!db) {
-    try { db = SQLite.openDatabaseSync('personalgim.db'); } catch (error) { console.warn('Unable to open local database', error); }
+    try { db = SQLite.openDatabaseSync(databaseName); } catch (error) { console.warn('Unable to open local database', error); }
   }
   return db;
 };
@@ -86,7 +87,29 @@ const saveMeasurement = (database: SQLite.SQLiteDatabase, record: BodyMeasuremen
 const saveMember = (database: SQLite.SQLiteDatabase, member: GymMember) => database.runSync('INSERT OR REPLACE INTO gym_members (id, fullName, email, phone, membershipNumber, enrollmentDate, status, objective, level, assignedRoutineId, assignedRoutineTitle, lastWorkoutDate, completedWorkoutsCount, currentWeightKg, avatarUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [member.id, member.fullName, member.email, nullable(member.phone), member.membershipNumber, member.enrollmentDate, member.status, member.objective, member.level, nullable(member.assignedRoutineId), nullable(member.assignedRoutineTitle), nullable(member.lastWorkoutDate), member.completedWorkoutsCount, nullable(member.currentWeightKg), nullable(member.avatarUrl)]);
 const saveAttendance = (database: SQLite.SQLiteDatabase, record: AttendanceRecord) => database.runSync('INSERT OR REPLACE INTO attendance_logs (id, member_id, member_name, membership_number, timestamp, type) VALUES (?, ?, ?, ?, ?, ?)', [record.id, record.memberId, record.memberName, record.membershipNumber, record.timestamp, record.type]);
 
-export const initDatabase = async (): Promise<void> => {
+export const initDatabase = async (userId?: string): Promise<void> => {
+  if (userId) {
+    let nextName = `personalgim-${encodeURIComponent(userId)}.db`;
+    try {
+      const legacy = databaseName === 'personalgim.db' && db ? db : SQLite.openDatabaseSync('personalgim.db');
+      try {
+        legacy.execSync('CREATE TABLE IF NOT EXISTS user_preferences (key TEXT PRIMARY KEY NOT NULL, value TEXT)');
+        const owner = legacy.getFirstSync<{ value: string }>('SELECT value FROM user_preferences WHERE key = ?', ['account_owner'])?.value;
+        if (!owner) legacy.runSync('INSERT INTO user_preferences (key, value) VALUES (?, ?)', ['account_owner', userId]);
+        if (!owner || owner === userId) nextName = 'personalgim.db';
+      } finally {
+        if (legacy !== db) legacy.closeSync();
+      }
+    } catch (error) { console.warn('Unable to migrate the previous account database', error); }
+    if (nextName !== databaseName) {
+      try { db?.closeSync(); } catch (error) { console.warn('Unable to close the previous account database', error); }
+      db = null;
+      databaseName = nextName;
+      fallbackExercises = clone(INITIAL_EXERCISES);
+      fallbackCollections = []; fallbackRoutineSyncPending = false; fallbackWorkouts = [];
+      fallbackBodyMeasurements = []; fallbackTargetWeightKg = null; fallbackGymMembers = []; fallbackAttendanceLogs = [];
+    }
+  }
   const database = getDb();
   if (!database) return;
   try {

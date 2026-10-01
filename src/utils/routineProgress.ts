@@ -25,7 +25,9 @@ export const applyWorkoutToRoutine = (
       if (day.id !== workout.routineId) return day;
       const unusedLogs = [...workout.exercises];
       const exercises = day.exercises.map((routineExercise) => {
-        const logIndex = unusedLogs.findIndex((log) => log.exerciseId === routineExercise.exerciseId);
+        const logIndex = unusedLogs.findIndex((log) => log.routineExerciseId
+          ? log.routineExerciseId === routineExercise.id
+          : log.exerciseId === routineExercise.exerciseId);
         if (logIndex < 0) return routineExercise;
         const [log] = unusedLogs.splice(logIndex, 1);
         if (!log.sets.length) return routineExercise;
