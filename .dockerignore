@@ -3,6 +3,10 @@
 .expo-*
 node_modules
 dist
+.verification-dist
+.verification-*
+.exercise-library-artifacts
+public/exercise-library/media
 .env
 .env.*
 server/node_modules

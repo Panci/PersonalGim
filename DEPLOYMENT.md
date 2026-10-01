@@ -10,6 +10,58 @@ La aplicación se despliega en tres contenedores dentro de la misma red Docker:
 
 PostgreSQL no publica ningún puerto hacia Internet. Solo el contenedor `api` puede conectarse a él, y Nginx expone el frontend y reenvía `/api` internamente al API.
 
+Las imágenes y vídeos de los ejercicios se sirven desde una carpeta persistente de la VPS, montada en `web` en modo lectura. No forman parte del contexto Docker ni de la exportación web. Las URLs existentes `/exercise-library/media/...` no cambian. El manifiesto y el catálogo de texto sí permanecen en Git.
+
+## Primera separación de la librería (antes del siguiente despliegue)
+
+Haz esta preparación mientras sigue funcionando la versión actual. La nueva web exige que estén presentes todos los recursos del manifiesto y no arranca si falta alguno. No despliegues el nuevo Compose hasta completar esta copia.
+
+1. En el equipo que conserva `public/exercise-library/media/`, ejecuta:
+
+   ```powershell
+   npm run library:check
+   npm run library:pack
+   ```
+
+   El paquete queda en `.exercise-library-artifacts/exercise-library.tar.gz`. Consérvalo también en la ubicación de copias de seguridad: los vídeos e imágenes dejan de estar versionados en el estado actual de Git. El historial antiguo no se modifica.
+
+2. Sube ese paquete a una carpeta temporal de la VPS mediante tu acceso SSH/SFTP habitual. Por ejemplo, desde PowerShell, sustituyendo `usuario@servidor` por el acceso real:
+
+   ```powershell
+   scp .exercise-library-artifacts/exercise-library.tar.gz usuario@servidor:/tmp/personalgim-exercise-library.tar.gz
+   ```
+
+3. En la VPS, descomprime en una carpeta temporal nueva y ejecuta el instalador. Este usa un contenedor Node y no requiere instalar Node en el servidor:
+
+   ```sh
+   SOURCE_DIR=$(mktemp -d /tmp/personalgim-library.XXXXXX)
+   EXERCISE_LIBRARY_PATH=/opt/personalgim/exercise-library
+   mkdir -p "$EXERCISE_LIBRARY_PATH"
+   tar -xzf /tmp/personalgim-exercise-library.tar.gz -C "$SOURCE_DIR"
+   docker run --rm \
+     --mount "type=bind,source=$SOURCE_DIR,target=/input,readonly" \
+     --mount "type=bind,source=$EXERCISE_LIBRARY_PATH,target=/output" \
+     node:24-alpine node /input/install-library.mjs sync /input /output
+   ```
+
+   El instalador comprueba SHA-256 y tamaño de todos los archivos antes de tocar el destino, copia solo los que cambian y conserva recursos anteriores para que sigan funcionando sesiones o versiones antiguas. La primera instalación debe indicar `copied: 3210` para el manifiesto actual (3209 recursos más el manifiesto); una segunda ejecución sin cambios indica `copied: 0`.
+
+4. En Dokploy añade `EXERCISE_LIBRARY_PATH=/opt/personalgim/exercise-library` al entorno del Compose. La ruta debe ser absoluta y pertenecer al mismo servidor que ejecuta `web`. El montaje no crea carpetas vacías automáticamente.
+
+5. Despliega la nueva web. Comprueba una imagen, la reproducción y el desplazamiento de un vídeo, y `/health`. Un archivo inexistente bajo `/exercise-library/` debe devolver `404`, sin devolver el HTML de la aplicación. Nginx conserva las peticiones por rangos para reproducir vídeos.
+
+Si el despliegue falla por un archivo ausente, completa la instalación y vuelve a desplegar. La web anterior y su imagen siguen conteniendo la librería mientras se prepara esta migración; no borres contenedores ni copias anteriores hasta verificarla.
+
+## Despliegues siguientes y cambios de librería
+
+- **Cambios solo de aplicación:** despliega normalmente en Dokploy. La carpeta persistente se reutiliza y los recursos no se reconstruyen, copian ni suben con la web.
+- **Cambios de imágenes o vídeos:** genera y sube un nuevo paquete; ejecuta el mismo instalador. No hace falta reconstruir la web si solo cambia el contenido de un archivo con la misma URL.
+- **Ejercicios nuevos o cambios de rutas:** instala primero la librería actualizada y después despliega el catálogo de la aplicación. La comprobación de arranque evita publicar una web que referencia archivos ausentes.
+- **Copias de seguridad:** incluye `/opt/personalgim/exercise-library` junto con las copias de PostgreSQL. Recrear `web` no borra la carpeta; cambiar de VPS requiere restaurarla.
+- **Clon nuevo para desarrollo:** descomprime el paquete y ejecuta `node install-library.mjs sync <carpeta-del-paquete> <repo>/public/exercise-library`. Después usa `npm run web` para servir los recursos locales. `npm run build:web` genera siempre una exportación sin la librería; las vistas previas de esa exportación deben servir `/exercise-library/` desde la carpeta local por separado.
+
+Los paquetes se transfieren únicamente cuando se actualiza la librería; el instalador evita recopiarlos dentro del servidor cuando no cambian. Para evitar también transferencias completas en actualizaciones frecuentes, puede sincronizarse la carpeta por SSH con `rsync --checksum` desde un equipo que disponga de rsync, conservando los archivos antiguos (sin `--delete`). La extracción inicial de un paquete de respaldo permite recuperar los recursos sin volver a descargarlos de su proveedor.
+
 Los roles disponibles son:
 
 - `admin`: crea cuentas, administra la aplicación y consulta analítica.

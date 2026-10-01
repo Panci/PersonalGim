@@ -31,6 +31,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "build:web": "node scripts/export-web.mjs",
+    "library:check": "node scripts/exercise-library.mjs check",
+    "library:pack": "node scripts/exercise-library.mjs pack",
     "api:local": "npm --prefix server run local",
     "scrape:smartworkout": "node scripts/scrape-smartworkout.mjs",
     "dev:api-proxy": "node scripts/local-api-proxy.mjs"

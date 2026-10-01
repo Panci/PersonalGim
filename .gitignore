@@ -13,6 +13,7 @@ server/.local-data/
 dist/
 web-build/
 .verification-dist/
+.verification-*/
 expo-env.d.ts
 
 # Native
@@ -49,3 +50,7 @@ server/.env
 # generated native folders
 /ios
 /android
+
+# Exercise media is installed independently on the server; keep local copies.
+/public/exercise-library/media/
+/.exercise-library-artifacts/

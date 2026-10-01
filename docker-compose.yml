@@ -53,6 +53,13 @@ services:
     restart: unless-stopped
     ports:
       - "${APP_PORT:-8080}:80"
+    volumes:
+      - type: bind
+        source: ${EXERCISE_LIBRARY_PATH:-/opt/personalgim/exercise-library}
+        target: /srv/exercise-library
+        read_only: true
+        bind:
+          create_host_path: false
     depends_on:
       - api
 
