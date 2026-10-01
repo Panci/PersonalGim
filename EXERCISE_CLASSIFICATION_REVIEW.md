@@ -1,6 +1,6 @@
 # Revisión de la clasificación de ejercicios — 1 de octubre de 2026
 
-Estado: corregido y verificado en local; pendiente de despliegue.
+Estado: corregido y publicado en producción con `2527e0b`, verificado el 1 de octubre de 2026.
 
 Se comprueban los datos anatómicos originales de los 812 ejercicios del catálogo SmartWorkout y se contrastan nombres, instrucciones y descripciones en los movimientos compuestos y las variantes ambiguas. Se corrigen 174 grupos principales y 471 listas de músculos secundarios. Las 3209 imágenes y vídeos, los identificadores y sus rutas se conservan.
 
@@ -42,6 +42,6 @@ Los movimientos compuestos y nombres ambiguos tienen decisiones explícitas por 
 
 ## Comprobaciones
 
-Pruebas de catálogo completo, ejemplos ambiguos, conservación de datos en web y SQLite, tipado TypeScript, exportación web e integridad de los 3209 medios. Verificación visual local de los grupos que antes quedaban vacíos y de la reproducción de vídeo.
+Pruebas de catálogo completo, ejemplos ambiguos, conservación de datos en web y SQLite, tipado TypeScript, exportación web e integridad de los 3209 medios. Verificación visual local y en producción de los grupos que antes quedaban vacíos y de la reproducción de vídeo. En producción se comprobaron los 17 recuentos del filtro, los 11 ejercicios de Aductores y los 9 de Abductores, con sus imágenes cargadas y un vídeo reproducido. Las rutinas existentes de la cuenta de comprobación se conservan.
 
-Esta revisión no modifica el material de ejercicios del servidor. Al desplegar, la aplicación llevará el catálogo corregido; las imágenes y vídeos pueden seguir en el almacenamiento independiente actual.
+La aplicación publicada utiliza el catálogo corregido. Las imágenes y vídeos del servidor se reutilizan desde el almacenamiento independiente, sin copiarlos ni subirlos de nuevo.

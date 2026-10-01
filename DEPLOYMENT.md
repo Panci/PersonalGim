@@ -14,11 +14,13 @@ Las imágenes y vídeos de los ejercicios se sirven desde una carpeta persistent
 
 ## Estado de producción — 1 de octubre de 2026
 
-La separación está activada en `https://personalgim.eu/` con el cambio `8c682be`. La carpeta `/opt/personalgim/exercise-library` ya contiene los 3209 recursos del catálogo y su manifiesto. La copia inicial se realizó desde la imagen web anterior mediante un Compose temporal de Dokploy, sin subir de nuevo la librería. Todos los recursos y el manifiesto se verificaron con SHA-256; el archivo `SHA256SUMS` queda en la carpeta persistente. El manifiesto coincide con el versionado (`39785b75c38d2a51e03a5d25d7a4de110f3566ef7b4467a03e9404bd250b53d8`).
+La versión `2527e0b7df0a7a9508b0083e5e50460a70106dd5` está publicada en `https://personalgim.eu/`. Incluye la marca y el logo rojos, los botones Realizar y Finalizar Entrenamiento rojos, Realizada verde, los campos de peso y repeticiones realizados en naranja `#FF7E00`, el aviso de descanso a los 5 segundos y la clasificación revisada de los 812 ejercicios.
 
-El entorno del servicio incluye `EXERCISE_LIBRARY_PATH=/opt/personalgim/exercise-library`. El contenedor web monta la librería en `/srv/exercise-library` en modo lectura y ya no contiene `exercise-library` dentro de `/usr/share/nginx/html`. Nginx pasó su comprobación de configuración. El código enviado al constructor Docker fue de 13,58 MB y la web exportada ocupa 10,9 MiB según `du`.
+La separación de medios, activada inicialmente con `8c682be`, se mantiene. La carpeta `/opt/personalgim/exercise-library` contiene los 3209 recursos y el manifiesto de la migración inicial. Se copiaron desde la imagen web anterior mediante un Compose temporal de Dokploy y se verificaron con SHA-256; `SHA256SUMS` conserva esa comprobación. El manifiesto inicial tenía el hash `39785b75c38d2a51e03a5d25d7a4de110f3566ef7b4467a03e9404bd250b53d8`. La clasificación nueva está incorporada al catálogo de la aplicación y al manifiesto de Git; no requiere actualizar el manifiesto informativo de la carpeta persistente ni transferir de nuevo los medios, porque sus rutas y contenidos no cambian.
 
-Se verificaron en producción la carga de imágenes (`200`, `image/jpeg`), el vídeo (`206`, `video/mp4`, rango de 1024 bytes), un recurso inexistente (`404`) y `/health` (`200`, `status: ok`). La ficha «Cruce de Poleas Alto» cargó su imagen y reprodujo el vídeo desde la URL existente. Los cambios visuales de la prueba roja siguen siendo locales. Para los siguientes despliegues usa el procedimiento habitual; la preparación inicial siguiente solo es necesaria en otro servidor o si se restaura el almacenamiento.
+El entorno del servicio incluye `EXERCISE_LIBRARY_PATH=/opt/personalgim/exercise-library`. El contenedor web monta la librería en `/srv/exercise-library` en modo lectura y no contiene `exercise-library` dentro de `/usr/share/nginx/html`. El despliegue de `2527e0b` finalizó correctamente en 50 segundos, con un contexto de construcción web de 14,94 MB. Se recreó la web y se reutilizaron el API, PostgreSQL y la carpeta de medios existentes.
+
+Se verificaron en producción imágenes (`200`, `image/jpeg`), vídeo (`206`, `video/mp4`, rango de 1024 bytes), un recurso inexistente (`404`), el logo rojo (`200`, `image/png`) y `/health` (`200`, `status: ok`). El filtro muestra los 17 grupos con sus recuentos revisados; Aductores muestra 11 ejercicios y Abductores 9, con imágenes cargadas y vídeo reproducido desde la carpeta independiente. Una sesión rápida temporal confirmó los colores de Realizar, Realizada, Finalizar y los dos campos realizados; se descartó al terminar. Las dos rutinas de la cuenta de comprobación siguen presentes. Antes de publicar pasaron 26 pruebas automatizadas, TypeScript y la exportación web de producción. Para los siguientes despliegues usa el procedimiento habitual; la preparación inicial siguiente solo es necesaria en otro servidor o si se restaura el almacenamiento.
 
 ## Primera separación de la librería (antes del siguiente despliegue)
 
@@ -86,9 +88,12 @@ Para el despliegue web mantén:
 
 ```env
 EXPO_PUBLIC_API_URL=/api
+EXPO_PUBLIC_BRAND_THEME=red
 ```
 
 Al usar una ruta relativa, el frontend, el API y las cookies/tokens permanecen bajo el mismo dominio y no hace falta exponer ni configurar una URL interna de PostgreSQL.
+
+La variante roja es el valor predeterminado de la construcción Docker. Para cambiarla a verde, define `EXPO_PUBLIC_BRAND_THEME=green` y vuelve a construir y desplegar la web.
 
 ## Dokploy en la VPS
 
